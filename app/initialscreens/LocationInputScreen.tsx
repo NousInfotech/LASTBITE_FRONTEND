@@ -1,0 +1,58 @@
+// LocationInputScreen.tsx
+import CurrentLocation from '@/components/CurrenLocation';
+import GoBack from '@/components/GoBack';
+import SearchInput from '@/components/SearchInput';
+import { useNavigation } from 'expo-router';
+import React, { useState, useEffect } from 'react';
+import { SafeAreaView, StatusBar, View, Text } from 'react-native';
+
+const LocationInputScreen: React.FC = () => {
+  const [searchText, setSearchText] = useState<string>('');
+
+  const handleClearSearch = (): void => {
+    setSearchText('');
+  };
+
+  const handleGetLocation = (): void => {
+    console.log('Location service will be implemented here');
+  };
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    // Hide header if needed
+    navigation.setOptions({
+      headerShown: false,
+    });
+  }, []);
+
+  return (
+    <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+      <StatusBar barStyle="dark-content" />
+      
+      {/* Header with back button */}
+      <View style={{ flexDirection: 'row', alignItems: 'center', padding: 16, borderBottomWidth: 1, borderColor: '#F1F1F1', marginTop:60 }}>
+        <GoBack /> {/* BackButton component here */}
+        <Text style={{ fontSize: 11, fontWeight: '700', marginLeft: 8 }}>
+          Enter your area or apartment name
+        </Text>
+      </View>
+
+      {/* Search Input Container */}
+      <SearchInput 
+        searchText={searchText} 
+        setSearchText={setSearchText} 
+        handleClearSearch={handleClearSearch} 
+      />
+
+      {/* Current Location Button */}
+      <CurrentLocation handleGetLocation={handleGetLocation} />
+
+      {/* Empty space for potential search results */}
+      <View style={{ flex: 1, paddingHorizontal: 16 }}>
+        {/* Search results will be rendered here */}
+      </View>
+    </SafeAreaView>
+  );
+};
+
+export default LocationInputScreen;

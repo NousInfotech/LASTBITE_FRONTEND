@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-root-teal: theme("colors.rootTeal");
+}
+.font-medium {
+  font-family: "Poppins-Medium", sans-serif;
+}
+
+.font-bold {
+  font-family: "Poppins-Bold", sans-serif;
+}
+
+.font-semibold {
+  font-family: "Poppins-SemiBold", sans-serif;
+}
+.poppins-regular {
+  font-family: "Poppins-Regular", sans-serif;
+}
