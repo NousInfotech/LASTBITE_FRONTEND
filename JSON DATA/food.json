@@ -1,0 +1,38 @@
+[
+    {
+      "id": 1,
+      "name": "Burger",
+      "icon": "🍔"
+    },
+    {
+      "id": 2,
+      "name": "Cake",
+      "icon": "🍰"
+    },
+    {
+      "id": 3,
+      "name": "Chicken",
+      "icon": "🍗"
+    },
+    {
+      "id": 4,
+      "name": "Noodles",
+      "icon": "🍜"
+    },
+    {
+      "id": 5,
+      "name": "Rice",
+      "icon": "🍚"
+    },
+    {
+      "id": 6,
+      "name": "Pizza",
+      "icon": "🍕"
+    },
+    {
+      "id": 7,
+      "name": "Juice",
+      "icon": "🧃"
+    }
+  ]
+  

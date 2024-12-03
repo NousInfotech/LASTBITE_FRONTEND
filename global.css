@@ -5,17 +5,17 @@
 :root {
   --bg-root-teal: theme("colors.rootTeal");
 }
-.font-medium {
+.poppins-font-medium {
   font-family: "Poppins-Medium", sans-serif;
 }
 
-.font-bold {
+.poppins-font-bold {
   font-family: "Poppins-Bold", sans-serif;
 }
 
-.font-semibold {
+.poppins-font-semibold {
   font-family: "Poppins-SemiBold", sans-serif;
 }
-.poppins-regular {
+.poppins-font-regular {
   font-family: "Poppins-Regular", sans-serif;
 }

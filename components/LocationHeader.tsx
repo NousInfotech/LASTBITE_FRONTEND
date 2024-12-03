@@ -95,7 +95,7 @@ const LocationHeader = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#FFFFFF',
+    
     paddingTop: 44, // Safe area for iOS
   },
   locationContainer: {
