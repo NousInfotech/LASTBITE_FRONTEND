@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -6,8 +6,8 @@ import {
   View,
   GestureResponderEvent,
   Dimensions, // Import Dimensions API
-} from 'react-native';
-import * as Font from 'expo-font';
+} from "react-native";
+import * as Font from "expo-font";
 
 // Define the types for the props
 interface ButtonProps {
@@ -18,18 +18,18 @@ interface ButtonProps {
 }
 
 const Button: React.FC<ButtonProps> = ({
-  buttonContent = 'Get Started',
+  buttonContent = "Get Started",
   onPress,
-  backgroundColor = '#01615F', // Default background color
-  textColor = '#FFFFFF', // Default text color (white)
+  backgroundColor = "#01615F", // Default background color
+  textColor = "#FFFFFF", // Default text color (white)
 }) => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
   useEffect(() => {
     async function loadFonts() {
       await Font.loadAsync({
-        'Poppins-Regular': require('../assets/fonts/Poppins-Regular.ttf'),
-        'Poppins-Medium': require('../assets/fonts/Poppins-Medium.ttf'),
+        "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
+        "Poppins-Medium": require("../assets/fonts/Poppins-Medium.ttf"),
       });
       setFontsLoaded(true);
     }
@@ -42,7 +42,7 @@ const Button: React.FC<ButtonProps> = ({
   }
 
   // Get the window width using the Dimensions API
-  const windowWidth = Dimensions.get('window').width;
+  const windowWidth = Dimensions.get("window").width;
   const buttonWidth = windowWidth * 0.9; // 90% of the window width
 
   return (
@@ -53,7 +53,10 @@ const Button: React.FC<ButtonProps> = ({
         onPress={onPress}
       >
         <Text
-          style={[styles.text, { color: textColor, fontFamily: 'Poppins-Regular' }]}
+          style={[
+            styles.text,
+            { color: textColor, fontFamily: "Poppins-Regular" },
+          ]}
         >
           {buttonContent}
         </Text>
@@ -70,7 +73,7 @@ const styles = StyleSheet.create({
     borderRadius: 8, // Add rounded corners
   },
   text: {
-    textAlign: 'center',
-    fontSize: 12, // Ensure the font size is 12px
+    textAlign: "center",
+    fontSize: 18, // Ensure the font size is 12px
   },
 });

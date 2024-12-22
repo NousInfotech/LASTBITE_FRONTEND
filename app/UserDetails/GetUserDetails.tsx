@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { useNavigation, useRouter } from 'expo-router';
-import FormInput from '@/components/FormInput';
-import CustomButton from '@/components/CustomButton';
-import TitleComponent from '@/components/Title';
+import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { useNavigation, useRouter } from "expo-router";
+import FormInput from "@/components/FormInput";
+import CustomButton from "@/components/CustomButton";
+import TitleComponent from "@/components/Title";
 
 const GetUserDetails = () => {
   const navigation = useNavigation();
@@ -15,17 +15,17 @@ const GetUserDetails = () => {
     });
   }, [navigation]);
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-  const [nameError, setNameError] = useState(''); // Initially empty
-  const [emailError, setEmailError] = useState(''); // Initially empty
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [nameError, setNameError] = useState(""); // Initially empty
+  const [emailError, setEmailError] = useState(""); // Initially empty
 
   const handleSignUp = () => {
     if (password === confirmPassword) {
-      router.push('/initialscreens/congratulation');
+      router.push("/initialscreens/congratulation");
     }
   };
 
@@ -33,9 +33,9 @@ const GetUserDetails = () => {
   const validateName = (input: string) => {
     const regex = /^[A-Za-z\s\W]*$/; // Only letters and symbols (spaces and special characters)
     if (input && !regex.test(input)) {
-      setNameError('Name can only contain letters and symbols');
+      setNameError("Name can only contain letters and symbols");
     } else {
-      setNameError('');
+      setNameError("");
     }
   };
 
@@ -43,9 +43,9 @@ const GetUserDetails = () => {
   const validateEmail = (input: string) => {
     const regex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/; // Basic email regex
     if (input && !regex.test(input)) {
-      setEmailError('Please enter a valid email address');
+      setEmailError("Please enter a valid email address");
     } else {
-      setEmailError('');
+      setEmailError("");
     }
   };
 
@@ -56,10 +56,7 @@ const GetUserDetails = () => {
   }, [name, email]);
 
   const isButtonEnabled =
-    name !== '' &&
-    email !== '' &&
-    nameError === '' &&
-    emailError === '';
+    name !== "" && email !== "" && nameError === "" && emailError === "";
 
   return (
     <View style={styles.container}>
@@ -100,7 +97,10 @@ const GetUserDetails = () => {
         title="Confirm Details"
         onPress={handleSignUp}
         isDisabled={!isButtonEnabled}
-        buttonStyle={[styles.button, isButtonEnabled ? styles.buttonEnabled : styles.buttonDisabled]}
+        buttonStyle={[
+          styles.button,
+          isButtonEnabled ? styles.buttonEnabled : styles.buttonDisabled,
+        ]}
       />
     </View>
   );
@@ -109,7 +109,7 @@ const GetUserDetails = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     paddingHorizontal: 24,
     paddingTop: 80,
   },
@@ -117,21 +117,21 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   label: {
-    fontSize: 11,
+    fontSize: 13,
     marginBottom: 8,
-    color: 'gray',
+    color: "gray",
   },
   button: {
     height: 48,
     borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   buttonEnabled: {
-    backgroundColor: '#01615F',
+    backgroundColor: "#01615F",
   },
   buttonDisabled: {
-    backgroundColor: '#ccc',
+    backgroundColor: "#ccc",
   },
 });
 

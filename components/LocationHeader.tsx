@@ -1,37 +1,52 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
-import * as Font from 'expo-font';
-import * as Location from 'expo-location';
-import AntDesign from '@expo/vector-icons/AntDesign';
-import Entypo from '@expo/vector-icons/Entypo';
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Alert,
+  Animated,
+  Dimensions,
+} from "react-native";
+import * as Font from "expo-font";
+import * as Location from "expo-location";
+import AntDesign from "@expo/vector-icons/AntDesign";
+import Entypo from "@expo/vector-icons/Entypo";
+import { useNavigation } from "@react-navigation/native"; // Import useNavigation hook
+import { useRouter } from "expo-router";
+import AddressManagementScreen from "@/app/initialscreens/AddressManagementScreen";
 
 const LocationHeader = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [location, setLocation] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [sliderVisible, setSliderVisible] = useState(false);
+  const sliderAnimation = useState(
+    new Animated.Value(-Dimensions.get("window").height)
+  )[0];
 
-  // State to store the user's profile image
   const [userProfileImage, setUserProfileImage] = useState<string | null>(null);
+  const navigation = useNavigation(); // Initialize the navigation hook
+  const router = useRouter();
 
-  // Load Fonts
   useEffect(() => {
     const loadFonts = async () => {
       await Font.loadAsync({
-        Poppins: require('../assets/fonts/Poppins-Regular.ttf'),
-        PoppinsSemibold: require('../assets/fonts/Poppins-SemiBold.ttf'),
+        Poppins: require("../assets/fonts/Poppins-Regular.ttf"),
+        PoppinsSemibold: require("../assets/fonts/Poppins-SemiBold.ttf"),
       });
       setFontsLoaded(true);
     };
     loadFonts();
   }, []);
 
-  // Get User's Location
   useEffect(() => {
     const getLocation = async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
-        Alert.alert('Location Permission', 'Please enable location access.');
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+        Alert.alert("Location Permission", "Please enable location access.");
         return;
       }
 
@@ -41,67 +56,107 @@ const LocationHeader = () => {
         longitude: loc.coords.longitude,
       });
 
-      setLocation(`${address[0]?.street}, ${address[0]?.city}, ${address[0]?.region}`);
+      setLocation(
+        `${address[0]?.street}, ${address[0]?.city}, ${address[0]?.region}`
+      );
     };
 
     getLocation();
   }, []);
 
-  // Simulate fetching user profile image (replace with actual fetch logic)
   useEffect(() => {
     const fetchUserProfileImage = () => {
-      // Example: Replace with actual user profile image fetching logic (e.g., API call)
-      const fetchedProfileImage = 'https://via.placeholder.com/150'; // Placeholder or actual image URL
+      const fetchedProfileImage = "https://via.placeholder.com/150";
       setUserProfileImage(fetchedProfileImage);
     };
 
     fetchUserProfileImage();
   }, []);
 
+  const toggleSlider = () => {
+    if (sliderVisible) {
+      Animated.timing(sliderAnimation, {
+        toValue: -Dimensions.get("window").height,
+        duration: 300,
+        useNativeDriver: true,
+      }).start(() => setSliderVisible(false));
+    } else {
+      setSliderVisible(true);
+      Animated.timing(sliderAnimation, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    }
+  };
+
+  const navigateToAddressManagement = () => {
+    // Trigger the navigation to AddressManagement screen with the slide animation
+    router.push("/initialscreens/AddressManagementScreen");
+  };
+
   if (!fontsLoaded) {
-    return null; // Show a loader or placeholder while fonts are loading
+    return null;
   }
 
   return (
     <View style={styles.container}>
-      {/* Location Header */}
       <View style={styles.locationContainer}>
         <View style={styles.locationContent}>
           <View style={styles.locationLabelContainer}>
             <Entypo name="location-pin" size={24} color="#01615F" />
             <Text style={styles.locationLabel}>Location</Text>
-            <AntDesign name="caretdown" size={13} color="black" style={styles.arrowIcon} />
+            <TouchableOpacity onPress={navigateToAddressManagement}>
+              {" "}
+              {/* Use navigation here */}
+              <AntDesign
+                name="caretdown"
+                size={13}
+                color="#191A1F"
+                style={styles.arrowIcon}
+              />
+            </TouchableOpacity>
           </View>
           <TouchableOpacity style={styles.locationSelector}>
-            <Text style={styles.locationText} className='font-medium'>
-              {location || (errorMsg || 'Fetching location...')}
+            <Text style={styles.locationText} className="font-medium">
+              {location || errorMsg || "Fetching location..."}
             </Text>
           </TouchableOpacity>
         </View>
 
-        {/* Profile Image Button */}
         <TouchableOpacity style={styles.profileButton}>
           <Image
             style={styles.profileImage}
             source={{
-              uri: userProfileImage || 'https://via.placeholder.com/32', // Use user profile image or fallback
+              uri: userProfileImage || "https://via.placeholder.com/32",
             }}
           />
         </TouchableOpacity>
       </View>
+
+      {sliderVisible && (
+        <Animated.View
+          style={[
+            styles.sliderContainer,
+            { transform: [{ translateY: sliderAnimation }] },
+          ]}
+        >
+          <AddressManagementScreen /> {/* Replace placeholder with component */}
+          <TouchableOpacity style={styles.closeButton} onPress={toggleSlider}>
+            <Text style={styles.closeButtonText}>Close</Text>
+          </TouchableOpacity>
+        </Animated.View>
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    
-    paddingTop: 44, // Safe area for iOS
-  },
+  container: {},
   locationContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: 16,
     paddingVertical: 12,
   },
@@ -110,13 +165,13 @@ const styles = StyleSheet.create({
     marginRight: 12,
   },
   locationLabelContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   locationLabel: {
-    fontSize: 12,
-    fontFamily: 'PoppinsSemibold',
-    color: '#191A1F',
+    fontSize: 16,
+    fontFamily: "PoppinsSemibold",
+    color: "#191A1F",
     marginLeft: 4,
   },
   arrowIcon: {
@@ -124,24 +179,44 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   locationSelector: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginTop: 4,
   },
   locationText: {
-    fontSize: 7,
-
-    color: '#929292',
+    fontSize: 12,
+    color: "#929292",
   },
   profileButton: {
     width: 50,
     height: 50,
     borderRadius: 50,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   profileImage: {
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
+  },
+  sliderContainer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0,0,0,0.8)",
+  },
+  closeButton: {
+    backgroundColor: "#01615F",
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 5,
+    position: "absolute",
+    top: 40,
+    right: 20,
+  },
+  closeButtonText: {
+    color: "#fff",
+    fontSize: 16,
   },
 });
 

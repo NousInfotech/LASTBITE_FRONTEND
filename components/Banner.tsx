@@ -75,7 +75,7 @@ const Banner = ({
   
 const styles = StyleSheet.create({
   container: {
-    width: '90%',
+    width: '95%',
     position: 'relative',
     overflow: 'hidden',
     marginHorizontal: 'auto'
@@ -90,17 +90,17 @@ const styles = StyleSheet.create({
     zIndex: 2,  
   },
   title: {
-    fontSize: 13,
-    maxWidth: '80%',
+    fontSize: 24,
+    maxWidth: '90%',
     marginBottom: 0,
   },
   subtitleContainer: {
     marginBottom: 6,
   },
   subtitle: {
-    fontSize: 8,
+    fontSize: 12,
     color: "#929292",
-    maxWidth: '50%',
+    maxWidth: '60%',
   },
   button: {
     paddingHorizontal: 18,
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   buttonText: {
-    fontSize: 8,
+    fontSize: 14,
     fontWeight: '600',
   },
   imageWrapper: {

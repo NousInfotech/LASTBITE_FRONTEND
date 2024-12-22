@@ -1,6 +1,6 @@
-import React, { useRef } from 'react';
-import { View, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
+import React, { useRef } from "react";
+import { View, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import Icon from "react-native-vector-icons/Feather";
 
 interface SearchInputProps {
   searchText: string;
@@ -8,7 +8,11 @@ interface SearchInputProps {
   handleClearSearch: () => void;
 }
 
-const SearchInput: React.FC<SearchInputProps> = ({ searchText, setSearchText, handleClearSearch }) => {
+const SearchInput: React.FC<SearchInputProps> = ({
+  searchText,
+  setSearchText,
+  handleClearSearch,
+}) => {
   const inputRef = useRef<TextInput>(null); // Create a reference to the TextInput
 
   const handleSearchIconPress = () => {
@@ -45,19 +49,19 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'transparent',
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "transparent",
     borderRadius: 12,
     padding: 9,
     borderWidth: 1,
-    borderColor: '#929292',
+    borderColor: "#929292",
   },
   textInput: {
     flex: 1,
     marginLeft: 12,
-    fontSize: 10,
-    color: 'black',
+    fontSize: 16,
+    color: "black",
   },
 });
 

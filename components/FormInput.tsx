@@ -1,14 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import * as Font from 'expo-font';
-import { TextInput, StyleSheet, Text } from 'react-native';
+import React, { useEffect, useState } from "react";
+import * as Font from "expo-font";
+import {
+  TextInput,
+  StyleSheet,
+  Text,
+  View,
+  TextInputProps,
+} from "react-native";
 
-interface FormInputProps {
+interface FormInputProps extends TextInputProps {
   placeholder: string;
   value: string;
   onChangeText: (text: string) => void;
   isError?: boolean;
   secureTextEntry?: boolean;
-  errorMessage?: string; // Added for displaying error message
+  errorMessage?: string;
 }
 
 const FormInput: React.FC<FormInputProps> = ({
@@ -17,15 +23,17 @@ const FormInput: React.FC<FormInputProps> = ({
   onChangeText,
   isError = false,
   secureTextEntry = false,
-  errorMessage = '', // Default to empty string if no error
+  errorMessage = "",
+  style, // Accept style prop
+  ...rest
 }) => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
-  const [isFocused, setIsFocused] = useState(false); // State to track focus
+  const [isFocused, setIsFocused] = useState(false);
 
   useEffect(() => {
     async function loadFonts() {
       await Font.loadAsync({
-        'Poppins-Regular': require('../assets/fonts/Poppins-Regular.ttf'),
+        "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
       });
       setFontsLoaded(true);
     }
@@ -34,7 +42,7 @@ const FormInput: React.FC<FormInputProps> = ({
   }, []);
 
   if (!fontsLoaded) {
-    return null; 
+    return null;
   }
 
   return (
@@ -43,17 +51,17 @@ const FormInput: React.FC<FormInputProps> = ({
         style={[
           styles.input,
           isError ? styles.inputError : null,
-          isFocused ? styles.inputFocused : null, // Apply focused style
-          { fontSize: value ? 11 : 10 },
-          { fontFamily: 'Poppins-Regular' },
+          isFocused ? styles.inputFocused : null,
+          style, // Apply custom style here
         ]}
         placeholder={placeholder}
         placeholderTextColor="#999"
         value={value}
         onChangeText={onChangeText}
         secureTextEntry={secureTextEntry}
-        onFocus={() => setIsFocused(true)} // Set focus state to true
-        onBlur={() => setIsFocused(false)} // Set focus state to false
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
+        {...rest} // Pass any additional props
       />
       {isError && <Text style={styles.errorText}>{errorMessage}</Text>}
     </React.Fragment>
@@ -62,24 +70,25 @@ const FormInput: React.FC<FormInputProps> = ({
 
 const styles = StyleSheet.create({
   input: {
-    width: '100%',
+    width: "100%",
     height: 48,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     borderRadius: 8,
     paddingHorizontal: 16,
     marginBottom: 16,
-    fontSize: 8, // Default font size for input text
+    fontSize: 14, // Updated to a more readable font size
+    fontFamily: "Poppins-Regular",
   },
   inputError: {
-    borderColor: 'red',
+    borderColor: "red",
   },
   inputFocused: {
-    borderColor: 'green', // Change this to your desired focus color
-    borderWidth: 1, // Optional: Increase border width for emphasis
+    borderColor: "green", // Change this to your desired focus color
+    borderWidth: 1,
   },
   errorText: {
-    color: 'red',
+    color: "red",
     fontSize: 12,
     marginTop: 6,
     marginBottom: 8,

@@ -9,7 +9,7 @@ const FoodMenu: React.FC = () => {
 
   const [fontsLoaded] = useFonts({
     'Poppins-Regular': require('../assets/fonts/Poppins-Regular.ttf'),
-    'Poppins-SemiBold': require('../assets/fonts/Poppins-SemiBold.ttf'),
+    'Poppins-Medium': require('../assets/fonts/Poppins-Medium.ttf'),
   });
 
   // Fetch menu data from local JSON file
@@ -56,9 +56,9 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
   },
   title: {
-    fontSize: 12,
-    fontFamily: 'Poppins-Regular',
-    marginBottom: 15,
+    fontSize: 16,
+    fontFamily: 'Poppins-Medium',
+    marginBottom: 10,
     paddingHorizontal:16,
   },
   scrollView: {
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   itemName: {
-    fontSize: 8,
+    fontSize: 12,
     fontFamily: 'Poppins-Regular',
   },
 });

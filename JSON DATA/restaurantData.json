@@ -1,0 +1,53 @@
+{
+    "restaurants": [
+      {
+        "id": 1,
+        "name": "Spice Haven",
+        "image": "https://www.seasonsandsuppers.ca/wp-content/uploads/2019/10/slow-cooker-pulled-pork-1200.jpg",
+        "rating": 4.9,
+        "deliveryTime": "40-45 mins",
+        "location": "Downtown City"
+      },
+      {
+        "id": 2,
+        "name": "Pizza Palace",
+        "image": "https://www.seasonsandsuppers.ca/wp-content/uploads/2019/10/slow-cooker-pulled-pork-1200.jpg",
+        "rating": 4.7,
+        "deliveryTime": "30-35 mins",
+        "location": "Uptown"
+      },
+      {
+        "id": 3,
+        "name": "Food Bay",
+        "image": "https://www.seasonsandsuppers.ca/wp-content/uploads/2019/10/slow-cooker-pulled-pork-1200.jpg",
+        "rating": 4.7,
+        "deliveryTime": "30-35 mins",
+        "location": "Uptown"
+      },
+      {
+        "id": 4,
+        "name": "Spicy Park",
+        "image": "https://www.seasonsandsuppers.ca/wp-content/uploads/2019/10/slow-cooker-pulled-pork-1200.jpg",
+        "rating": 4.9,
+        "deliveryTime": "40-45 mins",
+        "location": "Downtown City"
+      },
+      {
+        "id": 5,
+        "name": "Area 31",
+        "image": "https://www.seasonsandsuppers.ca/wp-content/uploads/2019/10/slow-cooker-pulled-pork-1200.jpg",
+        "rating": 4.7,
+        "deliveryTime": "30-35 mins",
+        "location": "Uptown"
+      },
+      {
+        "id": 6,
+        "name": "Food court",
+        "image": "https://www.seasonsandsuppers.ca/wp-content/uploads/2019/10/slow-cooker-pulled-pork-1200.jpg",
+        "rating": 4.7,
+        "deliveryTime": "30-35 mins",
+        "location": "Uptown"
+      }
+    ]
+  }
+  

@@ -1,8 +1,8 @@
 // BackButton.tsx
-import React from 'react';
-import { TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
-import { useNavigation } from 'expo-router';
+import React from "react";
+import { TouchableOpacity } from "react-native";
+import Icon from "react-native-vector-icons/Feather";
+import { useNavigation } from "expo-router";
 
 const GoBack: React.FC = () => {
   const navigation = useNavigation();
@@ -12,8 +12,8 @@ const GoBack: React.FC = () => {
   };
 
   return (
-    <TouchableOpacity 
-      onPress={handleBack} 
+    <TouchableOpacity
+      onPress={handleBack}
       style={{ padding: 8, marginLeft: -8 }}
       activeOpacity={0.7}
     >

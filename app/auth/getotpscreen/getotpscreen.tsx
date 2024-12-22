@@ -60,7 +60,9 @@ const Getotpscreen = () => {
           title="Get OTP"
           onPress={handleGetOtpClick}
           isDisabled={!isOtpComplete || isButtonDisabled} // Disable if OTP is not complete or timer is active
-          backgroundColor={isOtpComplete && !isButtonDisabled ? "#01615F" : "#ccc"} // Button color based on OTP completion and timer status
+          backgroundColor={
+            isOtpComplete && !isButtonDisabled ? "#01615F" : "#ccc"
+          } // Button color based on OTP completion and timer status
         />
 
         {/* Retry Message and Timer */}
@@ -89,7 +91,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   retryText: {
-    fontSize: 14,
+    fontSize: 16,
     color: "#808080",
   },
   retryTimer: {

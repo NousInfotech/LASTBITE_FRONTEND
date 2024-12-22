@@ -1,13 +1,42 @@
-import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
-import LocationHeader from '@/components/LocationHeader';
-import SearchBarVoice from '@/components/SearchBarVoice';
-import Banner from '@/components/Banner';
-import FoodMenu from '@/components/FoodMenu';
-import FilterButtons from '@/components/FilterButtons';
+import React, { useState, useEffect } from "react";
+import { View, StyleSheet, ScrollView, StatusBar } from "react-native";
+import LocationHeader from "@/components/LocationHeader";
+import SearchBarVoice from "@/components/SearchBarVoice";
+import Banner from "@/components/Banner";
+import FoodMenu from "@/components/FoodMenu";
+import FilterButtons from "@/components/FilterButtons";
+import RestaurantCard from "@/components/FoodList";
+import SuccessToast from "@/components/SuccessToast"; // Import SuccessToast
+import restaurantData from "@/JSON DATA/restaurantData.json";
+interface Restaurant {
+  id: string | number;
+  name: string;
+  image: string;
+  rating: number;
+  deliveryTime: string;
+  location: string;
+}
 
 const Home = () => {
+  const [restaurants, setRestaurants] = useState<Restaurant[]>(
+    restaurantData.restaurants
+  );
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
+
+  const [hiddenRestaurants, setHiddenRestaurants] = useState<
+    (string | number)[]
+  >([]);
+  const [toastVisible, setToastVisible] = useState(false); // Lifted state for toast visibility
+
+  const handleFavorite = (id: string | number) => {
+    console.log("Added to favorites:", id);
+    // Add your favorite logic here
+  };
+
+  const handleHide = (id: string | number) => {
+    console.log("Hidden restaurant:", id);
+    setHiddenRestaurants((prev) => [...prev, id]);
+  };
 
   const banners = [
     {
@@ -20,7 +49,7 @@ const Home = () => {
       backgroundColor: "#E2FFEC",
       titleColor: "#000000",
       subtitleColor: "#4A4A4A",
-      groceryImage: require('../../assets/images/instamart-img.png'),
+      groceryImage: require("../../assets/images/instamart-img.png"),
       height: 180,
       borderRadius: 12,
     },
@@ -34,7 +63,7 @@ const Home = () => {
       backgroundColor: "#FFF0E1",
       titleColor: "#333333",
       subtitleColor: "#7D7D7D",
-      groceryImage: require('../../assets/images/Img 1.png'),
+      groceryImage: require("../../assets/images/Img 1.png"),
       height: 180,
       borderRadius: 12,
     },
@@ -48,7 +77,7 @@ const Home = () => {
       backgroundColor: "#FFF7E1",
       titleColor: "#333333",
       subtitleColor: "#7D7D7D",
-      groceryImage: require('../../assets/images/Img 3.png'),
+      groceryImage: require("../../assets/images/Img 3.png"),
       height: 180,
       borderRadius: 12,
     },
@@ -62,29 +91,53 @@ const Home = () => {
   }, []);
 
   return (
-    <View style={styles.home}>
+    <View style={styles.container}>
+      <StatusBar barStyle="dark-content" backgroundColor="#fff" />{" "}
       <LocationHeader />
       <SearchBarVoice />
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        {/* Banner Section */}
-        <Banner {...banners[currentBannerIndex]} onButtonPress={() => console.log("Button pressed")} />
-        {/* Food Menu */}
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
+        <Banner
+          {...banners[currentBannerIndex]}
+          onButtonPress={() => console.log("Button pressed")}
+        />
         <FoodMenu />
-        <FilterButtons/>
+        <FilterButtons />
+
+        {/* Map through restaurants array to render RestaurantCard */}
+        {restaurants
+          .filter((restaurant) => !hiddenRestaurants.includes(restaurant.id)) // Filter out hidden restaurants
+          .map((restaurant) => (
+            <RestaurantCard
+              key={restaurant.id}
+              restaurant={restaurant}
+              onFavorite={handleFavorite}
+              onHide={handleHide}
+              setToastVisible={setToastVisible} // Pass the toast state setter
+            />
+          ))}
       </ScrollView>
+      {/* Centered Success Toast */}
+      <SuccessToast
+        visible={toastVisible}
+        message="Added to Wishlist Successfully!"
+        subMessage="Enjoy your day with your favorite food!"
+        onHide={() => setToastVisible(false)}
+      />
     </View>
   );
 };
 
-export default Home;
-
 const styles = StyleSheet.create({
-  home: {
+  container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: "#FFFFFF",
   },
   scrollContent: {
-    // paddingHorizontal: 16, 
-    paddingBottom: 20, // Add some bottom padding for spacing
+    paddingBottom: 20,
   },
 });
+
+export default Home;
