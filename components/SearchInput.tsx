@@ -6,12 +6,14 @@ interface SearchInputProps {
   searchText: string;
   setSearchText: (text: string) => void;
   handleClearSearch: () => void;
+  placeholder?: string; // Added placeholder as an optional prop
 }
 
 const SearchInput: React.FC<SearchInputProps> = ({
   searchText,
   setSearchText,
   handleClearSearch,
+  placeholder = "Search here...", // Default placeholder if none is passed
 }) => {
   const inputRef = useRef<TextInput>(null); // Create a reference to the TextInput
 
@@ -30,7 +32,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
           ref={inputRef} // Attach the ref to the TextInput
           value={searchText}
           onChangeText={setSearchText}
-          placeholder="Try Elm Street..."
+          placeholder={placeholder} // Use the placeholder prop
           placeholderTextColor="#9CA3AF"
           style={styles.textInput}
         />
@@ -46,20 +48,20 @@ const SearchInput: React.FC<SearchInputProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    padding: 16,
+    padding: 6,
   },
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "transparent",
+    backgroundColor: "#fff",
     borderRadius: 12,
-    padding: 9,
-    borderWidth: 1,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderWidth: 2,
     borderColor: "#929292",
   },
   textInput: {
-    flex: 1,
-    marginLeft: 12,
+    marginLeft: 8,
     fontSize: 16,
     color: "black",
   },

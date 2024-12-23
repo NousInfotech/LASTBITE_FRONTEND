@@ -50,6 +50,7 @@ const LocationInputScreen: React.FC = () => {
         searchText={searchText}
         setSearchText={setSearchText}
         handleClearSearch={handleClearSearch}
+        placeholder="Search for locations..."
       />
 
       {/* Current Location Button */}
