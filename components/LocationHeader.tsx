@@ -152,7 +152,9 @@ const LocationHeader = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    backgroundColor: "#ffffff" 
+  },
   locationContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
