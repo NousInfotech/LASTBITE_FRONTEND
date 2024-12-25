@@ -8,6 +8,8 @@ import FilterButtons from "@/components/FilterButtons";
 import RestaurantCard from "@/components/FoodList";
 import SuccessToast from "@/components/SuccessToast"; // Import SuccessToast
 import restaurantData from "@/JSON DATA/restaurantData.json";
+import { useRouter } from "expo-router";
+
 interface Restaurant {
   id: string | number;
   name: string;
@@ -21,8 +23,8 @@ const Home = () => {
   const [restaurants, setRestaurants] = useState<Restaurant[]>(
     restaurantData.restaurants
   );
+  const router = useRouter();
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
-
   const [hiddenRestaurants, setHiddenRestaurants] = useState<
     (string | number)[]
   >([]);
@@ -36,6 +38,10 @@ const Home = () => {
   const handleHide = (id: string | number) => {
     console.log("Hidden restaurant:", id);
     setHiddenRestaurants((prev) => [...prev, id]);
+  };
+
+  const handleInputRedirect = () => {
+    router.push("/Screens/SearchScreen");
   };
 
   const banners = [
@@ -92,9 +98,12 @@ const Home = () => {
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#fff" />{" "}
+      <StatusBar barStyle="dark-content" backgroundColor="#fff" />
       <LocationHeader />
-      <SearchBarVoice />
+      <SearchBarVoice
+        onInputPress={handleInputRedirect}
+        redirectTargets={["Dishes", "Restaurants", "Groceries"]}
+      />
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}

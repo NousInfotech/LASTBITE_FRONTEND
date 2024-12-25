@@ -16,7 +16,14 @@ import LocationMarker from "@/components/LocationMar";
 import * as Font from "expo-font"; // For font loading
 import { useRouter } from "expo-router";
 
-const LocationSelector = ({ onLocationSelect }) => {
+// Define the type for the props
+interface LocationSelectorProps {
+  onLocationSelect: (location: { latitude: number; longitude: number }) => void;
+}
+
+const LocationSelector: React.FC<LocationSelectorProps> = ({
+  onLocationSelect,
+}) => {
   const [location, setLocation] = useState({
     latitude: 38.8977,
     longitude: -77.0365,
@@ -52,17 +59,17 @@ const LocationSelector = ({ onLocationSelect }) => {
   };
 
   const handleConfirmLocation = () => {
-    // Navigate to another screen on confirm
-    router.push(""); // Replace with the actual route path
+    // onLocationSelect(location); // Call the onLocationSelect function
+    router.push("/Screens/AddressInput"); // Replace with the actual route path
   };
 
   const handleChangeLocation = () => {
     router.push("/initialscreens/LocationInputScreen");
   };
   const handleCurrentLocation = () => {
-    // Navigate to another screen on confirm
     router.push("/(tabs)/home"); // Replace with the actual route path
   };
+
   return fontsLoaded ? (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />

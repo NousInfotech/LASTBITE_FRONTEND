@@ -170,7 +170,7 @@ const AddressManagementScreen: React.FC = () => {
         style={styles.locationOption}
         onPress={handleUseCurrentLocation}
       >
-        <Icon name="my-location" size={20} color="#008ACE" />
+        <Icon name="my-location" size={20} color="#01615F" />
         <Text style={styles.locationText}>Use my current location</Text>
       </TouchableOpacity>
 
@@ -178,7 +178,7 @@ const AddressManagementScreen: React.FC = () => {
         style={styles.locationOption}
         onPress={handleAddNewAddress}
       >
-        <Icon name="add" size={20} color="#008ACE" />
+        <Icon name="add" size={20} color="#01615F" />
         <Text style={styles.locationText}>Add new address</Text>
       </TouchableOpacity>
 
@@ -236,7 +236,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     margin: 16,
     padding: 8,
-    backgroundColor: "#f5f5f5",
+    borderWidth: 2,
+    borderColor: "#929292",
     borderRadius: 8,
   },
   searchInput: {
@@ -251,7 +252,7 @@ const styles = StyleSheet.create({
   },
   locationText: {
     marginLeft: 16,
-    color: "#008ACE",
+    color: "#01615F",
     fontSize: 16,
   },
   section: {

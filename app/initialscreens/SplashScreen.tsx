@@ -1,6 +1,6 @@
-import { useNavigation, useRouter } from 'expo-router';
-import React, { useEffect, useState } from 'react';
-import { View, Image, Animated, StatusBar } from 'react-native';
+import { useNavigation, useRouter } from "expo-router";
+import React, { useEffect, useState } from "react";
+import { View, Image, Animated, StatusBar } from "react-native";
 
 export default function SplashScreen() {
   const [fadeAnim] = useState(new Animated.Value(0)); // Initial opacity is 0
@@ -10,13 +10,13 @@ export default function SplashScreen() {
 
   // Change status bar color only for the SplashScreen
   useEffect(() => {
-    StatusBar.setBarStyle('light-content'); // Adjust for light text color
-    StatusBar.setBackgroundColor('#01615F'); // Set status bar to teal
+    StatusBar.setBarStyle("light-content"); // Adjust for light text color
+    StatusBar.setBackgroundColor("#01615F"); // Set status bar to teal
 
     // Reset the status bar color after leaving SplashScreen (if necessary)
     return () => {
-      StatusBar.setBarStyle('dark-content'); // Reset text color
-      StatusBar.setBackgroundColor('#ffffff'); // Reset background color
+      StatusBar.setBarStyle("dark-content"); // Reset text color
+      StatusBar.setBackgroundColor("#ffffff"); // Reset background color
     };
   }, []);
 
@@ -44,7 +44,7 @@ export default function SplashScreen() {
 
       // After fade-out animation ends, navigate to the next page
       setTimeout(() => {
-        router.push('/initialscreens/onboarding'); // Navigate to the onboarding screen
+        router.push("/(tabs)/home"); // Navigate to the onboarding screen
       }, 3000); // Ensure that the navigation happens after the fade-out completes
     }, 2000);
 
@@ -54,7 +54,7 @@ export default function SplashScreen() {
   return (
     <View className="h-screen justify-center items-center bg-rootTeal">
       <Animated.Image
-        source={require('../../assets/images/logo.png')}
+        source={require("../../assets/images/logo.png")}
         style={{
           width: 300,
           height: 150,
