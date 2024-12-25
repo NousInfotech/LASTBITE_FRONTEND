@@ -6,11 +6,13 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 interface SearchBarVoiceProps {
   onInputPress: () => void; // Callback function for input focus
   redirectTargets: string[]; // Array of redirect target strings
+  placeholder?: string; // Optional placeholder text
 }
 
 const SearchBarVoice: React.FC<SearchBarVoiceProps> = ({
   onInputPress,
   redirectTargets,
+  placeholder = "Search here...", // Default placeholder value
 }) => {
   const [searchText, setSearchText] = useState("");
 
@@ -25,7 +27,7 @@ const SearchBarVoice: React.FC<SearchBarVoiceProps> = ({
         />
         <TextInput
           style={styles.input}
-          placeholder="Dishes, restaurants & more"
+          placeholder={placeholder} // Use the placeholder prop
           placeholderTextColor="#757575"
           value={searchText}
           onChangeText={setSearchText}
