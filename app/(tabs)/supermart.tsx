@@ -47,7 +47,10 @@ const productData = [
 const SuperMart: React.FC = () => {
   const router = useRouter();
 
- 
+  const handleInputRedirect = () => {
+    router.push("/Screens/ProductList");
+  };
+
 
   return (
     <View style={styles.container}>
@@ -55,7 +58,11 @@ const SuperMart: React.FC = () => {
       {/* Fixed header */}
       <View style={styles.fixedHeader}>
         <LocationHeader />
-        <SearchBarVoice router={router} />
+        <SearchBarVoice
+        onInputPress={handleInputRedirect}
+        redirectTargets={["Bottles"]}
+        placeholder="Search for  'Bottles' "
+      />
       </View>
 
       {/* Scrollable content */}
