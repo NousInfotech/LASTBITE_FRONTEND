@@ -102,7 +102,8 @@ const Home = () => {
       <LocationHeader />
       <SearchBarVoice
         onInputPress={handleInputRedirect}
-        redirectTargets={["Dishes", "Restaurants", "Groceries"]}
+        redirectTargets={["Dishes", "Restaurants"]}
+        placeholder="Dishes, restaurants & more"
       />
       <ScrollView
         contentContainerStyle={styles.scrollContent}
