@@ -24,12 +24,11 @@ interface Category {
   items: ProductItem[];
 }
 
-// Define props for ProductGrid component
 interface ProductGridProps {
   categories: Category[];
 }
 
-const ProductGrid: React.FC<ProductGridProps> = ({ categories }) => {
+const ProductGridScrollView: React.FC<ProductGridProps> = ({ categories }) => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
   useEffect(() => {
@@ -61,9 +60,11 @@ const ProductGrid: React.FC<ProductGridProps> = ({ categories }) => {
   const renderCategory = (category: Category) => (
     <View key={category.title} style={styles.categoryContainer}>
       <Text style={styles.categoryTitle}>{category.title}</Text>
-      <View style={styles.productsGrid}>
-        {category.items.map((item) => renderProductItem(item))}
-      </View>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        <View style={styles.productsRow}>
+          {category.items.map((item) => renderProductItem(item))}
+        </View>
+      </ScrollView>
     </View>
   );
 
@@ -78,7 +79,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    zIndex:40,
   },
   categoryContainer: {
     padding: 16,
@@ -90,14 +90,13 @@ const styles = StyleSheet.create({
     color: '#000',
     fontFamily: 'Poppins-Medium',
   },
-  productsGrid: {
+  productsRow: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
     justifyContent: 'space-between',
   },
   productItem: {
     width: (windowWidth - 48) / 3,
-    marginBottom: 16,
+    marginRight: 16, // Ensure there's space between items
     alignItems: 'center',
     borderRadius: 8,
     borderColor: '#E8E8E8',
@@ -126,4 +125,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProductGrid;
+export default ProductGridScrollView;

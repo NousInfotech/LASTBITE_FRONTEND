@@ -23,28 +23,35 @@ type Product = {
 const products: Product[] = [
   {
     id: '1',
-    name: 'Lorem Ipsum and',
+    name: 'Lorem Ipsum ',
     weight: '48 g',
     price: '₹300',
     image: require('../assets/images/TooYumm.png'),
   },
   {
     id: '2',
-    name: 'Lorem Ipsum and',
+    name: 'Lorem Ipsum ',
     weight: '48 g',
     price: '₹300',
     image: require('../assets/images/cabbage.png'),
   },
   {
     id: '3',
-    name: 'Lorem Ipsum and',
+    name: 'Lorem Ipsum ',
     weight: '48 g',
     price: '₹300',
     image: require('../assets/images/Cheetos.png'),
   },
+  {
+    id: '4',
+    name: 'Lorem Ipsum ',
+    weight: '48 g',
+    price: '₹300',
+    image: require('../assets/images/TooYumm.png'),
+  },
 ];
 
-const HotDeals: React.FC = () => {
+const ProductSearch: React.FC = () => {
   const [quantity, setQuantity] = useState<{ [key: string]: number }>({});
   const router = useRouter();
 
@@ -73,6 +80,11 @@ const HotDeals: React.FC = () => {
 
     return (
       <View style={styles.productCard}>
+        
+        <TouchableOpacity style={styles.plusButton}>
+            <Text style={styles.plusButtonText}>+</Text>
+          </TouchableOpacity>
+
         {/* Image Section */}
         <View>
           <Image source={item.image} style={styles.productImage} />
@@ -84,42 +96,7 @@ const HotDeals: React.FC = () => {
           <Text style={styles.productWeight}>{item.weight}</Text>
           <View style={styles.priceContainer}>
             <Text style={styles.price}>{item.price}</Text>
-            {currentQuantity === 0 ? (
-              <TouchableOpacity
-                style={styles.addButton}
-                onPress={() =>
-                  setQuantity((prev) => ({ ...prev, [item.id]: 1 }))
-                }
-              >
-                <Text style={styles.addButtonText}>Add</Text>
-              </TouchableOpacity>
-            ) : (
-              <View style={styles.quantityControls}>
-                <TouchableOpacity
-                  onPress={() =>
-                    setQuantity((prev) => ({
-                      ...prev,
-                      [item.id]: Math.max(0, prev[item.id] - 1),
-                    }))
-                  }
-                  style={styles.minusButton}
-                >
-                  <Text style={styles.buttonText}>-</Text>
-                </TouchableOpacity>
-                <Text style={styles.quantityText}>{currentQuantity}</Text>
-                <TouchableOpacity
-                  onPress={() =>
-                    setQuantity((prev) => ({
-                      ...prev,
-                      [item.id]: prev[item.id] + 1,
-                    }))
-                  }
-                  style={styles.plusButton}
-                >
-                  <Text style={styles.buttonText}>+</Text>
-                </TouchableOpacity>
-              </View>
-            )}
+          
           </View>
         </View>
       </View>
@@ -130,11 +107,7 @@ const HotDeals: React.FC = () => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Hot deals</Text>
-        <TouchableOpacity onPress={() => router.push('/Screens/HotDealsProduct')}>
-          <Text style={styles.seeAll}>
-            See All <Text style={styles.arrow}>&gt;</Text>
-          </Text>
-        </TouchableOpacity>
+       
       </View>
       <FlatList
         data={products}
@@ -179,12 +152,12 @@ const styles = StyleSheet.create({
     paddingRight: 16,
   },
   productCard: {
-    width: 143,
+    width: 123,
     marginRight: 16,
     backgroundColor: '#fff',
     borderRadius: 8,
     paddingBottom: 12,
-    height: 260,
+    height: 240,
     borderColor: '#E8E8E8',
     borderWidth: 1,
   },
@@ -195,7 +168,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   secondContainer:{
-    padding:8,
+    paddingHorizontal:8,
   },
   productName: {
     fontSize: 13,
@@ -244,13 +217,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   plusButton: {
-    backgroundColor: '#01615F',
-    padding: 3,
-    height: 25,
-    width: 25,
-    borderRadius: 5,
-    justifyContent: 'center', // Center content vertically
+    position: 'absolute',
+    right: 12,
+    top: 3,
+    zIndex: 1,
+    width: 24,
+    height: 24,
+    backgroundColor: 'white',
+    borderRadius: 4,
+    borderColor: '#e8e8e8',
+    borderWidth: 1,
+    justifyContent: 'center',
     alignItems: 'center',
+  },
+  plusButtonText: {
+    color: '#01615F',
+    fontFamily: 'Poppins-Regular',
+    fontSize: 18,
   },
   buttonText: {
     color: '#fff',
@@ -263,4 +246,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HotDeals;
+export default ProductSearch;

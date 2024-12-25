@@ -13,20 +13,25 @@ import Voice, {
 } from "@react-native-voice/voice";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
-const SearchBarVoice = () => {
+type SearchBarVoiceProps = {
+  router: { push: (page: string) => void }; // Expecting a 'push' method
+};
+
+const SearchBarVoice: React.FC<SearchBarVoiceProps> = ({ router }) => {
   const [searchText, setSearchText] = useState("");
   const [isListening, setIsListening] = useState(false);
 
+  // Existing code for voice functionality, commented out as per your request
   // useEffect(() => {
-  // Initializing the Voice module
-  // console.log("Initializing Voice module");
+  //   // Initializing the Voice module
+  //   console.log("Initializing Voice module");
 
-  // Voice.onSpeechStart = onSpeechStart;
-  // Voice.onSpeechEnd = onSpeechEnd;
-  // Voice.onSpeechResults = onSpeechResults;
-  // Voice.onSpeechError = onSpeechError;
+  //   Voice.onSpeechStart = onSpeechStart;
+  //   Voice.onSpeechEnd = onSpeechEnd;
+  //   Voice.onSpeechResults = onSpeechResults;
+  //   Voice.onSpeechError = onSpeechError;
 
-  // console.log("Voice module initialized");
+  //   console.log("Voice module initialized");
 
   //   return () => {
   //     Voice.destroy().then(() => {
@@ -35,6 +40,7 @@ const SearchBarVoice = () => {
   //     });
   //   };
   // }, []);
+
   // const requestMicrophonePermission = async () => {
   //   if (Platform.OS === "android") {
   //     try {
@@ -78,7 +84,6 @@ const SearchBarVoice = () => {
   //     console.error("Error starting speech recognition", error);
   //   }
   // };
-  // console.log("Voice module:", Voice); // This should not be null or undefined
 
   // const stopListening = async () => {
   //   try {
@@ -126,7 +131,7 @@ const SearchBarVoice = () => {
           placeholderTextColor="#757575"
           value={searchText}
           onChangeText={setSearchText}
-          className="font-medium "
+          onFocus={() => router.push("/Screens/ProductList")} // Trigger navigation on focus
         />
         <TouchableOpacity
           style={styles.voiceButton}
