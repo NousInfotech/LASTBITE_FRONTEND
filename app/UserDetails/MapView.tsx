@@ -1,17 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
-  TextInput,
   SafeAreaView,
   StatusBar,
 } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { MaterialIcons, Ionicons } from "@expo/vector-icons";
+import GoBack from "@/components/GoBack";
+import SearchInput from "@/components/SearchInput";
+import LocationMarker from "@/components/LocationMar";
 
-const LocationSelector = ({ onLocationSelect }) => {
+import * as Font from "expo-font"; // For font loading
+import { useRouter } from "expo-router";
+
+// Define the type for the props
+interface LocationSelectorProps {
+  onLocationSelect: (location: { latitude: number; longitude: number }) => void;
+}
+
+const LocationSelector: React.FC<LocationSelectorProps> = ({
+  onLocationSelect,
+}) => {
   const [location, setLocation] = useState({
     latitude: 38.8977,
     longitude: -77.0365,
@@ -20,176 +32,189 @@ const LocationSelector = ({ onLocationSelect }) => {
   });
 
   const [address, setAddress] = useState({
-    street: "LakeView street",
+    street: "LakeView Street",
     details: "123, Green Valley, Lakeview Street",
   });
 
-  return (
+  const [searchText, setSearchText] = useState("");
+  const [fontsLoaded, setFontsLoaded] = useState(false); // State to check if fonts are loaded
+  const router = useRouter(); // Hook for router navigation
+
+  // Load custom fonts
+  useEffect(() => {
+    const loadFonts = async () => {
+      await Font.loadAsync({
+        "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
+        "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
+        "Poppins-SemiBold": require("../../assets/fonts/Poppins-SemiBold.ttf"),
+      });
+      setFontsLoaded(true);
+    };
+
+    loadFonts();
+  }, []);
+
+  const handleClearSearch = () => {
+    setSearchText("");
+  };
+
+  const handleConfirmLocation = () => {
+    // onLocationSelect(location); // Call the onLocationSelect function
+    router.push("/Screens/AddressInput"); // Replace with the actual route path
+  };
+
+  const handleChangeLocation = () => {
+    router.push("/initialscreens/LocationInputScreen");
+  };
+  const handleCurrentLocation = () => {
+    router.push("/(tabs)/home"); // Replace with the actual route path
+  };
+
+  return fontsLoaded ? (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
 
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton}>
-          <MaterialIcons name="arrow-back" size={24} color="black" />
-        </TouchableOpacity>
+        <GoBack />
         <Text style={styles.headerTitle}>Select delivery location</Text>
       </View>
 
       {/* Search Bar */}
       <View style={styles.searchContainer}>
-        <MaterialIcons
-          name="search"
-          size={20}
-          color="#666"
-          style={styles.searchIcon}
-        />
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Search for a building, street or area.."
-          placeholderTextColor="#666"
+        <SearchInput
+          searchText={searchText}
+          setSearchText={setSearchText}
+          handleClearSearch={handleClearSearch}
+          placeholder="Search for a building, street or area..."
         />
       </View>
 
       {/* Map View */}
-      <View style={styles.mapContainer}>
-        <MapView
-          style={styles.map}
-          initialRegion={location}
-          onRegionChangeComplete={setLocation}
-        >
-          <Marker coordinate={location}>
-            <View style={styles.markerContainer}>
-              <View style={styles.markerBubble}>
-                <Text style={styles.markerText}>
-                  Order will be delivered here
-                </Text>
-                <Text style={styles.markerSubtext}>
-                  Move the pin to change the location
-                </Text>
-              </View>
-            </View>
-          </Marker>
-        </MapView>
-      </View>
+      <MapView
+        style={styles.map}
+        initialRegion={location}
+        onRegionChangeComplete={setLocation}
+      >
+        {/* Custom Location Marker */}
+        <Marker coordinate={location}>
+          <LocationMarker />{" "}
+          {/* Render the LocationMarker component inside the Marker */}
+        </Marker>
+      </MapView>
 
-      {/* Bottom Sheet */}
-      <View style={styles.bottomSheet}>
-        <TouchableOpacity style={styles.currentLocationButton}>
-          <Ionicons name="locate" size={20} color="#006B5E" />
-          <Text style={styles.currentLocationText}>Use Current Location</Text>
-        </TouchableOpacity>
+      {/* Current Location Button */}
+      <TouchableOpacity
+        style={styles.currentLocationButton}
+        onPress={handleCurrentLocation}
+      >
+        <Ionicons name="locate" size={20} color="#006B5E" />
+        <Text style={styles.currentLocationText}>Use Current Location</Text>
+      </TouchableOpacity>
 
+      {/* Bottom Section */}
+      <View style={styles.bottomSection}>
         <View style={styles.addressContainer}>
           <View style={styles.addressLeft}>
-            <View style={styles.pinIconContainer}>
-              <MaterialIcons name="location-on" size={24} color="#006B5E" />
-            </View>
+            <MaterialIcons name="location-on" size={24} color="#006B5E" />
             <View style={styles.addressTextContainer}>
               <Text style={styles.streetName}>{address.street}</Text>
               <Text style={styles.addressDetails}>{address.details}</Text>
             </View>
           </View>
-          <TouchableOpacity style={styles.changeButton}>
+          <TouchableOpacity
+            style={styles.changeButton}
+            onPress={handleChangeLocation}
+          >
             <Text style={styles.changeButtonText}>Change</Text>
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity style={styles.confirmButton}>
+        <TouchableOpacity
+          style={styles.confirmButton}
+          onPress={handleConfirmLocation}
+        >
           <Text style={styles.confirmButtonText}>Confirm Location</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
+  ) : (
+    <Text>Loading fonts...</Text> // Fallback until fonts are loaded
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
   },
   header: {
+    position: "absolute",
+    top: 16,
+    left: 16,
+    right: 16,
     flexDirection: "row",
     alignItems: "center",
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: "#eee",
-  },
-  backButton: {
-    marginRight: 16,
+    padding: 0,
+    borderRadius: 8,
+    zIndex: 10,
   },
   headerTitle: {
     fontSize: 16,
-    fontWeight: "500",
+    fontFamily: "Poppins-SemiBold",
+    marginLeft: 8,
   },
   searchContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    margin: 16,
-    paddingHorizontal: 12,
-    backgroundColor: "#f5f5f5",
-    borderRadius: 8,
-    height: 40,
-  },
-  searchIcon: {
-    marginRight: 8,
-  },
-  searchInput: {
-    flex: 1,
-    fontSize: 14,
-  },
-  mapContainer: {
-    flex: 1,
-    overflow: "hidden",
+    position: "absolute",
+    top: 70,
+    left: 16,
+    right: 16,
+    zIndex: 10,
   },
   map: {
     flex: 1,
-  },
-  markerContainer: {
-    alignItems: "center",
-  },
-  markerBubble: {
-    backgroundColor: "#000",
-    padding: 12,
-    borderRadius: 6,
-    maxWidth: 200,
-  },
-  markerText: {
-    color: "#fff",
-    fontSize: 12,
-    textAlign: "center",
-  },
-  markerSubtext: {
-    color: "#999",
-    fontSize: 10,
-    textAlign: "center",
-    marginTop: 4,
-  },
-  bottomSheet: {
-    backgroundColor: "#fff",
-    padding: 16,
-    borderTopWidth: 1,
-    borderTopColor: "#eee",
+    position: "absolute", // Ensure Map is behind the bottom section
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
   currentLocationButton: {
+    position: "absolute",
+    bottom: 170,
+    left: 16,
+    right: 16,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    padding: 12,
-    borderWidth: 1,
-    borderColor: "#006B5E",
+    backgroundColor: "rgb(255, 255, 255)",
+    paddingVertical: 12,
+    marginHorizontal: 60,
     borderRadius: 8,
-    marginBottom: 16,
+    zIndex: 10,
+    borderWidth: 1,
+    borderColor: "#01615F",
   },
   currentLocationText: {
     color: "#006B5E",
     marginLeft: 8,
     fontSize: 14,
-    fontWeight: "500",
+    fontWeight: "600",
+  },
+  bottomSection: {
+    backgroundColor: "#fff",
+    padding: 16,
+    borderTopWidth: 1,
+    borderTopColor: "#eee",
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    zIndex: 20, // Ensure this stays above the MapView
+    position: "absolute", // Stick it to the bottom
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
   addressContainer: {
     flexDirection: "row",
-    alignItems: "center",
     justifyContent: "space-between",
     marginBottom: 16,
   },
@@ -197,31 +222,32 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flex: 1,
   },
-  pinIconContainer: {
-    marginRight: 12,
-  },
   addressTextContainer: {
-    flex: 1,
+    marginLeft: 2,
   },
   streetName: {
-    fontSize: 14,
-    fontWeight: "500",
+    fontSize: 16,
+    fontFamily: "Poppins-Medium",
   },
   addressDetails: {
-    fontSize: 12,
-    color: "#666",
-    marginTop: 2,
+    fontSize: 13,
+    color: "#929292",
+    fontFamily: "Poppins-Regular",
   },
   changeButton: {
-    marginLeft: 16,
+    alignSelf: "center",
+    borderWidth: 1,
+    borderColor: "#01615F",
+    padding: 6,
+    borderRadius: 8,
   },
   changeButtonText: {
-    color: "#006B5E",
-    fontSize: 14,
-    fontWeight: "500",
+    color: "#01615F",
+    fontSize: 12,
+    fontFamily: "Poppins-Medium",
   },
   confirmButton: {
-    backgroundColor: "#006B5E",
+    backgroundColor: "#01615F",
     padding: 16,
     borderRadius: 8,
     alignItems: "center",
@@ -229,7 +255,7 @@ const styles = StyleSheet.create({
   confirmButtonText: {
     color: "#fff",
     fontSize: 16,
-    fontWeight: "500",
+    fontFamily: "Poppins-Regular",
   },
 });
 

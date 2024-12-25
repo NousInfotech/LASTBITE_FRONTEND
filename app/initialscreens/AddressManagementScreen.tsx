@@ -12,21 +12,27 @@ import {
 import Icon from "react-native-vector-icons/MaterialIcons";
 import GoBack from "@/components/GoBack";
 import { DeleteConfirmationModal, MoreOptionsMenu } from "@/components/Options";
-import { useNavigation } from "@react-navigation/native"; // Import useNavigation
 import { useRouter } from "expo-router";
 
-const AddressManagementScreen = () => {
-  const router = useRouter();
-  const [searchText, setSearchText] = useState("");
-  const [moreOptionsVisible, setMoreOptionsVisible] = useState(false);
-  const [selectedAddress, setSelectedAddress] = useState(null);
-  const [deleteConfirmationVisible, setDeleteConfirmationVisible] =
-    useState(false);
-  const [editMode, setEditMode] = useState(false); // Track edit mode
-  const [editedAddress, setEditedAddress] = useState(""); // Track the edited address
-  const [shareModalVisible, setShareModalVisible] = useState(false);
+interface Address {
+  id: number;
+  type: string;
+  address: string;
+  icon: string;
+}
 
-  const savedAddresses = [
+const AddressManagementScreen: React.FC = () => {
+  const router = useRouter();
+  const [searchText, setSearchText] = useState<string>("");
+  const [moreOptionsVisible, setMoreOptionsVisible] = useState<boolean>(false);
+  const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
+  const [deleteConfirmationVisible, setDeleteConfirmationVisible] =
+    useState<boolean>(false);
+  const [editMode, setEditMode] = useState<boolean>(false);
+  const [editedAddress, setEditedAddress] = useState<string>("");
+  const [shareModalVisible, setShareModalVisible] = useState<boolean>(false);
+
+  let savedAddresses: Address[] = [
     {
       id: 1,
       type: "Home",
@@ -41,7 +47,7 @@ const AddressManagementScreen = () => {
     },
   ];
 
-  const recentSearches = [
+  const recentSearches: Address[] = [
     {
       id: 3,
       type: "Green Valley",
@@ -51,39 +57,41 @@ const AddressManagementScreen = () => {
   ];
 
   const handleUseCurrentLocation = () => {
-    // Pass query parameters directly in the route string
     router.push({
       pathname: "/UserDetails/MapView",
       params: { mode: "currentLocation" },
     });
-    console.log("use my current location clicked");
+    console.log("Use my current location clicked");
   };
+
   const handleAddNewAddress = () => {
-    // Pass query parameters directly in the route string
     router.push({
       pathname: "/UserDetails/MapView",
       params: { mode: "addAddress" },
     });
   };
-  const handleMoreOptions = (address) => {
+
+  const handleMoreOptions = (address: Address) => {
     setSelectedAddress(address);
-    setMoreOptionsVisible(true); // Show more options menu
+    setMoreOptionsVisible(true);
   };
 
   const handleEdit = () => {
-    setEditMode(true);
-    setEditedAddress(selectedAddress.address); // Pre-fill the address to be edited
-    setMoreOptionsVisible(false); // Close the options menu
+    if (selectedAddress) {
+      setEditMode(true);
+      setEditedAddress(selectedAddress.address);
+      setMoreOptionsVisible(false);
+    }
   };
 
   const handleDelete = () => {
     setDeleteConfirmationVisible(true);
-    setMoreOptionsVisible(false); // Close MoreOptionsMenu
+    setMoreOptionsVisible(false);
   };
 
   const handleShare = () => {
-    setShareModalVisible(true); // Open share modal
-    setMoreOptionsVisible(false); // Close options menu
+    setShareModalVisible(true);
+    setMoreOptionsVisible(false);
   };
 
   const handleDeleteCancel = () => {
@@ -91,25 +99,29 @@ const AddressManagementScreen = () => {
   };
 
   const handleConfirmDelete = () => {
-    // Handle delete logic here (e.g., remove the address from savedAddresses)
-    setDeleteConfirmationVisible(false);
-    setSelectedAddress(null);
+    if (selectedAddress) {
+      savedAddresses = savedAddresses.filter(
+        (address) => address.id !== selectedAddress.id
+      );
+      setDeleteConfirmationVisible(false);
+      setSelectedAddress(null);
+    }
   };
 
   const handleSaveEdit = () => {
-    // Save the edited address (update the savedAddresses array)
-    const updatedAddresses = savedAddresses.map((address) =>
-      address.id === selectedAddress.id
-        ? { ...address, address: editedAddress }
-        : address
-    );
-    // Update saved addresses
-    savedAddresses = updatedAddresses;
-    setEditMode(false);
-    setSelectedAddress(null);
+    if (selectedAddress) {
+      const updatedAddresses = savedAddresses.map((address) =>
+        address.id === selectedAddress.id
+          ? { ...address, address: editedAddress }
+          : address
+      );
+      savedAddresses = updatedAddresses;
+      setEditMode(false);
+      setSelectedAddress(null);
+    }
   };
 
-  const renderAddressItem = (item) => (
+  const renderAddressItem = (item: Address) => (
     <View style={styles.addressItem} key={item.id}>
       <View style={styles.addressLeft}>
         <Icon name={item.icon} size={24} color="#666" />
@@ -158,7 +170,7 @@ const AddressManagementScreen = () => {
         style={styles.locationOption}
         onPress={handleUseCurrentLocation}
       >
-        <Icon name="my-location" size={20} color="#008ACE" />
+        <Icon name="my-location" size={20} color="#01615F" />
         <Text style={styles.locationText}>Use my current location</Text>
       </TouchableOpacity>
 
@@ -166,7 +178,7 @@ const AddressManagementScreen = () => {
         style={styles.locationOption}
         onPress={handleAddNewAddress}
       >
-        <Icon name="add" size={20} color="#008ACE" />
+        <Icon name="add" size={20} color="#01615F" />
         <Text style={styles.locationText}>Add new address</Text>
       </TouchableOpacity>
 
@@ -194,7 +206,7 @@ const AddressManagementScreen = () => {
       {/* Delete Confirmation Modal */}
       <DeleteConfirmationModal
         visible={deleteConfirmationVisible}
-        address={selectedAddress?.address}
+        address={selectedAddress?.address || ""}
         onCancel={handleDeleteCancel}
         onDelete={handleConfirmDelete}
       />
@@ -206,7 +218,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    zIndex: 90,
   },
   header: {
     flexDirection: "row",
@@ -225,7 +236,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     margin: 16,
     padding: 8,
-    backgroundColor: "#f5f5f5",
+    borderWidth: 2,
+    borderColor: "#929292",
     borderRadius: 8,
   },
   searchInput: {
@@ -240,7 +252,7 @@ const styles = StyleSheet.create({
   },
   locationText: {
     marginLeft: 16,
-    color: "#008ACE",
+    color: "#01615F",
     fontSize: 16,
   },
   section: {
@@ -276,56 +288,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#666",
     marginTop: 4,
-  },
-  modalHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 16,
-  },
-  modalTitle: {
-    fontSize: 18,
-    fontWeight: "500",
-    marginLeft: 8,
-  },
-  editInput: {
-    margin: 16,
-    padding: 8,
-    borderRadius: 8,
-    backgroundColor: "#f5f5f5",
-    fontSize: 16,
-  },
-  modalButtons: {
-    flexDirection: "row",
-    justifyContent: "flex-end",
-  },
-  modalButton: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 4,
-    marginLeft: 8,
-  },
-  cancelButton: {
-    backgroundColor: "#f5f5f5",
-  },
-  saveButton: {
-    backgroundColor: "#008ACE",
-  },
-  cancelButtonText: {
-    color: "#000",
-  },
-  saveButtonText: {
-    color: "#fff",
-  },
-  modalContent: {
-    margin: 16,
-    fontSize: 16,
-    color: "#666",
-  },
-  shareButton: {
-    backgroundColor: "#008ACE",
-  },
-  shareButtonText: {
-    color: "#fff",
   },
 });
 
