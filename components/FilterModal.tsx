@@ -28,7 +28,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
   inputType,
   onApply, // Accept the callback function
 }) => {
-  const [selectedFilter, setSelectedFilter] = useState<string | string[]>("");
+  const [selectedFilter, setSelectedFilter] = useState<string[]>([]); // Use an array to hold selected filters
 
   const [fontsLoaded] = useFonts({
     "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
@@ -40,18 +40,14 @@ const FilterModal: React.FC<FilterModalProps> = ({
   }
 
   const handleSelectOption = (option: string) => {
-    if (inputType === "radio") {
-      setSelectedFilter(option); // For radio buttons, only one option can be selected
-    } else {
-      // For checkboxes, add/remove the option from the selected list
-      setSelectedFilter((prev) =>
-        Array.isArray(prev)
-          ? prev.includes(option)
-            ? prev.filter((item) => item !== option)
-            : [...prev, option]
-          : [option]
-      );
-    }
+    // If the option is already selected, remove it, else add it to the array
+    setSelectedFilter((prev) => {
+      if (prev.includes(option)) {
+        return prev.filter((item) => item !== option); // Deselect option
+      } else {
+        return [...prev, option]; // Select option
+      }
+    });
   };
 
   const handleApply = () => {
@@ -87,21 +83,14 @@ const FilterModal: React.FC<FilterModalProps> = ({
               <View
                 style={[
                   styles.radio,
-                  inputType === "radio" && selectedFilter === option
+                  selectedFilter.includes(option)
                     ? styles.radioSelectedCircle
-                    : inputType === "checkbox" &&
-                      Array.isArray(selectedFilter) &&
-                      selectedFilter.includes(option)
-                    ? styles.radioSelectedSquare
                     : null,
                 ]}
               >
-                {(inputType === "radio" && selectedFilter === option) ||
-                (inputType === "checkbox" &&
-                  Array.isArray(selectedFilter) &&
-                  selectedFilter.includes(option)) ? (
+                {selectedFilter.includes(option) && (
                   <View style={styles.radioInner} />
-                ) : null}
+                )}
               </View>
             </TouchableOpacity>
           ))}
@@ -170,17 +159,13 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     borderWidth: 2,
-    borderColor: "#ccc",
+    borderColor: "#ccc", // Outer border color (unselected state)
     justifyContent: "center",
     alignItems: "center",
+    borderRadius: 10, // Circle shape for radio
   },
   radioSelectedCircle: {
     borderColor: "#006D5B", // Green color for selected radio
-    borderRadius: 10, // Circle shape for radio
-  },
-  radioSelectedSquare: {
-    borderColor: "#006D5B", // Green color for selected checkbox
-    borderRadius: 3, // Square shape for checkbox
   },
   radioInner: {
     width: 10,
