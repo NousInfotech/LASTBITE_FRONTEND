@@ -5,87 +5,122 @@ import {
   TouchableOpacity,
   TextInput,
   StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
+  Dimensions,
+  Alert,
 } from "react-native";
 import { X } from "react-native-feather";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import FeedbackReceived from "./FeedbackReceived";
 
-const HiddenRestaurant = () => {
+const HiddenRestaurant = ({ onClose }) => {
   const [feedbackVisible, setFeedbackVisible] = useState(false);
-  const [feedbackSubmitted, setFeedbackSubmitted] = useState(false); // New state to track submission
+  const [feedbackText, setFeedbackText] = useState("");
+  const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
+  const [mainModalVisible, setMainModalVisible] = useState(true);
 
   const handleTellMore = () => {
-    setFeedbackVisible(true);
+    setMainModalVisible(false); // Hide the main modal
+    setFeedbackVisible(true);   // Show the feedback modal
   };
 
-  const handleCloseFeedback = () => {
-    setFeedbackVisible(false);
+  const handleClose = () => {
+    if (feedbackVisible) {
+      setFeedbackVisible(false);
+      setMainModalVisible(true); // Return to the main modal if feedback modal is closed
+    } else {
+      onClose(); // Close the entire component
+    }
   };
 
   const handleSubmitFeedback = () => {
-    setFeedbackVisible(false); // Close the feedback form
-    setFeedbackSubmitted(true); // Show the feedback received message
+    if (!feedbackText.trim()) {
+      Alert.alert("Error", "Please provide your feedback before submitting.");
+      return;
+    }
+    setFeedbackVisible(false);
+    setFeedbackSubmitted(true);
   };
 
   if (feedbackSubmitted) {
-    // Render FeedbackReceived component when feedback is submitted
-    return <FeedbackReceived message="Thank you for your feedback!" />;
+    return (
+      <FeedbackReceived
+        message="Thank you for your feedback!"
+        style={{ alignSelf: "center", marginTop: 20 }}
+      />
+    );
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>We have hidden Spice Haven</Text>
-        <TouchableOpacity>
-          <X stroke="#666" width={24} height={24} />
-        </TouchableOpacity>
-      </View>
-
-      <Text style={styles.description}>
-        You can unhide it from your Account section. Tell us more about your
-        decision and help us recommend you better.
-      </Text>
-
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.undoButton}>
-          <FontAwesome name="undo" size={24} color="#097969" />
-          <Text style={styles.undoText}>Undo</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.tellMoreButton}
-          onPress={handleTellMore}
-        >
-          <Text style={styles.tellMoreText}>Tell Us More</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* Feedback Input Container */}
-      {feedbackVisible && (
-        <View style={styles.feedbackContainer}>
-          <View style={styles.feedbackHeader}>
-            <Text style={styles.feedbackTitle}>We'd love your feedback</Text>
-            <TouchableOpacity onPress={handleCloseFeedback}>
+    <>
+      {mainModalVisible && (
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <Text style={styles.title}>We have hidden Spice Haven</Text>
+            <TouchableOpacity onPress={onClose}>
               <X stroke="#666" width={24} height={24} />
             </TouchableOpacity>
           </View>
-          <TextInput
-            style={styles.feedbackInput}
-            placeholder="Please tell us more about your decision..."
-            multiline
-            numberOfLines={4}
-          />
-          <TouchableOpacity
-            style={styles.submitButton}
-            onPress={handleSubmitFeedback}
-          >
-            <Text style={styles.submitText}>Submit</Text>
-          </TouchableOpacity>
+
+          <Text style={styles.description}>
+            You can unhide it from your Account section. Tell us more about your
+            decision and help us recommend you better.
+          </Text>
+
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity style={styles.undoButton}>
+              <FontAwesome name="undo" size={24} color="#097969" />
+              <Text style={styles.undoText}>Undo</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.tellMoreButton}
+              onPress={handleTellMore}
+              accessible={true}
+              accessibilityLabel="Provide additional feedback"
+            >
+              <Text style={styles.tellMoreText}>Tell Us More</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       )}
-    </View>
+
+      {feedbackVisible && (
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={styles.feedbackWrapper}
+        >
+          <View style={styles.feedbackContainer}>
+            <View style={styles.feedbackHeader}>
+              <Text style={styles.feedbackTitle}>We'd love your feedback</Text>
+              <TouchableOpacity onPress={handleClose}>
+                <X stroke="#666" width={24} height={24} />
+              </TouchableOpacity>
+            </View>
+            <TextInput
+              style={styles.feedbackInput}
+              placeholder="Please tell us more about your decision..."
+              placeholderTextColor="#aaa"
+              multiline
+              numberOfLines={4}
+              value={feedbackText}
+              onChangeText={setFeedbackText}
+            />
+            <TouchableOpacity
+              style={styles.submitButton}
+              onPress={handleSubmitFeedback}
+            >
+              <Text style={styles.submitText}>Submit</Text>
+            </TouchableOpacity>
+          </View>
+        </KeyboardAvoidingView>
+      )}
+    </>
   );
 };
+
+const { width, height } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
   container: {
@@ -98,7 +133,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
     maxWidth: 400,
-    alignSelf: "center", // Center the container on the page
+    alignSelf: "center",
     marginTop: 40,
   },
   header: {
@@ -146,11 +181,13 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "500",
   },
+  feedbackWrapper: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   feedbackContainer: {
-    position: "absolute",
-    top: "-30%",
-    left: "10%",
-    right: "10%",
+    width: width * 0.9,
     backgroundColor: "white",
     padding: 16,
     borderRadius: 8,

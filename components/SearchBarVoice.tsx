@@ -30,10 +30,12 @@ const SearchBarVoice: React.FC<SearchBarVoiceProps> = ({
     Voice.stop(); // Stop the speech recognition
   };
 
-  // Handle speech-to-text results
+  // Handle speech-to-text results (called on every recognized speech fragment)
   const onSpeechResults = (e: any) => {
     console.log("Speech results:", e.value); // Debug log to see the recognized text
-    setSearchText(e.value[0]); // Update the search text with the first speech result
+    if (e.value && e.value.length > 0) {
+      setSearchText(e.value[0]); // Set the first speech result to the searchText
+    }
   };
 
   // Handle speech recognition errors
