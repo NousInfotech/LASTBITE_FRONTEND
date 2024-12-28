@@ -38,12 +38,12 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({
   };
 
   const handleHide = () => {
-    setIsModalVisible(true);  // Show the modal when hiding
+    setIsModalVisible(true); // Show the modal when hiding
   };
 
   const handleModalSubmit = () => {
     setIsModalVisible(false);
-    onHide?.(restaurant.id);  // Pass the restaurant id to Home component
+    onHide?.(restaurant.id); // Pass the restaurant id to the parent
   };
 
   return (
@@ -53,6 +53,7 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({
         style={styles.image}
         resizeMode="cover"
       />
+
       <TouchableOpacity
         style={styles.menuButtonLeft}
         onPress={() => setIsMenuVisible(!isMenuVisible)}
@@ -62,10 +63,7 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({
         </View>
       </TouchableOpacity>
 
-      <TouchableOpacity
-        style={styles.menuButtonHeart}
-        onPress={handleFavorite}
-      >
+      <TouchableOpacity style={styles.menuButtonHeart} onPress={handleFavorite}>
         <View style={styles.menuCircle}>
           <MaterialIcons
             name={isFavorite ? "favorite" : "favorite-border"}
@@ -77,11 +75,12 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({
 
       {isMenuVisible && (
         <View style={styles.menuContainer}>
-          <TouchableOpacity
-            style={styles.menuItem}
-            onPress={handleFavorite}
-          >
-            <MaterialIcons name="favorite-border" size={24} color="black" />
+          <TouchableOpacity style={styles.menuItem} onPress={handleFavorite}>
+            <MaterialIcons
+              name={isFavorite ? "favorite" : "favorite-border"}
+              size={24}
+              color={isFavorite ? "green" : "black"}
+            />
             <Text style={styles.menuText}>Add to favorites</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.menuItem} onPress={handleHide}>
@@ -104,7 +103,6 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({
         </Text>
       </View>
 
-      {/* FilterModal to explain why the restaurant is hidden */}
       <FilterModal
         visible={isModalVisible}
         onClose={() => setIsModalVisible(false)}
@@ -123,11 +121,12 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({
           apply: "Submit",
         }}
         inputType="checkbox"
-        onApply={handleModalSubmit}  // Submit the hide action
+        onApply={handleModalSubmit} // Submit the hide action
       />
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   card: {
     backgroundColor: "white",
@@ -175,8 +174,8 @@ const styles = StyleSheet.create({
   },
   menuContainer: {
     position: "absolute",
-    top: 40,
-    right: 10,
+    top: 48, // Align below the "more-vert" button
+    right: 8, // Align horizontally with the button
     width: 200,
     backgroundColor: "#fff",
     borderRadius: 8,
@@ -188,6 +187,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+    zIndex: 5, // Ensure it is above other elements
   },
   menuItem: {
     padding: 12,

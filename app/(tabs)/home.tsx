@@ -72,7 +72,35 @@ const Home = () => {
       height: 180,
       borderRadius: 12,
     },
-    // Other banners...
+    ,
+     {
+      title: "Craving Something Special?",
+      subtitle: "Find popular cuisines and discover",
+      deliveryTime: "what you're in the mood for!",
+      buttonText: "Explore Cuisines",
+      buttonColor: "#FF6347",
+      buttonTextColor: "#FFFFFF",
+      backgroundColor: "#FFF0E1",
+      titleColor: "#333333",
+      subtitleColor: "#7D7D7D",
+      groceryImage: require("../../assets/images/Img 1.png"),
+      height: 180,
+      borderRadius: 12,
+    },
+    {
+      title: "Top Picks Around You",
+      subtitle: "Order from the trending restaurants",
+      deliveryTime: "in your area.",
+      buttonText: "Grab a Snack",
+      buttonColor: "#FFC107",
+      buttonTextColor: "#FFFFFF",
+      backgroundColor: "#FFF7E1",
+      titleColor: "#333333",
+      subtitleColor: "#7D7D7D",
+      groceryImage: require("../../assets/images/Img 3.png"),
+      height: 180,
+      borderRadius: 12,
+    },
   ];
 
   useEffect(() => {
