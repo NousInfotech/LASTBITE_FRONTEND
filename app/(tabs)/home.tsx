@@ -53,6 +53,10 @@ const Home = () => {
     }
   };
 
+  const handleUndo = (restaurantId: string | number) => {
+    setHiddenRestaurants((prev) => prev.filter((id) => id !== restaurantId));
+  };
+
   const handleInputRedirect = () => {
     router.push("/Screens/SearchScreen");
   };
@@ -161,6 +165,7 @@ const Home = () => {
             <HiddenRestaurant
               restaurant={hiddenPopup}
               onClose={() => setHiddenPopup(null)}
+              onUndo={handleUndo}
             />
           )}
         </View>

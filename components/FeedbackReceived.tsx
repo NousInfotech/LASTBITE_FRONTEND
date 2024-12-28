@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Check, X } from "react-native-feather";
 
@@ -7,14 +7,7 @@ interface FeedbackReceivedProps {
   onClose: () => void; // Function to close the component
 }
 
-const FeedbackReceived: React.FC<FeedbackReceivedProps> = ({
-  message,
-  onClose,
-}) => {
-  const [feedbackVisible, setFeedbackVisible] = useState(false);
-  const handleCloseFeedback = () => {
-    setFeedbackVisible(false);
-  };
+const FeedbackReceived: React.FC<FeedbackReceivedProps> = ({ onClose }) => {
   return (
     <View style={styles.container}>
       <View style={styles.content}>
@@ -30,10 +23,7 @@ const FeedbackReceived: React.FC<FeedbackReceivedProps> = ({
           </Text>
         </View>
 
-        <TouchableOpacity
-          style={styles.closeButton}
-          onPress={handleCloseFeedback}
-        >
+        <TouchableOpacity style={styles.closeButton} onPress={onClose}>
           <X stroke="#666" width={20} height={20} />
         </TouchableOpacity>
       </View>
@@ -52,37 +42,47 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
+    alignItems: "center",
+    display: "flex",
+    justifyContent: "center",
+    alignSelf: "center", // Center horizontally
+    maxWidth: "90%", // Adjust width to fit the background correctly
+    maxHeight: "20%", // Limit maximum height
   },
   content: {
     flexDirection: "column",
-    alignItems: "flex-start",
-    gap: 12,
+    alignItems: "flex-start", // Center text and icon
+    gap: 8, // Reduced gap for a compact layout
   },
   checkCircle: {
     backgroundColor: "#E8F5F2",
     borderRadius: 50,
-    padding: 12,
+    padding: 10, // Adjust padding for a smaller icon
+    alignItems: "center",
+    justifyContent: "center",
   },
   textContainer: {
     flex: 1,
+    marginTop: 8,
   },
   title: {
-    fontSize: 16,
+    fontSize: 14, // Adjust font size for compactness
     fontWeight: "600",
     color: "#333",
-    marginBottom: 4,
+    marginBottom: 2,
   },
   description: {
-    fontSize: 14,
+    fontSize: 12, // Adjust font size for description
     color: "#666",
-    lineHeight: 20,
+    lineHeight: 16,
   },
   closeButton: {
-    padding: 4,
+    padding: 8,
     position: "absolute",
-    top: 2,
-    right: 2,
+    top: 8,
+    right: 8,
   },
 });
+
 
 export default FeedbackReceived;

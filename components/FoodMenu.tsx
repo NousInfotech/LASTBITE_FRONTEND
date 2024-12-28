@@ -8,7 +8,7 @@ const FoodMenu: React.FC = () => {
   const [menuData, setMenuData] = useState<any[]>([]);
 
   const [fontsLoaded] = useFonts({
-    'outfit': require('../assets/fonts/Itim-Regular.ttf'), // Outfit font
+     'outfit': require('../assets/fonts/Itim-Regular.ttf'), // Outfit font
     'poppins-regular': require('../assets/fonts/Poppins-Regular.ttf'),
     'poppins-medium': require('../assets/fonts/Poppins-Medium.ttf'),
     'poppins-bold': require('../assets/fonts/Poppins-Bold.ttf'),
