@@ -59,7 +59,7 @@ const MealCustomizer = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Complete Your Meal</Text>
+      <Text style={styles.title}>COMPLETE TOUR MEAL</Text>
       <FlatList
         data={items}
         renderItem={renderItem}

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, FlatList, SafeAreaView, StyleSheet, ImageSourcePropType } from 'react-native';
 import * as Font from 'expo-font';
 import { useRouter } from 'expo-router';
+import AddMoreItems from '@/components/AddMoreItems'; // Import AddMoreItems component
 
 // Define types for product data and cart items
 interface Product {
@@ -16,13 +17,15 @@ interface Product {
 
 const HotDealsProduct = () => {
   const [cartItems, setCartItems] = useState<Record<string, number>>({});
+  const [items, setItems] = useState<any[]>([]);
 
   const [fontsLoaded, setFontsLoaded] = useState(false);
- const router = useRouter();
+  const router = useRouter();
 
- const checkoutPageNavigation = () => {
-  router.push("/Screens/checkoutPageNavigation")
- }
+  const checkoutPageNavigation = () => {
+    router.push("/Screens/checkoutPageNavigation");
+  };
+
   useEffect(() => {
     async function loadFonts() {
       await Font.loadAsync({
@@ -39,7 +42,6 @@ const HotDealsProduct = () => {
   if (!fontsLoaded) {
     return null; // Optionally, show a loading screen or placeholder
   }
-
 
   // Sample product data
   const products: Product[] = [
@@ -88,7 +90,25 @@ const HotDealsProduct = () => {
   ];
 
   const handleAdd = (productId: string) => {
-    setCartItems({ ...cartItems, [productId]: 1 });
+    const selectedProduct = products.find((product) => product.id === productId);
+    if (selectedProduct) {
+      setCartItems((prevCartItems) => {
+        const updatedCartItems = { ...prevCartItems };
+        updatedCartItems[productId] = (updatedCartItems[productId] || 0) + 1;
+        return updatedCartItems;
+      });
+
+      // Pass the selected product details to the AddMoreItems component
+      setItems((prevItems) => [
+        ...prevItems,
+        {
+          id: selectedProduct.id,
+          name: selectedProduct.title,
+          quantity: 1,
+          price: selectedProduct.price,
+        },
+      ]);
+    }
   };
 
   const handleIncrement = (productId: string) => {
@@ -132,14 +152,15 @@ const HotDealsProduct = () => {
         columnWrapperStyle={styles.productRow}
       />
       <View style={styles.checkoutBackground}>
-      {totalItems > 0 && (
-        <TouchableOpacity style={styles.checkoutButton} onPress={checkoutPageNavigation}>
-          <Text style={styles.checkoutButtonText}>
-            Checkout {totalItems} items
-          </Text>
-        </TouchableOpacity>
-      )}
+        {totalItems > 0 && (
+          <TouchableOpacity style={styles.checkoutButton} onPress={checkoutPageNavigation}>
+            <Text style={styles.checkoutButtonText}>Checkout {totalItems} items</Text>
+          </TouchableOpacity>
+        )}
       </View>
+
+      {/* Pass cart items to AddMoreItems */}
+      <AddMoreItems items={items} setItems={setItems} />
     </SafeAreaView>
   );
 };
@@ -171,15 +192,15 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 16,
   },
-  checkoutBackground:{
-   backgroundColor:'#fff',
-   borderTopLeftRadius:30,
-   borderTopRightRadius:30,
-   elevation: 25,
-   shadowColor:'#000',
-   shadowOffset: { width: 0, height: 4 }, // Offset for iOS shadow
-   shadowOpacity: 1, // Opacity for iOS shadow
-   shadowRadius: 6,
+  checkoutBackground: {
+    backgroundColor: '#fff',
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    elevation: 25,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 1,
+    shadowRadius: 6,
   },
   checkoutButton: {
     margin: 16,

@@ -1,69 +1,99 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Ionicons } from '@expo/vector-icons'; 
+import * as Font from 'expo-font';
+import { MaterialIcons } from '@expo/vector-icons'; // Correct import
 
 const DeliveryTypeSelector = () => {
-  const [deliveryType, setDeliveryType] = useState('standard');
+  const [selectedType, setSelectedType] = useState('eco');
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+
+  useEffect(() => {
+    async function loadFonts() {
+      await Font.loadAsync({
+        'Poppins-Regular': require('../assets/fonts/Poppins-Regular.ttf'),
+        'Poppins-Medium': require('../assets/fonts/Poppins-Medium.ttf'),
+        'Poppins-SemiBold': require('../assets/fonts/Poppins-SemiBold.ttf'),
+        'Poppins-Bold': require('../assets/fonts/Poppins-Bold.ttf'),
+      });
+      setFontsLoaded(true);
+    }
+    loadFonts();
+  }, []);
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
+  const deliveryTypes: {
+    [key: string]: {
+      title: string;
+      time: string;
+      features: string[];
+      eco?: string; // Optional property
+    };
+  } = {
+    standard: {
+      title: 'Standard',
+      time: '25-30 mins',
+      features: [
+        'Recommended if you are in a hurry',
+        'Minimal order grouping',
+      ],
+    },
+    eco: {
+      title: 'Eco Saver',
+      time: '30-35 mins',
+      features: [
+        'Less fuel pollution by grouping orders',
+      ],
+      eco: '8 tons CO2 saved daily', // Only for 'eco'
+    },
+  };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Delivery Type</Text>
-      <Text style={styles.subtitle}>Your food will always be fresh!</Text>
+      <Text style={styles.header}>Delivery Type</Text>
+      <Text style={styles.subHeader}>Your food will always be fresh!</Text>
 
-      <View style={styles.optionsContainer}>
-        {/* Standard Delivery Option */}
-        <TouchableOpacity 
-          style={[styles.option, deliveryType === 'standard' && styles.selectedOption]}
-          onPress={() => setDeliveryType('standard')}
-        >
-          <View style={styles.radioContainer}>
-            <View style={[styles.radio, deliveryType === 'standard' && styles.radioSelected]} />
-          </View>
-          <Text style={styles.optionTitle}>Standard</Text>
-          <Text style={styles.optionTime}>25-30 mins</Text>
-          <Text style={styles.optionDetail}>• Recommended if you{"\n"}  are in a hurry</Text>
-          <Text style={styles.optionDetail}>• Minimal order grouping</Text>
-        </TouchableOpacity>
+      <View style={styles.row}>
+        {Object.entries(deliveryTypes).map(([type, data]) => (
+          <TouchableOpacity
+            key={type}
+            style={[
+              styles.card,
+              selectedType === type ? styles.selectedCard : styles.unselectedCard,
+            ]}
+            onPress={() => setSelectedType(type)}
+          >
+            <View style={styles.cardHeader}>
+              <View>
+                <Text style={styles.cardTitle}>{data.title}</Text>
+                <Text style={styles.cardTime}>{data.time}</Text>
+              </View>
+              {selectedType === type && (
+                <View style={styles.checkIcon}>
+                  <Ionicons name="checkmark" size={18} color="#fff" />
+                </View>
+              )}
+            </View>
 
-        {/* Eco Saver Option */}
-        <TouchableOpacity 
-          style={[styles.option, deliveryType === 'eco' && styles.selectedOption]}
-          onPress={() => setDeliveryType('eco')}
-        >
-          <View style={styles.radioContainer}>
-            <View style={[styles.radio, deliveryType === 'eco' && styles.radioSelected]} />
-          </View>
-          <Text style={styles.optionTitle}>Eco Saver</Text>
-          <Text style={styles.optionTime}>30-35 mins</Text>
-          <Text style={styles.optionDetail}>• Less fuel pollution by{"\n"}  grouping orders</Text>
-          <View style={styles.ecoInfo}>
-            <Image 
-              source={require('./assets/eco-icon.png')}
-              style={styles.ecoIcon}
-            />
-            <Text style={styles.ecoText}>8 tons CO2 saved daily</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-
-      {/* Delivery Instructions */}
-      <Text style={styles.instructionsTitle}>Delivery Instructions</Text>
-      <View style={styles.instructionsContainer}>
-        <View style={styles.instruction}>
-          <Image source={require('./assets/bell-icon.png')} style={styles.instructionIcon} />
-          <Text style={styles.instructionText}>Avoid{"\n"}ringing bell</Text>
-        </View>
-        <View style={styles.instruction}>
-          <Image source={require('./assets/door-icon.png')} style={styles.instructionIcon} />
-          <Text style={styles.instructionText}>Leave at{"\n"}the door</Text>
-        </View>
-        <View style={styles.instruction}>
-          <Image source={require('./assets/directions-icon.png')} style={styles.instructionIcon} />
-          <Text style={styles.instructionText}>Directions{"\n"}to reach</Text>
-        </View>
-        <View style={styles.instruction}>
-          <Image source={require('./assets/call-icon.png')} style={styles.instructionIcon} />
-          <Text style={styles.instructionText}>Avoid{"\n"}calling</Text>
-        </View>
+            <View>
+              {data.features.map((feature, index) => (
+                <View style={styles.featureItem} key={index}>
+                  <Text style={styles.bullet}>•</Text>
+                  <Text style={styles.featureText}>{feature}</Text>
+                </View>
+              ))}
+              {data.eco && (
+                <View style={styles.ecoContainer}>
+                  <MaterialIcons name="eco" size={16} color="#01615F" />
+                  <Text style={styles.ecoText}>{data.eco}</Text>
+                </View>
+              )}
+            </View>
+          </TouchableOpacity>
+        ))}
       </View>
     </View>
   );
@@ -71,100 +101,93 @@ const DeliveryTypeSelector = () => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
-    backgroundColor: '#fff',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: '600',
-  },
-  subtitle: {
-    color: '#666',
-    marginTop: 4,
-  },
-  optionsContainer: {
+    padding: 1,
     marginTop: 20,
-    gap: 15,
+    backgroundColor: '#fff',
+    alignSelf: 'center',
+    width: '95%',
   },
-  option: {
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 12,
-    padding: 15,
-    position: 'relative',
-  },
-  selectedOption: {
-    borderColor: '#00a0a0',
-  },
-  radioContainer: {
-    position: 'absolute',
-    right: 15,
-    top: 15,
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: '#00a0a0',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  radio: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-  },
-  radioSelected: {
-    backgroundColor: '#00a0a0',
-  },
-  optionTitle: {
+  header: {
     fontSize: 16,
-    fontWeight: '500',
+    fontFamily: 'Poppins-SemiBold',
   },
-  optionTime: {
-    fontSize: 18,
-    fontWeight: '600',
-    marginTop: 4,
+  subHeader: {
+    fontSize: 13,
+    fontFamily: 'Poppins-Regular',
+    color: '#929292',
+    marginBottom: 16,
   },
-  optionDetail: {
-    color: '#666',
-    marginTop: 8,
-  },
-  ecoInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 12,
-    gap: 8,
-  },
-  ecoIcon: {
-    width: 20,
-    height: 20,
-  },
-  ecoText: {
-    color: '#00a0a0',
-    fontWeight: '500',
-  },
-  instructionsTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    marginTop: 30,
-    marginBottom: 15,
-  },
-  instructionsContainer: {
+  row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  instruction: {
-    alignItems: 'center',
+  card: {
+    flex: 1,
+    paddingVertical: 12,
+    paddingHorizontal:8,
+    borderWidth: 1,
+    borderRadius: 8,
+    marginBottom: 8,
+    marginHorizontal: 2,
   },
-  instructionIcon: {
-    width: 24,
-    height: 24,
+  selectedCard: {
+    borderColor: '#01615F',
+    backgroundColor: '#fff',
+  },
+  unselectedCard: {
+    borderColor: '#e5e7eb',
+    backgroundColor: '#fff',
+  },
+  cardHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginBottom: 8,
   },
-  instructionText: {
-    textAlign: 'center',
+  cardTitle: {
+    fontFamily: 'Poppins-Regular',
+    fontSize: 13,
+    color: '#929292',
+  },
+  cardTime: {
+    fontSize: 16,
+    fontFamily: 'Poppins-SemiBold',
+    color: '#1p1A1F',
+  },
+  checkIcon: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: '#01615F',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  featureItem: {
+    flexDirection: 'row',
+    alignItems: "flex-start",
+    marginBottom: 4,
+  },
+  bullet: {
     fontSize: 12,
-    color: '#666',
+    color: '#929292',
+    marginRight:4,
+    fontFamily: 'Poppins-Regular',
+  },
+  featureText: {
+    fontSize: 12,
+    fontFamily: 'Poppins-Regular',
+    color: '#929292',
+  },
+  ecoContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 4,
+  },
+  ecoText: {
+    fontSize: 12,
+    fontFamily: 'Poppins-Medium',
+    color: '#01615F',
+    marginLeft: 0,
   },
 });
 
