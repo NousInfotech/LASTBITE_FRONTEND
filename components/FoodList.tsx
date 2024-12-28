@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import FilterModal from "./FilterModal";
-import HiddenRestaurant from "./HiddenRestaurant";
 
 interface Restaurant {
   id: string | number;
@@ -29,12 +28,6 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [selectedRestaurant, setSelectedRestaurant] = useState<string>("");
-  const [selectedFilter, setSelectedFilter] = useState<string | string[]>("");
-
-  const [hiddenRestaurants, setHiddenRestaurants] = useState<
-    (string | number)[]
-  >([]);
 
   const handleFavorite = () => {
     setIsFavorite(!isFavorite);
@@ -45,104 +38,92 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({
   };
 
   const handleHide = () => {
-    setSelectedRestaurant(restaurant.name);
-    setIsModalVisible(true);
+    setIsModalVisible(true); // Show the modal when hiding
   };
 
-  const handleMenuToggle = () => {
-    setIsMenuVisible(!isMenuVisible);
-  };
-
-  const handleApplyFilter = (filter: string | number) => {
-    setHiddenRestaurants((prev) => [...prev, restaurant.id]);
+  const handleModalSubmit = () => {
     setIsModalVisible(false);
+    onHide?.(restaurant.id); // Pass the restaurant id to the parent
   };
 
   return (
-    <>
-      {hiddenRestaurants.includes(restaurant.id) ? (
-        <HiddenRestaurant restaurant={restaurant} />
-      ) : (
-        <View style={styles.card}>
-          <Image
-            source={{ uri: restaurant.image }}
-            style={styles.image}
-            resizeMode="cover"
-          />
-          <TouchableOpacity
-            style={styles.menuButtonLeft}
-            onPress={handleMenuToggle}
-          >
-            <View style={styles.menuCircle}>
-              <MaterialIcons name="more-vert" size={24} color="black" />
-            </View>
-          </TouchableOpacity>
+    <View style={styles.card}>
+      <Image
+        source={{ uri: restaurant.image }}
+        style={styles.image}
+        resizeMode="cover"
+      />
 
-          <TouchableOpacity
-            style={styles.menuButtonHeart}
-            onPress={handleFavorite}
-          >
-            <View style={styles.menuCircle}>
-              <MaterialIcons
-                name={isFavorite ? "favorite" : "favorite-border"}
-                size={24}
-                color={isFavorite ? "green" : "black"}
-              />
-            </View>
-          </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.menuButtonLeft}
+        onPress={() => setIsMenuVisible(!isMenuVisible)}
+      >
+        <View style={styles.menuCircle}>
+          <MaterialIcons name="more-vert" size={24} color="black" />
+        </View>
+      </TouchableOpacity>
 
-          {isMenuVisible && (
-            <View style={styles.menuContainer}>
-              <TouchableOpacity
-                style={styles.menuItem}
-                onPress={handleFavorite}
-              >
-                <MaterialIcons name="favorite-border" size={24} color="black" />
-                <Text style={styles.menuText}>Add to favorites</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.menuItem} onPress={handleHide}>
-                <MaterialIcons name="visibility-off" size={24} color="black" />
-                <Text style={styles.menuText}>Hide this restaurant</Text>
-              </TouchableOpacity>
-            </View>
-          )}
-
-          <View style={styles.infoContainer}>
-            <View style={styles.mainInfo}>
-              <Text style={styles.title}>{restaurant.name}</Text>
-              <View style={styles.ratingContainer}>
-                <MaterialIcons name="star" size={20} color="#FFD700" />
-                <Text style={styles.rating}>{restaurant.rating}</Text>
-              </View>
-            </View>
-            <Text style={styles.subtitle}>
-              {restaurant.deliveryTime} • {restaurant.location}
-            </Text>
-          </View>
-
-          <FilterModal
-            visible={isModalVisible}
-            onClose={() => setIsModalVisible(false)}
-            title={`Why did you hide ${selectedRestaurant}?`}
-            tellUsMoreText="Tell us more"
-            filterOptions={[
-              "I'm bored of ordering from here",
-              "I don't like the cuisines available",
-              "Delivery Time: Low To High",
-              "The menu is unhealthy for me",
-              "My past experience has been bad",
-              "Don't recommend this restaurant during this slot",
-            ]}
-            buttonText={{
-              cancel: "Cancel",
-              apply: "Submit",
-            }}
-            inputType="checkbox"
-            onApply={handleApplyFilter} // Ensure this is set
+      <TouchableOpacity style={styles.menuButtonHeart} onPress={handleFavorite}>
+        <View style={styles.menuCircle}>
+          <MaterialIcons
+            name={isFavorite ? "favorite" : "favorite-border"}
+            size={24}
+            color={isFavorite ? "green" : "black"}
           />
         </View>
+      </TouchableOpacity>
+
+      {isMenuVisible && (
+        <View style={styles.menuContainer}>
+          <TouchableOpacity style={styles.menuItem} onPress={handleFavorite}>
+            <MaterialIcons
+              name={isFavorite ? "favorite" : "favorite-border"}
+              size={24}
+              color={isFavorite ? "green" : "black"}
+            />
+            <Text style={styles.menuText}>Add to favorites</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.menuItem} onPress={handleHide}>
+            <MaterialIcons name="visibility-off" size={24} color="black" />
+            <Text style={styles.menuText}>Hide this restaurant</Text>
+          </TouchableOpacity>
+        </View>
       )}
-    </>
+
+      <View style={styles.infoContainer}>
+        <View style={styles.mainInfo}>
+          <Text style={styles.title}>{restaurant.name}</Text>
+          <View style={styles.ratingContainer}>
+            <MaterialIcons name="star" size={20} color="#FFD700" />
+            <Text style={styles.rating}>{restaurant.rating}</Text>
+          </View>
+        </View>
+        <Text style={styles.subtitle}>
+          {restaurant.deliveryTime} • {restaurant.location}
+        </Text>
+      </View>
+
+      <FilterModal
+        visible={isModalVisible}
+        onClose={() => setIsModalVisible(false)}
+        title={`Why did you hide ${restaurant.name}?`}
+        tellUsMoreText="Tell us more"
+        filterOptions={[
+          "I'm bored of ordering from here",
+          "I don't like the cuisines available",
+          "Delivery Time: Low To High",
+          "The menu is unhealthy for me",
+          "My past experience has been bad",
+          "Don't recommend this restaurant during this slot",
+        ]}
+        buttonText={{
+          cancel: "Cancel",
+          apply: "Submit",
+        }}
+        inputType="checkbox"
+        onApply={handleModalSubmit} // Submit the hide action
+      />
+    </View>
   );
 };
 
@@ -193,8 +174,8 @@ const styles = StyleSheet.create({
   },
   menuContainer: {
     position: "absolute",
-    top: 40,
-    right: 10,
+    top: 48, // Align below the "more-vert" button
+    right: 8, // Align horizontally with the button
     width: 200,
     backgroundColor: "#fff",
     borderRadius: 8,
@@ -206,6 +187,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+    zIndex: 5, // Ensure it is above other elements
   },
   menuItem: {
     padding: 12,
