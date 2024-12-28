@@ -1,86 +1,117 @@
 import React, { useState, useEffect } from "react";
 import { View, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import Voice from "react-native-voice"; // Import react-native-voice for speech-to-text
+import Voice from "react-native-voice";
+import { Audio } from 'expo-av';
 
-// Define the props interface
 interface SearchBarVoiceProps {
-  onInputPress: () => void; // Callback function for input focus
-  redirectTargets: string[]; // Array of redirect target strings
-  placeholder?: string; // Optional placeholder text
+  onInputPress: () => void;
+  redirectTargets: string[];
+  placeholder?: string;
 }
 
 const SearchBarVoice: React.FC<SearchBarVoiceProps> = ({
   onInputPress,
   redirectTargets,
-  placeholder = "Search here...", // Default placeholder value
+  placeholder = "Search here...",
 }) => {
-  const [searchText, setSearchText] = useState(""); // State to hold the search text
+  const [searchText, setSearchText] = useState("");
   const [isListening, setIsListening] = useState(false);
+  const [permissionGranted, setPermissionGranted] = useState(false);
 
-  // Function to start voice recognition
-  const startListening = () => {
-    setIsListening(true);
-    Voice.start("en-US"); // Start the speech recognition in English
-  };
-
-  // Function to stop voice recognition
-  const stopListening = () => {
-    setIsListening(false);
-    Voice.stop(); // Stop the speech recognition
-  };
-
-  // Handle speech-to-text results (called on every recognized speech fragment)
-  const onSpeechResults = (e: any) => {
-    console.log("Speech results:", e.value); // Debug log to see the recognized text
-    if (e.value && e.value.length > 0) {
-      setSearchText(e.value[0]); // Set the first speech result to the searchText
+  const requestMicrophonePermission = async () => {
+    try {
+      const { status } = await Audio.requestPermissionsAsync();
+      if (status === 'granted') {
+        setPermissionGranted(true);
+        console.log('Microphone permission granted!');
+      } else {
+        setPermissionGranted(false);
+        alert('Permission to access microphone is required!');
+      }
+    } catch (error) {
+      console.error('Error requesting microphone permission:', error);
     }
   };
 
-  // Handle speech recognition errors
-  const onSpeechError = (e: any) => {
-    console.error("Speech recognition error:", e.error); // Debug log for errors
-    setIsListening(false);
-  };
-
-  // Register event listeners for voice recognition
   useEffect(() => {
-    Voice.onSpeechResults = onSpeechResults;
-    Voice.onSpeechError = onSpeechError;
-
+    requestMicrophonePermission();
+    Voice.onSpeechResults = (e) => {
+      console.log("Received speech results event:", e);
+      if (e) {
+        if (e.value) {
+          console.log("Speech results:", e.value);
+          setSearchText(e.value[0]);
+        } else {
+          console.log("No speech results");
+        }
+      } else {
+        console.log("No speech results event received");
+      }
+    };
+    Voice.onSpeechError = (e) => {
+      console.error("Speech recognition error:", e);
+      setIsListening(false);
+    };
+    Voice.onSpeechPartialResults = (e) => {
+      console.log("Speech partial results:", e);
+      if (e.value) {
+        setSearchText(e.value[0]);
+      }
+    };
+    Voice.onSpeechEnd = () => {
+      console.log("Speech ended");
+      setIsListening(false);
+    };
     return () => {
-      Voice.destroy(); // Cleanup on unmount
+      Voice.destroy();
     };
   }, []);
+
+  const startListening = () => {
+    if (permissionGranted) {
+      setIsListening(true);
+      try {
+        Voice.start("en-US");
+        console.log("Starting speech recognition...");
+      } catch (error) {
+        console.error("Error starting speech recognition:", error);
+      }
+    } else {
+      console.log("Permission not granted");
+      alert("Please grant microphone permission to use voice recognition.");
+    }
+  };
+
+  const stopListening = () => {
+    setIsListening(false);
+    Voice.stop();
+    console.log("Speech stopped");
+    console.log("Captured text:", searchText);
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.searchContainer}>
-        <Icon
-          name="search"
-          size={24}
-          color="#757575"
-          style={styles.searchIcon}
-        />
+        <Icon name="search" size={24} color="#757575" style={styles.searchIcon} />
         <TextInput
           style={styles.input}
-          placeholder={placeholder} // Use the placeholder prop
+          placeholder={placeholder}
           placeholderTextColor="#757575"
-          value={searchText} // Bind the search text to the input
-          onChangeText={setSearchText} // Update search text when manually typed
-          onFocus={onInputPress} // Call the callback prop when input is focused
+          value={searchText}
+          onChangeText={setSearchText}
+          onFocus={onInputPress}
         />
         <TouchableOpacity
-          style={styles.voiceButton}
-          onPressIn={startListening} // Start listening when button is pressed
-          onPressOut={stopListening} // Stop listening when button is released
-          disabled={isListening} // Disable the button if already listening
+          style={[styles.voiceButton, isListening && styles.listeningButton]}
+          onPressIn={startListening}
+          onPressOut={stopListening}
+          disabled={isListening}
         >
           <Icon
-            name={isListening ? "mic" : "mic-none"} // Change the icon based on the listening state
+            name={isListening ? "mic" : "mic-none"}
             size={24}
-            color={isListening ? "#007AFF" : "#929292"}
+            color={isListening ? "#ffffff" : "#929292"}
           />
         </TouchableOpacity>
       </View>
@@ -113,7 +144,11 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   voiceButton: {
-    padding: 4,
+    padding: 8,
+  },
+  listeningButton: {
+    backgroundColor: "#006B4D",
+    borderRadius: 30,
   },
 });
 
