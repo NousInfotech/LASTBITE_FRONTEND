@@ -17,6 +17,7 @@ interface MoreOptionsMenuProps {
   onEditPress: () => void;
   onSharePress: () => void;
   onDeletePress: () => void;
+  position?: { x: number; y: number };
 }
 
 interface DeleteConfirmationModalProps {
@@ -32,6 +33,7 @@ export const MoreOptionsMenu: React.FC<MoreOptionsMenuProps> = ({
   onEditPress,
   onSharePress,
   onDeletePress,
+  position,
 }) => {
   return (
     <Modal
@@ -42,7 +44,10 @@ export const MoreOptionsMenu: React.FC<MoreOptionsMenuProps> = ({
     >
       <TouchableWithoutFeedback onPress={onClose}>
         <View style={styles.menuOverlay}>
-          <View style={styles.menuContent}>
+          <View style={[
+              styles.menuContent,
+              position ? { position: 'absolute', left: position.x, top: position.y } : {},
+            ]}>
             <TouchableOpacity style={styles.menuItem} onPress={onEditPress}>
               <Icon name="edit" size={20} color="#333" />
               <Text style={styles.menuText}>Edit</Text>
@@ -173,21 +178,23 @@ export const AddressManager: React.FC = () => {
 const styles = StyleSheet.create({
   menuOverlay: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    // backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   menuContent: {
     position: "absolute",
-    right: 20,
-    top: 50,
     backgroundColor: "white",
     borderRadius: 8,
-    padding: 8,
+    padding: 2,
+    marginLeft:-105,
     elevation: 5,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
+    width: 120, // Fixed width
+    zIndex: 1000, // Ensure it's above other content
   },
+  
   menuItem: {
     flexDirection: "row",
     alignItems: "center",

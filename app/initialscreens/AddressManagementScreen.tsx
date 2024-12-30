@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   View,
   Text,
@@ -8,11 +8,13 @@ import {
   SafeAreaView,
   StatusBar,
   StyleSheet,
+  findNodeHandle,
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import GoBack from "@/components/GoBack";
 import { DeleteConfirmationModal, MoreOptionsMenu } from "@/components/Options";
 import { useRouter } from "expo-router";
+import ShareModal from "@/components/ShareModal"; // Update the path accordingly
 
 interface Address {
   id: number;
@@ -31,6 +33,10 @@ const AddressManagementScreen: React.FC = () => {
   const [editMode, setEditMode] = useState<boolean>(false);
   const [editedAddress, setEditedAddress] = useState<string>("");
   const [shareModalVisible, setShareModalVisible] = useState<boolean>(false);
+  const [menuPosition, setMenuPosition] = useState<{ x: number; y: number }>({
+    x: 0,
+    y: 0,
+  });
 
   let savedAddresses: Address[] = [
     {
@@ -71,18 +77,34 @@ const AddressManagementScreen: React.FC = () => {
     });
   };
 
-  const handleMoreOptions = (address: Address) => {
-    setSelectedAddress(address);
-    setMoreOptionsVisible(true);
+  const handleMoreOptions = (address: Address, iconRef: any) => {
+    iconRef.current.measureInWindow((x: number, y: number) => {
+      setMenuPosition({ x, y });
+      setSelectedAddress(address);
+      setMoreOptionsVisible(true);
+    });
   };
 
   const handleEdit = () => {
     if (selectedAddress) {
-      setEditMode(true);
-      setEditedAddress(selectedAddress.address);
+      router.push({
+        pathname: "/initialscreens/AddressEditScreen",  // Correct path
+        params: {
+          building: "Building A",
+          street: "Main Street",
+          town: "Downtown",
+          city: "Metropolis",
+          state: "Stateville",
+          country: "Countryland",
+          pincode: "123456",
+        },
+      });
       setMoreOptionsVisible(false);
     }
   };
+  
+  
+  
 
   const handleDelete = () => {
     setDeleteConfirmationVisible(true);
@@ -93,6 +115,7 @@ const AddressManagementScreen: React.FC = () => {
     setShareModalVisible(true);
     setMoreOptionsVisible(false);
   };
+  
 
   const handleDeleteCancel = () => {
     setDeleteConfirmationVisible(false);
@@ -121,20 +144,27 @@ const AddressManagementScreen: React.FC = () => {
     }
   };
 
-  const renderAddressItem = (item: Address) => (
-    <View style={styles.addressItem} key={item.id}>
-      <View style={styles.addressLeft}>
-        <Icon name={item.icon} size={24} color="#666" />
-        <View style={styles.addressDetails}>
-          <Text style={styles.addressType}>{item.type}</Text>
-          <Text style={styles.addressText}>{item.address}</Text>
+  const renderAddressItem = (item: Address) => {
+    const iconRef = useRef(null);
+
+    return (
+      <View style={styles.addressItem} key={item.id}>
+        <View style={styles.addressLeft}>
+          <Icon name={item.icon} size={24} color="#666" />
+          <View style={styles.addressDetails}>
+            <Text style={styles.addressType}>{item.type}</Text>
+            <Text style={styles.addressText}>{item.address}</Text>
+          </View>
         </View>
+        <TouchableOpacity
+          ref={iconRef}
+          onPress={() => handleMoreOptions(item, iconRef)}
+        >
+          <Icon name="more-vert" size={24} color="#666" />
+        </TouchableOpacity>
       </View>
-      <TouchableOpacity onPress={() => handleMoreOptions(item)}>
-        <Icon name="more-vert" size={24} color="#666" />
-      </TouchableOpacity>
-    </View>
-  );
+    );
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -201,6 +231,7 @@ const AddressManagementScreen: React.FC = () => {
         onEditPress={handleEdit}
         onSharePress={handleShare}
         onDeletePress={handleDelete}
+        position={menuPosition}
       />
 
       {/* Delete Confirmation Modal */}
@@ -210,9 +241,17 @@ const AddressManagementScreen: React.FC = () => {
         onCancel={handleDeleteCancel}
         onDelete={handleConfirmDelete}
       />
+
+<ShareModal
+  visible={shareModalVisible}
+  onClose={() => setShareModalVisible(false)}
+  address={selectedAddress?.address || ""}
+/>
+
     </SafeAreaView>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
@@ -288,6 +327,22 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#666",
     marginTop: 4,
+  },
+  menu: {
+    position: "absolute",
+    top: 50,
+    right: 16,
+    backgroundColor: "#fff",
+    borderWidth: 1,
+    borderColor: "#ddd",
+    borderRadius: 8,
+    padding: 8,
+    zIndex: 10,
+  },
+  menuOption: {
+    padding: 8,
+    fontSize: 16,
+    color: "#333",
   },
 });
 
