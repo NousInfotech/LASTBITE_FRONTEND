@@ -3,6 +3,7 @@ import {
   View,
   Text,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   Image,
   SafeAreaView,
   StatusBar,
@@ -375,9 +376,11 @@ const RestaurantSelect = () => {
       </SafeAreaView>
       {totalItemsInCart > 0 && <CheckoutPopup totalItems={totalItemsInCart} />}
       <Modal visible={isModalVisible} transparent={true} animationType="fade">
-        <View style={styles.modalBackground}>
-          <View style={styles.modalContainer}>
-            <FlatList
+        <TouchableWithoutFeedback onPress={handleCloseModal}>
+          <View style={styles.modalBackground}>
+            <TouchableWithoutFeedback>
+              <View style={styles.modalContainer}>
+              <FlatList
               data={restaurant?.categories}
               keyExtractor={(item) => item}
               renderItem={({ item }) => (
@@ -386,8 +389,10 @@ const RestaurantSelect = () => {
                 </View>
               )}
             />
+              </View>
+            </TouchableWithoutFeedback>
           </View>
-        </View>
+        </TouchableWithoutFeedback>
       </Modal>
     </>
   );
@@ -620,6 +625,6 @@ const styles = StyleSheet.create({
   },
   categoryItem: {
     paddingVertical: 10,
-  },
+   },
   
 });
