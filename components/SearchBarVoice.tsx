@@ -24,7 +24,7 @@ const SearchBarVoice: React.FC<SearchBarVoiceProps> = ({
       const { status } = await Audio.requestPermissionsAsync();
       if (status === 'granted') {
         setPermissionGranted(true);
-        console.log('Microphone permission granted!');
+        // console.log('Microphone permission granted!');
       } else {
         setPermissionGranted(false);
         alert('Permission to access microphone is required!');
