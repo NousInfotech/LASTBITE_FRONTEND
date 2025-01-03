@@ -9,14 +9,13 @@ import {
   StatusBar,
   StyleSheet,
   FlatList,
-  TextInput,
   Modal,
 } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import GoBack from "@/components/GoBack";
 import SearchBarVoice from "@/components/SearchBarVoice";
-import { AntDesign, Ionicons } from "@expo/vector-icons";
-import { CheckCircle } from "react-native-feather";
+import {  Ionicons } from "@expo/vector-icons";
+import { useRouter } from 'expo-router';
 
 interface Restaurant {
   restaurantId: string;
@@ -144,6 +143,8 @@ const RestaurantSelect = () => {
   );
   const [cartCounts, setCartCounts] = useState<Record<number, number>>({});
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false); 
+  const router = useRouter();
+  const totalItemsInCart = Object.values(cartCounts).reduce((sum, count) => sum + count, 0);
   useEffect(() => {
     const selectedRestaurant = mockRestaurants.find(
       (r) => r.restaurantId === restaurantId
@@ -165,6 +166,25 @@ const RestaurantSelect = () => {
       return newSet;
     });
   };
+  const handleCheckout = () => {
+    const selectedItems = Object.entries(cartCounts).map(([menuItemId, quantity]) => {
+      const menuItem = menuItems.find((item) => item.menuItemId === parseInt(menuItemId));
+      return {
+        name: menuItem?.name,
+        quantity,
+        price: menuItem?.price,
+      };
+    });
+  
+    router.push({
+      pathname: '/Screens/BillingScreen',
+      params: {
+        restaurantName: restaurant?.name,
+        cart: JSON.stringify(selectedItems),
+      },
+    });
+  };
+  
 
   if (!restaurant) {
     return (
@@ -304,7 +324,7 @@ const RestaurantSelect = () => {
     );
   };
 
-  const totalItemsInCart = Object.values(cartCounts).reduce((sum, count) => sum + count, 0);
+ 
   const handleOpenModal = () => {
     setIsModalVisible(true);
   };
@@ -312,10 +332,11 @@ const RestaurantSelect = () => {
   const handleCloseModal = () => {
     setIsModalVisible(false);
   };
+ 
   const CheckoutPopup: React.FC<CheckoutPopupProps> = ({ totalItems }) => {
     return (
       <View style={styles.popupContainer}>
-        <TouchableOpacity style={styles.checkoutButton}>
+        <TouchableOpacity style={styles.checkoutButton} onPress={handleCheckout}>
           <Text style={styles.checkoutText}>
             {`Checkout ${totalItems} item${totalItems > 1 ? 's' : ''}`}
           </Text>
