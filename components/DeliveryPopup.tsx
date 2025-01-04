@@ -344,6 +344,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   addIcon: {
+    color: '#01615F',
     marginRight: 10,
   },
 });

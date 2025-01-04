@@ -55,6 +55,9 @@ const BillingScreen = () => {
       }
     }
   }, [cart]);
+  const navigateToAddMoreItems = () => {
+    router.push('./AddMoreItems');
+  };
 
   const deliveryOptions = [
     {
@@ -153,11 +156,14 @@ const BillingScreen = () => {
     </View>
   );
   
-  const AddMoreButton = () => (
-    <TouchableOpacity style={styles.addMoreButton} onPress={() => console.log('Add More Items pressed')}>
-      <Text style={styles.addMoreButtonText}>+ Add More Items</Text>
-    </TouchableOpacity>
-  );
+  const AddMoreButton = () => {
+    const router = useRouter();
+    return (
+      <TouchableOpacity style={styles.addMoreButton} onPress={navigateToAddMoreItems}>
+        <Text style={styles.addMoreButtonText}>+ Add More Items</Text>
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <SafeAreaView style={styles.container}>

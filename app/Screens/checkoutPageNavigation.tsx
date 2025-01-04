@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, ScrollView, Alert } from 'react-native';
 import * as Font from 'expo-font';
-import AddMoreItems from '@/components/AddMoreItems';
+import AddMoreItems from '@/app/Screens/AddMoreItems';
 import GoBack from '@/components/GoBack';
 import MealCustomizer from '@/components/MealCustomizer';
 import SavingsCorner from '@/components/SavingsCorner';

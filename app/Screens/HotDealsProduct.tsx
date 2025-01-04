@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, FlatList, SafeAreaView, StyleSheet, ImageSourcePropType } from 'react-native';
 import * as Font from 'expo-font';
 import { useRouter } from 'expo-router';
-import AddMoreItems from '@/components/AddMoreItems'; // Import AddMoreItems component
+import AddMoreItems from '@/app/Screens/AddMoreItems'; // Import AddMoreItems component
 
 // Define types for product data and cart items
 interface Product {
