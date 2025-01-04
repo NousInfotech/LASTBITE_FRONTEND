@@ -85,7 +85,6 @@ const DeliveryScreen: React.FC = () => {
     <View style={styles.mainContainer}>
       <DeliveryPopup onAddressSelect={openAddressPopup} />
 
-      {/* Address Popup */}
       {showPopup === 'address' && (
         <View style={styles.addressPopupOverlay}>
           <View style={styles.addressPopupContainer}>
@@ -124,16 +123,14 @@ const DeliveryScreen: React.FC = () => {
         </View>
       )}
 
-      {/* Payment Popup */}
       {showPopup === 'payment' && (
         <View style={styles.paymentPopupOverlay}>
           <PaymentPopup onProceedPayment={handlePlaceOrder} />
         </View>
       )}
 
-      {/* Modal for Confirmation */}
       <Modal
-        transparent={true}
+        transparent
         animationType="fade"
         visible={showModal}
         onRequestClose={handleCancelOrder}
@@ -163,7 +160,6 @@ const DeliveryScreen: React.FC = () => {
     </View>
   );
 };
-
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -203,7 +199,7 @@ const styles = StyleSheet.create({
     marginTop: 8
   },
   popupButton: {
-    backgroundColor: '#01516F',
+    backgroundColor: '#01615F',
     borderRadius: 8,
     paddingVertical: 12,
     alignItems: 'center',
@@ -267,7 +263,7 @@ const styles = StyleSheet.create({
   },
   chevron: {
     fontSize: 20,
-    color: '#01516F',
+    color: '#01615F',
     marginLeft: 'auto',
   },
   chevronContainer: {
@@ -275,11 +271,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginLeft: 'auto', // Push the container to the right
     marginRight: 5, // Add space on the right
-},
-
+  },
   changeText: {
     fontSize: 16,
-    color: '#01516F',
+    color: '#01615F',
     marginRight: 5, // Space between "Change" text and chevron
   },
   modalOverlay: {
@@ -318,25 +313,29 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   modalButton: {
-    flex: 1,
-    backgroundColor: '#01516F',
-    paddingVertical: 12,
+    backgroundColor: '#01615F',
     borderRadius: 8,
-    marginHorizontal: 5,
-    alignItems: 'center',
-  },
-  modalCancelButton: {
-    flex: 1,
-    backgroundColor: 'transparent',
-    borderWidth: 1,
-    borderColor: '#01516F',
     paddingVertical: 12,
-    borderRadius: 8,
+    flex: 1,
     marginHorizontal: 5,
     alignItems: 'center',
   },
   modalButtonText: {
     color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  modalCancelButton: {
+    borderColor: '#01615F',
+    borderWidth: 2,
+    borderRadius: 8,
+    paddingVertical: 12,
+    flex: 1,
+    marginHorizontal: 5,
+    alignItems: 'center',
+  },
+  modalCancelButtonText: {
+    color: '#01615F',
     fontSize: 16,
     fontWeight: 'bold',
   },
@@ -347,9 +346,6 @@ const styles = StyleSheet.create({
   addIcon: {
     marginRight: 10,
   },
-  modalCancelButtonText:{
-    color:"#01516F"
-  }
 });
 
 export default DeliveryScreen;
