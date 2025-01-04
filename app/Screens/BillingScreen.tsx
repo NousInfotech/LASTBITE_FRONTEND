@@ -179,9 +179,8 @@ const BillingScreen = () => {
           <AddMoreButton />
         </View>
 
-        <View style={styles.completeMealContainer}>
+        <View style={styles.simpleContainer}>
           <Text style={styles.completeMealText}>COMPLETE YOUR MEAL</Text>
-          {/* You can add more content here like additional options or suggestions */}
         </View>
 
         <SavingsCorner />
@@ -244,8 +243,21 @@ const BillingScreen = () => {
             <Text style={styles.totaltoText}>${calculateTotal().toFixed(2)}</Text>
           </View>
         </View>
+        <View style={styles.billSection}>
+          <Text style={styles.billTitle}>Review your order and address details to avoid cancellations</Text>
+        </View>
+        <View style={styles.reviewContainer}>
+  <Text style={styles.noteText}>
+    <Text style={styles.boldText}>Note:</Text> Please ensure your address and order details are correct. 
+    This order, if cancelled, is non-refundable.
+  </Text>
+  <Text style={styles.linkText}>READ POLICY</Text>
+  <View style={styles.underline} />
+</View>
+
       </ScrollView>
-      {showPopup && <DeliveryPopup onClose={() => setShowPopup(false)} />}
+      {showPopup && <DeliveryPopup />}
+
     </SafeAreaView>
   );
 };
@@ -351,7 +363,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 
-  completeMealContainer: {
+  simpleContainer: {
     backgroundColor: '#fff',
     marginHorizontal: 16,
     marginTop: 10,
@@ -505,5 +517,40 @@ const styles = StyleSheet.create({
   totaltoText: {
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  reviewContainer:{
+    backgroundColor: '#fff',
+    marginHorizontal: 16,
+    marginTop: 10,
+    marginBottom: 10,
+    borderRadius: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+    paddingBottom: 15,
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+  },
+  noteText: {
+    fontSize: 14,
+    color: '#333',
+    lineHeight: 20,
+  },
+  boldText: {
+    fontWeight: 'bold',
+    color: '#01615F',
+  },
+  linkText: {
+    fontSize: 14,
+    color: '#01615F',
+    fontWeight: 'bold',
+    marginTop: 8,
+  },
+  underline: {
+    width: '25%',
+    height: 2, // Thickness of the underline
+    backgroundColor: '#007f4f',
   },
 });
