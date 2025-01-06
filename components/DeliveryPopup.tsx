@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, Modal, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import * as Font from 'expo-font';
 
 interface DeliveryPopupProps {
   onAddressSelect: () => void;
@@ -50,7 +51,23 @@ const DeliveryScreen: React.FC = () => {
   const [showPopup, setShowPopup] = useState<'address' | 'payment' | null>(null);
   const [showModal, setShowModal] = useState(false);
   const router = useRouter();
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+  useEffect(() => {
+    async function loadFonts() {
+      await Font.loadAsync({
+        'Poppins-Regular': require('../assets/fonts/Poppins-Regular.ttf'),
+        'Poppins-Medium': require('../assets/fonts/Poppins-Medium.ttf'),
+        'Poppins-SemiBold': require('../assets/fonts/Poppins-SemiBold.ttf'),
+      });
+      setFontsLoaded(true);
+    }
 
+    loadFonts();
+  }, []);
+
+  if (!fontsLoaded) {
+    return null; // Optionally, show a loading screen or placeholder
+  }
   const addresses = [
     { id: '1', name: 'Home', address: '123, Green Valley, Lakeview Street' },
     { id: '2', name: 'Office', address: '456, Ocean Drive, Seaside Blvd' },
@@ -189,14 +206,17 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   popupText: {
-    fontSize: 16,
-    color: '#333',
-    flex: 1,
-  },
-  popupSubText: {
     fontSize: 12,
     color: '#333',
-    marginTop: 8
+    flex: 1,
+    fontFamily: 'Poppins-Medium',
+
+  },
+  popupSubText: {
+    fontSize: 8,
+    color: '#333',
+    marginTop: 2,
+    fontFamily: 'Poppins-Regular',
   },
   popupButton: {
     backgroundColor: '#01615F',
@@ -207,8 +227,8 @@ const styles = StyleSheet.create({
   },
   popupButtonText: {
     color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: 12,
+    fontFamily: 'Poppins-Medium',
   },
   addressPopupOverlay: {
     position: 'absolute',
@@ -237,13 +257,14 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   headerText: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 14,
+    fontFamily: 'Poppins-SemiBold',
     color: '#333',
   },
   closeButton: {
-    fontSize: 15,
+    fontSize: 14,
     color: '#999',
+    fontFamily: 'Poppins-Regular',
   },
   addressItem: {
     flexDirection: 'row',
@@ -253,16 +274,17 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   addressName: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: 12,
+    fontFamily: 'Poppins-Medium',
     color: '#333',
   },
   addressDetails: {
-    fontSize: 14,
+    fontSize: 10,
+    fontFamily: 'Poppins-Regular',
     color: '#666',
   },
   chevron: {
-    fontSize: 20,
+    fontSize: 15,
     color: '#01615F',
     marginLeft: 'auto',
   },
@@ -273,8 +295,9 @@ const styles = StyleSheet.create({
     marginRight: 5, // Add space on the right
   },
   changeText: {
-    fontSize: 16,
+    fontSize: 12,
     color: '#01615F',
+    fontFamily: 'Poppins-Medium',
     marginRight: 5, // Space between "Change" text and chevron
   },
   modalOverlay: {
@@ -296,16 +319,17 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   modalTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: 14,
+    fontFamily: 'Poppins-SemiBold',
     color: '#333',
     marginBottom: 10,
   },
   modalSubText: {
-    fontSize: 14,
+    fontSize: 10,
     color: '#666',
     textAlign: 'center',
     marginBottom: 20,
+    fontFamily: 'Poppins-Medium',
   },
   modalButtons: {
     flexDirection: 'row',
@@ -322,8 +346,8 @@ const styles = StyleSheet.create({
   },
   modalButtonText: {
     color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: 10,
+    fontFamily: 'Poppins-Medium',
   },
   modalCancelButton: {
     borderColor: '#01615F',
@@ -336,8 +360,8 @@ const styles = StyleSheet.create({
   },
   modalCancelButtonText: {
     color: '#01615F',
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: 10,
+    fontFamily: 'Poppins-Medium',
   },
   iconTextContainer: {
     flexDirection: 'row',

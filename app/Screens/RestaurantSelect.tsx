@@ -16,6 +16,7 @@ import GoBack from "@/components/GoBack";
 import SearchBarVoice from "@/components/SearchBarVoice";
 import {  Ionicons } from "@expo/vector-icons";
 import { useRouter } from 'expo-router';
+import * as Font from "expo-font";
 
 interface Restaurant {
   restaurantId: string;
@@ -145,6 +146,24 @@ const RestaurantSelect = () => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false); 
   const router = useRouter();
   const totalItemsInCart = Object.values(cartCounts).reduce((sum, count) => sum + count, 0);
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+
+  useEffect(() => {
+    // Load custom fonts
+    const loadFonts = async () => {
+      try {
+        await Font.loadAsync({
+          "Poppins-Regular": require("./../../assets/fonts/Poppins-Regular.ttf"),
+          "Poppins-Medium": require("./../../assets/fonts/Poppins-Medium.ttf"),
+          "Poppins-SemiBold": require("./../../assets/fonts/Poppins-SemiBold.ttf"),
+        });
+        setFontsLoaded(true);
+      } catch (error) {
+        console.error("Error loading fonts:", error);
+      }
+    };
+    loadFonts();
+  }, []);
   useEffect(() => {
     const selectedRestaurant = mockRestaurants.find(
       (r) => r.restaurantId === restaurantId
@@ -435,9 +454,9 @@ const styles = StyleSheet.create({
     borderBottomColor: "#eee",
   },
   headerTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginLeft: 80,
+    fontSize: 15,
+    marginLeft: 70,
+    fontFamily: 'Poppins-SemiBold',
   },
   FileListcontainer: {
     flexDirection: 'row',
@@ -478,8 +497,10 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     marginLeft: 2,
-    fontSize: 14,
+    fontSize: 10,
     color: 'black',
+    fontFamily: 'Poppins-Regular',
+
   },
    filterIcon: {
     width: 20,
@@ -504,7 +525,9 @@ const styles = StyleSheet.create({
     elevation: 3, 
   },
   categoryText: {
+    fontSize: 12,
     color: "#333",
+    fontFamily: 'Poppins-Medium',
   },
   menuCard: {
     flexDirection: "row",
@@ -526,19 +549,20 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   menuName: {
-    fontSize: 16,
-    fontWeight: "bold",
+    fontSize: 10,
     color: "#333",
+    fontFamily: 'Poppins-SemiBold',
   },
   menuCategory: {
-    fontSize: 14,
+    fontSize: 8,
     color: "#777",
     marginVertical: 4,
+    fontFamily: 'Poppins-Regular',
   },
   menuPrice: {
-    fontSize: 14,
-    fontWeight: "bold",
+    fontSize: 10,
     color: "#01615F",
+    fontFamily: 'Poppins-Medium',
   },
 
   addButtonContainer: {
@@ -564,9 +588,10 @@ const styles = StyleSheet.create({
     height: 20, 
   },
   counterText: {
-    fontSize: 16,
+    fontSize: 14,
     marginHorizontal: 10,
     color: 'black',
+    fontFamily: 'Poppins-Regular',
   },
   
   addButton: {
@@ -579,8 +604,8 @@ const styles = StyleSheet.create({
   },
   addButtonText: {
     color: "#fff",
-    fontWeight: "bold",
-    fontSize: 14,
+    fontSize: 10,
+    fontFamily: 'Poppins-Regular',
   },
   popupContainer: {
     position: 'absolute', 
@@ -603,8 +628,8 @@ const styles = StyleSheet.create({
   },
   checkoutText: {
     color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold', 
+    fontSize: 12,
+    fontFamily: 'Poppins-Regular',
   },
    floatingButton: {
     position: 'absolute',
@@ -629,8 +654,8 @@ const styles = StyleSheet.create({
   },
   floatbuttonText: {
     color: 'white',
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 14,
+    fontFamily: 'Poppins-Regular',
   },
   modalBackground: {
     flex: 1,

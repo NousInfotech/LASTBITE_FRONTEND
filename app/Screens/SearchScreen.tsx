@@ -1,4 +1,4 @@
-import React from "react";
+import React,{ useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -11,6 +11,7 @@ import {
 import GoBack from "@/components/GoBack";
 import SearchBarVoice from "@/components/SearchBarVoice";
 import { useRouter } from "expo-router";
+import * as Font from 'expo-font';
 
 // Define the type for restaurant
 interface Restaurant {
@@ -37,13 +38,29 @@ const SearchScreen = () => {
     const diffInDays = (now.getTime() - createdAtDate.getTime()) / (1000 * 60 * 60 * 24);
     return diffInDays <= 7; // Consider new if added within the last 7 days
   };
+  const [fontsLoaded, setFontsLoaded] = useState(false);
 
   // Dummy data for dishes and restaurants
   const dishes = [
     { id: 1, name: "Pasta", type: "Dish", image: "https://via.placeholder.com/32" },
     { id: 2, name: "Burger", type: "Dish", image: "https://via.placeholder.com/32" },
   ];
+  useEffect(() => {
+    async function loadFonts() {
+      await Font.loadAsync({
+        'Poppins-Regular': require('../../assets/fonts/Poppins-Regular.ttf'),
+        'Poppins-Medium': require('../../assets/fonts/Poppins-Medium.ttf'),
+        'Poppins-SemiBold': require('../../assets/fonts/Poppins-SemiBold.ttf'),
+      });
+      setFontsLoaded(true);
+    }
 
+    loadFonts();
+  }, []);
+
+  if (!fontsLoaded) {
+    return null; // Optionally, show a loading screen or placeholder
+  }
   const restaurants: Restaurant[] = [
     {
       restaurantId: "r1",
@@ -174,9 +191,10 @@ const styles = StyleSheet.create({
     borderBottomColor: "#eee",
   },
   headerTitle: {
-    fontSize: 16,
+    fontSize: 12,
     marginLeft: 16,
     fontWeight: "500",
+    fontFamily: 'Poppins-SemiBold',
   },
   searchContainer: {
     flexDirection: "row",
@@ -186,6 +204,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#929292",
     borderRadius: 8,
+    fontFamily: 'Poppins-Regular',
   },
   searchInput: {
     flex: 1,
@@ -211,6 +230,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#666",
     fontWeight: "500",
+    fontFamily: 'Poppins-Regular',
   },
   dishesItem: {
     flexDirection: "row",
@@ -238,13 +258,15 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   dishesType: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: "500",
+    fontFamily: 'Poppins-Medium',
   },
   dishesText: {
-    fontSize: 14,
+    fontSize: 9,
     color: "#666",
-    marginTop: 4,
+    marginTop: 2,
+    fontFamily: 'Poppins-Regular',
   },
   menu: {
     position: "absolute",

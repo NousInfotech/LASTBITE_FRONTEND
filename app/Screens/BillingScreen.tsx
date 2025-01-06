@@ -13,9 +13,10 @@ import {
 import { useRouter } from 'expo-router';
 import { useLocalSearchParams } from 'expo-router';
 import GoBack from '@/components/GoBack';
-import DeliveryTypeSelection from '@/components/DeliveryTypeSelection';
+import DeliveryTypeSelection from '@/components/DeliveryTypeSelector';
 import DeliveryPopup from '@/components/DeliveryPopup';
-
+import * as Font from "expo-font";
+import DelieveryInstruction from '@/components/DeliveryInstructions'
 interface CartItem {
   name: string;
   quantity: number;
@@ -33,7 +34,7 @@ const BillingScreen = () => {
   const [gstPercentage, setGstPercentage] = useState<number>(5); // GST as a percentage
   const [restaurantCharges, setRestaurantCharges] = useState<number>(20); 
   const [showPopup, setShowPopup] = useState<boolean>(true);
-
+  const [fontsLoaded, setFontsLoaded] = useState(false);
   const calculateGST = (amount: number) => (amount * gstPercentage) / 100;
 
   const calculateTotal = () => {
@@ -41,6 +42,22 @@ const BillingScreen = () => {
     return totalAmount + deliveryFee + platformFee + gstAmount + restaurantCharges;
   };
 
+  useEffect(() => {
+    // Load custom fonts
+    const loadFonts = async () => {
+      try {
+        await Font.loadAsync({
+          "Poppins-Regular": require("./../../assets/fonts/Poppins-Regular.ttf"),
+          "Poppins-Medium": require("./../../assets/fonts/Poppins-Medium.ttf"),
+          "Poppins-SemiBold": require("./../../assets/fonts/Poppins-SemiBold.ttf"),
+        });
+        setFontsLoaded(true);
+      } catch (error) {
+        console.error("Error loading fonts:", error);
+      }
+    };
+    loadFonts();
+  }, []);
   useEffect(() => {
     if (cart) {
       try {
@@ -199,7 +216,7 @@ const BillingScreen = () => {
         <DeliveryTypeSelection />
         <View style={styles.instructionsSection}>
           <Text style={styles.instructionsTitle}>Delivery Instructions</Text>
-          <View style={styles.optionsRow}>
+          {/* <View style={styles.optionsRow}>
             {deliveryOptions.map((option) => (
               <TouchableOpacity
                 key={option.label}
@@ -217,8 +234,8 @@ const BillingScreen = () => {
                 <Text style={styles.optionLabel}>{option.label}</Text>
               </TouchableOpacity>
             ))}
-          </View>
-          
+          </View> */}
+          <DelieveryInstruction/>
         </View>
         <View style={styles.billSection}>
           <Text style={styles.billTitle}>Bill Details</Text>
@@ -258,7 +275,6 @@ const BillingScreen = () => {
     This order, if cancelled, is non-refundable.
   </Text>
   <Text style={styles.linkText}>READ POLICY</Text>
-  <View style={styles.underline} />
 </View>
 
       </ScrollView>
@@ -287,9 +303,9 @@ const styles = StyleSheet.create({
     borderBottomColor: '#eee',
   },
   headerTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: 15,
     marginLeft: 10,
+    fontFamily: 'Poppins-SemiBold',
   },
   cartListContainer: {
     backgroundColor: '#fff',
@@ -311,12 +327,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   cartItemText: {
-    fontSize: 16,
+    fontSize: 12,
     flex: 2,
+    fontFamily: 'Poppins-Regular',
   },
   cartItemPrice: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: 12,
+    fontFamily: 'Poppins-Medium',
     flex: 1,
     textAlign: 'right',
   },
@@ -327,9 +344,9 @@ const styles = StyleSheet.create({
     flex: 1.5,
   },
   quantityText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginHorizontal: 10,
+    fontSize: 12,
+    fontFamily: 'Poppins-Regular',
+    marginHorizontal: 5,
   },
   button: {
     backgroundColor: '#01615F',
@@ -365,10 +382,9 @@ const styles = StyleSheet.create({
   },
   addMoreButtonText: {
     color: '#01615F',
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: 10,
+    fontFamily: 'Poppins-Regular',
   },
-
   simpleContainer: {
     backgroundColor: '#fff',
     marginHorizontal: 16,
@@ -384,8 +400,8 @@ const styles = StyleSheet.create({
   },
   
   completeMealText: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: 12,
+    fontFamily: 'Poppins-SemiBold',
     marginBottom: 10,
     paddingVertical: 10,
     paddingHorizontal: 10,
@@ -405,8 +421,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   savingsCornerText: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: 12,
+    fontFamily: 'Poppins-SemiBold',
     marginBottom: 10,
     paddingVertical: 10,
     paddingHorizontal: 10,
@@ -418,7 +434,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
   },
   applyCouponText: {
-    fontSize: 16,
+    fontSize: 10,
+    fontFamily: 'Poppins-Medium',
   },
   chevron: {
     fontSize: 30,
@@ -431,26 +448,28 @@ const styles = StyleSheet.create({
   },
   Delivery: {
     marginTop: 10,
+    marginLeft: 1,
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 8,
   },
   DelieveryText: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 13,
+    fontFamily: 'Poppins-SemiBold',
   },
   DelieverySubText: {
-    fontSize: 14,
+    fontSize: 10,
     marginTop: 5,
     color: '#7a7a7a',
+    fontFamily: 'Poppins-Regular',
   },
   instructionsSection: {
     paddingHorizontal: 20,
     marginTop: 10,
   },
   instructionsTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 13,
+    fontFamily: 'Poppins-SemiBold',
     marginBottom: 12,
   },
   optionsRow: {
@@ -482,16 +501,17 @@ const styles = StyleSheet.create({
     marginBottom: 8, 
   },
   optionLabel: {
-    fontSize: 12,
+    fontSize: 8,
     color: '#333',
+    fontFamily: 'Poppins-Regular',
   },
   billSection: {
     paddingHorizontal: 25,
     marginTop: 20,
   },
   billTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 13,
+    fontFamily: 'Poppins-SemiBold',
     marginBottom: 2,
   },
   billContainer: {
@@ -512,7 +532,9 @@ const styles = StyleSheet.create({
     marginVertical: 4,
   },
   billText: {
-    fontSize: 16,
+    fontSize: 12,
+    fontFamily: 'Poppins-Regular',
+
   },
   billTotal: {
     flexDirection: 'row',
@@ -521,8 +543,8 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   totaltoText: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 12,
+    fontFamily: 'Poppins-Medium',
   },
   reviewContainer:{
     backgroundColor: '#fff',
@@ -540,23 +562,21 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   noteText: {
-    fontSize: 14,
+    fontSize: 12,
     color: '#333',
     lineHeight: 20,
+    fontFamily: 'Poppins-Medium',
   },
   boldText: {
-    fontWeight: 'bold',
+    fontFamily: 'Poppins-Medium',
     color: '#01615F',
   },
   linkText: {
     fontSize: 14,
     color: '#01615F',
-    fontWeight: 'bold',
+    fontFamily: 'Poppins-Medium',
     marginTop: 8,
+    textDecorationLine:'underline',
   },
-  underline: {
-    width: '25%',
-    height: 2, // Thickness of the underline
-    backgroundColor: '#007f4f',
-  },
+ 
 });

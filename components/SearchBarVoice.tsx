@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { View, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import Voice from "react-native-voice";
-import { Audio } from 'expo-av';
+import { Audio } from "expo-av";
+import * as Font from "expo-font";
 
 interface SearchBarVoiceProps {
   onInputPress: () => void;
@@ -18,53 +19,65 @@ const SearchBarVoice: React.FC<SearchBarVoiceProps> = ({
   const [searchText, setSearchText] = useState("");
   const [isListening, setIsListening] = useState(false);
   const [permissionGranted, setPermissionGranted] = useState(false);
+  const [fontsLoaded, setFontsLoaded] = useState(false);
 
+  useEffect(() => {
+    // Load custom fonts
+    const loadFonts = async () => {
+      try {
+        await Font.loadAsync({
+          "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
+          "Poppins-Medium": require("../assets/fonts/Poppins-Medium.ttf"),
+          "Poppins-SemiBold": require("../assets/fonts/Poppins-SemiBold.ttf"),
+        });
+        setFontsLoaded(true);
+      } catch (error) {
+        console.error("Error loading fonts:", error);
+      }
+    };
+    loadFonts();
+  }, []);
+
+  // Request microphone permission
   const requestMicrophonePermission = async () => {
     try {
       const { status } = await Audio.requestPermissionsAsync();
-      if (status === 'granted') {
-        setPermissionGranted(true);
-        // console.log('Microphone permission granted!');
-      } else {
-        setPermissionGranted(false);
-        alert('Permission to access microphone is required!');
+      setPermissionGranted(status === "granted");
+      if (status !== "granted") {
+        alert("Permission to access microphone is required!");
       }
     } catch (error) {
-      console.error('Error requesting microphone permission:', error);
+      console.error("Error requesting microphone permission:", error);
     }
   };
 
+  // Initialize Voice event handlers
   useEffect(() => {
     requestMicrophonePermission();
+
     Voice.onSpeechResults = (e) => {
-      console.log("Received speech results event:", e);
-      if (e) {
-        if (e.value) {
-          console.log("Speech results:", e.value);
-          setSearchText(e.value[0]);
-        } else {
-          console.log("No speech results");
-        }
-      } else {
-        console.log("No speech results event received");
+      if (e?.value?.[0]) {
+        setSearchText(e.value[0]);
       }
     };
+
     Voice.onSpeechError = (e) => {
       console.error("Speech recognition error:", e);
       setIsListening(false);
     };
+
     Voice.onSpeechPartialResults = (e) => {
-      console.log("Speech partial results:", e);
-      if (e.value) {
+      if (e?.value?.[0]) {
         setSearchText(e.value[0]);
       }
     };
+
     Voice.onSpeechEnd = () => {
-      console.log("Speech ended");
       setIsListening(false);
     };
+
     return () => {
-      Voice.destroy();
+      Voice.destroy().then(() => Voice.removeAllListeners());
     };
   }, []);
 
@@ -73,12 +86,11 @@ const SearchBarVoice: React.FC<SearchBarVoiceProps> = ({
       setIsListening(true);
       try {
         Voice.start("en-US");
-        console.log("Starting speech recognition...");
       } catch (error) {
         console.error("Error starting speech recognition:", error);
+        setIsListening(false);
       }
     } else {
-      console.log("Permission not granted");
       alert("Please grant microphone permission to use voice recognition.");
     }
   };
@@ -86,9 +98,11 @@ const SearchBarVoice: React.FC<SearchBarVoiceProps> = ({
   const stopListening = () => {
     setIsListening(false);
     Voice.stop();
-    console.log("Speech stopped");
-    console.log("Captured text:", searchText);
   };
+
+  if (!fontsLoaded) {
+    return null; // Show a loading placeholder if fonts are not loaded
+  }
 
   return (
     <View style={styles.container}>
@@ -139,9 +153,10 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    fontSize: 16,
+    fontSize: 12,
     color: "#929292",
     paddingVertical: 8,
+    fontFamily: "Poppins-Regular",
   },
   voiceButton: {
     padding: 8,

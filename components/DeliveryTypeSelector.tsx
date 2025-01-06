@@ -53,9 +53,6 @@ const DeliveryTypeSelector = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Delivery Type</Text>
-      <Text style={styles.subHeader}>Your food will always be fresh!</Text>
-
       <View style={styles.row}>
         {Object.entries(deliveryTypes).map(([type, data]) => (
           <TouchableOpacity
@@ -102,20 +99,9 @@ const DeliveryTypeSelector = () => {
 const styles = StyleSheet.create({
   container: {
     padding: 1,
-    marginTop: 20,
-    backgroundColor: '#fff',
+    marginTop: 10,
     alignSelf: 'center',
     width: '95%',
-  },
-  header: {
-    fontSize: 16,
-    fontFamily: 'Poppins-SemiBold',
-  },
-  subHeader: {
-    fontSize: 13,
-    fontFamily: 'Poppins-Regular',
-    color: '#929292',
-    marginBottom: 16,
   },
   row: {
     flexDirection: 'row',
@@ -146,11 +132,11 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     fontFamily: 'Poppins-Regular',
-    fontSize: 13,
+    fontSize: 10,
     color: '#929292',
   },
   cardTime: {
-    fontSize: 16,
+    fontSize: 14,
     fontFamily: 'Poppins-SemiBold',
     color: '#1p1A1F',
   },
@@ -168,13 +154,14 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   bullet: {
-    fontSize: 12,
+    fontSize: 10,
     color: '#929292',
     marginRight:4,
     fontFamily: 'Poppins-Regular',
   },
   featureText: {
-    fontSize: 12,
+    fontSize: 10,
+    marginRight:4,
     fontFamily: 'Poppins-Regular',
     color: '#929292',
   },
@@ -184,7 +171,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   ecoText: {
-    fontSize: 12,
+    fontSize: 10,
     fontFamily: 'Poppins-Medium',
     color: '#01615F',
     marginLeft: 0,
