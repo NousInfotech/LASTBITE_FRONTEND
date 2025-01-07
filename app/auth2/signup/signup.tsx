@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Image,
   SafeAreaView,
+  Alert,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useRouter } from "expo-router";
@@ -24,12 +25,37 @@ const SignupScreen = () => {
     confirmPassword: "",
   });
 
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const handleSignup = () => {
-    router.push("/auth2/signin/signin");
+  const handleSignup = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch("http://localhost:5000/api/auth/signup", { // Changed to HTTP
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Signup failed");
+      }
+  
+      Alert.alert("Signup Successful", "Account created successfully!", [
+        // { text: "OK", onPress: () => router.push("/auth2/signin/signin") }
+      ]);
+    } catch (error) {
+      Alert.alert("Signup Error", error instanceof Error ? error.message : "Network error occurred");
+      console.error("Error:", error);
+    } finally {
+      setLoading(false);
+    }
   };
+  
 
   const validateName = (name: string): boolean => name.trim().length > 0;
   const validateEmail = (email: string): boolean => /\S+@\S+\.\S+/.test(email);
@@ -146,9 +172,9 @@ const SignupScreen = () => {
 
           {/* CustomButton for Signup */}
           <CustomButton
-            title="Create an Account"
+            title={loading ? "Creating Account..." : "Create an Account"}
             onPress={handleSignup}
-            isDisabled={!isFormValid()}
+            isDisabled={loading || !isFormValid()}
             backgroundColor={isFormValid() ? "#01615F" : "#ccc"}
           />
 

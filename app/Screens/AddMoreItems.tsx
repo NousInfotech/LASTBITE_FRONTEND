@@ -16,6 +16,7 @@ import GoBack from "@/components/GoBack";
 import SearchBarVoice from "@/components/SearchBarVoice";
 import {  Ionicons } from "@expo/vector-icons";
 import { useRouter } from 'expo-router';
+import * as Font from "expo-font";
 
 interface Restaurant {
   restaurantId: string;
@@ -138,13 +139,31 @@ const RestaurantSelect = () => {
   const { restaurantId } = useLocalSearchParams<{ restaurantId: string }>();
   const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
-  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
-    new Set()
-  );
+  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
   const [cartCounts, setCartCounts] = useState<Record<number, number>>({});
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false); 
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const router = useRouter();
   const totalItemsInCart = Object.values(cartCounts).reduce((sum, count) => sum + count, 0);
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+
+  // Load fonts
+  useEffect(() => {
+    const loadFonts = async () => {
+      try {
+        await Font.loadAsync({
+          "Poppins-Regular": require("./../../assets/fonts/Poppins-Regular.ttf"),
+          "Poppins-Medium": require("./../../assets/fonts/Poppins-Medium.ttf"),
+          "Poppins-SemiBold": require("./../../assets/fonts/Poppins-SemiBold.ttf"),
+        });
+        setFontsLoaded(true);
+      } catch (error) {
+        console.error("Error loading fonts:", error);
+      }
+    };
+    loadFonts();
+  }, []);
+
+  // Fetch restaurant and menu items
   useEffect(() => {
     const selectedRestaurant = mockRestaurants.find(
       (r) => r.restaurantId === restaurantId
@@ -154,45 +173,6 @@ const RestaurantSelect = () => {
     const items = mockMenu.filter((item) => item.restaurantId === restaurantId);
     setMenuItems(items);
   }, [restaurantId]);
-
-  const toggleCategory = (category: string) => {
-    setExpandedCategories((prev) => {
-      const newSet = new Set(prev);
-      if (newSet.has(category)) {
-        newSet.delete(category);
-      } else {
-        newSet.add(category);
-      }
-      return newSet;
-    });
-  };
-  const handleCheckout = () => {
-    const selectedItems = Object.entries(cartCounts).map(([menuItemId, quantity]) => {
-      const menuItem = menuItems.find((item) => item.menuItemId === parseInt(menuItemId));
-      return {
-        name: menuItem?.name,
-        quantity,
-        price: menuItem?.price,
-      };
-    });
-  
-    router.push({
-      pathname: '/Screens/BillingScreen',
-      params: {
-        restaurantName: restaurant?.name,
-        cart: JSON.stringify(selectedItems),
-      },
-    });
-  };
-  
-
-  if (!restaurant) {
-    return (
-      <SafeAreaView style={styles.container}>
-        <Text style={styles.headerTitle}>Loading...</Text>
-      </SafeAreaView>
-    );
-  }
 
   const handleAddToCart = (item: MenuItem) => {
     setCartCounts((prevCounts) => {
@@ -207,7 +187,44 @@ const RestaurantSelect = () => {
       return { ...prevCounts, [item.menuItemId]: newCount };
     });
   };
+  const toggleCategory = (category: string) => {
+    setExpandedCategories((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(category)) {
+        newSet.delete(category);
+      } else {
+        newSet.add(category);
+      }
+      return newSet;
+    });
+  };
 
+  const handleCheckout = () => {
+    const selectedItems = Object.entries(cartCounts).map(([menuItemId, quantity]) => {
+      const menuItem = menuItems.find((item) => item.menuItemId === parseInt(menuItemId));
+      return {
+        name: menuItem?.name || "Unknown Item",
+        quantity,
+        price: menuItem?.price || 0,
+      };
+    });
+
+    router.push({
+      pathname: "/Screens/BillingScreen",
+      params: {
+        restaurantName: restaurant?.name || "Unknown Restaurant",
+        cart: JSON.stringify(selectedItems),
+      },
+    });
+  };
+
+  if (!restaurantId) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <Text style={styles.headerTitle}>Loading...</Text>
+      </SafeAreaView>
+    );
+  }
   const NavigationBar = () => {
     const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
     const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
@@ -296,10 +313,7 @@ const RestaurantSelect = () => {
         </View>
         <View style={styles.addButtonContainer}>
           {count === 0 ? (
-            <TouchableOpacity
-              style={styles.addButton}
-              onPress={() => handleAddToCart(item)} 
-            >
+            <TouchableOpacity style={styles.addButton} onPress={() => handleAddToCart(item)}>
               <Text style={styles.addButtonText}>Add</Text>
             </TouchableOpacity>
           ) : (
@@ -323,8 +337,6 @@ const RestaurantSelect = () => {
       </View>
     );
   };
-
- 
   const handleOpenModal = () => {
     setIsModalVisible(true);
   };
@@ -349,31 +361,35 @@ const RestaurantSelect = () => {
     <>
       <SafeAreaView style={styles.container}>
         <StatusBar barStyle="dark-content" />
-        {/* Header */}
         <View style={styles.header}>
           <TouchableOpacity>
             <GoBack />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>{restaurant.name}</Text>
+         
         </View>
-
-        {/* Search Bar */}
+        <View style={styles.headerContainer}>
+  <View>
+    <Text style={styles.headerTitle}>{restaurant?.name || "Restaurant"}</Text>
+    <Text style={styles.headerSub}>45-50 mins</Text>
+    <Text style={styles.headerLocation}>{restaurant?.location}</Text>
+  </View>
+  <View style={styles.restaurantSubContainer}>
+    <Text style={styles.restaurantSub}>{restaurant?.ratingAverage}</Text>
+    <Image source={require("./../../assets/images/Star.png")} style={styles.starIcon} />
+  </View>
+</View>
         <SearchBarVoice
           onInputPress={() => {}}
           redirectTargets={["Dishes", "Restaurants"]}
-          placeholder={`Search Dishes in ${restaurant.name}`}
+          placeholder={`Search Dishes in ${restaurant?.name || "Restaurant"}`}
         />
         <NavigationBar />
-        {/* Categories and Menu Items */}
         <FlatList
-          data={restaurant.categories}
+          data={restaurant?.categories || []}
           keyExtractor={(item) => item}
           renderItem={({ item: category }) => (
             <View>
-              <TouchableOpacity
-                style={styles.categoryChip}
-                onPress={() => toggleCategory(category)}
-              >
+              <TouchableOpacity style={styles.categoryChip} onPress={() => toggleCategory(category)}>
                 <Text style={styles.categoryText}>{category}</Text>
                 <Ionicons
                   name={expandedCategories.has(category) ? "caret-up" : "caret-down"}
@@ -388,33 +404,8 @@ const RestaurantSelect = () => {
             </View>
           )}
         />
-        <TouchableOpacity style={styles.floatingButton} onPress={handleOpenModal}>
-          <Image
-            source={require('./../../assets/images/Restaurant.png')}
-          />
-          <Text style={styles.floatbuttonText}>Menu</Text>
-        </TouchableOpacity>
       </SafeAreaView>
       {totalItemsInCart > 0 && <CheckoutPopup totalItems={totalItemsInCart} />}
-      <Modal visible={isModalVisible} transparent={true} animationType="fade">
-        <TouchableWithoutFeedback onPress={handleCloseModal}>
-          <View style={styles.modalBackground}>
-            <TouchableWithoutFeedback>
-              <View style={styles.modalContainer}>
-              <FlatList
-              data={restaurant?.categories}
-              keyExtractor={(item) => item}
-              renderItem={({ item }) => (
-                <View style={styles.categoryItem}>
-                  <Text style={styles.categoryText}>{item}</Text>
-                </View>
-              )}
-            />
-              </View>
-            </TouchableWithoutFeedback>
-          </View>
-        </TouchableWithoutFeedback>
-      </Modal>
     </>
   );
 };
@@ -434,10 +425,46 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#eee",
   },
+  headerContainer: {
+    flexDirection: "row", 
+    justifyContent: "space-between", 
+    alignItems: "center", 
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: "#eee",
+  },
   headerTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginLeft: 80,
+    fontSize: 15,
+    marginLeft: 20,
+    fontFamily: "Poppins-SemiBold",
+  },
+  headerSub: {
+    fontSize: 10,
+    marginLeft: 20,
+    fontFamily: "Poppins-Regular",
+  },
+  headerLocation: {
+    fontSize: 10,
+    marginLeft: 20,
+    fontFamily: "Poppins-Medium",
+  },
+  restaurantSubContainer: {
+    flexDirection: "row",
+    alignItems: "center", 
+    marginRight: 14, 
+    backgroundColor:"#EFFFF4",
+    borderRadius:3,
+    padding:8
+  },
+  restaurantSub: {
+    fontSize: 12,
+    color: "gray",
+    fontFamily: "Poppins-Medium",
+    marginRight: 4, 
+  },
+  starIcon: {
+    width: 14, 
+    height: 14,
   },
   FileListcontainer: {
     flexDirection: 'row',
@@ -478,8 +505,10 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     marginLeft: 2,
-    fontSize: 14,
+    fontSize: 10,
     color: 'black',
+    fontFamily: 'Poppins-Regular',
+
   },
    filterIcon: {
     width: 20,
@@ -504,7 +533,9 @@ const styles = StyleSheet.create({
     elevation: 3, 
   },
   categoryText: {
+    fontSize: 12,
     color: "#333",
+    fontFamily: 'Poppins-Medium',
   },
   menuCard: {
     flexDirection: "row",
@@ -526,19 +557,20 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   menuName: {
-    fontSize: 16,
-    fontWeight: "bold",
+    fontSize: 10,
     color: "#333",
+    fontFamily: 'Poppins-SemiBold',
   },
   menuCategory: {
-    fontSize: 14,
+    fontSize: 8,
     color: "#777",
     marginVertical: 4,
+    fontFamily: 'Poppins-Regular',
   },
   menuPrice: {
-    fontSize: 14,
-    fontWeight: "bold",
+    fontSize: 10,
     color: "#01615F",
+    fontFamily: 'Poppins-Medium',
   },
 
   addButtonContainer: {
@@ -564,9 +596,10 @@ const styles = StyleSheet.create({
     height: 20, 
   },
   counterText: {
-    fontSize: 16,
+    fontSize: 14,
     marginHorizontal: 10,
     color: 'black',
+    fontFamily: 'Poppins-Regular',
   },
   
   addButton: {
@@ -579,8 +612,8 @@ const styles = StyleSheet.create({
   },
   addButtonText: {
     color: "#fff",
-    fontWeight: "bold",
-    fontSize: 14,
+    fontSize: 10,
+    fontFamily: 'Poppins-Regular',
   },
   popupContainer: {
     position: 'absolute', 
@@ -603,8 +636,8 @@ const styles = StyleSheet.create({
   },
   checkoutText: {
     color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold', 
+    fontSize: 12,
+    fontFamily: 'Poppins-Regular',
   },
    floatingButton: {
     position: 'absolute',
@@ -629,8 +662,8 @@ const styles = StyleSheet.create({
   },
   floatbuttonText: {
     color: 'white',
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 14,
+    fontFamily: 'Poppins-Regular',
   },
   modalBackground: {
     flex: 1,

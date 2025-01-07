@@ -25,7 +25,7 @@ interface CartItem {
 
 const BillingScreen = () => {
   const router = useRouter();
-  const { cart, restaurantName } = useLocalSearchParams();
+  const { cart, restaurantName,restaurantId } = useLocalSearchParams();
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [totalAmount, setTotalAmount] = useState<number>(0);
   const [selectedInstructions, setSelectedInstructions] = useState<string[]>([]);
@@ -73,9 +73,15 @@ const BillingScreen = () => {
     }
   }, [cart]);
   const navigateToAddMoreItems = () => {
-    router.push('./AddMoreItems');
+    router.push({
+      pathname: './AddMoreItems',
+      params: {
+        restaurantId: restaurantId || 'default-id',
+        restaurantName: restaurantName || 'default-name',
+      },
+    });
   };
-
+  
   const deliveryOptions = [
     {
       label: 'Avoid ringing Bell',

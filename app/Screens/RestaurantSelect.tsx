@@ -196,8 +196,9 @@ const RestaurantSelect = () => {
     });
   
     router.push({
-      pathname: '/Screens/BillingScreen',
+      pathname: './BillingScreen',
       params: {
+        restaurantId: restaurant?.restaurantId,
         restaurantName: restaurant?.name,
         cart: JSON.stringify(selectedItems),
       },

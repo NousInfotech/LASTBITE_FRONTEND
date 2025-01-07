@@ -92,9 +92,20 @@ const SearchScreen = () => {
 
   const handleRestaurantClick = (restaurant: Restaurant) => {
     router.push({
-      pathname: "/Screens/RestaurantSelect",
+      pathname: "./RestaurantSelect",
       params: {
         restaurantId: restaurant.restaurantId,
+      },
+    });
+  };
+
+  const handleDishClick = (dish: { id: number; name: string; type: string }) => {
+    router.push({
+      pathname: "./DishesSearch",
+      params: {
+        id: dish.id.toString(),
+              name: dish.name,
+              type: dish.type,
       },
     });
   };
@@ -126,13 +137,17 @@ const SearchScreen = () => {
       {dishes.map((dish) => (
         <View key={dish.id} style={styles.dishesItem}>
           <View style={styles.dishesLeft}>
-            <TouchableOpacity style={styles.dishButton}>
+            <TouchableOpacity style={styles.dishButton} onPress={() => handleDishClick(dish)}>
               <Image style={styles.dishImage} source={{ uri: dish.image }} />
             </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => handleDishClick(dish)}>
             <View style={styles.dishesDetails}>
               <Text style={styles.dishesType}>{dish.name}</Text>
               <Text style={styles.dishesText}>{dish.type}</Text>
             </View>
+            </TouchableOpacity>
+
           </View>
         </View>
       ))}
