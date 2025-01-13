@@ -55,8 +55,7 @@ const GetUserDetails = () => {
     validateEmail(email);
   }, [name, email]);
 
-  const isButtonEnabled =
-    name !== "" && email !== "" && nameError === "" && emailError === "";
+  const isButtonEnabled = name !== "" && nameError === ""; // Enable button only if name is filled and valid
 
   return (
     <View style={styles.container}>

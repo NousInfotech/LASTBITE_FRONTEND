@@ -1,4 +1,4 @@
-import React,{ useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -11,7 +11,7 @@ import {
 import GoBack from "@/components/GoBack";
 import SearchBarVoice from "@/components/SearchBarVoice";
 import { useRouter } from "expo-router";
-import * as Font from 'expo-font';
+import * as Font from "expo-font";
 
 // Define the type for restaurant
 interface Restaurant {
@@ -35,22 +35,33 @@ const SearchScreen = () => {
   const isNewRestaurant = (createdAt: string) => {
     const createdAtDate = new Date(createdAt);
     const now = new Date();
-    const diffInDays = (now.getTime() - createdAtDate.getTime()) / (1000 * 60 * 60 * 24);
+    const diffInDays =
+      (now.getTime() - createdAtDate.getTime()) / (1000 * 60 * 60 * 24);
     return diffInDays <= 7; // Consider new if added within the last 7 days
   };
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
   // Dummy data for dishes and restaurants
   const dishes = [
-    { id: 1, name: "Pasta", type: "Dish", image: "https://via.placeholder.com/32" },
-    { id: 2, name: "Burger", type: "Dish", image: "https://via.placeholder.com/32" },
+    {
+      id: 1,
+      name: "Pasta",
+      type: "Dish",
+      image: "https://via.placeholder.com/32",
+    },
+    {
+      id: 2,
+      name: "Burger",
+      type: "Dish",
+      image: "https://via.placeholder.com/32",
+    },
   ];
   useEffect(() => {
     async function loadFonts() {
       await Font.loadAsync({
-        'Poppins-Regular': require('../../assets/fonts/Poppins-Regular.ttf'),
-        'Poppins-Medium': require('../../assets/fonts/Poppins-Medium.ttf'),
-        'Poppins-SemiBold': require('../../assets/fonts/Poppins-SemiBold.ttf'),
+        "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
+        "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
+        "Poppins-SemiBold": require("../../assets/fonts/Poppins-SemiBold.ttf"),
       });
       setFontsLoaded(true);
     }
@@ -99,13 +110,17 @@ const SearchScreen = () => {
     });
   };
 
-  const handleDishClick = (dish: { id: number; name: string; type: string }) => {
+  const handleDishClick = (dish: {
+    id: number;
+    name: string;
+    type: string;
+  }) => {
     router.push({
       pathname: "./DishesSearch",
       params: {
         id: dish.id.toString(),
-              name: dish.name,
-              type: dish.type,
+        name: dish.name,
+        type: dish.type,
       },
     });
   };
@@ -132,29 +147,32 @@ const SearchScreen = () => {
 
       {/* Dishes Recommendations */}
       <View style={styles.section}>
-        <Text style={styles.headerTitle}>Recommended Dishes</Text>
+        <Text style={styles.sectionTitle}>Recommendations "Dishes"</Text>
       </View>
       {dishes.map((dish) => (
         <View key={dish.id} style={styles.dishesItem}>
           <View style={styles.dishesLeft}>
-            <TouchableOpacity style={styles.dishButton} onPress={() => handleDishClick(dish)}>
+            <TouchableOpacity
+              style={styles.dishButton}
+              onPress={() => handleDishClick(dish)}
+            >
               <Image style={styles.dishImage} source={{ uri: dish.image }} />
             </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => handleDishClick(dish)}>
-            <View style={styles.dishesDetails}>
-              <Text style={styles.dishesType}>{dish.name}</Text>
-              <Text style={styles.dishesText}>{dish.type}</Text>
-            </View>
+            <TouchableOpacity onPress={() => handleDishClick(dish)}>
+              <View style={styles.dishesDetails}>
+                <Text style={styles.dishesType}>{dish.name}</Text>
+                <Text style={styles.dishesText}>{dish.type}</Text>
+              </View>
             </TouchableOpacity>
-
           </View>
         </View>
       ))}
 
       {/* Restaurant Recommendations */}
       <View style={styles.section}>
-        <Text style={styles.headerTitle}>Recommended Restaurants</Text>
+        <Text style={styles.sectionTitle}>Recommended "Restaurants
+        "</Text>
       </View>
       {restaurants.map((restaurant) => (
         <View key={restaurant.restaurantId} style={styles.dishesItem}>
@@ -163,26 +181,30 @@ const SearchScreen = () => {
               style={styles.dishButton}
               onPress={() => handleRestaurantClick(restaurant)}
             >
-              <Image style={styles.dishImage} source={{ uri: restaurant.coverImage }} />
+              <Image
+                style={styles.dishImage}
+                source={{ uri: restaurant.coverImage }}
+              />
             </TouchableOpacity>
             <View style={styles.dishesDetails}>
-              <TouchableOpacity onPress={() => handleRestaurantClick(restaurant)}>
+              <TouchableOpacity
+                onPress={() => handleRestaurantClick(restaurant)}
+              >
                 <Text style={styles.dishesType}>{restaurant.name}</Text>
               </TouchableOpacity>
               <Text style={styles.dishesText}>
-  {isNewRestaurant(restaurant.createdAt) && (
-    <Text>
-      <Image 
-        source={require("../../assets/images/Rating.png")} 
-        style={styles.inlineImage} 
-      />{" "}
-      <Text style={styles.newBadge}>New</Text>
-    </Text>
-  )}
-  {isNewRestaurant(restaurant.createdAt) && " • "}
-  {restaurant.details}
-</Text>
-
+                {isNewRestaurant(restaurant.createdAt) && (
+                  <Text>
+                    <Image
+                      source={require("../../assets/images/Rating.png")}
+                      style={styles.inlineImage}
+                    />{" "}
+                    <Text style={styles.newBadge}>New</Text>
+                  </Text>
+                )}
+                {isNewRestaurant(restaurant.createdAt) && " • "}
+                {restaurant.details}
+              </Text>
             </View>
           </View>
         </View>
@@ -206,10 +228,10 @@ const styles = StyleSheet.create({
     borderBottomColor: "#eee",
   },
   headerTitle: {
-    fontSize: 12,
+    fontSize: 14,
     marginLeft: 16,
     fontWeight: "500",
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
   },
   searchContainer: {
     flexDirection: "row",
@@ -219,7 +241,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#929292",
     borderRadius: 8,
-    fontFamily: 'Poppins-Regular',
+    fontFamily: "Poppins-Regular",
   },
   searchInput: {
     flex: 1,
@@ -243,9 +265,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingBottom: 8,
     fontSize: 12,
-    color: "#666",
+    marginLeft: 8,
     fontWeight: "500",
-    fontFamily: 'Poppins-Regular',
+    fontFamily: "Poppins-SemiBold",
   },
   dishesItem: {
     flexDirection: "row",
@@ -273,15 +295,15 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   dishesType: {
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: "500",
-    fontFamily: 'Poppins-Medium',
+    fontFamily: "Poppins-Medium",
   },
   dishesText: {
-    fontSize: 9,
+    fontSize: 10,
     color: "#666",
-    marginTop: 2,
-    fontFamily: 'Poppins-Regular',
+    marginTop: 1,
+    fontFamily: "Poppins-Regular",
   },
   menu: {
     position: "absolute",
@@ -299,9 +321,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#333",
   },
-  newBadge: { 
+  newBadge: {
     color: "#01615F",
-    fontWeight: "bold", 
+    fontWeight: "bold",
   },
   inlineImage: {
     width: 16, // Adjust as per your design

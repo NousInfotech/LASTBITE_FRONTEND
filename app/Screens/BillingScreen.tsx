@@ -316,7 +316,7 @@ const styles = StyleSheet.create({
   cartListContainer: {
     backgroundColor: '#fff',
     marginHorizontal: 16,
-    marginTop: 10,
+    // marginTop: 10,
     borderRadius: 8,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -335,7 +335,7 @@ const styles = StyleSheet.create({
   cartItemText: {
     fontSize: 12,
     flex: 2,
-    fontFamily: 'Poppins-Regular',
+    fontFamily: 'Poppins-Medium',
   },
   cartItemPrice: {
     fontSize: 12,
@@ -344,24 +344,23 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
   quantityControls: {
+    marginLeft:40,
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'space-between',
-    flex: 1.5,
+    flex: 1,
   },
   quantityText: {
     fontSize: 12,
     fontFamily: 'Poppins-Regular',
-    marginHorizontal: 5,
   },
   button: {
     backgroundColor: '#01615F',
-    paddingHorizontal: 10,
+    paddingHorizontal: 8,
     borderRadius: 5,
   },
   buttonText: {
     color: '#fff',
-    fontSize: 28,
+    fontSize: 16,
   },
   totalContainer: {
     flexDirection: 'row',
@@ -376,9 +375,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   addMoreButton: {
+    marginLeft:10,
     marginTop: 10,
     alignSelf: 'flex-start',
-    marginLeft: 16,
     backgroundColor: '#fff',
     borderWidth: 1,
     borderColor: '#01615F',
@@ -388,7 +387,7 @@ const styles = StyleSheet.create({
   },
   addMoreButtonText: {
     color: '#01615F',
-    fontSize: 10,
+    fontSize: 12,
     fontFamily: 'Poppins-Regular',
   },
   simpleContainer: {
@@ -406,11 +405,11 @@ const styles = StyleSheet.create({
   },
   
   completeMealText: {
-    fontSize: 12,
+    fontSize: 14,
     fontFamily: 'Poppins-SemiBold',
     marginBottom: 10,
-    paddingVertical: 10,
-    paddingHorizontal: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 2,
   },
   
   savingsCornerContainer: {
@@ -427,24 +426,26 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   savingsCornerText: {
-    fontSize: 12,
+    fontSize: 14,
     fontFamily: 'Poppins-SemiBold',
     marginBottom: 10,
-    paddingVertical: 10,
-    paddingHorizontal: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 2,
   },
   applyCouponContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    paddingHorizontal: 12,
+    // paddingVertical: 8,
+    paddingHorizontal: 2,
   },
   applyCouponText: {
-    fontSize: 10,
+    fontSize: 12,
+    marginTop:2,
     fontFamily: 'Poppins-Medium',
   },
   chevron: {
-    fontSize: 30,
+    fontSize: 18,
     color: '#01615F',
   },
   couponImage: {
@@ -454,29 +455,33 @@ const styles = StyleSheet.create({
   },
   Delivery: {
     marginTop: 10,
-    marginLeft: 1,
+    marginLeft: 2,
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 8,
   },
   DelieveryText: {
-    fontSize: 13,
+    fontSize: 14,
     fontFamily: 'Poppins-SemiBold',
   },
   DelieverySubText: {
     fontSize: 10,
-    marginTop: 5,
+    marginTop: 4,
     color: '#7a7a7a',
     fontFamily: 'Poppins-Regular',
   },
   instructionsSection: {
-    paddingHorizontal: 20,
-    marginTop: 10,
+    marginLeft: 2,
+    paddingHorizontal: 6,
+    paddingVertical: 4,
+    marginTop: 4,
   },
   instructionsTitle: {
-    fontSize: 13,
+    fontSize: 14,
     fontFamily: 'Poppins-SemiBold',
-    marginBottom: 12,
+    marginBottom: 6,
+    paddingVertical: 6,
+    paddingHorizontal: 8,
   },
   optionsRow: {
     flexDirection: 'row',
@@ -512,13 +517,14 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Regular',
   },
   billSection: {
-    paddingHorizontal: 25,
-    marginTop: 20,
+    marginLeft: 2,
+    paddingHorizontal: 16,
+    paddingVertical: 4,
+    marginTop: 6,
   },
   billTitle: {
-    fontSize: 13,
+    fontSize: 14,
     fontFamily: 'Poppins-SemiBold',
-    marginBottom: 2,
   },
   billContainer: {
     backgroundColor: '#fff',
@@ -526,7 +532,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 16,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height: 2    // marginBottom: 2,
+    },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 2,

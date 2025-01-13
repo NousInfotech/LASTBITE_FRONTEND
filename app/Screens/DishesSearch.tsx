@@ -291,7 +291,9 @@ const DishesSearch: React.FC = () => {
               </View>
               
               <View style={styles.rightSection}>
-                <Image style={styles.menuImage} source={{ uri: item.image }} />
+                <View style={styles.imageContainer}>
+                  <Image style={styles.menuImage} source={{ uri: item.image }} />
+                </View>
                 <View style={styles.addButtonContainer}>
                   {cartCounts[item.menuItemId] ? (
                     <View style={styles.counterContainer}>
@@ -386,7 +388,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "#eee",
   },
   headerTitle: {
-    fontSize: 12,
+    fontSize: 14,
     marginLeft: 30,
     fontFamily: 'Poppins-SemiBold',
   },
@@ -427,31 +429,56 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   menuCard: {
+    width: 300, // Fixed width for stability
+    flexDirection: "row",
     justifyContent: 'space-between',
-    flexDirection: "row", 
-    alignItems: "flex-start", 
     borderRadius: 8,
-    marginLeft:2,
+    marginLeft: 2,
     padding: 10,
     backgroundColor: "#fff",
   },
+  
   leftSection: {
-    flex: 1,
+    width: '50%', // Fixed width percentage
     justifyContent: 'space-between',
-    paddingRight: 10,
-    
+    // paddingRight: 10,
   },
+  
   rightSection: {
+    width: '50%', // Fixed width percentage
     alignItems: 'center',
-    marginLeft:10,
-    marginRight:0,
+    justifyContent: 'space-between',
   },
- 
-  menuImage: {
+  
+  imageContainer: {
     width: 100,
     height: 100,
+    marginBottom: 10,
+  },
+  
+  menuImage: {
+    width: '100%',
+    height: '100%',
     borderRadius: 8,
-    marginBottom: -10,
+  },
+  
+  addButtonContainer: {
+    width: 60, // Fixed width matching image container
+    alignItems: 'center',
+    marginHorizontal: 50,
+    marginVertical: 0,
+    marginTop:-30,
+  },
+  
+  addButton: {
+    borderColor: '#01615F',
+    backgroundColor: "#fff",
+    borderWidth: 2,
+    paddingVertical: 5,
+    paddingHorizontal: 15,
+    borderRadius: 5,
+    width: '100%', // Takes full width of container
+    alignItems: 'center',
   },
   menuName: {
     fontSize: 14,
@@ -469,6 +496,7 @@ const styles = StyleSheet.create({
   },
   viewDetailsButton: {
     marginTop: 8,
+    width:85,
     paddingVertical: 6,
     paddingHorizontal: 10,
     backgroundColor: "#fff",
@@ -480,25 +508,10 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontFamily: 'Poppins-Regular',
   },
-  addButtonContainer: {
-    width: '60%',
-    alignItems: 'center',
-    marginHorizontal: 50,
-    marginVertical: 0,
-  },
-  addButton: {
-    borderColor: '#01615F',
-    backgroundColor:"#fff",
-    borderWidth:2,
-    paddingVertical: 5,
-    paddingHorizontal: 15,
-    borderRadius: 5,
-    width: '60%',
-    alignItems: 'center',
-  },
+ 
   addButtonText: {
     color: "#01615F",
-    fontSize: 16,
+    fontSize: 12,
   },
   ButtonText: {
     color: "#FFF",
@@ -506,37 +519,41 @@ const styles = StyleSheet.create({
   },
   counterContainer: {
     flexDirection: "row",
-    alignItems: "center",
-    marginLeft: 10,
+    // alignItems: "center",
+    // marginLeft: 10,
   },
   minusButton: {
-    paddingVertical: 1,
-    paddingHorizontal: 8,
+    flexDirection: 'row',
+    justifyContent: 'center',
     backgroundColor: '#01615F',
     borderRadius: 2,
-    height: 20,
     marginRight: 10,
+    paddingHorizontal: 4,
+    width:25,
     color: "white",
-
   },
   plusButton: {
-    paddingVertical: 1,
-    paddingHorizontal: 8,
+    flexDirection: 'row',
+    justifyContent: 'center',
     backgroundColor: '#01615F',
     borderRadius: 2,
-    height: 20, 
+    width:25,
+    paddingHorizontal: 4,
     marginLeft: 10,
     color: "#fff",
   },
-  counterText: {
-    paddingVertical: 1,
-    paddingHorizontal: 5,
+counterText: {
+    alignItems: 'center',
+    justifyContent: 'center',
     borderColor: '#01615F',
+    borderRadius: 2,
+    width: 30, // Slightly increase the width for better proportions
+    height: 30, // Increase height for a larger container
+    padding: 4, // Equal padding on all sides
     borderWidth: 1,
     backgroundColor: "#fff",
-    borderRadius: 2,
-    height: 20, 
-  },
+    textAlign: "center", // Centers text horizontally
+},
   popupContainer: {
     position: 'absolute', 
     bottom: 0, 

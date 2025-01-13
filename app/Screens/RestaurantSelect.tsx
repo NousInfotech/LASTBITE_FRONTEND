@@ -10,12 +10,13 @@ import {
   StyleSheet,
   FlatList,
   Modal,
+  ScrollView
 } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import GoBack from "@/components/GoBack";
 import SearchBarVoice from "@/components/SearchBarVoice";
-import {  Ionicons } from "@expo/vector-icons";
-import { useRouter } from 'expo-router';
+import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 import * as Font from "expo-font";
 
 interface Restaurant {
@@ -96,7 +97,8 @@ const mockMenu: MenuItem[] = [
   {
     menuItemId: 3,
     name: "Paneer Tikka",
-    description: "Soft paneer cubes marinated in spices and grilled to perfection.",
+    description:
+      "Soft paneer cubes marinated in spices and grilled to perfection.",
     price: 9.99,
     category: "North Indian",
     restaurantId: "r1",
@@ -126,7 +128,8 @@ const mockMenu: MenuItem[] = [
   {
     menuItemId: 6,
     name: "Paneer Tikka",
-    description: "Soft paneer cubes marinated in spices and grilled to perfection.",
+    description:
+      "Soft paneer cubes marinated in spices and grilled to perfection.",
     price: 9.99,
     category: "North Indian",
     restaurantId: "r1",
@@ -143,9 +146,12 @@ const RestaurantSelect = () => {
     new Set()
   );
   const [cartCounts, setCartCounts] = useState<Record<number, number>>({});
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false); 
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const router = useRouter();
-  const totalItemsInCart = Object.values(cartCounts).reduce((sum, count) => sum + count, 0);
+  const totalItemsInCart = Object.values(cartCounts).reduce(
+    (sum, count) => sum + count,
+    0
+  );
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
   useEffect(() => {
@@ -186,17 +192,21 @@ const RestaurantSelect = () => {
     });
   };
   const handleCheckout = () => {
-    const selectedItems = Object.entries(cartCounts).map(([menuItemId, quantity]) => {
-      const menuItem = menuItems.find((item) => item.menuItemId === parseInt(menuItemId));
-      return {
-        name: menuItem?.name,
-        quantity,
-        price: menuItem?.price,
-      };
-    });
-  
+    const selectedItems = Object.entries(cartCounts).map(
+      ([menuItemId, quantity]) => {
+        const menuItem = menuItems.find(
+          (item) => item.menuItemId === parseInt(menuItemId)
+        );
+        return {
+          name: menuItem?.name,
+          quantity,
+          price: menuItem?.price,
+        };
+      }
+    );
+
     router.push({
-      pathname: './BillingScreen',
+      pathname: "./BillingScreen",
       params: {
         restaurantId: restaurant?.restaurantId,
         restaurantName: restaurant?.name,
@@ -204,7 +214,6 @@ const RestaurantSelect = () => {
       },
     });
   };
-  
 
   if (!restaurant) {
     return (
@@ -216,14 +225,17 @@ const RestaurantSelect = () => {
 
   const handleAddToCart = (item: MenuItem) => {
     setCartCounts((prevCounts) => {
-      const newCount = prevCounts[item.menuItemId] ? prevCounts[item.menuItemId] + 1 : 1;
+      const newCount = prevCounts[item.menuItemId]
+        ? prevCounts[item.menuItemId] + 1
+        : 1;
       return { ...prevCounts, [item.menuItemId]: newCount };
     });
   };
 
   const handleRemoveFromCart = (item: MenuItem) => {
     setCartCounts((prevCounts) => {
-      const newCount = prevCounts[item.menuItemId] > 0 ? prevCounts[item.menuItemId] - 1 : 0;
+      const newCount =
+        prevCounts[item.menuItemId] > 0 ? prevCounts[item.menuItemId] - 1 : 0;
       return { ...prevCounts, [item.menuItemId]: newCount };
     });
   };
@@ -234,9 +246,9 @@ const RestaurantSelect = () => {
 
     const toggleSelection = (filter: string) => {
       if (selectedFilters.includes(filter)) {
-        setSelectedFilters(selectedFilters.filter((item) => item !== filter)); 
+        setSelectedFilters(selectedFilters.filter((item) => item !== filter));
       } else {
-        setSelectedFilters([...selectedFilters, filter]); 
+        setSelectedFilters([...selectedFilters, filter]);
       }
     };
 
@@ -245,9 +257,9 @@ const RestaurantSelect = () => {
     };
 
     const filterImages: { [key: string]: any } = {
-      Veg: require('./../../assets/images/Veg.png'),
-      Egg: require('./../../assets/images/Egg.png'),
-      'Non Veg': require('./../../assets/images/NonVeg.png'),
+      Veg: require("./../../assets/images/Veg.png"),
+      Egg: require("./../../assets/images/Egg.png"),
+      "Non Veg": require("./../../assets/images/NonVeg.png"),
     };
 
     return (
@@ -255,21 +267,21 @@ const RestaurantSelect = () => {
         <TouchableOpacity
           style={[
             styles.filterButton,
-            selectedFilters.includes('filter') && styles.selected,
+            selectedFilters.includes("filter") && styles.selected,
           ]}
           onPress={toggleFilterDropdown}
         >
           <Ionicons name="funnel-outline" size={18} color="black" />
           <Text style={styles.buttonText}>Filter</Text>
           <Ionicons
-            name={isFilterOpen ? 'caret-up' : 'caret-down'} 
+            name={isFilterOpen ? "caret-up" : "caret-down"}
             size={18}
             color="grey"
             style={styles.dropdownIcon}
           />
         </TouchableOpacity>
 
-        {['Veg', 'Egg', 'Non Veg'].map((filter) => (
+        {["Veg", "Egg", "Non Veg"].map((filter) => (
           <TouchableOpacity
             key={filter}
             style={[
@@ -278,22 +290,17 @@ const RestaurantSelect = () => {
             ]}
             onPress={() => toggleSelection(filter)}
           >
-            <Image
-              source={filterImages[filter]}
-              style={styles.filterIcon}
-            />
+            <Image source={filterImages[filter]} style={styles.filterIcon} />
             <Text
               style={[
                 styles.buttonText,
-                selectedFilters.includes(filter) && { color: '#01615F' },
+                selectedFilters.includes(filter) && { color: "#01615F" },
               ]}
             >
               {filter}
             </Text>
             {selectedFilters.includes(filter) && (
-              <TouchableOpacity
-                onPress={() => toggleSelection(filter)}
-              >
+              <TouchableOpacity onPress={() => toggleSelection(filter)}>
                 <Ionicons name="close-outline" size={14} color="#01615F" />
               </TouchableOpacity>
             )}
@@ -318,7 +325,7 @@ const RestaurantSelect = () => {
           {count === 0 ? (
             <TouchableOpacity
               style={styles.addButton}
-              onPress={() => handleAddToCart(item)} 
+              onPress={() => handleAddToCart(item)}
             >
               <Text style={styles.addButtonText}>Add</Text>
             </TouchableOpacity>
@@ -344,7 +351,6 @@ const RestaurantSelect = () => {
     );
   };
 
- 
   const handleOpenModal = () => {
     setIsModalVisible(true);
   };
@@ -352,13 +358,16 @@ const RestaurantSelect = () => {
   const handleCloseModal = () => {
     setIsModalVisible(false);
   };
- 
+
   const CheckoutPopup: React.FC<CheckoutPopupProps> = ({ totalItems }) => {
     return (
       <View style={styles.popupContainer}>
-        <TouchableOpacity style={styles.checkoutButton} onPress={handleCheckout}>
+        <TouchableOpacity
+          style={styles.checkoutButton}
+          onPress={handleCheckout}
+        >
           <Text style={styles.checkoutText}>
-            {`Checkout ${totalItems} item${totalItems > 1 ? 's' : ''}`}
+            {`Checkout ${totalItems} item${totalItems > 1 ? "s" : ""}`}
           </Text>
         </TouchableOpacity>
       </View>
@@ -385,6 +394,7 @@ const RestaurantSelect = () => {
         />
         <NavigationBar />
         {/* Categories and Menu Items */}
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
         <FlatList
           data={restaurant.categories}
           keyExtractor={(item) => item}
@@ -396,7 +406,9 @@ const RestaurantSelect = () => {
               >
                 <Text style={styles.categoryText}>{category}</Text>
                 <Ionicons
-                  name={expandedCategories.has(category) ? "caret-up" : "caret-down"}
+                  name={
+                    expandedCategories.has(category) ? "caret-up" : "caret-down"
+                  }
                   size={16}
                   color="grey"
                 />
@@ -408,10 +420,12 @@ const RestaurantSelect = () => {
             </View>
           )}
         />
-        <TouchableOpacity style={styles.floatingButton} onPress={handleOpenModal}>
-          <Image
-            source={require('./../../assets/images/Restaurant.png')}
-          />
+</ScrollView>
+        <TouchableOpacity
+          style={styles.floatingButton}
+          onPress={handleOpenModal}
+        >
+          <Image source={require("./../../assets/images/Restaurant.png")} />
           <Text style={styles.floatbuttonText}>Menu</Text>
         </TouchableOpacity>
       </SafeAreaView>
@@ -421,15 +435,15 @@ const RestaurantSelect = () => {
           <View style={styles.modalBackground}>
             <TouchableWithoutFeedback>
               <View style={styles.modalContainer}>
-              <FlatList
-              data={restaurant?.categories}
-              keyExtractor={(item) => item}
-              renderItem={({ item }) => (
-                <View style={styles.categoryItem}>
-                  <Text style={styles.categoryText}>{item}</Text>
-                </View>
-              )}
-            />
+                <FlatList
+                  data={restaurant?.categories}
+                  keyExtractor={(item) => item}
+                  renderItem={({ item }) => (
+                    <View style={styles.categoryItem}>
+                      <Text style={styles.categoryText}>{item}</Text>
+                    </View>
+                  )}
+                />
               </View>
             </TouchableWithoutFeedback>
           </View>
@@ -441,11 +455,14 @@ const RestaurantSelect = () => {
 
 export default RestaurantSelect;
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+  },
+  scrollContainer: {
+    flexGrow: 1,
+    paddingBottom: 100,
   },
   header: {
     flexDirection: "row",
@@ -455,55 +472,54 @@ const styles = StyleSheet.create({
     borderBottomColor: "#eee",
   },
   headerTitle: {
-    fontSize: 15,
+    fontSize: 16,
     marginLeft: 70,
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
   },
   FileListcontainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    display: 'flex',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    display: "flex",
+    justifyContent: "center",
     paddingVertical: 8,
     gap: 8,
-    width: 350, 
-  overflow: 'hidden',
+    width: 350,
+    overflow: "hidden",
   },
   filterButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     paddingHorizontal: 8,
     paddingVertical: 8,
     borderRadius: 16,
     marginBottom: 8,
     borderWidth: 1,
-    borderColor: 'black',
+    borderColor: "black",
   },
   dropdownIcon: {
-    marginLeft: 4, 
+    marginLeft: 4,
   },
   button: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 16,
     marginBottom: 8,
     borderWidth: 1,
-    borderColor: 'black',
-    position: 'relative',
+    borderColor: "black",
+    position: "relative",
   },
   selected: {
-    borderColor: '#01615F',
+    borderColor: "#01615F",
   },
   buttonText: {
     marginLeft: 2,
-    fontSize: 10,
-    color: 'black',
-    fontFamily: 'Poppins-Regular',
-
+    fontSize: 12,
+    color: "black",
+    fontFamily: "Poppins-Regular",
   },
-   filterIcon: {
+  filterIcon: {
     width: 20,
     height: 20,
   },
@@ -514,21 +530,21 @@ const styles = StyleSheet.create({
   categoryChip: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginHorizontal: 20, 
-    marginVertical: 8, 
-    padding:12,
+    marginHorizontal: 20,
+    marginVertical: 8,
+    padding: 12,
     borderRadius: 2,
     backgroundColor: "#fff",
-    shadowColor: "#000", 
-    shadowOffset: { width: 0, height: 2 }, 
-    shadowOpacity: 0.1, 
-    shadowRadius: 4, 
-    elevation: 3, 
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   categoryText: {
-    fontSize: 12,
+    fontSize: 14,
     color: "#333",
-    fontFamily: 'Poppins-Medium',
+    fontFamily: "Poppins-Medium",
   },
   menuCard: {
     flexDirection: "row",
@@ -538,7 +554,6 @@ const styles = StyleSheet.create({
     marginVertical: 4,
     padding: 10,
     backgroundColor: "#EFFFF4",
-   
   },
   menuImage: {
     width: 60,
@@ -550,51 +565,51 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   menuName: {
-    fontSize: 10,
+    fontSize: 12,
     color: "#333",
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
   },
   menuCategory: {
-    fontSize: 8,
+    fontSize: 10,
     color: "#777",
-    marginVertical: 4,
-    fontFamily: 'Poppins-Regular',
+    marginVertical: 2,
+    fontFamily: "Poppins-Regular",
   },
   menuPrice: {
-    fontSize: 10,
+    fontSize: 12,
     color: "#01615F",
-    fontFamily: 'Poppins-Medium',
+    fontFamily: "Poppins-SemiBold",
   },
 
   addButtonContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   counterContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   minusButton: {
     paddingVertical: 2,
     paddingHorizontal: 8,
-    backgroundColor: '#01615F',
+    backgroundColor: "#01615F",
     borderRadius: 4,
-    height: 20, 
+    height: 20,
   },
   plusButton: {
     paddingVertical: 2,
     paddingHorizontal: 8,
-    backgroundColor: '#01615F',
+    backgroundColor: "#01615F",
     borderRadius: 4,
-    height: 20, 
+    height: 20,
   },
   counterText: {
     fontSize: 14,
     marginHorizontal: 10,
-    color: 'black',
-    fontFamily: 'Poppins-Regular',
+    color: "black",
+    fontFamily: "Poppins-Regular",
   },
-  
+
   addButton: {
     backgroundColor: "#01615F",
     borderRadius: 4,
@@ -606,72 +621,71 @@ const styles = StyleSheet.create({
   addButtonText: {
     color: "#fff",
     fontSize: 10,
-    fontFamily: 'Poppins-Regular',
+    fontFamily: "Poppins-Regular",
   },
   popupContainer: {
-    position: 'absolute', 
-    bottom: 0, 
-    width: '100%', 
-    backgroundColor: 'white', 
-    padding: 20, 
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: -2 }, 
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
+    backgroundColor: "white",
+    padding: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.2,
     shadowRadius: 4,
     elevation: 5,
     borderRadius: 20,
   },
   checkoutButton: {
-    backgroundColor: '#01615F', 
+    backgroundColor: "#01615F",
     borderRadius: 8,
-    paddingVertical: 12, 
-    alignItems: 'center', 
+    paddingVertical: 12,
+    alignItems: "center",
   },
   checkoutText: {
-    color: 'white',
+    color: "white",
     fontSize: 12,
-    fontFamily: 'Poppins-Regular',
+    fontFamily: "Poppins-Regular",
   },
-   floatingButton: {
-    position: 'absolute',
+  floatingButton: {
+    position: "absolute",
     bottom: 20,
     right: 20,
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: '#01615F',
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: '#000',
+    backgroundColor: "#01615F",
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 4,
-    elevation: 5, 
+    elevation: 5,
   },
   floatbuttonImage: {
-    color: 'white',
+    color: "white",
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   floatbuttonText: {
-    color: 'white',
+    color: "white",
     fontSize: 14,
-    fontFamily: 'Poppins-Regular',
+    fontFamily: "Poppins-Regular",
   },
   modalBackground: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent background
   },
   modalContainer: {
-    width: '80%',
-    backgroundColor: 'white',
+    width: "80%",
+    backgroundColor: "white",
     borderRadius: 10,
     padding: 20,
   },
   categoryItem: {
     paddingVertical: 10,
-   },
-  
+  },
 });

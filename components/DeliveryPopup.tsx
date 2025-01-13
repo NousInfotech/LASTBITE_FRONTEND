@@ -38,7 +38,7 @@ const PaymentPopup: React.FC<{ onProceedPayment: () => void }> = ({ onProceedPay
       </View>
       <View style={styles.chevronContainer}>
         <Text style={styles.changeText}>Change</Text>
-        <Ionicons name="chevron-forward" size={20} color="#01516F" style={styles.chevron} />
+        <Ionicons name="chevron-forward" color="#01516F" style={styles.chevron_a} />
       </View>
     </View>
     <TouchableOpacity style={styles.popupButton} onPress={onProceedPayment}>
@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   popupText: {
-    fontSize: 12,
+    fontSize: 14,
     color: '#333',
     flex: 1,
     fontFamily: 'Poppins-Medium',
@@ -284,7 +284,12 @@ const styles = StyleSheet.create({
     color: '#666',
   },
   chevron: {
-    fontSize: 15,
+    fontSize: 30,
+    color: '#01615F',
+    marginLeft: 'auto',
+  },
+  chevron_a: {
+    fontSize: 20,
     color: '#01615F',
     marginLeft: 'auto',
   },

@@ -145,7 +145,17 @@ const RestaurantSelect = () => {
   const router = useRouter();
   const totalItemsInCart = Object.values(cartCounts).reduce((sum, count) => sum + count, 0);
   const [fontsLoaded, setFontsLoaded] = useState(false);
+  const [isMenuVisible, setIsMenuVisible] = useState(false);
 
+  const handleFavorite = () => {
+    // Add favorite logic here
+    setIsMenuVisible(false);
+  };
+
+  const handleShare = () => {
+    // Add share logic here
+    setIsMenuVisible(false);
+  };
   // Load fonts
   useEffect(() => {
     const loadFonts = async () => {
@@ -357,328 +367,402 @@ const RestaurantSelect = () => {
     );
   };
 
-  return (
-    <>
-      <SafeAreaView style={styles.container}>
-        <StatusBar barStyle="dark-content" />
-        <View style={styles.header}>
-          <TouchableOpacity>
-            <GoBack />
-          </TouchableOpacity>
-         
-        </View>
-        <View style={styles.headerContainer}>
-  <View>
-    <Text style={styles.headerTitle}>{restaurant?.name || "Restaurant"}</Text>
-    <Text style={styles.headerSub}>45-50 mins</Text>
-    <Text style={styles.headerLocation}>{restaurant?.location}</Text>
-  </View>
-  <View style={styles.restaurantSubContainer}>
-    <Text style={styles.restaurantSub}>{restaurant?.ratingAverage}</Text>
-    <Image source={require("./../../assets/images/Star.png")} style={styles.starIcon} />
-  </View>
-</View>
-        <SearchBarVoice
-          onInputPress={() => {}}
-          redirectTargets={["Dishes", "Restaurants"]}
-          placeholder={`Search Dishes in ${restaurant?.name || "Restaurant"}`}
-        />
-        <NavigationBar />
-        <FlatList
-          data={restaurant?.categories || []}
-          keyExtractor={(item) => item}
-          renderItem={({ item: category }) => (
-            <View>
-              <TouchableOpacity style={styles.categoryChip} onPress={() => toggleCategory(category)}>
-                <Text style={styles.categoryText}>{category}</Text>
-                <Ionicons
-                  name={expandedCategories.has(category) ? "caret-up" : "caret-down"}
-                  size={16}
-                  color="grey"
-                />
+    return (
+      <>
+        <SafeAreaView style={styles.container}>
+          <StatusBar barStyle="dark-content" />
+          <View style={styles.header}>
+            <TouchableOpacity>
+              <GoBack />
+            </TouchableOpacity>
+            <View style={styles.headerRight}>
+            <TouchableOpacity onPress={() => setIsMenuVisible(true)}>
+              <Ionicons name="ellipsis-vertical" size={24} color="#333" />
+            </TouchableOpacity>
+          </View>
+          </View>
+          <Modal
+          transparent={true}
+          visible={isMenuVisible}
+          onRequestClose={() => setIsMenuVisible(false)}
+          animationType="fade"
+        >
+          <TouchableOpacity 
+            style={styles.modalOverlay}
+            activeOpacity={1}
+            onPress={() => setIsMenuVisible(false)}
+          >
+            <View style={[styles.menuContainer, { right: 10, top: 50 }]}>
+              <TouchableOpacity 
+                style={styles.menuItem}
+                onPress={handleFavorite}
+              >
+                <Ionicons name="heart-outline" size={20} color="#333" />
+                <Text style={styles.menuItemText}>Add to favourites</Text>
               </TouchableOpacity>
-              {expandedCategories.has(category) &&
-                menuItems
-                  .filter((menuItem) => menuItem.category === category)
-                  .map(renderMenuItem)}
+              
+              <TouchableOpacity 
+                style={styles.menuItem}
+                onPress={handleShare}
+              >
+                <Ionicons name="share-social-outline" size={20} color="#333" />
+                <Text style={styles.menuItemText}>Share</Text>
+              </TouchableOpacity>
             </View>
-          )}
-        />
-      </SafeAreaView>
-      {totalItemsInCart > 0 && <CheckoutPopup totalItems={totalItemsInCart} />}
-    </>
-  );
-};
+          </TouchableOpacity>
+        </Modal>
+          <View style={styles.headerContainer}>
+    <View>
+      <Text style={styles.headerTitle}>{restaurant?.name || "Restaurant"}</Text>
+      <Text style={styles.headerSub}>45-50 mins</Text>
+      <Text style={styles.headerLocation}>{restaurant?.location}</Text>
+    </View>
+    <View style={styles.restaurantSubContainer}>
+      <Text style={styles.restaurantSub}>{restaurant?.ratingAverage}</Text>
+      <Image source={require("./../../assets/images/Star.png")} style={styles.starIcon} />
+    </View>
+  </View>
+          <SearchBarVoice
+            onInputPress={() => {}}
+            redirectTargets={["Dishes", "Restaurants"]}
+            placeholder={`Search Dishes in ${restaurant?.name || "Restaurant"}`}
+          />
+          <NavigationBar />
+          <FlatList
+            data={restaurant?.categories || []}
+            keyExtractor={(item) => item}
+            renderItem={({ item: category }) => (
+              <View>
+                <TouchableOpacity style={styles.categoryChip} onPress={() => toggleCategory(category)}>
+                  <Text style={styles.categoryText}>{category}</Text>
+                  <Ionicons
+                    name={expandedCategories.has(category) ? "caret-up" : "caret-down"}
+                    size={16}
+                    color="grey"
+                  />
+                </TouchableOpacity>
+                {expandedCategories.has(category) &&
+                  menuItems
+                    .filter((menuItem) => menuItem.category === category)
+                    .map(renderMenuItem)}
+              </View>
+            )}
+          />
+        </SafeAreaView>
+        {totalItemsInCart > 0 && <CheckoutPopup totalItems={totalItemsInCart} />}
+      </>
+    );
+  };
 
-export default RestaurantSelect;
+  export default RestaurantSelect;
 
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-  },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: "#eee",
-  },
-  headerContainer: {
-    flexDirection: "row", 
-    justifyContent: "space-between", 
-    alignItems: "center", 
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: "#eee",
-  },
-  headerTitle: {
-    fontSize: 15,
-    marginLeft: 20,
-    fontFamily: "Poppins-SemiBold",
-  },
-  headerSub: {
-    fontSize: 10,
-    marginLeft: 20,
-    fontFamily: "Poppins-Regular",
-  },
-  headerLocation: {
-    fontSize: 10,
-    marginLeft: 20,
-    fontFamily: "Poppins-Medium",
-  },
-  restaurantSubContainer: {
-    flexDirection: "row",
-    alignItems: "center", 
-    marginRight: 14, 
-    backgroundColor:"#EFFFF4",
-    borderRadius:3,
-    padding:8
-  },
-  restaurantSub: {
-    fontSize: 12,
-    color: "gray",
-    fontFamily: "Poppins-Medium",
-    marginRight: 4, 
-  },
-  starIcon: {
-    width: 14, 
-    height: 14,
-  },
-  FileListcontainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    display: 'flex',
-    justifyContent: 'center',
-    paddingVertical: 8,
-    gap: 8,
-    width: 350, 
-  overflow: 'hidden',
-  },
-  filterButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 8,
-    paddingVertical: 8,
-    borderRadius: 16,
-    marginBottom: 8,
-    borderWidth: 1,
-    borderColor: 'black',
-  },
-  dropdownIcon: {
-    marginLeft: 4, 
-  },
-  button: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-    borderRadius: 16,
-    marginBottom: 8,
-    borderWidth: 1,
-    borderColor: 'black',
-    position: 'relative',
-  },
-  selected: {
-    borderColor: '#01615F',
-  },
-  buttonText: {
-    marginLeft: 2,
-    fontSize: 10,
-    color: 'black',
-    fontFamily: 'Poppins-Regular',
-
-  },
-   filterIcon: {
-    width: 20,
-    height: 20,
-  },
-  categoriesContainer: {
-    marginHorizontal: 16,
-    marginTop: 8,
-  },
-  categoryChip: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginHorizontal: 20, 
-    marginVertical: 8, 
-    padding:12,
-    borderRadius: 2,
-    backgroundColor: "#fff",
-    shadowColor: "#000", 
-    shadowOffset: { width: 0, height: 2 }, 
-    shadowOpacity: 0.1, 
-    shadowRadius: 4, 
-    elevation: 3, 
-  },
-  categoryText: {
-    fontSize: 12,
-    color: "#333",
-    fontFamily: 'Poppins-Medium',
-  },
-  menuCard: {
-    flexDirection: "row",
-    alignItems: "center",
-    borderRadius: 8,
-    marginHorizontal: 20,
-    marginVertical: 4,
-    padding: 10,
-    backgroundColor: "#EFFFF4",
-   
-  },
-  menuImage: {
-    width: 60,
-    height: 60,
-    borderRadius: 8,
-    marginRight: 10,
-  },
-  menuDetails: {
-    flex: 1,
-  },
-  menuName: {
-    fontSize: 10,
-    color: "#333",
-    fontFamily: 'Poppins-SemiBold',
-  },
-  menuCategory: {
-    fontSize: 8,
-    color: "#777",
-    marginVertical: 4,
-    fontFamily: 'Poppins-Regular',
-  },
-  menuPrice: {
-    fontSize: 10,
-    color: "#01615F",
-    fontFamily: 'Poppins-Medium',
-  },
-
-  addButtonContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  counterContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  minusButton: {
-    paddingVertical: 2,
-    paddingHorizontal: 8,
-    backgroundColor: '#01615F',
-    borderRadius: 4,
-    height: 20, 
-  },
-  plusButton: {
-    paddingVertical: 2,
-    paddingHorizontal: 8,
-    backgroundColor: '#01615F',
-    borderRadius: 4,
-    height: 20, 
-  },
-  counterText: {
-    fontSize: 14,
-    marginHorizontal: 10,
-    color: 'black',
-    fontFamily: 'Poppins-Regular',
-  },
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: "#fff",
+      paddingBottom:90,
+    },
+    header: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      padding: 16,
+      borderBottomWidth: 1,
+      borderBottomColor: "#eee",
+    },
+    headerRight: {
+      marginRight: 8, 
+    },
+    modalOverlay: {
+      flex: 1,
+      backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    },
   
-  addButton: {
-    backgroundColor: "#01615F",
-    borderRadius: 4,
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  addButtonText: {
-    color: "#fff",
-    fontSize: 10,
-    fontFamily: 'Poppins-Regular',
-  },
-  popupContainer: {
-    position: 'absolute', 
-    bottom: 0, 
-    width: '100%', 
-    backgroundColor: 'white', 
-    padding: 20, 
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: -2 }, 
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 5,
-    borderRadius: 20,
-  },
-  checkoutButton: {
-    backgroundColor: '#01615F', 
-    borderRadius: 8,
-    paddingVertical: 12, 
-    alignItems: 'center', 
-  },
-  checkoutText: {
-    color: 'white',
-    fontSize: 12,
-    fontFamily: 'Poppins-Regular',
-  },
-   floatingButton: {
-    position: 'absolute',
-    bottom: 20,
-    right: 20,
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: '#01615F',
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 5, 
-  },
-  floatbuttonImage: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  floatbuttonText: {
-    color: 'white',
-    fontSize: 14,
-    fontFamily: 'Poppins-Regular',
-  },
-  modalBackground: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
-  },
-  modalContainer: {
-    width: '80%',
-    backgroundColor: 'white',
-    borderRadius: 10,
-    padding: 20,
-  },
-  categoryItem: {
-    paddingVertical: 10,
-   },
+    menuContainer: {
+      position: 'absolute',
+      backgroundColor: 'white',
+      borderRadius: 8,
+      padding: 8,
+      minWidth: 180,
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+      elevation: 5,
+    },
   
-});
+    menuItem: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      padding: 12,
+      borderRadius: 4,
+    },
+  
+    menuItemText: {
+      marginLeft: 12,
+      fontSize: 14,
+      fontFamily: 'Poppins-SemiBold',
+      color: '#333',
+    },
+  
+    headerContainer: {
+      flexDirection: "row", 
+      justifyContent: "space-between", 
+      alignItems: "center", 
+      padding: 16,
+      borderBottomWidth: 1,
+      borderBottomColor: "#eee",
+    },
+    headerTitle: {
+      fontSize: 16,
+      marginLeft: 20,
+      fontFamily: "Poppins-SemiBold",
+    },
+    headerSub: {
+      fontSize: 12,
+      marginLeft: 20,
+      fontFamily: "Poppins-Regular",
+    },
+    headerLocation: {
+      fontSize: 12,
+      marginLeft: 20,
+      fontFamily: "Poppins-Medium",
+    },
+    restaurantSubContainer: {
+      flexDirection: "row",
+      alignItems: "center", 
+      marginRight: 14, 
+      backgroundColor:"#EFFFF4",
+      borderRadius:3,
+      padding:8
+    },
+    restaurantSub: {
+      fontSize: 12,
+      color: "gray",
+      fontFamily: "Poppins-Medium",
+      marginRight: 4, 
+    },
+    starIcon: {
+      width: 14, 
+      height: 14,
+    },
+    FileListcontainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      display: 'flex',
+      justifyContent: 'center',
+      paddingVertical: 8,
+      gap: 8,
+      width: 350, 
+    overflow: 'hidden',
+    },
+    filterButton: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingHorizontal: 8,
+      paddingVertical: 8,
+      borderRadius: 16,
+      marginBottom: 8,
+      borderWidth: 1,
+      borderColor: 'black',
+    },
+    dropdownIcon: {
+      marginLeft: 4, 
+    },
+    button: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingHorizontal: 8,
+      paddingVertical: 3,
+      borderRadius: 16,
+      marginBottom: 8,
+      borderWidth: 1,
+      borderColor: 'black',
+      position: 'relative',
+    },
+    selected: {
+      borderColor: '#01615F',
+    },
+    buttonText: {
+      marginLeft: 2,
+      fontSize: 10,
+      color: 'black',
+      fontFamily: 'Poppins-Regular',
+
+    },
+    filterIcon: {
+      width: 20,
+      height: 20,
+    },
+    categoriesContainer: {
+      marginHorizontal: 16,
+      marginTop: 8,
+    },
+    categoryChip: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      marginHorizontal: 20, 
+      marginVertical: 8, 
+      padding:12,
+      borderRadius: 2,
+      backgroundColor: "#fff",
+      shadowColor: "#000", 
+      shadowOffset: { width: 0, height: 2 }, 
+      shadowOpacity: 0.1, 
+      shadowRadius: 4, 
+      elevation: 3, 
+    },
+    categoryText: {
+      fontSize: 14,
+      color: "#333",
+      fontFamily: 'Poppins-Medium',
+    },
+    menuCard: {
+      flexDirection: "row",
+      alignItems: "center",
+      borderRadius: 8,
+      marginHorizontal: 20,
+      marginVertical: 4,
+      padding: 10,
+      backgroundColor: "#EFFFF4",
+    
+    },
+    menuImage: {
+      width: 60,
+      height: 60,
+      borderRadius: 8,
+      marginRight: 10,
+    },
+    menuDetails: {
+      flex: 1,
+    },
+    menuName: {
+      fontSize: 12,
+      color: "#333",
+      fontFamily: 'Poppins-SemiBold',
+    },
+    menuCategory: {
+      fontSize: 10,
+      color: "#777",
+      marginVertical: 4,
+      fontFamily: 'Poppins-Regular',
+    },
+    menuPrice: {
+      fontSize: 12,
+      color: "#01615F",
+      fontFamily: 'Poppins-Medium',
+    },
+
+    addButtonContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    counterContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    minusButton: {
+      paddingVertical: 2,
+      paddingHorizontal: 8,
+      backgroundColor: '#01615F',
+      borderRadius: 4,
+      height: 20, 
+    },
+    plusButton: {
+      paddingVertical: 2,
+      paddingHorizontal: 8,
+      backgroundColor: '#01615F',
+      borderRadius: 4,
+      height: 20, 
+    },
+    counterText: {
+      fontSize: 14,
+      marginHorizontal: 10,
+      color: 'black',
+      fontFamily: 'Poppins-Regular',
+    },
+    
+    addButton: {
+      backgroundColor: "#01615F",
+      borderRadius: 4,
+      paddingVertical: 6,
+      paddingHorizontal: 12,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    addButtonText: {
+      color: "#fff",
+      fontSize: 12,
+      fontFamily: 'Poppins-Regular',
+    },
+    popupContainer: {
+      position: 'absolute', 
+      bottom: 0, 
+      width: '100%', 
+      backgroundColor: 'white', 
+      padding: 20, 
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: -2 }, 
+      shadowOpacity: 0.2,
+      shadowRadius: 4,
+      elevation: 5,
+      borderRadius: 20,
+    },
+    checkoutButton: {
+      backgroundColor: '#01615F', 
+      borderRadius: 8,
+      paddingVertical: 12, 
+      alignItems: 'center', 
+    },
+    checkoutText: {
+      color: 'white',
+      fontSize: 12,
+      fontFamily: 'Poppins-Regular',
+    },
+    floatingButton: {
+      position: 'absolute',
+      bottom: 20,
+      right: 20,
+      width: 80,
+      height: 80,
+      borderRadius: 40,
+      backgroundColor: '#01615F',
+      justifyContent: 'center',
+      alignItems: 'center',
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.3,
+      shadowRadius: 4,
+      elevation: 5, 
+    },
+    floatbuttonImage: {
+      color: 'white',
+      fontSize: 18,
+      fontWeight: 'bold',
+    },
+    floatbuttonText: {
+      color: 'white',
+      fontSize: 14,
+      fontFamily: 'Poppins-Regular',
+    },
+    modalBackground: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
+    },
+    modalContainer: {
+      width: '80%',
+      backgroundColor: 'white',
+      borderRadius: 10,
+      padding: 20,
+    },
+    categoryItem: {
+      paddingVertical: 10,
+    },
+    
+  });
