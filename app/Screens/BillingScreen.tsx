@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   SafeAreaView,
   View,
@@ -9,14 +9,14 @@ import {
   FlatList,
   Image,
   ScrollView,
-} from 'react-native';
-import { useRouter } from 'expo-router';
-import { useLocalSearchParams } from 'expo-router';
-import GoBack from '@/components/GoBack';
-import DeliveryTypeSelection from '@/components/DeliveryTypeSelector';
-import DeliveryPopup from '@/components/DeliveryPopup';
+} from "react-native";
+import { useRouter } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
+import GoBack from "@/components/GoBack";
+import DeliveryTypeSelection from "@/components/DeliveryTypeSelector";
+import DeliveryPopup from "@/components/DeliveryPopup";
 import * as Font from "expo-font";
-import DelieveryInstruction from '@/components/DeliveryInstructions'
+import DelieveryInstruction from "@/components/DeliveryInstructions";
 interface CartItem {
   name: string;
   quantity: number;
@@ -25,21 +25,25 @@ interface CartItem {
 
 const BillingScreen = () => {
   const router = useRouter();
-  const { cart, restaurantName,restaurantId } = useLocalSearchParams();
+  const { cart, restaurantName, restaurantId } = useLocalSearchParams();
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [totalAmount, setTotalAmount] = useState<number>(0);
-  const [selectedInstructions, setSelectedInstructions] = useState<string[]>([]);
+  const [selectedInstructions, setSelectedInstructions] = useState<string[]>(
+    []
+  );
   const [deliveryFee, setDeliveryFee] = useState<number>(50); // Example fee
   const [platformFee, setPlatformFee] = useState<number>(30); // Example fee
   const [gstPercentage, setGstPercentage] = useState<number>(5); // GST as a percentage
-  const [restaurantCharges, setRestaurantCharges] = useState<number>(20); 
+  const [restaurantCharges, setRestaurantCharges] = useState<number>(20);
   const [showPopup, setShowPopup] = useState<boolean>(true);
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const calculateGST = (amount: number) => (amount * gstPercentage) / 100;
 
   const calculateTotal = () => {
     const gstAmount = calculateGST(totalAmount);
-    return totalAmount + deliveryFee + platformFee + gstAmount + restaurantCharges;
+    return (
+      totalAmount + deliveryFee + platformFee + gstAmount + restaurantCharges
+    );
   };
 
   useEffect(() => {
@@ -65,51 +69,26 @@ const BillingScreen = () => {
         const cartData: CartItem[] = JSON.parse(cartString);
         setCartItems(cartData);
 
-        const total = cartData.reduce((sum, item) => sum + item.price * item.quantity, 0);
+        const total = cartData.reduce(
+          (sum, item) => sum + item.price * item.quantity,
+          0
+        );
         setTotalAmount(total);
       } catch (error) {
-        console.error('Error parsing cart data:', error);
+        console.error("Error parsing cart data:", error);
       }
     }
   }, [cart]);
   const navigateToAddMoreItems = () => {
     router.push({
-      pathname: './AddMoreItems',
+      pathname: "./AddMoreItems",
       params: {
-        restaurantId: restaurantId || 'default-id',
-        restaurantName: restaurantName || 'default-name',
+        restaurantId: restaurantId || "default-id",
+        restaurantName: restaurantName || "default-name",
       },
     });
   };
-  
-  const deliveryOptions = [
-    {
-      label: 'Avoid ringing Bell',
-      image: require('./../../assets/images/Doorbell.png'),
-      selectedImage: require('./../../assets/images/Doorbell-1.png'),
-    },
-    {
-      label: 'Leave at the door',
-      image: require('./../../assets/images/Open Door.png'),
-      selectedImage: require('./../../assets/images/Open Door-1.png'),
-    },
-    {
-      label: 'Direction to reach',
-      image: require('./../../assets/images/Microphone.png'),
-      selectedImage: require('./../../assets/images/Microphone-1.png'),
-    },
-    {
-      label: 'Avoid calling',
-      image: require('./../../assets/images/Phonelink Ring.png'),
-      selectedImage: require('./../../assets/images/Phonelink Ring-1.png'),
-    },
-  ];
-  
-  const toggleSelection = (label: string) => {
-    setSelectedInstructions((prev) =>
-      prev.includes(label) ? prev.filter((item) => item !== label) : [...prev, label]
-    );
-  };
+
 
   useEffect(() => {
     if (cart) {
@@ -118,20 +97,26 @@ const BillingScreen = () => {
         const cartData: CartItem[] = JSON.parse(cartString);
         setCartItems(cartData);
 
-        const total = cartData.reduce((sum, item) => sum + item.price * item.quantity, 0);
+        const total = cartData.reduce(
+          (sum, item) => sum + item.price * item.quantity,
+          0
+        );
         setTotalAmount(total);
       } catch (error) {
-        console.error('Error parsing cart data:', error);
+        console.error("Error parsing cart data:", error);
       }
     }
   }, [cart]);
 
-  const handleQuantityChange = (index: number, action: 'increment' | 'decrement') => {
+  const handleQuantityChange = (
+    index: number,
+    action: "increment" | "decrement"
+  ) => {
     const updatedCartItems = [...cartItems];
     const item = updatedCartItems[index];
-    if (action === 'increment') {
+    if (action === "increment") {
       item.quantity += 1;
-    } else if (action === 'decrement' && item.quantity > 1) {
+    } else if (action === "decrement" && item.quantity > 1) {
       item.quantity -= 1;
     }
     setCartItems(updatedCartItems);
@@ -139,30 +124,49 @@ const BillingScreen = () => {
   };
 
   const updateTotalAmount = (updatedCartItems: CartItem[]) => {
-    const total = updatedCartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const total = updatedCartItems.reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0
+    );
     setTotalAmount(total);
   };
 
-  const handlePlaceOrder = () => {
-    console.log('Order placed:', cartItems);
-    // router.push('/Screens/Home');
-  };
 
-  const renderCartItem = ({ item, index }: { item: CartItem; index: number }) => (
+  const renderCartItem = ({
+    item,
+    index,
+  }: {
+    item: CartItem;
+    index: number;
+  }) => (
     <View style={styles.cartItem}>
       <Text style={styles.cartItemText}>{item.name}</Text>
 
       <View style={styles.quantityControls}>
-        <QuantityButton onPress={() => handleQuantityChange(index, 'decrement')} label="-" />
+        <QuantityButton
+          onPress={() => handleQuantityChange(index, "decrement")}
+          label="-"
+        />
         <Text style={styles.quantityText}>{item.quantity}</Text>
-        <QuantityButton onPress={() => handleQuantityChange(index, 'increment')} label="+" />
+        <QuantityButton
+          onPress={() => handleQuantityChange(index, "increment")}
+          label="+"
+        />
       </View>
 
-      <Text style={styles.cartItemPrice}>${(item.price * item.quantity).toFixed(2)}</Text>
+      <Text style={styles.cartItemPrice}>
+        ${(item.price * item.quantity).toFixed(2)}
+      </Text>
     </View>
   );
 
-  const QuantityButton = ({ onPress, label }: { onPress: () => void; label: string }) => (
+  const QuantityButton = ({
+    onPress,
+    label,
+  }: {
+    onPress: () => void;
+    label: string;
+  }) => (
     <TouchableOpacity onPress={onPress} style={styles.button}>
       <Text style={styles.buttonText}>{label}</Text>
     </TouchableOpacity>
@@ -171,18 +175,27 @@ const BillingScreen = () => {
   const SavingsCorner = () => (
     <View style={styles.savingsCornerContainer}>
       <Text style={styles.savingsCornerText}>SAVINGS CORNER</Text>
-      <TouchableOpacity style={styles.applyCouponContainer} onPress={() => console.log('Apply Coupon pressed')}>
-        <Image source={require('./../../assets/images/coupon.png')} style={styles.couponImage} />
+      <TouchableOpacity
+        style={styles.applyCouponContainer}
+        onPress={() => console.log("Apply Coupon pressed")}
+      >
+        <Image
+          source={require("./../../assets/images/coupon.png")}
+          style={styles.couponImage}
+        />
         <Text style={styles.applyCouponText}>Apply Coupon</Text>
         <Text style={styles.chevron}>&gt;</Text>
       </TouchableOpacity>
     </View>
   );
-  
+
   const AddMoreButton = () => {
     const router = useRouter();
     return (
-      <TouchableOpacity style={styles.addMoreButton} onPress={navigateToAddMoreItems}>
+      <TouchableOpacity
+        style={styles.addMoreButton}
+        onPress={navigateToAddMoreItems}
+      >
         <Text style={styles.addMoreButtonText}>+ Add More Items</Text>
       </TouchableOpacity>
     );
@@ -217,31 +230,14 @@ const BillingScreen = () => {
         {/* Delivery Type Section */}
         <View style={styles.Delivery}>
           <Text style={styles.DelieveryText}>Delivery Type</Text>
-          <Text style={styles.DelieverySubText}>Your food will always be fresh!</Text>
+          <Text style={styles.DelieverySubText}>
+            Your food will always be fresh!
+          </Text>
         </View>
         <DeliveryTypeSelection />
         <View style={styles.instructionsSection}>
           <Text style={styles.instructionsTitle}>Delivery Instructions</Text>
-          {/* <View style={styles.optionsRow}>
-            {deliveryOptions.map((option) => (
-              <TouchableOpacity
-                key={option.label}
-                style={[
-                  styles.optionContainer,
-                  selectedInstructions.includes(option.label) && styles.optionSelected,
-                ]}
-                onPress={() => toggleSelection(option.label)}
-              >
-                <Image source={
-          selectedInstructions.includes(option.label)
-            ? option.selectedImage
-            : option.image
-        } style={styles.optionImage} />
-                <Text style={styles.optionLabel}>{option.label}</Text>
-              </TouchableOpacity>
-            ))}
-          </View> */}
-          <DelieveryInstruction/>
+          <DelieveryInstruction />
         </View>
         <View style={styles.billSection}>
           <Text style={styles.billTitle}>Bill Details</Text>
@@ -261,7 +257,9 @@ const BillingScreen = () => {
           </View>
           <View style={styles.billItem}>
             <Text style={styles.billText}>GST ({gstPercentage}%)</Text>
-            <Text style={styles.billText}>${calculateGST(totalAmount).toFixed(2)}</Text>
+            <Text style={styles.billText}>
+              ${calculateGST(totalAmount).toFixed(2)}
+            </Text>
           </View>
           <View style={styles.billItem}>
             <Text style={styles.billText}>Restaurant Charges</Text>
@@ -269,23 +267,26 @@ const BillingScreen = () => {
           </View>
           <View style={styles.billTotal}>
             <Text style={styles.totaltoText}>To Pay</Text>
-            <Text style={styles.totaltoText}>${calculateTotal().toFixed(2)}</Text>
+            <Text style={styles.totaltoText}>
+              ${calculateTotal().toFixed(2)}
+            </Text>
           </View>
         </View>
         <View style={styles.billSection}>
-          <Text style={styles.billTitle}>Review your order and address details to avoid cancellations</Text>
+          <Text style={styles.billTitle}>
+            Review your order and address details to avoid cancellations
+          </Text>
         </View>
         <View style={styles.reviewContainer}>
-  <Text style={styles.noteText}>
-    <Text style={styles.boldText}>Note:</Text> Please ensure your address and order details are correct. 
-    This order, if cancelled, is non-refundable.
-  </Text>
-  <Text style={styles.linkText}>READ POLICY</Text>
-</View>
-
+          <Text style={styles.noteText}>
+            <Text style={styles.boldText}>Note:</Text> Please ensure your
+            address and order details are correct. This order, if cancelled, is
+            non-refundable.
+          </Text>
+          <Text style={styles.linkText}>READ POLICY</Text>
+        </View>
       </ScrollView>
       {showPopup && <DeliveryPopup />}
-
     </SafeAreaView>
   );
 };
@@ -295,30 +296,30 @@ export default BillingScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: "#f8f8f8",
   },
   scrollContainer: {
     flexGrow: 1,
     paddingBottom: 20,
   },
   header: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     padding: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: "#eee",
   },
   headerTitle: {
     fontSize: 15,
     marginLeft: 10,
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
   },
   cartListContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     marginHorizontal: 16,
     // marginTop: 10,
     borderRadius: 8,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
@@ -326,76 +327,76 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   cartItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingVertical: 8,
     paddingHorizontal: 10,
   },
   cartItemText: {
     fontSize: 12,
     flex: 2,
-    fontFamily: 'Poppins-Medium',
+    fontFamily: "Poppins-Medium",
   },
   cartItemPrice: {
     fontSize: 12,
-    fontFamily: 'Poppins-Medium',
+    fontFamily: "Poppins-Medium",
     flex: 1,
-    textAlign: 'right',
+    textAlign: "right",
   },
   quantityControls: {
-    marginLeft:40,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    marginLeft: 40,
+    flexDirection: "row",
+    justifyContent: "space-between",
     flex: 1,
   },
   quantityText: {
     fontSize: 12,
-    fontFamily: 'Poppins-Regular',
+    fontFamily: "Poppins-Regular",
   },
   button: {
-    backgroundColor: '#01615F',
+    backgroundColor: "#01615F",
     paddingHorizontal: 8,
     borderRadius: 5,
   },
   buttonText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 16,
   },
   totalContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     paddingVertical: 15,
     borderTopWidth: 1,
-    borderTopColor: '#eee',
+    borderTopColor: "#eee",
     marginTop: 20,
   },
   totalText: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   addMoreButton: {
-    marginLeft:10,
+    marginLeft: 10,
     marginTop: 10,
-    alignSelf: 'flex-start',
-    backgroundColor: '#fff',
+    alignSelf: "flex-start",
+    backgroundColor: "#fff",
     borderWidth: 1,
-    borderColor: '#01615F',
+    borderColor: "#01615F",
     borderRadius: 5,
     paddingVertical: 8,
     paddingHorizontal: 10,
   },
   addMoreButtonText: {
-    color: '#01615F',
+    color: "#01615F",
     fontSize: 12,
-    fontFamily: 'Poppins-Regular',
+    fontFamily: "Poppins-Regular",
   },
   simpleContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     marginHorizontal: 16,
     marginTop: 10,
     borderRadius: 8,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
@@ -403,21 +404,21 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingHorizontal: 10,
   },
-  
+
   completeMealText: {
     fontSize: 14,
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
     marginBottom: 10,
     paddingVertical: 8,
     paddingHorizontal: 2,
   },
-  
+
   savingsCornerContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     marginHorizontal: 16,
     marginTop: 10,
     borderRadius: 8,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
@@ -427,26 +428,26 @@ const styles = StyleSheet.create({
   },
   savingsCornerText: {
     fontSize: 14,
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
     marginBottom: 10,
     paddingVertical: 8,
     paddingHorizontal: 2,
   },
   applyCouponContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
     // paddingVertical: 8,
     paddingHorizontal: 2,
   },
   applyCouponText: {
     fontSize: 12,
-    marginTop:2,
-    fontFamily: 'Poppins-Medium',
+    marginTop: 2,
+    fontFamily: "Poppins-Medium",
   },
   chevron: {
     fontSize: 18,
-    color: '#01615F',
+    color: "#01615F",
   },
   couponImage: {
     width: 24,
@@ -462,13 +463,13 @@ const styles = StyleSheet.create({
   },
   DelieveryText: {
     fontSize: 14,
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
   },
   DelieverySubText: {
     fontSize: 10,
     marginTop: 4,
-    color: '#7a7a7a',
-    fontFamily: 'Poppins-Regular',
+    color: "#7a7a7a",
+    fontFamily: "Poppins-Regular",
   },
   instructionsSection: {
     marginLeft: 2,
@@ -478,43 +479,43 @@ const styles = StyleSheet.create({
   },
   instructionsTitle: {
     fontSize: 14,
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
     marginBottom: 6,
     paddingVertical: 6,
     paddingHorizontal: 8,
   },
   optionsRow: {
-    flexDirection: 'row',
-    flexWrap: 'nowrap', 
-    justifyContent: 'space-between', 
-    alignItems: 'center',
+    flexDirection: "row",
+    flexWrap: "nowrap",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginHorizontal: 0,
-    marginTop: 7
+    marginTop: 7,
   },
-    optionContainer: {
-    width: 75, 
-    height: 80, 
+  optionContainer: {
+    width: 75,
+    height: 80,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#ddd',
-    backgroundColor: '#fff',
-    margin: 2, 
-    padding: 7, 
+    borderColor: "#ddd",
+    backgroundColor: "#fff",
+    margin: 2,
+    padding: 7,
   },
   optionSelected: {
-    borderColor: '#01615F', 
+    borderColor: "#01615F",
     borderWidth: 2,
   },
   optionImage: {
-    width: 30, 
+    width: 30,
     height: 30,
-    resizeMode: 'contain',
-    marginBottom: 8, 
+    resizeMode: "contain",
+    marginBottom: 8,
   },
   optionLabel: {
     fontSize: 8,
-    color: '#333',
-    fontFamily: 'Poppins-Regular',
+    color: "#333",
+    fontFamily: "Poppins-Regular",
   },
   billSection: {
     marginLeft: 2,
@@ -524,15 +525,17 @@ const styles = StyleSheet.create({
   },
   billTitle: {
     fontSize: 14,
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
   },
   billContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     margin: 16,
     borderRadius: 8,
     padding: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2    // marginBottom: 2,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2, // marginBottom: 2,
     },
     shadowOpacity: 0.1,
     shadowRadius: 4,
@@ -540,32 +543,31 @@ const styles = StyleSheet.create({
   },
 
   billItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginVertical: 4,
   },
   billText: {
     fontSize: 12,
-    fontFamily: 'Poppins-Regular',
-
+    fontFamily: "Poppins-Regular",
   },
   billTotal: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginTop: 10,
     paddingTop: 10,
   },
   totaltoText: {
     fontSize: 12,
-    fontFamily: 'Poppins-Medium',
+    fontFamily: "Poppins-Medium",
   },
-  reviewContainer:{
-    backgroundColor: '#fff',
+  reviewContainer: {
+    backgroundColor: "#fff",
     marginHorizontal: 16,
     marginTop: 10,
     marginBottom: 10,
     borderRadius: 8,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
@@ -576,20 +578,19 @@ const styles = StyleSheet.create({
   },
   noteText: {
     fontSize: 12,
-    color: '#333',
+    color: "#333",
     lineHeight: 20,
-    fontFamily: 'Poppins-Medium',
+    fontFamily: "Poppins-Medium",
   },
   boldText: {
-    fontFamily: 'Poppins-Medium',
-    color: '#01615F',
+    fontFamily: "Poppins-Medium",
+    color: "#01615F",
   },
   linkText: {
     fontSize: 14,
-    color: '#01615F',
-    fontFamily: 'Poppins-Medium',
+    color: "#01615F",
+    fontFamily: "Poppins-Medium",
     marginTop: 8,
-    textDecorationLine:'underline',
+    textDecorationLine: "underline",
   },
- 
 });

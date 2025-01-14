@@ -1,14 +1,18 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, Modal, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import * as Font from 'expo-font';
 
 interface DeliveryPopupProps {
+  restaurantName: string;
+  cartItemsCount: number;
+  totalToPay: number;
+  onClose?: () => void;
   onAddressSelect: () => void;
 }
 
-const DeliveryPopup: React.FC<DeliveryPopupProps> = ({ onAddressSelect }) => (
+const DeliveryPopup: React.FC<DeliveryPopupProps> = ({ onAddressSelect, restaurantName, cartItemsCount, totalToPay }) => (
   <View style={styles.popupContainer}>
     <View style={styles.rowContainer}>
       <Image
@@ -24,34 +28,15 @@ const DeliveryPopup: React.FC<DeliveryPopupProps> = ({ onAddressSelect }) => (
   </View>
 );
 
-const PaymentPopup: React.FC<{ onProceedPayment: () => void }> = ({ onProceedPayment }) => (
-  <View style={styles.popupContainer}>
-    <View style={styles.rowContainer}>
-      <Image
-        source={require('./../assets/images/cash.png')}
-        style={styles.navigationImage}
-        resizeMode="contain"
-      />
-      <View>
-        <Text style={styles.popupText}>Pay on Delivery (Cash)</Text>
-        <Text style={styles.popupSubText}>Pay cash or ask for QR Code</Text>
-      </View>
-      <View style={styles.chevronContainer}>
-        <Text style={styles.changeText}>Change</Text>
-        <Ionicons name="chevron-forward" color="#01516F" style={styles.chevron_a} />
-      </View>
-    </View>
-    <TouchableOpacity style={styles.popupButton} onPress={onProceedPayment}>
-      <Text style={styles.popupButtonText}>Place Order</Text>
-    </TouchableOpacity>
-  </View>
-);
-
 const DeliveryScreen: React.FC = () => {
   const [showPopup, setShowPopup] = useState<'address' | 'payment' | null>(null);
   const [showModal, setShowModal] = useState(false);
+  const [restaurantName] = useState('Awesome Restaurant'); // Example value
+  const [cartItemsCount] = useState(3); // Example value
+  const [totalToPay] = useState(250); // Example value
   const router = useRouter();
   const [fontsLoaded, setFontsLoaded] = useState(false);
+
   useEffect(() => {
     async function loadFonts() {
       await Font.loadAsync({
@@ -66,12 +51,8 @@ const DeliveryScreen: React.FC = () => {
   }, []);
 
   if (!fontsLoaded) {
-    return null; // Optionally, show a loading screen or placeholder
+    return null;
   }
-  const addresses = [
-    { id: '1', name: 'Home', address: '123, Green Valley, Lakeview Street' },
-    { id: '2', name: 'Office', address: '456, Ocean Drive, Seaside Blvd' },
-  ];
 
   const openAddressPopup = () => setShowPopup('address');
   const openPaymentPopup = () => setShowPopup('payment');
@@ -88,19 +69,36 @@ const DeliveryScreen: React.FC = () => {
 
   const handleConfirmOrder = () => {
     setShowModal(false);
-    // Add order confirmation logic
+    router.push({
+      pathname: '/Screens/PaymentScreen',
+      params: {
+        restaurantName,
+        cartItemsCount,
+        totalToPay,
+      },
+    });
   };
 
   const handleAddNewAddress = () => {
     router.push({
-      pathname: "/UserDetails/MapView",
-      params: { mode: "addAddress" },
+      pathname: '/UserDetails/MapView',
+      params: { mode: 'addAddress' },
     });
+  };
+
+  const calculateTotal = () => {
+    // Your calculation logic here
+    return totalToPay; // Just for example
   };
 
   return (
     <View style={styles.mainContainer}>
-      <DeliveryPopup onAddressSelect={openAddressPopup} />
+      <DeliveryPopup
+        restaurantName={restaurantName || 'Restaurant'}
+        cartItemsCount={cartItemsCount}
+        totalToPay={calculateTotal()}
+        onAddressSelect={openAddressPopup}
+      />
 
       {showPopup === 'address' && (
         <View style={styles.addressPopupOverlay}>
@@ -112,7 +110,10 @@ const DeliveryScreen: React.FC = () => {
               </TouchableOpacity>
             </View>
             <FlatList
-              data={addresses}
+              data={[
+                { id: '1', name: 'Home', address: '123, Green Valley, Lakeview Street' },
+                { id: '2', name: 'Office', address: '456, Ocean Drive, Seaside Blvd' },
+              ]}
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
                 <TouchableOpacity style={styles.addressItem} onPress={openPaymentPopup}>
@@ -142,7 +143,10 @@ const DeliveryScreen: React.FC = () => {
 
       {showPopup === 'payment' && (
         <View style={styles.paymentPopupOverlay}>
-          <PaymentPopup onProceedPayment={handlePlaceOrder} />
+          <PaymentPopup
+            onProceedPayment={handlePlaceOrder}
+            totalToPay={totalToPay} // Pass totalToPay to PaymentPopup
+          />
         </View>
       )}
 
@@ -177,6 +181,33 @@ const DeliveryScreen: React.FC = () => {
     </View>
   );
 };
+
+const PaymentPopup: React.FC<{ onProceedPayment: () => void; totalToPay: number }> = ({
+  onProceedPayment,
+  totalToPay,
+}) => (
+  <View style={styles.popupContainer}>
+    <View style={styles.rowContainer}>
+      <Image
+        source={require('./../assets/images/cash.png')}
+        style={styles.navigationImage}
+        resizeMode="contain"
+      />
+      <View>
+        <Text style={styles.popupText}>Pay on Delivery (Cash)</Text>
+        <Text style={styles.popupSubText}>Pay cash or ask for QR Code</Text>
+      </View>
+      <View style={styles.chevronContainer}>
+        <Text style={styles.changeText}>Change</Text>
+        <Ionicons name="chevron-forward" color="#01516F" style={styles.chevron_a} />
+      </View>
+    </View>
+    <TouchableOpacity style={styles.popupButton} onPress={onProceedPayment}>
+      <Text style={styles.popupButtonText}>Place Order |  ₹{totalToPay}</Text>
+    </TouchableOpacity>
+  </View>
+);
+
 
 const styles = StyleSheet.create({
   mainContainer: {

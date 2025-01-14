@@ -38,6 +38,7 @@ interface Restaurant {
 }
 interface CheckoutPopupProps {
   totalItems: number;
+  onCheckout: boolean;
 }
 interface MenuItem {
   menuItemId: number;
@@ -522,11 +523,11 @@ const styles = StyleSheet.create({
     // alignItems: "center",
     // marginLeft: 10,
   },
-  minusButton: {
+  minusButton: {                                 
     flexDirection: 'row',
     justifyContent: 'center',
     backgroundColor: '#01615F',
-    borderRadius: 2,
+    borderRadius: 4,
     marginRight: 10,
     paddingHorizontal: 4,
     width:25,
@@ -536,7 +537,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     backgroundColor: '#01615F',
-    borderRadius: 2,
+    borderRadius: 4,
     width:25,
     paddingHorizontal: 4,
     marginLeft: 10,
