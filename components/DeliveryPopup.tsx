@@ -69,14 +69,14 @@ const DeliveryScreen: React.FC = () => {
 
   const handleConfirmOrder = () => {
     setShowModal(false);
-    router.push({
-      pathname: '/Screens/PaymentScreen',
-      params: {
-        restaurantName,
-        cartItemsCount,
-        totalToPay,
-      },
-    });
+    // router.push({
+    //   pathname: '/Screens/PaymentScreen',
+    //   params: {
+    //     restaurantName,
+    //     cartItemsCount,
+    //     totalToPay,
+    //   },
+    // });
   };
 
   const handleAddNewAddress = () => {
@@ -171,7 +171,7 @@ const DeliveryScreen: React.FC = () => {
               <TouchableOpacity style={styles.modalCancelButton} onPress={handleCancelOrder}>
                 <Text style={styles.modalCancelButtonText}>Cancel</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.modalButton} onPress={handleConfirmOrder}>
+              <TouchableOpacity style={styles.modalButton} >
                 <Text style={styles.modalButtonText}>Yes! Place Order</Text>
               </TouchableOpacity>
             </View>
@@ -185,28 +185,44 @@ const DeliveryScreen: React.FC = () => {
 const PaymentPopup: React.FC<{ onProceedPayment: () => void; totalToPay: number }> = ({
   onProceedPayment,
   totalToPay,
-}) => (
-  <View style={styles.popupContainer}>
-    <View style={styles.rowContainer}>
-      <Image
-        source={require('./../assets/images/cash.png')}
-        style={styles.navigationImage}
-        resizeMode="contain"
-      />
-      <View>
-        <Text style={styles.popupText}>Pay on Delivery (Cash)</Text>
-        <Text style={styles.popupSubText}>Pay cash or ask for QR Code</Text>
+}) => {
+  const router = useRouter();
+
+  const handleChangePaymentMethod = () => {
+    // Navigate to PaymentScreen with required parameters
+    router.push({
+      pathname: '/Screens/PaymentScreen',
+      params: {
+        totalToPay,
+      },
+    });
+  };
+
+  return (
+    <View style={styles.popupContainer}>
+      <View style={styles.rowContainer}>
+        <Image
+          source={require('./../assets/images/cash.png')}
+          style={styles.navigationImage}
+          resizeMode="contain"
+        />
+        <View>
+          <Text style={styles.popupText}>Pay on Delivery (Cash)</Text>
+          <Text style={styles.popupSubText}>Pay cash or ask for QR Code</Text>
+        </View>
+        <TouchableOpacity onPress={handleChangePaymentMethod} style={styles.chevronContainer}>
+          <Text style={styles.changeText}>Change</Text>
+          <Ionicons name="chevron-forward" size={16} color="#01516F" style={styles.chevron_a} />
+        </TouchableOpacity>
       </View>
-      <View style={styles.chevronContainer}>
-        <Text style={styles.changeText}>Change</Text>
-        <Ionicons name="chevron-forward" color="#01516F" style={styles.chevron_a} />
-      </View>
+      <TouchableOpacity style={styles.popupButton} onPress={onProceedPayment}>
+        <Text style={styles.popupButtonText}>Place Order | ₹{totalToPay}</Text>
+      </TouchableOpacity>
     </View>
-    <TouchableOpacity style={styles.popupButton} onPress={onProceedPayment}>
-      <Text style={styles.popupButtonText}>Place Order |  ₹{totalToPay}</Text>
-    </TouchableOpacity>
-  </View>
-);
+  );
+};
+
+export default DeliveryScreen;
 
 
 const styles = StyleSheet.create({
@@ -409,4 +425,3 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DeliveryScreen;

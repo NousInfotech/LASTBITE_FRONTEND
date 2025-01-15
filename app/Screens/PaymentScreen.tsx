@@ -277,14 +277,14 @@ const PaymentScreen = () => {
           source={require("../../assets/images/image 1 1.png")}
           style={styles.imageIcon}
         />
-        {/* <Image
+        <Image
           source={require("../../assets/images/image 1 1.png")}
           style={styles.imageIcon}
         />
         <Image
           source={require("../../assets/images/image 1 1.png")}
           style={styles.imageIcon}
-        /> */}
+        />
       </View>
     </View>
   </View>
