@@ -202,7 +202,7 @@ const PaymentScreen = () => {
             </View>
             <AntDesign name="right" size={16} color="grey" />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.paymentOption}>
+          <TouchableOpacity style={styles.paymentOption} onPress={() => router.push('./NetBank')}>
             <Image
               source={require("../../assets/images/Merchant Account.png")}
               style={styles.aImage}
@@ -213,7 +213,7 @@ const PaymentScreen = () => {
             </View>
             <AntDesign name="right" size={16} color="grey" />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.paymentOption}>
+          <TouchableOpacity style={styles.paymentOption}  onPress={() => router.push('./PayLater')}>
             <Image
               source={require("../../assets/images/Time to Pay.png")}
               style={styles.aImage}
@@ -224,7 +224,7 @@ const PaymentScreen = () => {
             </View>
             <AntDesign name="right" size={16} color="grey" />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.paymentOption}>
+          <TouchableOpacity style={styles.paymentOption}  onPress={() => router.push('./PayOnCash')}>
             <Image
               source={require("../../assets/images/Cash in Hand.png")}
               style={styles.aImage}
@@ -235,7 +235,7 @@ const PaymentScreen = () => {
             </View>
             <AntDesign name="right" size={16} color="grey" />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.paymentOption}>
+          <TouchableOpacity style={styles.paymentOption}  onPress={() => router.push('./cred')}>
             <Image
               source={require("../../assets/images/image 2.png")}
               style={styles.aImage}
