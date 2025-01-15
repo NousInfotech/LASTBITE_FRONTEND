@@ -18,25 +18,33 @@ const Wallet = () => {
 
   useEffect(() => {
     async function loadFonts() {
-      await Font.loadAsync({
-        "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
-        "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
-        "Poppins-SemiBold": require("../../assets/fonts/Poppins-SemiBold.ttf"),
-      });
-      setFontsLoaded(true);
+      try {
+        await Font.loadAsync({
+          "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
+          "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
+          "Poppins-SemiBold": require("../../assets/fonts/Poppins-SemiBold.ttf"),
+        });
+        setFontsLoaded(true);
+      } catch (error) {
+        console.error("Error loading fonts:", error);
+      }
     }
 
     loadFonts();
   }, []);
 
   if (!fontsLoaded) {
-    return null; // Optionally, show a loading screen or placeholder
+    return (
+      <SafeAreaView style={styles.loadingContainer}>
+        <Text>Loading...</Text>
+      </SafeAreaView>
+    );
   }
 
   const wallets = [
     { id: 1, name: "Amazon Pay Balance", icon: require("../../assets/images/Amazon Pay.png") },
-    { id: 2, name: "PhonePe", icon: require("../../assets/images/Google Pay.png") },
-    { id: 3, name: "MobiKwik", icon: require("../../assets/images/Amazon Pay.png") },
+    { id: 2, name: "PhonePe", icon: require("../../assets/images/Phone Pe.png") },
+    { id: 3, name: "MobiKwik", icon: require("../../assets/images/image 4.png") },
   ];
 
   return (
@@ -56,7 +64,17 @@ const Wallet = () => {
           <View key={wallet.id} style={styles.walletItem}>
             <Image source={wallet.icon} style={styles.walletIcon} />
             <Text style={styles.walletName}>{wallet.name}</Text>
-            <TouchableOpacity style={styles.linkButton}>
+            <TouchableOpacity
+              style={styles.linkButton}
+              onPress={() =>
+                router.push({
+                  pathname: "./LinkAccount", // Update with the correct path to your LinkAccount component
+                  params: {
+                    walletName: wallet.name,
+                  },
+                })
+              }
+            >
               <Text style={styles.linkButtonText}>Link Account</Text>
             </TouchableOpacity>
           </View>
@@ -72,6 +90,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   header: {
     flexDirection: "row",
@@ -89,13 +112,6 @@ const styles = StyleSheet.create({
   walletList: {
     marginTop: 16,
     padding: 16,
-    backgroundColor: "#fff",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-    marginHorizontal: 16,
   },
   walletItem: {
     flexDirection: "row",
@@ -110,7 +126,7 @@ const styles = StyleSheet.create({
   },
   walletName: {
     flex: 1,
-    fontSize: 12,
+    fontSize: 14,
     fontFamily: "Poppins-Medium",
   },
   linkButton: {

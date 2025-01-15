@@ -51,7 +51,7 @@ const NetBank = () => {
           <View style={styles.divider} />
           <TouchableOpacity style={styles.paymentOption} onPress={() => router.push('./Wallet')}>
             <Image
-              source={require("../../assets/images/Wallet.png")}
+              source={require("../../assets/images/image 7.png")}
               style={styles.aImage}
             />
             <View style={styles.paymentDetails}>
@@ -61,7 +61,7 @@ const NetBank = () => {
           </TouchableOpacity>
           <TouchableOpacity style={styles.paymentOption} onPress={() => router.push('./Pluxee')}>
             <Image
-              source={require("../../assets/images/Credit Card.png")}
+              source={require("../../assets/images/image 6.png")}
               style={styles.aImage}
             />
             <View style={styles.paymentDetails}>
@@ -71,7 +71,7 @@ const NetBank = () => {
           </TouchableOpacity>
           <TouchableOpacity style={styles.paymentOption}>
             <Image
-              source={require("../../assets/images/Merchant Account.png")}
+              source={require("../../assets/images/image 8.png")}
               style={styles.aImage}
             />
             <View style={styles.paymentDetails}>
@@ -81,7 +81,7 @@ const NetBank = () => {
           </TouchableOpacity>
           <TouchableOpacity style={styles.paymentOption}>
             <Image
-              source={require("../../assets/images/Time to Pay.png")}
+              source={require("../../assets/images/image 9.png")}
               style={styles.aImage}
             />
             <View style={styles.paymentDetails}>
@@ -91,7 +91,7 @@ const NetBank = () => {
           </TouchableOpacity>
           <TouchableOpacity style={styles.paymentOption}>
             <Image
-              source={require("../../assets/images/Cash in Hand.png")}
+              source={require("../../assets/images/image 10.png")}
               style={styles.aImage}
             />
             <View style={styles.paymentDetails}>
@@ -101,7 +101,7 @@ const NetBank = () => {
           </TouchableOpacity>
           <TouchableOpacity style={styles.paymentOption}>
             <Image
-              source={require("../../assets/images/image 2.png")}
+              source={require("../../assets/images/image 14.png")}
               style={styles.aImage}
             />
             <View style={styles.paymentDetails}>
@@ -111,7 +111,7 @@ const NetBank = () => {
           </TouchableOpacity>
           <TouchableOpacity style={styles.paymentOption}>
             <Image
-              source={require("../../assets/images/image 2.png")}
+              source={require("../../assets/images/image 15.png")}
               style={styles.aImage}
             />
             <View style={styles.paymentDetails}>

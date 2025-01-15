@@ -48,7 +48,7 @@ const PayLater = () => {
           style={styles.paymentOption}
         >
           <Image
-            source={require("../../assets/images/Plus Math.png")}
+            source={require("../../assets/images/image 16.png")}
             style={styles.aImage}
           />
           <View style={styles.paymentDetails}>
