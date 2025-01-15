@@ -248,32 +248,47 @@ const PaymentScreen = () => {
         </View>
       </ScrollView>
       <Modal visible={isPopupVisible} transparent={true} animationType="slide">
-        <View style={styles.popupContainer}>
-          <View style={styles.popupContent}>
-            <View style={styles.headerRow}>
-              <Text style={styles.popupTitle}>Introducing Last Bites</Text><Image
-              source={require("../../assets/images/image 1 1.png")}
-              style={styles.pImage}
-            />
-              <TouchableOpacity
-                style={styles.closeButton}
-                onPress={() => setIsPopupVisible(false)}
-              >
-                <AntDesign name="close" size={20} color="#000" />
-              </TouchableOpacity>
-            </View>
-            <Text style={styles.popupSubText}>
-              Unlock 3x faster in-app UPI payment on LastBites
-            </Text>
-            <TouchableOpacity style={styles.activateButton}>
-              <Text style={styles.activateButtonText}>
-                Activate in 10 seconds
-              </Text>
-            </TouchableOpacity>
-            <Text style={styles.popupBottom}>Powered by</Text>
-          </View>
-        </View>
-      </Modal>
+  <View style={styles.popupContainer}>
+    <View style={styles.popupContent}>
+      <View style={styles.headerRow}>
+        <Text style={styles.popupTitle}>Introducing Last Bites</Text>
+        <Image
+          source={require("../../assets/images/image 1 1.png")}
+          style={styles.pImage}
+        />
+        <TouchableOpacity
+          style={styles.closeButton}
+          onPress={() => setIsPopupVisible(false)}
+        >
+          <AntDesign name="close" size={20} color="#000" />
+        </TouchableOpacity>
+      </View>
+      <Text style={styles.popupSubText}>
+        Unlock 3x faster in-app UPI payment on LastBites
+      </Text>
+      <TouchableOpacity style={styles.activateButton}>
+        <Text style={styles.activateButtonText}>
+          Activate in 10 seconds
+        </Text>
+      </TouchableOpacity>
+      <View style={styles.poweredByRow}>
+        <Text style={styles.popupBottom}>Powered by</Text>
+        <Image
+          source={require("../../assets/images/image 1 1.png")}
+          style={styles.imageIcon}
+        />
+        {/* <Image
+          source={require("../../assets/images/image 1 1.png")}
+          style={styles.imageIcon}
+        />
+        <Image
+          source={require("../../assets/images/image 1 1.png")}
+          style={styles.imageIcon}
+        /> */}
+      </View>
+    </View>
+  </View>
+</Modal>
     </SafeAreaView>
   );
 };
@@ -478,42 +493,68 @@ const styles = StyleSheet.create({
   closeButton: {
     // marginRight: 10,
   },
+  // popupContainer: {
+  //   flex: 1,
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  // },
+  // popupContent: {
+  //   backgroundColor: '#fff',
+  //   padding: 20,
+  //   borderRadius: 10,
+  //   width: '80%',
+  // },
+  // headerRow: {
+  //   flexDirection: 'row',
+  //   justifyContent: 'space-between',
+  //   alignItems: 'center',
+  // },
   popupTitle: {
     fontSize: 18,
-    fontWeight: "bold",
-    fontFamily: "Poppins-SemiBold",
+    fontWeight: 'bold',
+    fontFamily: 'Poppins-SemiBold',
     marginBottom: 8,
   },
   pImage: {
     height: 30,
     width: 38,
-    marginLeft:-70,
-    marginTop:-8,
+    marginLeft: -70,
+    marginTop: -8,
   },
   popupSubText: {
     fontSize: 12,
-    fontWeight: "500",
-    color: "grey",
-    fontFamily: "Poppins-Regular",
+    fontWeight: '500',
+    color: 'grey',
+    fontFamily: 'Poppins-Regular',
     marginBottom: 16,
   },
   activateButton: {
-    backgroundColor: "#01615F",
+    backgroundColor: '#01615F',
     padding: 12,
     borderRadius: 8,
-    alignItems: "center",
+    alignItems: 'center',
   },
   activateButtonText: {
-    color: "#fff",
+    color: '#fff',
     fontSize: 14,
-    fontFamily: "Poppins-Medium",
+    fontFamily: 'Poppins-Medium',
   },
   popupBottom: {
     fontSize: 12,
-    fontWeight: "500",
-    color: "grey",
-    fontFamily: "Poppins-Regular",
-    margin: 10,
-    alignItems: "center",
+    fontWeight: '500',
+    color: 'grey',
+    fontFamily: 'Poppins-Regular',
+  },
+  poweredByRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 10,
+  },
+  imageIcon: {
+    width: 30,
+    height: 30,
+    marginLeft: 5,
   },
 });
