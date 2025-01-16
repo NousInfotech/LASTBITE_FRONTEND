@@ -17,6 +17,9 @@ import DeliveryTypeSelection from "@/components/DeliveryTypeSelector";
 import DeliveryPopup from "@/components/DeliveryPopup";
 import * as Font from "expo-font";
 import DelieveryInstruction from "@/components/DeliveryInstructions";
+import { MaterialIcons } from '@expo/vector-icons';
+import CouponModal from '@/components/Coupon';
+
 interface CartItem {
   name: string;
   quantity: number;
@@ -46,6 +49,7 @@ const BillingScreen = () => {
     );
   };
 
+  
   useEffect(() => {
     // Load custom fonts
     const loadFonts = async () => {
@@ -172,23 +176,55 @@ const BillingScreen = () => {
     </TouchableOpacity>
   );
 
-  const SavingsCorner = () => (
-    <View style={styles.savingsCornerContainer}>
-      <Text style={styles.savingsCornerText}>SAVINGS CORNER</Text>
-      <TouchableOpacity
-        style={styles.applyCouponContainer}
-        onPress={() => console.log("Apply Coupon pressed")}
-      >
-        <Image
-          source={require("./../../assets/images/coupon.png")}
-          style={styles.couponImage}
+  const SavingsCorner = () => {
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isCouponApplied, setIsCouponApplied] = useState(false);
+  
+    const handleApplyCoupon = () => {
+      setIsCouponApplied(true);
+    };
+  
+    return (
+      <View style={styles.savingsCornerContainer}>
+        <Text style={styles.savingsCornerText}>SAVINGS CORNER</Text>
+        
+        <TouchableOpacity style={styles.applyCouponContainer}>
+          <Image
+            source={require("./../../assets/images/coupon.png")}
+            style={styles.couponImage}
+          />
+          
+          <View style={styles.textContainer}>
+            <Text style={styles.applyCouponText}>Save $150 on this order</Text>
+            <View style={styles.viewAllContainer}>
+              <Text style={styles.viewAllText}>View all coupons</Text>
+              <MaterialIcons name="chevron-right" size={16} color="#01615F" />
+            </View>
+          </View>
+  
+          {!isCouponApplied ? (
+            <TouchableOpacity 
+              style={styles.applyButton}
+              onPress={() => setIsModalVisible(true)}
+            >
+              <Text style={styles.applyButtonText}>APPLY</Text>
+            </TouchableOpacity>
+          ) : (
+            <View style={styles.appliedContainer}>
+              <MaterialIcons name="check-circle" size={20} color="#01615F" />
+              <Text style={styles.appliedText}>APPLIED</Text>
+            </View>
+          )}
+        </TouchableOpacity>
+  
+        <CouponModal
+          isVisible={isModalVisible}
+          onClose={() => setIsModalVisible(false)}
+          onApply={handleApplyCoupon}
         />
-        <Text style={styles.applyCouponText}>Apply Coupon</Text>
-        <Text style={styles.chevron}>&gt;</Text>
-      </TouchableOpacity>
-    </View>
-  );
-
+      </View>
+    );
+  };
   const AddMoreButton = () => {
     const router = useRouter();
     return (
@@ -423,36 +459,69 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 2,
-    paddingBottom: 10,
-    paddingHorizontal: 10,
+    padding: 16,
   },
   savingsCornerText: {
     fontSize: 14,
     fontFamily: "Poppins-SemiBold",
-    marginBottom: 10,
-    paddingVertical: 8,
-    paddingHorizontal: 2,
+    marginBottom: 12,
+    color: "#000",
   },
   applyCouponContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    // paddingVertical: 8,
-    paddingHorizontal: 2,
-  },
-  applyCouponText: {
-    fontSize: 12,
-    marginTop: 2,
-    fontFamily: "Poppins-Medium",
-  },
-  chevron: {
-    fontSize: 18,
-    color: "#01615F",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    padding: 8,
   },
   couponImage: {
     width: 24,
     height: 24,
-    marginRight: -150,
+    marginRight: 12,
+  },
+  textContainer: {
+    flex: 1,
+  },
+  applyCouponText: {
+    fontSize: 12,
+    fontFamily: "Poppins-SemiBold",
+    // color: '#01615F',
+    marginBottom: 4,
+  },
+  viewAllContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  viewAllText: {
+    fontSize: 10,
+    fontFamily: "Poppins-Medium",
+    color: '#7a7a7a',
+    marginRight: 2,
+  },
+  applyButton: {
+    backgroundColor: '#fff',
+    paddingHorizontal: 16,
+    paddingVertical: 6,
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: '#01615F',
+    marginLeft: 12,
+  },
+  applyButtonText: {
+    color: '#01615F',
+    fontSize: 12,
+    fontFamily: "Poppins-Medium",
+  },
+  appliedContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 12,
+  },
+  appliedText: {
+    color: '#01615F',
+    fontSize: 12,
+    fontFamily: "Poppins-Medium",
+    marginLeft: 4,
   },
   Delivery: {
     marginTop: 10,
