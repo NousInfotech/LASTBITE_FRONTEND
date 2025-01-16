@@ -49,7 +49,7 @@ const NetBank = () => {
           <View style={styles.paymentContainer}>
           <Text style={styles.paymentHeader}>Popular Banks</Text>
           <View style={styles.divider} />
-          <TouchableOpacity style={styles.paymentOption} onPress={() => router.push('./Wallet')}>
+          <TouchableOpacity style={styles.paymentOption}>
             <Image
               source={require("../../assets/images/image 7.png")}
               style={styles.aImage}
@@ -59,7 +59,7 @@ const NetBank = () => {
             </View>
             <AntDesign name="right" size={16} color="grey" />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.paymentOption} onPress={() => router.push('./Pluxee')}>
+          <TouchableOpacity style={styles.paymentOption} >
             <Image
               source={require("../../assets/images/image 6.png")}
               style={styles.aImage}
@@ -124,13 +124,13 @@ const NetBank = () => {
         <View style={styles.paymentContainer}>
           <Text style={styles.paymentHeader}>All Banks</Text>
           <View style={styles.divider} />
-          <TouchableOpacity style={styles.paymentOption} onPress={() => router.push('./Wallet')}>
+          <TouchableOpacity style={styles.paymentOption} >
             <View style={styles.paymentDetails}>
               <Text style={styles.paymentText}>Bank of Baroda</Text>
             </View>
             <AntDesign name="right" size={16} color="grey" />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.paymentOption} onPress={() => router.push('./Pluxee')}>
+          <TouchableOpacity style={styles.paymentOption} >
             <View style={styles.paymentDetails}>
               <Text style={styles.paymentText}>Central Bank of India</Text>
             </View>
