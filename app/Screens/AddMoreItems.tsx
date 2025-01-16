@@ -17,6 +17,7 @@ import SearchBarVoice from "@/components/SearchBarVoice";
 import {  Ionicons } from "@expo/vector-icons";
 import { useRouter } from 'expo-router';
 import * as Font from "expo-font";
+import FilterPopup from "@/components/FilterFood";
 
 interface Restaurant {
   restaurantId: string;
@@ -146,7 +147,12 @@ const RestaurantSelect = () => {
   const totalItemsInCart = Object.values(cartCounts).reduce((sum, count) => sum + count, 0);
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const [isFilterVisible, setIsFilterVisible] = useState(false);
 
+  const handleFilterApply = (filters:any) => {
+    console.log("Applied Filters:", filters);
+    // Apply the filters to your data
+  };
   const handleFavorite = () => {
     // Add favorite logic here
     setIsMenuVisible(false);
@@ -264,7 +270,7 @@ const RestaurantSelect = () => {
             styles.filterButton,
             selectedFilters.includes('filter') && styles.selected,
           ]}
-          onPress={toggleFilterDropdown}
+          onPress={() => setIsFilterVisible(true)}
         >
           <Ionicons name="funnel-outline" size={18} color="black" />
           <Text style={styles.buttonText}>Filter</Text>
@@ -274,6 +280,11 @@ const RestaurantSelect = () => {
             color="grey"
             style={styles.dropdownIcon}
           />
+           <FilterPopup
+        isVisible={isFilterVisible}
+        onClose={() => setIsFilterVisible(false)}
+        onApply={handleFilterApply}
+      />
         </TouchableOpacity>
 
         {['Veg', 'Egg', 'Non Veg'].map((filter) => (
