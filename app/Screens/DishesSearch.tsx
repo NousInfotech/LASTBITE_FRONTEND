@@ -430,7 +430,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   menuCard: {
-    width: 300, // Fixed width for stability
+    width: 250, // Fixed width for stability
     flexDirection: "row",
     justifyContent: 'space-between',
     borderRadius: 8,

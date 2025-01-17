@@ -632,8 +632,8 @@ const styles = StyleSheet.create({
   },
   addButtonText: {
     color: "#fff",
-    fontSize: 10,
-    fontFamily: "Poppins-Regular",
+    fontSize: 12,
+    fontFamily: "Poppins-Medium",
   },
   popupContainer: {
     position: "absolute",

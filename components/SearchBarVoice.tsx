@@ -60,7 +60,7 @@ const SearchBarVoice: React.FC<SearchBarVoiceProps> = ({
           onChangeText={onChangeText}
           {...rest} // Pass additional props like value, keyboardType, etc.
         />
-        <Icon name="mic-none" size={24} color="#929292" style={styles.voiceIcon} />
+        <Icon name="mic-none" size={24} color="#01615F" style={styles.voiceIcon} />
       </TouchableOpacity>
     </View>
   );

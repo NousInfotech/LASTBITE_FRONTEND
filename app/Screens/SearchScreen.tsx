@@ -165,6 +165,8 @@ const SearchScreen = () => {
                 <View style={styles.dishesDetails}>
                   <TouchableOpacity onPress={() => handleDishClick(dish)}>
                     <Text style={styles.dishesType}>{dish.name}</Text>
+                    <Text style={styles.dishesText}>Dish</Text>
+                  
                   </TouchableOpacity>
                 </View>
               </View>
