@@ -139,7 +139,7 @@ const SearchScreen = () => {
       </View>
       <View>
         <SearchBarVoice
-          onInputPress={(text: string) => setSearchText(text)} // Accepts the text input
+          // onInputPress={(text: string) => setSearchText(text)} 
           redirectTargets={["Dishes", "Restaurants"]}
           placeholder="Dishes, restaurants & more"
           onChangeText={(text: string) => setSearchText(text)} // Trigger search immediately as text changes

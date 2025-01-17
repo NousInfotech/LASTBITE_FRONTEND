@@ -348,7 +348,7 @@ const DishesSearch: React.FC = () => {
       </View>
 
       <SearchBarVoice
-        onInputPress={() => {}}
+        onChangeText={() => {}}
         redirectTargets={["Dishes", "Restaurants"]}
         placeholder={name || ''}
       />

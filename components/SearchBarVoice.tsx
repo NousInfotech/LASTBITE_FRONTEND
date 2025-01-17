@@ -1,22 +1,27 @@
-import React, { useState, useEffect } from "react";
-import { View, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  TextInput,
+  TextInputProps,
+} from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import * as Font from "expo-font";
 
-interface SearchBarVoiceProps {
-  onInputPress: (text: string) => void; 
-  placeholder?: string;
+interface SearchBarVoiceProps extends TextInputProps {
+  onInputPress?: () => void; // Action to redirect (non-editable)
+  onChangeText?: (text: string) => void; // Trigger on text change (editable)
+  placeholder?: string; // Placeholder text
   redirectTargets: string[];
-  onChangeText: (text: string) => void; 
-
 }
 
 const SearchBarVoice: React.FC<SearchBarVoiceProps> = ({
   onInputPress,
+  onChangeText,
   placeholder = "Search here...",
-  redirectTargets,
+  ...rest
 }) => {
-  const [searchText, setSearchText] = useState("");
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
   useEffect(() => {
@@ -36,27 +41,27 @@ const SearchBarVoice: React.FC<SearchBarVoiceProps> = ({
   }, []);
 
   if (!fontsLoaded) {
-    return null;
+    return null; // Avoid rendering until fonts are loaded
   }
 
   return (
     <View style={styles.container}>
-      <View style={styles.searchContainer}>
+      <TouchableOpacity
+        style={styles.searchContainer}
+        onPress={onInputPress}
+        activeOpacity={onInputPress ? 0.7 : 1} // Disable opacity change if no onInputPress
+      >
         <Icon name="search" size={24} color="#757575" style={styles.searchIcon} />
         <TextInput
           style={styles.input}
           placeholder={placeholder}
           placeholderTextColor="#757575"
-          value={searchText}
-          onChangeText={(text) => {
-            setSearchText(text);
-            onInputPress(text); // Pass the searchText immediately to onInputPress
-          }}
+          editable={!onInputPress} // Editable if no redirection
+          onChangeText={onChangeText}
+          {...rest} // Pass additional props like value, keyboardType, etc.
         />
-        <TouchableOpacity style={styles.voiceButton}>
-          <Icon name="mic-none" size={24} color="#929292" />
-        </TouchableOpacity>
-      </View>
+        <Icon name="mic-none" size={24} color="#929292" style={styles.voiceIcon} />
+      </TouchableOpacity>
     </View>
   );
 };
@@ -86,8 +91,8 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     fontFamily: "Poppins-Regular",
   },
-  voiceButton: {
-    padding: 8,
+  voiceIcon: {
+    paddingLeft: 8,
   },
 });
 
