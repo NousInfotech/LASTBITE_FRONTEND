@@ -2,7 +2,8 @@
 import CurrentLocation from "@/components/CurrenLocation";
 import GoBack from "@/components/GoBack";
 import SearchInput from "@/components/SearchInput";
-import { useNavigation } from "expo-router";
+import { useNavigation, useRouter } from "expo-router";
+
 import React, { useState, useEffect } from "react";
 import { SafeAreaView, StatusBar, View, Text } from "react-native";
 
@@ -13,17 +14,22 @@ const LocationInputScreen: React.FC = () => {
     setSearchText("");
   };
 
-  const handleGetLocation = (): void => {
-    console.log("Location service will be implemented here");
+  const handleGetLocation = () => {
+    router.push({
+      pathname: "/UserDetails/MapView",
+      params: { mode: "currentLocation" },
+    });
+    console.log("Use my current location clicked");
   };
   const navigation = useNavigation();
 
   useEffect(() => {
-    // Hide header if needed
-    navigation.setOptions({
-      headerShown: false,
-    });
-  }, []);
+      navigation.setOptions({
+        headerShown: false,
+      });
+    }, [navigation]);
+  
+    const router = useRouter();
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>

@@ -59,8 +59,10 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     borderWidth: 2,
     borderColor: "#929292",
+    margin:10,
   },
   textInput: {
+    flex: 1, // Allow the TextInput to take up remaining space
     marginLeft: 8,
     fontSize: 16,
     color: "black",

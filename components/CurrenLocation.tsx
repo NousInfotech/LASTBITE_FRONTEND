@@ -14,7 +14,7 @@ const CurrentLocation: React.FC<CurrentLocationButtonProps> = ({
     <TouchableOpacity
       onPress={handleGetLocation}
       activeOpacity={0.7}
-      style={{ flexDirection: "row", alignItems: "center", padding: 12 }}
+      style={{ flexDirection: "row", alignItems: "center", padding: 20 }}
     >
       <Icon name="map-pin" size={18} color="#01615F" />
       <Text
