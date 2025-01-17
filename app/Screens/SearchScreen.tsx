@@ -13,7 +13,6 @@ import SearchBarVoice from "@/components/SearchBarVoice";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
 
-// Define the type for restaurant
 interface Restaurant {
   restaurantId: string;
   name: string;
@@ -24,24 +23,23 @@ interface Restaurant {
   categories: string[];
   menu: string[];
   isActive: boolean;
-  createdAt: string; // Timestamp when the restaurant was added
-  updatedAt: string; // Timestamp when the restaurant details were last updated
+  createdAt: string;
+  updatedAt: string;
 }
 
 const SearchScreen = () => {
   const router = useRouter();
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+  const [searchText, setSearchText] = useState<string>("");
 
-  // Function to check if a restaurant is new
   const isNewRestaurant = (createdAt: string) => {
     const createdAtDate = new Date(createdAt);
     const now = new Date();
     const diffInDays =
       (now.getTime() - createdAtDate.getTime()) / (1000 * 60 * 60 * 24);
-    return diffInDays <= 7; // Consider new if added within the last 7 days
+    return diffInDays <= 7;
   };
-  const [fontsLoaded, setFontsLoaded] = useState(false);
 
-  // Dummy data for dishes and restaurants
   const dishes = [
     {
       id: 1,
@@ -56,22 +54,7 @@ const SearchScreen = () => {
       image: "https://via.placeholder.com/32",
     },
   ];
-  useEffect(() => {
-    async function loadFonts() {
-      await Font.loadAsync({
-        "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
-        "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
-        "Poppins-SemiBold": require("../../assets/fonts/Poppins-SemiBold.ttf"),
-      });
-      setFontsLoaded(true);
-    }
 
-    loadFonts();
-  }, []);
-
-  if (!fontsLoaded) {
-    return null; // Optionally, show a loading screen or placeholder
-  }
   const restaurants: Restaurant[] = [
     {
       restaurantId: "r1",
@@ -83,7 +66,7 @@ const SearchScreen = () => {
       categories: ["Biryani", "North Indian", "Desserts"],
       menu: ["m1", "m2", "m3"],
       isActive: true,
-      createdAt: "new Date().toISOString()", // Recently added
+      createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     },
     {
@@ -96,121 +79,140 @@ const SearchScreen = () => {
       categories: ["Biryani", "North Indian", "Desserts"],
       menu: ["m1", "m2", "m3"],
       isActive: true,
-      createdAt: "2023-12-15T10:30:00.000Z", // Older restaurant
+      createdAt: "2023-12-15T10:30:00.000Z",
       updatedAt: "2024-01-10T12:00:00.000Z",
     },
   ];
 
+  useEffect(() => {
+    async function loadFonts() {
+      await Font.loadAsync({
+        "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
+        "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
+        "Poppins-SemiBold": require("../../assets/fonts/Poppins-SemiBold.ttf"),
+      });
+      setFontsLoaded(true);
+    }
+    loadFonts();
+  }, []);
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
+  const filteredDishes = dishes.filter((dish) =>
+    dish.name.toLowerCase().includes((searchText || "").toString().toLowerCase())
+  );
+  
+  const filteredRestaurants = restaurants.filter((restaurant) =>
+    restaurant.name.toLowerCase().includes((searchText || "").toString().toLowerCase())
+  );
+  
+  const displayType = searchText.toLowerCase().includes("dish")
+    ? "dish"
+    : searchText.toLowerCase().includes("restaurant")
+    ? "restaurant"
+    : "both";
+
   const handleRestaurantClick = (restaurant: Restaurant) => {
     router.push({
       pathname: "./RestaurantSelect",
-      params: {
-        restaurantId: restaurant.restaurantId,
-      },
+      params: { restaurantId: restaurant.restaurantId },
     });
   };
 
-  const handleDishClick = (dish: {
-    id: number;
-    name: string;
-    type: string;
-  }) => {
+  const handleDishClick = (dish: { id: number; name: string; type: string }) => {
     router.push({
       pathname: "./DishesSearch",
-      params: {
-        id: dish.id.toString(),
-        name: dish.name,
-        type: dish.type,
-      },
+      params: { id: dish.id.toString(), name: dish.name, type: dish.type },
     });
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity>
           <GoBack />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Search for Dishes & Restaurants</Text>
       </View>
-
-      {/* Search Bar */}
       <View>
         <SearchBarVoice
-          onInputPress={() => {}}
+          onInputPress={(text: string) => setSearchText(text)} // Accepts the text input
           redirectTargets={["Dishes", "Restaurants"]}
           placeholder="Dishes, restaurants & more"
+          onChangeText={(text: string) => setSearchText(text)} // Trigger search immediately as text changes
         />
       </View>
-
-      {/* Dishes Recommendations */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Recommendations "Dishes"</Text>
-      </View>
-      {dishes.map((dish) => (
-        <View key={dish.id} style={styles.dishesItem}>
-          <View style={styles.dishesLeft}>
-            <TouchableOpacity
-              style={styles.dishButton}
-              onPress={() => handleDishClick(dish)}
-            >
-              <Image style={styles.dishImage} source={{ uri: dish.image }} />
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={() => handleDishClick(dish)}>
-              <View style={styles.dishesDetails}>
-                <Text style={styles.dishesType}>{dish.name}</Text>
-                <Text style={styles.dishesText}>{dish.type}</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        </View>
-      ))}
-
-      {/* Restaurant Recommendations */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Recommended "Restaurants
-        "</Text>
-      </View>
-      {restaurants.map((restaurant) => (
-        <View key={restaurant.restaurantId} style={styles.dishesItem}>
-          <View style={styles.dishesLeft}>
-            <TouchableOpacity
-              style={styles.dishButton}
-              onPress={() => handleRestaurantClick(restaurant)}
-            >
-              <Image
-                style={styles.dishImage}
-                source={{ uri: restaurant.coverImage }}
-              />
-            </TouchableOpacity>
-            <View style={styles.dishesDetails}>
-              <TouchableOpacity
-                onPress={() => handleRestaurantClick(restaurant)}
-              >
-                <Text style={styles.dishesType}>{restaurant.name}</Text>
-              </TouchableOpacity>
-              <Text style={styles.dishesText}>
-                {isNewRestaurant(restaurant.createdAt) && (
-                  <Text>
-                    <Image
-                      source={require("../../assets/images/Rating.png")}
-                      style={styles.inlineImage}
-                    />{" "}
-                    <Text style={styles.newBadge}>New</Text>
-                  </Text>
-                )}
-                {isNewRestaurant(restaurant.createdAt) && " • "}
-                {restaurant.details}
-              </Text>
+  
+      {displayType === "dish" || displayType === "both" ? (
+        <>
+          {filteredDishes.length > 0 && (
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Recommendations "Dishes"</Text>
             </View>
-          </View>
-        </View>
-      ))}
+          )}
+          {filteredDishes.map((dish) => (
+            <View key={dish.id} style={styles.dishesItem}>
+              <View style={styles.dishesLeft}>
+                <TouchableOpacity
+                  style={styles.dishButton}
+                  onPress={() => handleDishClick(dish)}
+                >
+                  <Image style={styles.dishImage} source={{ uri: dish.image }} />
+                </TouchableOpacity>
+                <View style={styles.dishesDetails}>
+                  <TouchableOpacity onPress={() => handleDishClick(dish)}>
+                    <Text style={styles.dishesType}>{dish.name}</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          ))}
+        </>
+      ) : null}
+  
+      {displayType === "restaurant" || displayType === "both" ? (
+        <>
+          {filteredRestaurants.length > 0 && (
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Recommendation "Restaurants"</Text>
+            </View>
+          )}
+          {filteredRestaurants.map((restaurant) => (
+            <View key={restaurant.restaurantId} style={styles.dishesItem}>
+              <View style={styles.dishesLeft}>
+                <TouchableOpacity
+                  style={styles.dishButton}
+                  onPress={() => handleRestaurantClick(restaurant)}
+                >
+                  <Image
+                    style={styles.dishImage}
+                    source={{ uri: restaurant.coverImage }}
+                  />
+                </TouchableOpacity>
+                <View style={styles.dishesDetails}>
+                  <TouchableOpacity
+                    onPress={() => handleRestaurantClick(restaurant)}
+                  >
+                    <Text style={styles.dishesType}>{restaurant.name}</Text>
+                  </TouchableOpacity>
+                  <Text style={styles.dishesText}>
+                    {isNewRestaurant(restaurant.createdAt) && (
+                      <Text style={styles.newBadge}>New • </Text>
+                    )}
+                    {restaurant.details}
+                  </Text>
+                </View>
+              </View>
+            </View>
+          ))}
+        </>
+      ) : null}
     </SafeAreaView>
   );
+  
 };
 
 export default SearchScreen;

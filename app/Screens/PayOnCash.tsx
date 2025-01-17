@@ -9,7 +9,7 @@ import {
   StyleSheet,
 } from "react-native";
 import GoBack from "@/components/GoBack";
-import SearchBarVoice from "@/components/SearchBarVoice";
+// import SearchBarVoice from "@/components/SearchBarVoice";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
 

@@ -1,28 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { View, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import Voice from "react-native-voice";
-import { Audio } from "expo-av";
 import * as Font from "expo-font";
 
 interface SearchBarVoiceProps {
-  onInputPress: () => void;
-  redirectTargets: string[];
+  onInputPress: (text: string) => void; 
   placeholder?: string;
+  redirectTargets: string[];
+  onChangeText: (text: string) => void; 
+
 }
 
 const SearchBarVoice: React.FC<SearchBarVoiceProps> = ({
   onInputPress,
-  redirectTargets,
   placeholder = "Search here...",
+  redirectTargets,
 }) => {
   const [searchText, setSearchText] = useState("");
-  const [isListening, setIsListening] = useState(false);
-  const [permissionGranted, setPermissionGranted] = useState(false);
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
   useEffect(() => {
-    // Load custom fonts
     const loadFonts = async () => {
       try {
         await Font.loadAsync({
@@ -38,70 +35,8 @@ const SearchBarVoice: React.FC<SearchBarVoiceProps> = ({
     loadFonts();
   }, []);
 
-  // Request microphone permission
-  const requestMicrophonePermission = async () => {
-    try {
-      const { status } = await Audio.requestPermissionsAsync();
-      setPermissionGranted(status === "granted");
-      if (status !== "granted") {
-        alert("Permission to access microphone is required!");
-      }
-    } catch (error) {
-      console.error("Error requesting microphone permission:", error);
-    }
-  };
-
-  // Initialize Voice event handlers
-  useEffect(() => {
-    requestMicrophonePermission();
-
-    Voice.onSpeechResults = (e) => {
-      if (e?.value?.[0]) {
-        setSearchText(e.value[0]);
-      }
-    };
-
-    Voice.onSpeechError = (e) => {
-      console.error("Speech recognition error:", e);
-      setIsListening(false);
-    };
-
-    Voice.onSpeechPartialResults = (e) => {
-      if (e?.value?.[0]) {
-        setSearchText(e.value[0]);
-      }
-    };
-
-    Voice.onSpeechEnd = () => {
-      setIsListening(false);
-    };
-
-    return () => {
-      Voice.destroy().then(() => Voice.removeAllListeners());
-    };
-  }, []);
-
-  const startListening = () => {
-    if (permissionGranted) {
-      setIsListening(true);
-      try {
-        Voice.start("en-US");
-      } catch (error) {
-        console.error("Error starting speech recognition:", error);
-        setIsListening(false);
-      }
-    } else {
-      alert("Please grant microphone permission to use voice recognition.");
-    }
-  };
-
-  const stopListening = () => {
-    setIsListening(false);
-    Voice.stop();
-  };
-
   if (!fontsLoaded) {
-    return null; // Show a loading placeholder if fonts are not loaded
+    return null;
   }
 
   return (
@@ -113,20 +48,13 @@ const SearchBarVoice: React.FC<SearchBarVoiceProps> = ({
           placeholder={placeholder}
           placeholderTextColor="#757575"
           value={searchText}
-          onChangeText={setSearchText}
-          onFocus={onInputPress}
+          onChangeText={(text) => {
+            setSearchText(text);
+            onInputPress(text); // Pass the searchText immediately to onInputPress
+          }}
         />
-        <TouchableOpacity
-          style={[styles.voiceButton, isListening && styles.listeningButton]}
-          onPressIn={startListening}
-          onPressOut={stopListening}
-          disabled={isListening}
-        >
-          <Icon
-            name={isListening ? "mic" : "mic-none"}
-            size={24}
-            color={isListening ? "#ffffff" : "#929292"}
-          />
+        <TouchableOpacity style={styles.voiceButton}>
+          <Icon name="mic-none" size={24} color="#929292" />
         </TouchableOpacity>
       </View>
     </View>
@@ -160,10 +88,6 @@ const styles = StyleSheet.create({
   },
   voiceButton: {
     padding: 8,
-  },
-  listeningButton: {
-    backgroundColor: "#006B4D",
-    borderRadius: 30,
   },
 });
 
