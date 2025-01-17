@@ -196,10 +196,13 @@ const BillingScreen = () => {
           
           <View style={styles.textContainer}>
             <Text style={styles.applyCouponText}>Save $150 on this order</Text>
+            <TouchableOpacity onPress={() => router.push('./ApplyCoupon')}>
             <View style={styles.viewAllContainer}>
               <Text style={styles.viewAllText}>View all coupons</Text>
               <MaterialIcons name="chevron-right" size={16} color="#01615F" />
             </View>
+            </TouchableOpacity>
+
           </View>
   
           {!isCouponApplied ? (
