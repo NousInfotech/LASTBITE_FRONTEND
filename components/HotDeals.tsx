@@ -84,7 +84,7 @@ const HotDeals: React.FC = () => {
           <Text style={styles.productWeight}>{item.weight}</Text>
           <View style={styles.priceContainer}>
             <Text style={styles.price}>{item.price}</Text>
-            {currentQuantity === 0 ? (
+            {/* {currentQuantity === 0 ? (
               <TouchableOpacity
                 style={styles.addButton}
                 onPress={() =>
@@ -119,7 +119,7 @@ const HotDeals: React.FC = () => {
                   <Text style={styles.buttonText}>+</Text>
                 </TouchableOpacity>
               </View>
-            )}
+            )} */}
           </View>
         </View>
       </View>
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
   productCard: {
     width: 143,
     marginRight: 16,
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     borderRadius: 8,
     paddingBottom: 12,
     height: 260,

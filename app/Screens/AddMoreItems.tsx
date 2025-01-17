@@ -472,7 +472,7 @@ const RestaurantSelect = () => {
     container: {
       flex: 1,
       backgroundColor: "#fff",
-      paddingBottom:90,
+      // paddingBottom:90,
     },
     header: {
       flexDirection: "row",

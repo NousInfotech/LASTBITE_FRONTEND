@@ -23,7 +23,7 @@ const HotDealsProduct = () => {
   const router = useRouter();
 
   const checkoutPageNavigation = () => {
-    router.push("/Screens/checkoutPageNavigation");
+    router.push("/Screens/BillingScreen");
   };
 
   useEffect(() => {
@@ -160,7 +160,7 @@ const HotDealsProduct = () => {
       </View>
 
       {/* Pass cart items to AddMoreItems */}
-      <AddMoreItems items={items} setItems={setItems} />
+      {/* <AddMoreItems items={items} setItems={setItems} /> */}
     </SafeAreaView>
   );
 };

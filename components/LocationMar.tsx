@@ -16,27 +16,30 @@ const LocationMarker = () => {
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    position: "relative",
+    // position: "relative",
   },
   content: {
     backgroundColor: "#000000",
     borderRadius: 12,
-    padding: 12,
-    maxWidth: 280,
+    paddingHorizontal: 16, // Horizontal padding
+    paddingVertical: 12, // Vertical padding
+    maxWidth: 1000,
+    alignItems: "center", // Center align text horizontally
   },
   mainText: {
     color: "#FFFFFF",
     fontSize: 16,
     fontWeight: "600",
+    textAlign: "center", // Center align text
     marginBottom: 4,
   },
   subText: {
     color: "#9CA3AF",
     fontSize: 14,
+    textAlign: "center", // Center align text
   },
   triangle: {
-    width: 0,
-    height: 0,
+    padding:10,
     backgroundColor: "transparent",
     borderStyle: "solid",
     borderLeftWidth: 10,
@@ -45,7 +48,7 @@ const styles = StyleSheet.create({
     borderLeftColor: "transparent",
     borderRightColor: "transparent",
     borderTopColor: "#000000",
-    transform: [{ translateY: -1 }], // Helps connect triangle to bubble smoothly
+    transform: [{ translateY: -1 }], // Connect triangle to the bubble
   },
 });
 
