@@ -8,6 +8,7 @@ import {
   StyleSheet,
   ScrollView,
   TextInput,
+  Image,
 } from "react-native";
 import GoBack from "@/components/GoBack";
 import { useRouter } from "expo-router";
@@ -56,56 +57,91 @@ const ApplyCoupon = () => {
             value={couponInput}
             onChangeText={setCouponInput}
           />
-          <TouchableOpacity style={styles.applyButton}>
+          <TouchableOpacity
+            style={[styles.applyButton, couponInput ? {} : styles.applyButtonDisabled]} 
+            disabled={!couponInput} // Disables the button if couponInput is empty
+          >
             <Text style={styles.applyButtonText}>Apply</Text>
           </TouchableOpacity>
         </View>
 
-        {/* Applied Coupons Section */}
-        <View style={styles.couponCard}>
-  <View style={styles.couponLeftBorder}></View>
-  <View style={styles.couponContent}>
-    <View style={styles.couponRow}>
-      <Text style={styles.couponCode}>TRYNEW</Text>
-      <TouchableOpacity>
-        <Text style={styles.removeText}>Remove</Text>
-      </TouchableOpacity>
-    </View>
-    <Text style={styles.couponDetails}>
-      Save ₹84 on this order!
-      {"\n"}Use code TRYNEW & get 50% off on orders above ₹149. Maximum discount: ₹100.
-    </Text>
-  </View>
-</View>
-
-
-        {/* Best Offers Section */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Best Offers</Text>
-          <View style={styles.couponCard}>
-            <View style={styles.couponRow}>
-              <Text style={styles.couponCode}>TRYNEW</Text>
-              <TouchableOpacity>
-                <Text style={styles.applyText}>Apply</Text>
-              </TouchableOpacity>
-            </View>
-            <Text style={styles.couponDetails}>
-              Save ₹84 on this order!
-              {"\n"}Use code TRYNEW & get 50% off on orders above ₹149. Maximum discount: ₹100.
-            </Text>
-          </View>
+      <View style={styles.section}>
+      <Text style={styles.sectionTitle}>Applied Coupons</Text>
+      <View style={styles.couponCard}>
+        <View style={styles.couponLeftBorder}>
+          <Text style={styles.couponLeftBorderText}>50% OFF</Text>
         </View>
+        <View style={styles.couponContent}>
+          <View style={styles.couponRow}>
+            <Text style={styles.couponCode}>TRYNEW</Text>
+            <TouchableOpacity>
+              <Text style={styles.removeText}>Remove</Text>
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.discountText}>Save ₹84 on this order!</Text>
+          <View style={styles.separatorLine} />
+          <Text style={styles.couponDetails}>
+            Use code TRYNEW & get 50% off on orders above ₹149. Maximum discount: ₹100.
+          </Text>
+          <TouchableOpacity>
+            <Text style={styles.moreText}>+ MORE</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </View>
+
+    <View style={styles.section}>
+      <Text style={styles.sectionTitle}>Best Offers</Text>
+      <View style={styles.couponCard}>
+        <View style={styles.couponLeftBorder}>
+          <Text style={styles.couponLeftBorderText}>50% OFF</Text>
+        </View>
+        <View style={styles.couponContent}>
+          <View style={styles.couponRow}>
+            <Text style={styles.couponCode}>TRYNEW</Text>
+            <TouchableOpacity>
+              <Text style={styles.removeText}>Apply</Text>
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.discountText}>Save ₹84 on this order!</Text>
+          <View style={styles.separatorLine} />
+          <Text style={styles.couponDetails}>
+            Use code TRYNEW & get 50% off on orders above ₹149. Maximum discount: ₹100.
+          </Text>
+          <TouchableOpacity>
+            <Text style={styles.moreText}>+ MORE</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </View>
 
         {/* Payment Offers Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Payment Offers</Text>
           <View style={styles.offerCard}>
             <Text style={styles.offerDetails}>
-              Assured up to ₹100 cashback...
-              {"\n"}Unlock Double Rewards This Month! Pay using Paytm UPI & get assured cashback between ₹10 to ₹100 on your two transactions above ₹150.
+            Save on top of coupon discounts by applying these offers on the payments page.
             </Text>
           </View>
         </View>
+
+
+      <View style={styles.offerCards}>
+        <View style={styles.offerRow}>
+          <Image
+            source={{ uri: "https://upload.wikimedia.org/wikipedia/commons/0/0c/Paytm_logo.png" }} // Paytm logo as an example
+            style={styles.offerLogo}
+          />
+          <Text style={styles.offerTitle}>Assured up to ₹100 cashback...</Text>
+        </View>
+        <Text style={styles.offerDetail}>
+          Unlock Double Rewards This Month! Pay using Paytm UPI & get assured cashback between ₹10
+          to ₹100 on your two transactions above ₹150.
+        </Text>
+        <TouchableOpacity>
+          <Text style={styles.moreText}>+ MORE</Text>
+        </TouchableOpacity>
+      </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -116,7 +152,7 @@ export default ApplyCoupon;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF", // White background
+    backgroundColor: "#FFFFFF",
   },
   header: {
     flexDirection: "row",
@@ -148,13 +184,25 @@ const styles = StyleSheet.create({
     color: "#333333",
     marginBottom: 12, // Adds spacing between input box and button
   },
+  applyButtonDisabled: {
+    backgroundColor: "#ccc", // Gray color for disabled state
+  },
+  applyButton: {
+    backgroundColor: "#01615F", // Default button color
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+    alignSelf: "stretch",
+    alignItems: "center",
+  },
   applyButtonText: {
     fontSize: 14,
     fontFamily: "Poppins-Medium",
-    color: "#FFFFFF", // White text
+    color: "#FFFFFF",
   },
   section: {
     marginBottom: 24,
+    paddingHorizontal: 4, 
   },
   sectionTitle: {
     fontSize: 14,
@@ -162,16 +210,95 @@ const styles = StyleSheet.create({
     color: "#555555",
     marginBottom: 8,
   },
-  applyButton: {
-    backgroundColor: "#01615F",
-    paddingVertical: 12,
-    paddingHorizontal: 24,
+  couponCard: {
+    backgroundColor: "#FFFFFF",
     borderRadius: 8,
-    alignSelf: "stretch", // Makes the button take full width
-    alignItems: "center", // Centers the text
+    flexDirection: "row", // Align content horizontally
+    borderColor: "#E0E0E0",
+    borderWidth: 1,
+    shadowColor: "#000000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+    overflow: "hidden", // Ensures border radius applies to all children
+  },
+  couponLeftBorder: {
+    width: 48, // Width to fit the "50% OFF" text
+    backgroundColor: "#01615F", // Green color for the border
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  couponLeftBorderText: {
+    fontSize: 11,
+    fontFamily: "Poppins-Bold",
+    color: "#FFFFFF", // White text for visibility
+    textAlign: "center",
+    transform: [{ rotate: "-90deg" }], // Rotate the text vertically
+  },
+  couponContent: {
+    flex: 1,
+    padding: 16, // Padding inside the coupon content
+  },
+  couponRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    // marginBottom: 8,
+  },
+  couponCode: {
+    fontSize: 16,
+    fontFamily: "Poppins-Medium",
+    color: "black", // Green text for the code
+  },
+  discountText: {
+    fontSize: 14,
+    fontFamily: "Poppins-Medium",
+    color: "#01615F", // Green text for discount details
+    marginBottom: 8, // Adds spacing below the discount text
+  },
+  separatorLine: {
+    height: 1,
+    backgroundColor: "#E0E0E0", // Light gray for the separator line
+    marginVertical: 8,
+  },
+  removeText: {
+    fontSize: 14,
+    fontFamily: "Poppins-Regular",
+    color: "#01615F", // Red text for the Remove button
+  },
+  couponDetails: {
+    fontSize: 11,
+    fontFamily: "Poppins-Regular",
+    color: "#777777", // Gray text for the details
+    lineHeight: 18, // Improves readability
+    marginBottom: 8,
+  },
+  moreText: {
+    fontSize: 12,
+    fontFamily: "Poppins-Medium",
+    color: "black", // Green color for "More" option
+    textTransform: "uppercase", // Ensures consistency with the design
   },
 
-  couponCard: {
+  applyText: {
+    fontSize: 14,
+    fontFamily: "Poppins-Regular",
+    color: "#01615F", // Green text
+  },
+  offerRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 8,
+  },
+  offerCard: {
+    backgroundColor: "#E6F7F7", // Light green
+    borderRadius: 8,
+    borderWidth:1,
+    borderColor: "#01615F",
+    padding: 14,
+  },
+  offerCards: {
     backgroundColor: "#FFFFFF",
     borderRadius: 8,
     padding: 16,
@@ -180,63 +307,30 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 2,
-    marginBottom: 8,
     borderColor: "#E0E0E0",
     borderWidth: 1,
-    flexDirection: "row", // Align content horizontally
-  },
-
-  couponLeftBorder: {
-    width: 8, // Width of the colored left border
-    backgroundColor: "#01615F", // Green color for the border
-    borderTopLeftRadius: 8,
-    borderBottomLeftRadius: 8,
-  },
-
-  couponContent: {
-    flex: 1,
-    paddingLeft: 16, // Adds space between border and content
-  },
-  couponRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 8,
-  },
-  couponCode: {
-    fontSize: 16,
-    fontFamily: "Poppins-Medium",
-    color: "#01615F", // Green text
-  },
-  removeText: {
-    fontSize: 14,
-    fontFamily: "Poppins-Regular",
-    color: "#FF0000", // Red text
-  },
-  applyText: {
-    fontSize: 14,
-    fontFamily: "Poppins-Regular",
-    color: "#01615F", // Green text
-  },
-  couponDetails: {
-    fontSize: 12,
-    fontFamily: "Poppins-Regular",
-    color: "#666666",
-  },
-  offerCard: {
-    backgroundColor: "#E6F7F7", // Light green
-    borderRadius: 8,
-    padding: 16,
-    shadowColor: "#000000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
-    marginBottom: 8,
+    marginBottom: 24,
   },
   offerDetails: {
     fontSize: 12,
     fontFamily: "Poppins-Regular",
     color: "#01615F", // Green text
+  },
+  offerLogo: {
+    width: 24,
+    height: 24,
+    marginRight: 8, // Space between logo and title
+  },
+  offerTitle: {
+    fontSize: 14,
+    fontFamily: "Poppins-SemiBold",
+    color: "#555555",
+  },
+  offerDetail: {
+    fontSize: 12,
+    fontFamily: "Poppins-Regular",
+    color: "#777777",
+    lineHeight: 18,
+    marginBottom: 8,
   },
 });
