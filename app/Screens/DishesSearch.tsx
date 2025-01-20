@@ -157,9 +157,10 @@ const DishesSearch: React.FC = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [cartCounts, setCartCounts] = useState<Record<number, number>>({});
   const router = useRouter();
-
+  const [searchText, setSearchText] = useState("");
   const totalItemsInCart = Object.values(cartCounts).reduce((sum, count) => sum + count, 0);
 
+  // Keep existing useEffect for font loading
   useEffect(() => {
     const loadFonts = async () => {
       try {
@@ -176,34 +177,7 @@ const DishesSearch: React.FC = () => {
     loadFonts();
   }, []);
 
-  const handleCheckout = () => {
-    const selectedItems = Object.entries(cartCounts)
-      .filter(([_, quantity]) => quantity > 0) // Only include items with a quantity > 0
-      .map(([menuItemId, quantity]) => {
-        const menuItem = mockMenu.find((item) => item.menuItemId === parseInt(menuItemId));
-        return {
-          name: menuItem?.name,
-          quantity,
-          price: menuItem?.price,
-        };
-      });
-  
-    // Find the restaurant details for the selected items (assuming items belong to the same restaurant)
-    const restaurantId = Object.keys(groupedMenu)[0];
-    const restaurant = mockRestaurants.find((rest) => rest.restaurantId === restaurantId);
-  
-    // Navigate to the BillingScreen with the necessary parameters
-    router.push({
-      pathname: './BillingScreen',
-      params: {
-        restaurantId: restaurant?.restaurantId,
-        restaurantName: restaurant?.name,
-        cart: JSON.stringify(selectedItems), // Pass the cart details as a JSON string
-      },
-    });
-  };
-  
-
+  // Keep all existing cart handling functions
   const handleAddToCart = (item: MenuItem) => {
     setCartCounts((prevCounts) => ({
       ...prevCounts,
@@ -219,28 +193,73 @@ const DishesSearch: React.FC = () => {
   };
 
   const handleViewDetails = (item: MenuItem) => {
-    // Implement view details logic
     console.log('View details for:', item.name);
   };
 
-  const filterMenuByDishName = (dishName: string | undefined): Record<string, MenuItem[]> => {
-    if (!dishName) return {};
-    
-    const grouped: Record<string, MenuItem[]> = {};
-    const searchTerm = dishName.toLowerCase();
+  const handleCheckout = () => {
+    const selectedItems = Object.entries(cartCounts)
+      .filter(([_, quantity]) => quantity > 0)
+      .map(([menuItemId, quantity]) => {
+        const menuItem = mockMenu.find((item) => item.menuItemId === parseInt(menuItemId));
+        return {
+          name: menuItem?.name,
+          quantity,
+          price: menuItem?.price,
+        };
+      });
+  
+    const restaurantId = Object.keys(groupedMenu)[0];
+    const restaurant = mockRestaurants.find((rest) => rest.restaurantId === restaurantId);
+  
+    router.push({
+      pathname: './BillingScreen',
+      params: {
+        restaurantId: restaurant?.restaurantId,
+        restaurantName: restaurant?.name,
+        cart: JSON.stringify(selectedItems),
+      },
+    });
+  };
 
+  // Updated search filtering function that maintains existing grouping logic
+  const filterMenuItems = (searchQuery: string): Record<string, MenuItem[]> => {
+    const grouped: Record<string, MenuItem[]> = {};
+    
+    // If there's no search query, use the name from URL params
+    const searchTerm = searchQuery.toLowerCase() || (name ? name.toLowerCase() : '');
+    
+    // First, find matching restaurants
+    const matchingRestaurants = mockRestaurants.filter(restaurant => 
+      restaurant.name.toLowerCase().includes(searchTerm)
+    );
+    
+    // Add all menu items from matching restaurants
+    matchingRestaurants.forEach(restaurant => {
+      const restaurantMenuItems = mockMenu.filter(item => 
+        item.restaurantId === restaurant.restaurantId
+      );
+      if (restaurantMenuItems.length > 0) {
+        grouped[restaurant.restaurantId] = restaurantMenuItems;
+      }
+    });
+    
+    // Then find matching menu items from all restaurants
     mockMenu.forEach((menuItem) => {
       if (menuItem.name.toLowerCase().includes(searchTerm)) {
+        // Only add if not already added from restaurant name match
         if (!grouped[menuItem.restaurantId]) {
           grouped[menuItem.restaurantId] = [];
         }
-        grouped[menuItem.restaurantId].push(menuItem);
+        // Avoid duplicates
+        if (!grouped[menuItem.restaurantId].some(item => item.menuItemId === menuItem.menuItemId)) {
+          grouped[menuItem.restaurantId].push(menuItem);
+        }
       }
     });
-
+  
     return grouped;
   };
-
+  // Keep existing restaurant section renderer
   const renderRestaurantSection = (restaurantId: string, menuItems: MenuItem[]) => {
     const restaurant = mockRestaurants.find((rest) => rest.restaurantId === restaurantId);
     if (!restaurant) return null;
@@ -269,7 +288,8 @@ const DishesSearch: React.FC = () => {
           <Image 
             source={require("./../../assets/images/Star.png")} 
             style={styles.starIcon} 
-          /><Text style={styles.headerLocation}>{restaurant?.location}</Text>
+          />
+          <Text style={styles.headerLocation}>{restaurant?.location}</Text>
         </View>
         
         <ScrollView 
@@ -335,7 +355,7 @@ const DishesSearch: React.FC = () => {
     return <Text>Loading Fonts...</Text>;
   }
 
-  const groupedMenu = filterMenuByDishName(name);
+  const groupedMenu = filterMenuItems(searchText);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -348,9 +368,10 @@ const DishesSearch: React.FC = () => {
       </View>
 
       <SearchBarVoice
-        onChangeText={() => {}}
         redirectTargets={["Dishes", "Restaurants"]}
-        placeholder={name || ''}
+        placeholder="Search for dishes"
+        value={searchText}
+        onChangeText={setSearchText}
       />
       
       <ScrollView>
@@ -368,6 +389,8 @@ const DishesSearch: React.FC = () => {
     </SafeAreaView>
   );
 };
+
+
 export default DishesSearch;
 
 const styles = StyleSheet.create({

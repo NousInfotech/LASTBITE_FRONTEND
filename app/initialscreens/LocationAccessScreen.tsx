@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#01615F",
     borderRadius: 6, // Reduced border radius
-    paddingVertical: 12, // Reduced padding
+    paddingVertical: 6, // Reduced padding
     marginTop: 12, // Reduced margin
     alignItems: "center",
     justifyContent: "center",

@@ -10,7 +10,7 @@ import {
   StyleSheet,
   FlatList,
   Modal,
-  ScrollView
+  ScrollView,
 } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import GoBack from "@/components/GoBack";
@@ -155,8 +155,34 @@ const RestaurantSelect = () => {
   );
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [isFilterVisible, setIsFilterVisible] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const handleFilterApply = (filters:any) => {
+  const getFilteredMenuItems = (items: MenuItem[], query: string): MenuItem[] => {
+    const searchTerm = query.toLowerCase();
+    if (!searchTerm) return items;
+    
+    return items.filter(item => 
+      item.name.toLowerCase().includes(searchTerm) || 
+      item.category.toLowerCase().includes(searchTerm) ||
+      item.description.toLowerCase().includes(searchTerm)
+    );
+  };
+
+  // Filter categories based on search query and available menu items
+  const getFilteredCategories = (categories: string[], filteredItems: MenuItem[]): string[] => {
+    if (!searchQuery) return categories;
+    
+    // Get unique categories from filtered items
+    const availableCategories = new Set(filteredItems.map(item => item.category));
+    
+    // Filter categories that either match the search query or have matching items
+    return categories.filter(category => 
+      category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      availableCategories.has(category)
+    );
+  };
+
+  const handleFilterApply = (filters: any) => {
     console.log("Applied Filters:", filters);
     // Apply the filters to your data
   };
@@ -287,10 +313,10 @@ const RestaurantSelect = () => {
             style={styles.dropdownIcon}
           />
           <FilterPopup
-        isVisible={isFilterVisible}
-        onClose={() => setIsFilterVisible(false)}
-        onApply={handleFilterApply}
-      />
+            isVisible={isFilterVisible}
+            onClose={() => setIsFilterVisible(false)}
+            onApply={handleFilterApply}
+          />
         </TouchableOpacity>
 
         {["Veg", "Egg", "Non Veg"].map((filter) => (
@@ -321,7 +347,8 @@ const RestaurantSelect = () => {
       </View>
     );
   };
-
+ const filteredMenuItems = getFilteredMenuItems(menuItems, searchQuery);
+  const filteredCategories = getFilteredCategories(restaurant.categories, filteredMenuItems);
   const renderMenuItem = (item: MenuItem) => {
     const count = cartCounts[item.menuItemId] || 0;
 
@@ -400,39 +427,39 @@ const RestaurantSelect = () => {
 
         {/* Search Bar */}
         <SearchBarVoice
-          onInputPress={() => {}}
           redirectTargets={["Dishes", "Restaurants"]}
           placeholder={`Search Dishes in ${restaurant.name}`}
+          value={searchQuery}
+          onChangeText={setSearchQuery}
         />
+        
         <NavigationBar />
-        {/* Categories and Menu Items */}
+        
         <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <FlatList
-          data={restaurant.categories}
-          keyExtractor={(item) => item}
-          renderItem={({ item: category }) => (
-            <View>
-              <TouchableOpacity
-                style={styles.categoryChip}
-                onPress={() => toggleCategory(category)}
-              >
-                <Text style={styles.categoryText}>{category}</Text>
-                <Ionicons
-                  name={
-                    expandedCategories.has(category) ? "caret-up" : "caret-down"
-                  }
-                  size={16}
-                  color="grey"
-                />
-              </TouchableOpacity>
-              {expandedCategories.has(category) &&
-                menuItems
-                  .filter((menuItem) => menuItem.category === category)
-                  .map(renderMenuItem)}
-            </View>
-          )}
-        />
-</ScrollView>
+          <FlatList
+            data={filteredCategories}
+            keyExtractor={(item) => item}
+            renderItem={({ item: category }) => (
+              <View>
+                <TouchableOpacity
+                  style={styles.categoryChip}
+                  onPress={() => toggleCategory(category)}
+                >
+                  <Text style={styles.categoryText}>{category}</Text>
+                  <Ionicons
+                    name={expandedCategories.has(category) ? "caret-up" : "caret-down"}
+                    size={16}
+                    color="grey"
+                  />
+                </TouchableOpacity>
+                {expandedCategories.has(category) &&
+                  filteredMenuItems
+                    .filter((menuItem) => menuItem.category === category)
+                    .map(renderMenuItem)}
+              </View>
+            )}
+          />
+        </ScrollView>
         <TouchableOpacity
           style={styles.floatingButton}
           onPress={handleOpenModal}
