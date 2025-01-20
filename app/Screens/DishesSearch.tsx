@@ -208,18 +208,30 @@ const DishesSearch: React.FC = () => {
         };
       });
   
-    const restaurantId = Object.keys(groupedMenu)[0];
-    const restaurant = mockRestaurants.find((rest) => rest.restaurantId === restaurantId);
+    // Extract the restaurant ID from the first item in the cart
+    const firstItemId = Object.keys(cartCounts).find((menuItemId :any) => cartCounts[menuItemId] > 0);
+    const restaurantId = firstItemId
+      ? mockMenu.find((item) => item.menuItemId === parseInt(firstItemId))?.restaurantId
+      : undefined;
   
-    router.push({
-      pathname: './BillingScreen',
-      params: {
-        restaurantId: restaurant?.restaurantId,
-        restaurantName: restaurant?.name,
-        cart: JSON.stringify(selectedItems),
-      },
-    });
+    const restaurant = restaurantId
+      ? mockRestaurants.find((rest) => rest.restaurantId === restaurantId)
+      : undefined;
+  
+    if (restaurant) {
+      router.push({
+        pathname: './BillingScreen',
+        params: {
+          restaurantId: restaurant.restaurantId,
+          restaurantName: restaurant.name,
+          cart: JSON.stringify(selectedItems),
+        },
+      });
+    } else {
+      console.error('No matching restaurant found for the selected items.');
+    }
   };
+  
 
   // Updated search filtering function that maintains existing grouping logic
   const filterMenuItems = (searchQuery: string): Record<string, MenuItem[]> => {

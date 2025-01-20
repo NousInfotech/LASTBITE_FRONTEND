@@ -118,14 +118,27 @@ const BillingScreen = () => {
   ) => {
     const updatedCartItems = [...cartItems];
     const item = updatedCartItems[index];
+  
     if (action === "increment") {
       item.quantity += 1;
-    } else if (action === "decrement" && item.quantity > 1) {
+    } else if (action === "decrement") {
       item.quantity -= 1;
+  
+      // Remove the item if quantity reaches 0
+      if (item.quantity <= 0) {
+        updatedCartItems.splice(index, 1);
+      }
     }
+  
     setCartItems(updatedCartItems);
     updateTotalAmount(updatedCartItems);
+  
+    // If no items remain in the cart, navigate back
+    if (updatedCartItems.length === 0) {
+      router.back();
+    }
   };
+  
 
   const updateTotalAmount = (updatedCartItems: CartItem[]) => {
     const total = updatedCartItems.reduce(

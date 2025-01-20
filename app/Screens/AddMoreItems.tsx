@@ -346,11 +346,11 @@ const [searchQuery, setSearchQuery] = useState("");
       </View>
     );
   };
-  const filteredMenuItems = getFilteredMenuItems(menuItems, searchQuery);
-  const filteredCategories = restaurant
-    ? getFilteredCategories(restaurant.categories, filteredMenuItems)
-    : [];
-  
+const filteredMenuItems = getFilteredMenuItems(menuItems, searchQuery);
+const filteredCategories = restaurant
+  ? getFilteredCategories(restaurant.categories, filteredMenuItems)
+  : [];
+
   
   const renderMenuItem = (item: MenuItem) => {
     const count = cartCounts[item.menuItemId] || 0;
