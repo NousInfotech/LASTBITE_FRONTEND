@@ -818,5 +818,40 @@ const filteredCategories = restaurant
     categoryItem: {
       paddingVertical: 10,
     },
-    
+    modalContainers: {
+      flex: 1,
+      padding: 16,
+      backgroundColor: "#fff",
+    },
+    modalTitle: {
+      fontSize: 24,
+      fontWeight: "bold",
+      marginBottom: 16,
+    },
+    wishlistItem: {
+      padding: 12,
+      borderBottomWidth: 1,
+      borderBottomColor: "#ccc",
+    },
+    wishlistText: {
+      fontSize: 16,
+      color: "#333",
+    },
+    emptyWishlistText: {
+      fontSize: 16,
+      color: "#666",
+      textAlign: "center",
+      marginTop: 20,
+    },
+    closeButton: {
+      backgroundColor: "#FF6347",
+      padding: 12,
+      borderRadius: 8,
+      alignItems: "center",
+      marginTop: 20,
+    },
+    closeButtonText: {
+      color: "#fff",
+      fontSize: 16,
+    },
   });
