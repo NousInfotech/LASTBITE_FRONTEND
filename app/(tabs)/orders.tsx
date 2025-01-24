@@ -123,10 +123,14 @@ const Orders: React.FC = () => {
           <>
             {isPast ? (
               <>
-                <TouchableOpacity style={styles.actionButton}>
+                <TouchableOpacity style={styles.actionButton}
+                onPress={() => router.push("/Screens/BillingScreen")}
+                >
                   <Text style={styles.actionText}>Reorder</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.actionButton, styles.rateButton]}>
+                <TouchableOpacity style={[styles.actionButton, styles.rateButton]}
+                onPress={() => router.push("/Screens/RateOrder")}
+                >
                   <Text style={styles.mainText}>Rate Order</Text>
                 </TouchableOpacity>
               </>

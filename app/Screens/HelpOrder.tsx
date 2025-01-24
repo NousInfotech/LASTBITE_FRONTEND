@@ -16,6 +16,8 @@ import DateTimePicker from "react-native-modal-datetime-picker";
 import GoBack from "@/components/GoBack";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
+import * as DocumentPicker from 'expo-document-picker';
+import * as FileSystem from 'expo-file-system';
 
 const HelpOrder = () => {
   const router = useRouter();
@@ -27,6 +29,17 @@ const HelpOrder = () => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false); // For Date Picker visibility
   const [incidentDate, setIncidentDate] = useState(""); // Store the selected date
+  const [subject, setSubject] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [email, setEmail] = useState("");
+
+  interface FileInfo {
+  name: string;
+  uri: string;
+  size: number;
+  type: string; // Use `type` instead of `mimeType`
+}
+
 
   useEffect(() => {
     async function loadFonts() {
@@ -45,10 +58,41 @@ const HelpOrder = () => {
     return null;
   }
 
-  // Handle file selection
-  const handleChooseFile = () => {
-    setChosenFile("example-file.png");
-  };
+const handleChooseFile = async () => {
+  try {
+    const result = await DocumentPicker.getDocumentAsync({
+      type: ['image/*', 'application/pdf'], // Specify allowed file types
+      copyToCacheDirectory: true,
+    });
+
+    // Check if the user selected a file
+    if (result.type === 'success') {
+      const { uri, name, type } = result; // Use `type` directly from the result
+
+      // Get file information
+      const fileInfo = await FileSystem.getInfoAsync(uri);
+      if (!fileInfo.exists) {
+        alert('File does not exist.');
+        return;
+      }
+
+      if (fileInfo.size && fileInfo.size > 5 * 1024 * 1024) {
+        alert('File size must be less than 5MB.');
+        return;
+      }
+
+      // Set the chosen file
+      setChosenFile({
+        name,
+        uri,
+        size: fileInfo.size || 0, // Default to 0 if size is unavailable
+        type, // Use the `type` property
+      });
+    }
+  } catch (error: any) {
+    alert('Error picking file: ' + error.message);
+  }
+};
 
   // Handle query type selection from the modal
   const handleSelectQueryType = (option : any) => {
@@ -58,9 +102,28 @@ const HelpOrder = () => {
   };
 
   // Handle date selection
-  const handleConfirm = (date) => {
+  const handleConfirm = (date: any) => {
     setIncidentDate(date.toLocaleDateString());
     setDatePickerVisibility(false);
+  };
+
+  const validateForm = () => {
+    return (
+      queryType.trim() &&
+      subject.trim() &&
+      phoneNumber.trim() &&
+      email.trim() &&
+      incidentDate.trim()
+    );
+  };
+
+  const handleSubmit = () => {
+    if (!validateForm()) {
+      alert("Please fill all required fields.");
+      return;
+    }
+    // Proceed with submission
+    console.log("Form submitted!");
   };
 
   return (
@@ -164,7 +227,7 @@ const HelpOrder = () => {
             <Text style={styles.inputText}>
               {incidentDate || "Select Date"}
             </Text>
-            <Ionicons name="calendar" size={18} color="#01615F" />
+            <Ionicons name="calendar" size={18} color="#ccc" />
           </TouchableOpacity>
 
           <DateTimePicker
@@ -174,11 +237,16 @@ const HelpOrder = () => {
             onCancel={() => setDatePickerVisibility(false)}
           />
 
-          <Pressable
+<Pressable
             style={styles.checkboxContainer}
             onPress={() => setIsChecked(!isChecked)}
           >
-            <View style={styles.customCheckbox}>
+            <View
+              style={[
+                styles.customCheckbox,
+                { borderColor: isChecked ? "#01615F" : "#ccc" },
+              ]}
+            >
               {isChecked && (
                 <Ionicons name="checkmark" size={18} color="#01615F" />
               )}
@@ -188,7 +256,11 @@ const HelpOrder = () => {
             </Text>
           </Pressable>
 
-          <TouchableOpacity style={styles.submitButton}>
+          <TouchableOpacity
+             style={[styles.submitButton, { backgroundColor: validateForm() ? "#01615F" : "#ccc" }]}
+             onPress={handleSubmit}
+             disabled={!validateForm()}
+          >
             <Text style={styles.submitButtonText}>Submit Query</Text>
           </TouchableOpacity>
         </View>
@@ -197,11 +269,7 @@ const HelpOrder = () => {
   );
 };
 
-// const styles = StyleSheet.create({
-//   // Same styles as before
-// });
 
-// export default HelpOrder;
 
 const styles = StyleSheet.create({
   container: {
@@ -291,7 +359,7 @@ const styles = StyleSheet.create({
     height: 24,
     borderRadius: 4,
     borderWidth: 2,
-    borderColor: "#01615F",
+    borderColor: "#ccc",
     marginRight: 8,
     justifyContent: "center",
     alignItems: "center",
