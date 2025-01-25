@@ -16,7 +16,9 @@ const Wallet = () => {
   const router = useRouter();
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const { panStatus } = useLocalSearchParams();
+  const { personalStatus } = useLocalSearchParams();
   const [isPanCompleted, setIsPanCompleted] = useState(false);
+  const [isPersonalCompleted, setIsPersonalCompleted] = useState(false);
 
   useEffect(() => {
     async function loadFonts() {
@@ -27,13 +29,15 @@ const Wallet = () => {
       });
       setFontsLoaded(true);
     }
-  
+
     loadFonts();
-  
+
     // Convert panStatus to a boolean and set it
-    const isCompleted = panStatus === 'true';
+    const isCompleted = panStatus === "true";
+    const Completed = personalStatus === "true";
     setIsPanCompleted(isCompleted);
-  }, [panStatus]); // This will run when panStatus changes
+    setIsPersonalCompleted(Completed);
+  }, [panStatus, personalStatus]); // This will run when panStatus changes
 
   if (!fontsLoaded) {
     return null; // Optionally, show a loading screen or placeholder
@@ -57,8 +61,8 @@ const Wallet = () => {
         </TouchableOpacity>
       </View>
 
-     {/* Content */}
-     <View style={styles.content}>
+      {/* Content */}
+      <View style={styles.content}>
         <Text style={styles.title}>Good to go!</Text>
         <Text style={styles.subtitle}>
           You are one step closer to extraordinary savings
@@ -79,14 +83,62 @@ const Wallet = () => {
 
       <View style={styles.content_A}>
         <View style={styles.stepsContainer}>
-          <Text style={styles.stepText}>
-            • Enter your PAN number
-          </Text>
-          <Text style={[styles.stepText, isPanCompleted && { color: "#01615F" }]}>• Fill in your details</Text>
-          <Text style={styles.stepText}>• KYC with HDFC Bank</Text>
+          <View style={styles.stepItem}>
+            <Image
+              source={
+                isPanCompleted
+                  ? require("../../assets/images/tick.png") // Change to tick icon
+                  : require("../../assets/images/MasterCard.png") // Default icon
+              }
+              style={styles.stepIcon}
+            />
+            <Text style={styles.stepText}>Enter your PAN number</Text>
+          </View>
+          <View style={styles.stepItem}>
+  <Image
+    source={
+      isPersonalCompleted
+        ? require("../../assets/images/tick.png") // Show tick icon if isPersonalCompleted is true
+        : isPanCompleted
+        ? require("../../assets/images/Contact.png") // Show Contact icon if isPanCompleted is true
+        : require("../../assets/images/pan.png") // Default to pan icon
+    }
+    style={styles.stepIcon}
+  />
+  <Text
+    style={[
+      styles.stepText,
+      (isPanCompleted || isPersonalCompleted) && { color: "#01615F" }, // Change color if either is true
+    ]}
+  >
+    Fill in your details
+  </Text>
+</View>
+
+          <View style={styles.stepItem}>
+      <Image
+        source={
+          isPersonalCompleted
+            ? require("../../assets/images/Account_1.png") // Updated icon
+            : require("../../assets/images/Account.png") // Default icon
+        }
+        style={styles.stepIcon}
+      />
+      <Text
+        style={[
+          styles.stepText,
+          isPersonalCompleted && { color: "#01615F" }, // Change text color
+        ]}
+      >
+        KYC with HDFC Bank
+      </Text>
+    </View>
         </View>
 
-        <TouchableOpacity style={styles.continueButton} onPress={handleContinuePress}>
+        <TouchableOpacity
+          style={styles.continueButton}
+          onPress={handleContinuePress}
+        >
           <Text style={styles.buttonText}>Continue</Text>
         </TouchableOpacity>
       </View>
@@ -95,7 +147,6 @@ const Wallet = () => {
 };
 
 export default Wallet;
-
 
 const styles = StyleSheet.create({
   container: {
@@ -127,32 +178,43 @@ const styles = StyleSheet.create({
     marginVertical: 18,
   },
   imageRow: {
-    flexDirection: "row", 
-    justifyContent: "center", 
-    alignItems: "center", 
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     marginVertical: 20,
   },
   walletImage: {
     width: 170,
     height: 190,
     resizeMode: "contain",
-    marginHorizontal: -30, 
+    marginHorizontal: -30,
   },
   cardImage: {
     width: 130,
     height: 190,
     resizeMode: "contain",
-    marginHorizontal: -35, 
+    marginHorizontal: -35,
   },
   content_A: {
     flex: 1,
-    alignItems: "flex-start", 
+    alignItems: "flex-start",
     paddingHorizontal: 20,
-    marginTop: 150,  // Added margin to ensure content_A is below the images
+    marginTop: 150, // Added margin to ensure content_A is below the images
   },
   stepsContainer: {
     marginVertical: 20,
     alignItems: "flex-start", // Align the steps container to the left
+  },
+  stepItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  stepIcon: {
+    width: 20, // Adjust size as needed
+    height: 20,
+    marginRight: 10, // Space between icon and text
+    marginBottom: 20,
   },
   stepText: {
     fontSize: 14,
@@ -162,14 +224,14 @@ const styles = StyleSheet.create({
   },
   continueButton: {
     backgroundColor: "#01615F",
-   paddingVertical: 10,
-   borderRadius: 8,
-   marginHorizontal: 16,
-   marginTop: 16,
-   position: "absolute",
-   bottom: 16,
-   width: "100%",
-   alignSelf: "center",
+    paddingVertical: 10,
+    borderRadius: 8,
+    marginHorizontal: 16,
+    marginTop: 16,
+    position: "absolute",
+    bottom: 16,
+    width: "100%",
+    alignSelf: "center",
   },
   buttonText: {
     textAlign: "center",
