@@ -54,7 +54,8 @@ const ProfileScreen = () => {
             <Text style={styles.userName}>John Daron</Text>
             <Text style={styles.userPhone}>+91 91234 65891</Text>
           </View>
-          <TouchableOpacity onPress={() => alert("Edit Profile Clicked")}>
+          <TouchableOpacity  onPress={() => router.push("/Screens/EditAccount")}
+          >
             <Text style={styles.editProfile}>Edit Profile &gt;</Text>
           </TouchableOpacity>
         </View>

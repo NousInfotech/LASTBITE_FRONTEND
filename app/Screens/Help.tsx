@@ -32,14 +32,13 @@ const Help = () => {
   }, []);
 
   if (!fontsLoaded) {
-    return null; // Optionally, show a loading screen or placeholder
+    return null; 
   }
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
 
-      {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity>
           <GoBack />
@@ -49,75 +48,109 @@ const Help = () => {
 
       {showRefunds ? (
         <View style={styles.container_A}>
-        <View style={styles.card}>
-          {/* Header Section */}
-          <View style={styles.header_A}>
-            <Text style={styles.storeName}>Spice House</Text>
-            <Text style={styles.status}>Completed <Ionicons name="checkmark-circle" size={16} color="#008000" /></Text>
+          <View style={styles.card}>
+            <View style={styles.header_A}>
+              <Text style={styles.storeName}>Spice House</Text>
+              <View style={styles.statusContainer}>
+                <Text style={styles.status}>Completed</Text>
+                <Image
+                  source={require("../../assets/images/tick.png")}
+                  style={styles.tickImage}
+                />
+              </View>
+            </View>
+
+            <Text style={styles.paymentMethod}>
+              <Text style={styles.boldText}>To:</Text> UPI
+            </Text>
+            <View style={styles.completedRow}>
+              <Text style={styles.completedOn}>
+                <Text style={styles.boldText}>Completed On:</Text> 15 Nov 2024
+              </Text>
+              <Text style={styles.amount}>₹280.00</Text>
+            </View>
+
+            <TouchableOpacity style={styles.orderIdContainer}>
+              <Text style={styles.orderId}>
+                Order ID: <Text style={styles.boldText}>#56789</Text>
+              </Text>
+              <Ionicons name="chevron-forward" size={16} color="#777" />
+            </TouchableOpacity>
+
+            {/* Refund Timeline */}
+            <View style={styles.timeline}>
+              <View style={styles.timelineItem}>
+                <View style={styles.circle} />
+                <View style={styles.timelineText}>
+                  <Text style={styles.timelineTitle}>
+                    Last Bites has initiated your refund
+                  </Text>
+                  <Text style={styles.timelineDate}>15 Nov 2024</Text>
+                  <Text style={styles.completedText}>Completed</Text>
+                </View>
+              </View>
+
+              <View style={styles.timelineItem}>
+                <View style={styles.circle} />
+                <View style={styles.timelineText}>
+                  <Text style={styles.timelineTitle}>
+                    Your bank has processed your refund
+                  </Text>
+                  <Text style={styles.timelineDate}>15 Nov 2024</Text>
+                  <Text style={styles.completedText}>Completed</Text>
+                </View>
+              </View>
+
+              <View style={styles.timelineItem}>
+                <View style={styles.circle} />
+                <View style={styles.timelineText}>
+                  <Text style={styles.timelineTitle}>
+                    Refund credited to your account
+                  </Text>
+                  <Text style={styles.timelineDate}>15 Nov 2024</Text>
+                  <Text style={styles.completedDescription}>
+                    Completed: The refund amount should reflect in your account
+                    by now. If there is an issue, please contact your bank's
+                    customer support.
+                  </Text>
+                </View>
+              </View>
+            </View>
           </View>
-  
-          <Text style={styles.paymentMethod}>To: UPI</Text>
-          <Text style={styles.completedOn}>Completed On: <Text style={styles.boldText}>15 Nov 2024</Text></Text>
-          <Text style={styles.amount}>₹280.00</Text>
-  
-          <TouchableOpacity style={styles.orderIdContainer}>
-            <Text style={styles.orderId}>Order ID: <Text style={styles.boldText}>#56789</Text></Text>
-            <Ionicons name="chevron-forward" size={16} color="#777" />
-          </TouchableOpacity>
-  
-          {/* Refund Timeline */}
-          <View style={styles.timeline}>
-            <View style={styles.timelineItem}>
-              <View style={styles.circle} />
-              <View style={styles.timelineText}>
-                <Text style={styles.timelineTitle}>Last Bites has initiated your refund</Text>
-                <Text style={styles.timelineDate}>15 Nov 2024</Text>
-                <Text style={styles.completedText}>Completed</Text>
-              </View>
-            </View>
-  
-            <View style={styles.timelineItem}>
-              <View style={styles.circle} />
-              <View style={styles.timelineText}>
-                <Text style={styles.timelineTitle}>Your bank has processed your refund</Text>
-                <Text style={styles.timelineDate}>15 Nov 2024</Text>
-                <Text style={styles.completedText}>Completed</Text>
-              </View>
-            </View>
-  
-            <View style={styles.timelineItem}>
-              <View style={styles.circle} />
-              <View style={styles.timelineText}>
-                <Text style={styles.timelineTitle}>Refund credited to your account</Text>
-                <Text style={styles.timelineDate}>15 Nov 2024</Text>
-                <Text style={styles.completedDescription}>
-                  Completed: The refund amount should reflect in your account by now. 
-                  If there is an issue, please contact your bank's customer support.
-                </Text>
-              </View>
-            </View>
-          </View>
-  
-          {/* Confirmation Section */}
           <View style={styles.confirmationContainer}>
-            <Text style={styles.confirmationText}>Did you receive Your Refund?</Text>
+            <Text style={styles.confirmationText}>
+              Did you receive Your Refund?
+            </Text>
             <View style={styles.buttonRow}>
               <TouchableOpacity style={styles.yesButton}>
-                <Text style={styles.buttonText}>Yes</Text>
+                <View style={styles.buttonContent}>
+                  <Image
+                    source={require("../../assets/images/Thumbs_up.png")}
+                    style={styles.thumbImage}
+                  />
+                  <Text style={styles.buttonText}>Yes</Text>
+                </View>
               </TouchableOpacity>
               <TouchableOpacity style={styles.noButton}>
-                <Text style={styles.buttonText}>No</Text>
+                <View style={styles.buttonContent}>
+                  <Image
+                    source={require("../../assets/images/Thumbs_down.png")}
+                    style={styles.thumbImage}
+                  />
+                  <Text style={styles.buttonText}>No</Text>
+                </View>
               </TouchableOpacity>
             </View>
           </View>
-  
-          {/* Back Button */}
-          <TouchableOpacity onPress={() => setShowRefunds(false)} style={styles.backButton}>
+
+          {/* <TouchableOpacity
+            onPress={() => setShowRefunds(false)}
+            style={styles.backButton}
+          >
             <Ionicons name="arrow-back" size={16} color="#01615F" />
             <Text style={styles.backText}>Back</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
-      </View>
       ) : (
         <>
           <View style={styles.refundContainer}>
@@ -130,7 +163,11 @@ const Help = () => {
                 >
                   <View style={styles.viewRefundContent}>
                     <Text style={styles.viewRefundText}>View All Refunds</Text>
-                    <Ionicons name="chevron-forward" size={16} color="#01615F" />
+                    <Ionicons
+                      name="chevron-forward"
+                      size={16}
+                      color="#01615F"
+                    />
                   </View>
                 </TouchableOpacity>
               </View>
@@ -143,7 +180,6 @@ const Help = () => {
             </View>
           </View>
 
-          {/* Recent Order Section */}
           <View style={styles.orderContainer}>
             <Text style={styles.orderTitle}>Recent Order</Text>
             <View style={styles.orderDetails}>
@@ -159,7 +195,8 @@ const Help = () => {
               </View>
               <Text style={styles.itemsText}>Items</Text>
               <Text style={styles.itemsDetails}>
-                Spicy Chicken Biryani - 1 Plate, Raita - 1 Cup & Gulab Jamun - 2 Pieces
+                Spicy Chicken Biryani - 1 Plate, Raita - 1 Cup & Gulab Jamun - 2
+                Pieces
               </Text>
             </View>
           </View>
@@ -191,7 +228,9 @@ const Help = () => {
 
             <TouchableOpacity style={styles.queryButton}>
               <View style={styles.queryContent}>
-                <Text style={styles.queryButtonText}>Legal Terms & Conditions</Text>
+                <Text style={styles.queryButtonText}>
+                  Legal Terms & Conditions
+                </Text>
                 <Ionicons name="chevron-forward" size={16} color="#777" />
               </View>
             </TouchableOpacity>
@@ -203,7 +242,6 @@ const Help = () => {
 };
 
 export default Help;
-
 
 const styles = StyleSheet.create({
   container: {
@@ -365,7 +403,7 @@ const styles = StyleSheet.create({
 
   container_A: {
     flex: 1,
-    backgroundColor: "#F5F5F5",
+    backgroundColor: "#FFF",
     padding: 16,
     alignItems: "center",
   },
@@ -388,35 +426,53 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
+  statusContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4, // Ensures spacing between text and image
+  },
+
   status: {
     fontSize: 14,
     color: "#01615F",
     fontWeight: "bold",
   },
+  tickImage: {
+    width: 18, // Adjust size as needed
+    height: 18,
+    resizeMode: "contain",
+  },
+
   paymentMethod: {
-    fontSize: 14,
+    fontSize: 12,
     color: "#555",
-    marginTop: 4,
+    marginTop: 16,
   },
   completedOn: {
-    fontSize: 14,
+    fontSize: 12,
     color: "#555",
     marginTop: 4,
   },
   boldText: {
-    fontWeight: "bold",
+    fontFamily: "Poppins-SemiBold",
   },
   amount: {
     fontSize: 18,
     fontWeight: "bold",
     color: "#000",
-    marginTop: 8,
   },
+  completedRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: 4,
+  },
+
   orderIdContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: 8,
+    marginTop: 16,
   },
   orderId: {
     fontSize: 14,
@@ -454,9 +510,8 @@ const styles = StyleSheet.create({
   },
   completedText: {
     fontSize: 12,
-    color: "#01615F",
     marginTop: 2,
-    fontWeight: "bold",
+    color: "#333",
   },
   completedDescription: {
     fontSize: 12,
@@ -465,33 +520,44 @@ const styles = StyleSheet.create({
   },
   confirmationContainer: {
     marginTop: 16,
+    flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
+    width: "100%",
+    paddingHorizontal: 6,
   },
   confirmationText: {
     fontSize: 14,
     fontWeight: "bold",
-    marginBottom: 8,
   },
   buttonRow: {
     flexDirection: "row",
-    gap: 12,
+    gap: 0,
+  },
+  buttonContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 0, // Adds space between image and text
+  },
+  thumbImage: {
+    width: 20,
+    height: 20,
+    resizeMode: "contain",
   },
   yesButton: {
-    backgroundColor: "#01615F",
     paddingVertical: 8,
     paddingHorizontal: 16,
     borderRadius: 6,
   },
   noButton: {
-    backgroundColor: "#01615F",
     paddingVertical: 8,
     paddingHorizontal: 16,
     borderRadius: 6,
   },
   buttonText: {
     fontSize: 14,
-    color: "#FFF",
-    fontWeight: "bold",
+    color: "#01615F",
+    fontFamily: "Poppins-Medium",
   },
   backButton: {
     flexDirection: "row",
