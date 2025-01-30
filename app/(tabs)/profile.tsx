@@ -90,7 +90,7 @@ const ProfileScreen = () => {
       {/* Expandable Menu Items */}
       {isExpanded && (
        <View style={styles.dropdownMenu}>
-       <TouchableOpacity style={styles.menuItem}>
+       <TouchableOpacity style={styles.menuItem} onPress={() => router.push("/Screens/Favorites")}>
        <View style={styles.iconBox}>
               <AntDesign name="hearto" size={16} color="#000" />
             </View>

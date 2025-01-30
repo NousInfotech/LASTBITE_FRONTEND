@@ -40,14 +40,13 @@ const LogOut = () => {
 
   const confirmLogout = () => {
     setModalVisible(false);
-    // Implement logout logic here
-    router.push("/login"); // Navigate to login screen after logout
+    // router.push("/login");
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      
+
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity>
@@ -64,10 +63,7 @@ const LogOut = () => {
             <Text style={styles.deviceName}>LYNX X5088KLP</Text>
             <Text style={styles.deviceStatus}>Android, Active Now</Text>
           </View>
-          <TouchableOpacity
-            style={styles.logoutButton}
-            onPress={handleLogout}
-          >
+          <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
             <Text style={styles.logoutButtonText}>LOGOUT</Text>
           </TouchableOpacity>
         </View>
@@ -82,22 +78,23 @@ const LogOut = () => {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Are you sure?</Text>
-            <Text style={styles.modalText}>Do you really want to logout?</Text>
-            
+            <Text style={styles.modalTitle}>Are you sure want to Logout?</Text>
+
             <View style={styles.modalButtons}>
               <TouchableOpacity
                 style={[styles.button, styles.cancelButton]}
                 onPress={() => setModalVisible(false)}
               >
-                <Text style={styles.buttonText}>No</Text>
+                <Text style={styles.cancelbuttonText}>No</Text>
               </TouchableOpacity>
-              
+
               <TouchableOpacity
                 style={[styles.button, styles.confirmButton]}
                 onPress={confirmLogout}
               >
-                <Text style={[styles.buttonText, { color: "#FFF" }]}>Yes! Logout</Text>
+                <Text style={[styles.buttonText, { color: "#FFF" }]}>
+                  Yes! Logout
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -195,10 +192,10 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   modalTitle: {
-    fontSize: 18,
+    fontSize: 12,
     fontFamily: "Poppins-SemiBold",
     color: "#000",
-    marginBottom: 8,
+    marginBottom: 18,
   },
   modalText: {
     fontSize: 14,
@@ -214,20 +211,27 @@ const styles = StyleSheet.create({
   },
   button: {
     flex: 1,
-    paddingVertical: 12,
+    paddingVertical: 10,
     alignItems: "center",
     borderRadius: 8,
+    borderWidth:1,
+    borderColor:'red',
     marginHorizontal: 5,
   },
   cancelButton: {
-    backgroundColor: "#ECECEC",
+    backgroundColor: "#FFFFF",
   },
   confirmButton: {
-    backgroundColor: "#01615F",
+    backgroundColor: "red",
   },
   buttonText: {
     fontSize: 14,
     fontFamily: "Poppins-Medium",
     color: "#000",
+  },
+  cancelbuttonText: {
+    fontSize: 14,
+    fontFamily: "Poppins-Medium",
+    color: "red",
   },
 });
