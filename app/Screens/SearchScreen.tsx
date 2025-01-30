@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "#eee",
   },
   headerTitle: {
-    fontSize: 14,
+    fontSize: 16,
     marginLeft: 16,
     fontWeight: "500",
     fontFamily: "Poppins-SemiBold",
@@ -268,7 +268,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     paddingHorizontal: 16,
     paddingBottom: 8,
-    fontSize: 12,
+    fontSize: 14,
     marginLeft: 8,
     fontWeight: "500",
     fontFamily: "Poppins-SemiBold",

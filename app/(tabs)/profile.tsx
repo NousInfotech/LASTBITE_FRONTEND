@@ -7,15 +7,19 @@ import {
   StatusBar,
   StyleSheet,
   ScrollView,
+  Image,
 } from "react-native";
 import GoBack from "@/components/GoBack";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
 import { AntDesign } from "@expo/vector-icons";
 
+
 const ProfileScreen = () => {
   const router = useRouter();
   const [fontsLoaded, setFontsLoaded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [isNewExpanded, setIsNewExpanded] = useState(false);
 
   useEffect(() => {
     async function loadFonts() {
@@ -60,7 +64,7 @@ const ProfileScreen = () => {
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity style={styles.menuBox}>
+        <TouchableOpacity style={styles.menuBox} onPress={() => router.push("/Screens/CreditCard")}>
           <View>
             <Text style={styles.menuTitle}>HDFC Bank Credit Card</Text>
             <Text style={styles.menuSubtitle}>Apply for the card and start earning cashbacks</Text>
@@ -68,13 +72,48 @@ const ProfileScreen = () => {
           <AntDesign name="right" size={16} color="#757575" />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.menuBox}>
-          <View>
-            <Text style={styles.menuTitle}>My Account</Text>
-            <Text style={styles.menuSubtitle}>Favourites, Hidden restaurants & settings</Text>
-          </View>
-          <AntDesign name="down" size={16} color="#757575" />
-        </TouchableOpacity>
+        <View>
+      {/* My Account Button */}
+      <TouchableOpacity
+        style={styles.menuBox}
+        onPress={() => setIsExpanded(!isExpanded)}
+      >
+        <View>
+          <Text style={styles.menuTitle}>My Account</Text>
+          <Text style={styles.menuSubtitle}>
+            Favourites, Hidden restaurants & settings
+          </Text>
+        </View>
+        <AntDesign name={isExpanded ? "up" : "down"} size={16} color="#757575" />
+      </TouchableOpacity>
+
+      {/* Expandable Menu Items */}
+      {isExpanded && (
+       <View style={styles.dropdownMenu}>
+       <TouchableOpacity style={styles.menuItem}>
+       <View style={styles.iconBox}>
+              <AntDesign name="hearto" size={16} color="#000" />
+            </View>
+         <Text style={styles.menuItemText}>Favorites</Text>
+         <AntDesign name="right" size={16} color="#757575" />
+       </TouchableOpacity>
+       <TouchableOpacity style={styles.menuItem}>
+       <View style={styles.iconBox}>
+              <AntDesign name="home" size={16} color="#000" />
+            </View>
+         <Text style={styles.menuItemText}>Hidden Restaurants</Text>
+         <AntDesign name="right" size={16} color="#757575" />
+       </TouchableOpacity>
+       <TouchableOpacity style={styles.menuItem}>
+       <View style={styles.iconBox}>
+              <AntDesign name="setting" size={16} color="#000" />
+            </View>
+         <Text style={styles.menuItemText}>Settings</Text>
+         <AntDesign name="right" size={16} color="#757575" />
+       </TouchableOpacity>
+     </View>
+      )}
+    </View>
 
         <TouchableOpacity style={styles.menuBox}>
           <View>
@@ -84,7 +123,7 @@ const ProfileScreen = () => {
           <AntDesign name="right" size={16} color="#757575" />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.menuBox}>
+        <TouchableOpacity style={styles.menuBox} onPress={() => router.push("/initialscreens/AddressManagementScreen")}>
           <View>
             <Text style={styles.menuTitle}>Addresses</Text>
             <Text style={styles.menuSubtitle}>Share, Edit & Add new address</Text>
@@ -92,13 +131,43 @@ const ProfileScreen = () => {
           <AntDesign name="right" size={16} color="#757575" />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.menuBox}>
-          <View>
-            <Text style={styles.menuTitle}>Payments & Refunds</Text>
-            <Text style={styles.menuSubtitle}>Refund status & Payment modes</Text>
-          </View>
-          <AntDesign name="down" size={16} color="#757575" />
-        </TouchableOpacity>
+        <TouchableOpacity
+        style={styles.menuBox}
+        onPress={() => setIsNewExpanded(!isNewExpanded)}
+      >
+        <View>
+          <Text style={styles.menuTitle}>Payments & Refunds</Text>
+          <Text style={styles.menuSubtitle}>Refund status & Payment modes</Text>
+        </View>
+        <AntDesign name={isExpanded ? "up" : "down"} size={16} color="#757575" />
+      </TouchableOpacity>
+
+      {/* Dropdown Menu Items */}
+      {isNewExpanded && (
+        <View style={styles.dropdownMenu}>
+          <TouchableOpacity style={styles.menuItem}>
+            <View style={styles.iconBox}>
+              <Image
+                source={require("../../assets/images/Transaction-1.png")} // Replace with correct path
+                style={styles.iconImage}
+              />
+            </View>
+            <Text style={styles.menuItemText}>Refund Status</Text>
+            <AntDesign name="right" size={16} color="#757575" />
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.menuItem}>
+            <View style={styles.iconBox}>
+              <Image
+                source={require("../../assets/images/MasterCard.png")} // Replace with correct path
+                style={styles.iconImage}
+              />
+            </View>
+            <Text style={styles.menuItemText}>Payment Modes</Text>
+            <AntDesign name="right" size={16} color="#757575" />
+          </TouchableOpacity>
+        </View>
+      )}
 
         <TouchableOpacity style={styles.menuBox}>
           <View>
@@ -116,7 +185,7 @@ const ProfileScreen = () => {
           <AntDesign name="right" size={16} color="#757575" />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.menuBox}>
+        <TouchableOpacity style={styles.menuBox} onPress={() => router.push("/Screens/LogOut")}>
           <Text style={styles.menuTitle}>Logout Options</Text>
           <AntDesign name="right" size={16} color="#757575" />
         </TouchableOpacity>
@@ -185,7 +254,6 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     shadowOffset: { width: 0, height: 2 },
     elevation: 2,
-    // paddingVertical: 40,
   },
   menuTitle: {
     fontSize: 16,
@@ -196,6 +264,44 @@ const styles = StyleSheet.create({
     color: "#757575",
     fontFamily: "Poppins-Regular",
     marginTop: 4,
+  },
+  dropdownMenu: {
+    backgroundColor: "#FFF",
+    borderBottomLeftRadius: 8,  // Fix for border radius
+    borderBottomRightRadius: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderWidth: 1,
+    borderColor: "#ECECEC",
+    marginBottom: 16,
+    marginTop: -20,
+  },
+  menuItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingVertical: 12,
+  },
+  menuItemText: {
+    fontSize: 14,
+    fontFamily: "Poppins-Medium",
+    flex: 1,
+    marginLeft: 8,
+  },
+  iconBox: {
+    width: 32, 
+    height: 32, 
+    borderRadius: 4, 
+    backgroundColor: "#FFF", 
+    borderWidth: 1, 
+    borderColor: "#ccc", 
+    alignItems: "center", 
+    justifyContent: "center",
+  },
+  iconImage: {
+    width: 20,
+    height: 20,
+    resizeMode: "contain",
   },
 });
 

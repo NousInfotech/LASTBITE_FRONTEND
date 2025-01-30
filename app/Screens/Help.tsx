@@ -12,6 +12,7 @@ import GoBack from "@/components/GoBack";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
+import Icon from "react-native-vector-icons/Feather";
 
 const Help = () => {
   const router = useRouter();
@@ -32,7 +33,7 @@ const Help = () => {
   }, []);
 
   if (!fontsLoaded) {
-    return null; 
+    return null;
   }
 
   return (
@@ -40,9 +41,19 @@ const Help = () => {
       <StatusBar barStyle="dark-content" />
 
       <View style={styles.header}>
-        <TouchableOpacity>
-          <GoBack />
-        </TouchableOpacity>
+        {showRefunds ? (
+          <TouchableOpacity
+            onPress={() => setShowRefunds(false)}
+            style={{ padding: 8, marginLeft: -8 }}
+            activeOpacity={0.7}
+          >
+            <Icon name="arrow-left" size={24} color="#333" />
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity>
+            <GoBack />
+          </TouchableOpacity>
+        )}
         <Text style={styles.headerTitle}>Help & Support</Text>
       </View>
 
