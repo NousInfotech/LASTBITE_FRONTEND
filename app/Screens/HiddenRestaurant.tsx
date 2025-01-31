@@ -15,7 +15,7 @@ import { useRouter } from "expo-router";
 import * as Font from "expo-font";
 import RestaurantCard from "@/components/Foods"; // Corrected import
 
-const Favourites = () => {
+const HiddenRestaurant = () => {
   const router = useRouter();
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [toastVisible, setToastVisible] = useState(false);
@@ -77,20 +77,15 @@ const Favourites = () => {
         <TouchableOpacity>
           <GoBack />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Favorites</Text>
+        <Text style={styles.headerTitle}>Hidden Restaurants</Text>
       </View>
 
       {/* Centered Image */}
       <View style={styles.imageContainer}>
         <Image
-          source={require("../../assets/images/Fav.png")}
+          source={require("../../assets/images/Hidden.png")}
           style={styles.mainImage}
         />
-        <Text style={styles.Title}>Tasty Wishlist</Text>
-        <Text style={styles.subText}>
-          Hunt down your favorite dining spots and feast on flavors you can’t
-          resist.
-        </Text>
       </View>
 
       {/* Filter Buttons */}
@@ -113,7 +108,7 @@ const Favourites = () => {
   );
 };
 
-export default Favourites;
+export default HiddenRestaurant;
 
 const styles = StyleSheet.create({
   container: {
