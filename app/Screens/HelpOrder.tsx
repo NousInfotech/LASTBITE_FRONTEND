@@ -58,41 +58,41 @@ const HelpOrder = () => {
     return null;
   }
 
-const handleChooseFile = async () => {
-  try {
-    const result = await DocumentPicker.getDocumentAsync({
-      type: ['image/*', 'application/pdf'], // Specify allowed file types
-      copyToCacheDirectory: true,
-    });
+// const handleChooseFile = async () => {
+//   try {
+//     const result = await DocumentPicker.getDocumentAsync({
+//       type: ['image/*', 'application/pdf'], // Specify allowed file types
+//       copyToCacheDirectory: true,
+//     });
 
-    // Check if the user selected a file
-    if (result.type === 'success') {
-      const { uri, name, type } = result; // Use `type` directly from the result
+//     // Check if the user selected a file
+//     if (result.type === 'success') {
+//       const { uri, name, type } = result; // Use `type` directly from the result
 
-      // Get file information
-      const fileInfo = await FileSystem.getInfoAsync(uri);
-      if (!fileInfo.exists) {
-        alert('File does not exist.');
-        return;
-      }
+//       // Get file information
+//       const fileInfo = await FileSystem.getInfoAsync(uri);
+//       if (!fileInfo.exists) {
+//         alert('File does not exist.');
+//         return;
+//       }
 
-      if (fileInfo.size && fileInfo.size > 5 * 1024 * 1024) {
-        alert('File size must be less than 5MB.');
-        return;
-      }
+//       if (fileInfo.size && fileInfo.size > 5 * 1024 * 1024) {
+//         alert('File size must be less than 5MB.');
+//         return;
+//       }
 
-      // Set the chosen file
-      setChosenFile({
-        name,
-        uri,
-        size: fileInfo.size || 0, // Default to 0 if size is unavailable
-        type, // Use the `type` property
-      });
-    }
-  } catch (error: any) {
-    alert('Error picking file: ' + error.message);
-  }
-};
+//       // Set the chosen file
+//       setChosenFile({
+//         name,
+//         uri,
+//         size: fileInfo.size || 0, // Default to 0 if size is unavailable
+//         type, // Use the `type` property
+//       });
+//     }
+//   } catch (error: any) {
+//     alert('Error picking file: ' + error.message);
+//   }
+// };
 
   // Handle query type selection from the modal
   const handleSelectQueryType = (option : any) => {
@@ -209,7 +209,9 @@ const handleChooseFile = async () => {
 
           <Text style={styles.label}>Upload Attachments</Text>
           <View style={styles.inputContainer}>
-            <TouchableOpacity style={styles.uploadButton} onPress={handleChooseFile}>
+            <TouchableOpacity style={styles.uploadButton} 
+            // onPress={handleChooseFile}
+            >
               <Text style={styles.uploadButtonText}>Choose File</Text>
             </TouchableOpacity>
             <Text style={styles.fileName}>

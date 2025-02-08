@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
   skipText: {
     color: "white",
 
-    fontSize: 16,
+    fontSize: 14,
     fontFamily: "poppins",
   },
   contentContainer: {
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
   },
   contentText: {
     color: "black",
-    fontSize: 24,
+    fontSize: 20,
 
     textAlign: "left",
     fontFamily: "poppins-semibold",

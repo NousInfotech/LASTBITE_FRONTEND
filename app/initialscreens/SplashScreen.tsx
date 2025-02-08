@@ -44,7 +44,7 @@ export default function SplashScreen() {
 
       // After fade-out animation ends, navigate to the next page
       setTimeout(() => {
-        router.push("/initialscreens/onboarding"); // Navigate to the onboarding screen
+        router.push("/initialscreens/SelectRole"); // Navigate to the onboarding screen
       }, 3000); // Ensure that the navigation happens after the fade-out completes
     }, 2000);
 
