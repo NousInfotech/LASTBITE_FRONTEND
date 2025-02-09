@@ -8,10 +8,12 @@ import {
   ScrollView,
   StyleSheet,
   Modal,
+  Image,
 } from "react-native";
 import GoBack from "@/components/GoBack";
 import CustomCheckbox from "@/components/CustomCheckbox";
 import * as Font from "expo-font";
+import { router } from "expo-router";
 
 const RegisterRestaurant = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -53,7 +55,10 @@ const RegisterRestaurant = () => {
   );
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedFoodType, setSelectedFoodType] = useState("Veg Only");
-  const [selectedCuisines, setSelectedCuisines] = useState(["Italian", "Chinese"]);
+  const [selectedCuisines, setSelectedCuisines] = useState([
+    "Italian",
+    "Chinese",
+  ]);
   const [selectedOption, setSelectedOption] = useState(null);
 
   const options = [
@@ -63,13 +68,23 @@ const RegisterRestaurant = () => {
   ];
   const foodTypes = ["Veg Only", "Non-Veg Only", "Both Veg & Non-Veg"];
   const cuisines = [
-    "Italian", "Chinese", "Indian", "Mexican", "Mediterranean",
-    "Japanese", "American", "French", "Thai", "Middle Eastern"
+    "Italian",
+    "Chinese",
+    "Indian",
+    "Mexican",
+    "Mediterranean",
+    "Japanese",
+    "American",
+    "French",
+    "Thai",
+    "Middle Eastern",
   ];
 
   const toggleCuisine = (cuisine) => {
     setSelectedCuisines((prev) =>
-      prev.includes(cuisine) ? prev.filter((c) => c !== cuisine) : [...prev, cuisine]
+      prev.includes(cuisine)
+        ? prev.filter((c) => c !== cuisine)
+        : [...prev, cuisine]
     );
   };
 
@@ -107,6 +122,10 @@ const RegisterRestaurant = () => {
   const handleContinue = () => {
     if (activeStep < 4) {
       setActiveStep(activeStep + 1);
+    }
+    else {
+      // Navigate to home tab when on the last step
+      router.push("/(tabstwo)/home");
     }
   };
 
@@ -443,66 +462,87 @@ const RegisterRestaurant = () => {
             </View>
 
             <View style={styles.formCard}>
-        <Text style={styles.sectionTitle}>What kind of food is on your menu? </Text>
-        <View style={styles.radioGroupNew}>
-          {foodTypes.map((type) => (
-            <TouchableOpacity key={type} style={styles.radioButton} onPress={() => setSelectedFoodType(type)}>
-              <View style={styles.radioCircle}> 
-                {selectedFoodType === type && (<View style={styles.radioFill} />)}
-              </View>
-              <Text style={styles.radioText}>{type}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-      </View>
-
-      {/* Cuisine Selection */}
-      <View style={styles.formCard}>
-        <Text style={styles.sectionTitle}>Add cuisines <Text style={styles.required}>*</Text></Text>
-        <View style={styles.chipContainer}>
-          {cuisines.map((cuisine) => (
-            <TouchableOpacity
-              key={cuisine}
-              style={[styles.chip, selectedCuisines.includes(cuisine) && styles.selectedChip]}
-              onPress={() => toggleCuisine(cuisine)}
-            >
-              <Text style={[styles.chipText, selectedCuisines.includes(cuisine) && styles.selectedChipText]}>
-                {cuisine} {selectedCuisines.includes(cuisine) && "✕"}
+              <Text style={styles.sectionTitle}>
+                What kind of food is on your menu?{" "}
               </Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-      </View>
+              <View style={styles.radioGroupNew}>
+                {foodTypes.map((type) => (
+                  <TouchableOpacity
+                    key={type}
+                    style={styles.radioButton}
+                    onPress={() => setSelectedFoodType(type)}
+                  >
+                    <View style={styles.radioCircle}>
+                      {selectedFoodType === type && (
+                        <View style={styles.radioFill} />
+                      )}
+                    </View>
+                    <Text style={styles.radioText}>{type}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </View>
+
+            {/* Cuisine Selection */}
+            <View style={styles.formCard}>
+              <Text style={styles.sectionTitle}>
+                Add cuisines <Text style={styles.required}>*</Text>
+              </Text>
+              <View style={styles.chipContainer}>
+                {cuisines.map((cuisine) => (
+                  <TouchableOpacity
+                    key={cuisine}
+                    style={[
+                      styles.chip,
+                      selectedCuisines.includes(cuisine) && styles.selectedChip,
+                    ]}
+                    onPress={() => toggleCuisine(cuisine)}
+                  >
+                    <Text
+                      style={[
+                        styles.chipText,
+                        selectedCuisines.includes(cuisine) &&
+                          styles.selectedChipText,
+                      ]}
+                    >
+                      {cuisine} {selectedCuisines.includes(cuisine) && "✕"}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </View>
 
             <View style={styles.formCard}>
-              <Text style={styles.sectionTitle}>Packaging Charges <Text style={styles.required}>*</Text></Text>
+              <Text style={styles.sectionTitle}>
+                Packaging Charges <Text style={styles.required}>*</Text>
+              </Text>
               <Text style={styles.sectionSubtitle}>
                 Not applicable on Indian Breads, MRP Items, Packaged Beverages
                 (Soft drinks, Water Bottle)
               </Text>
 
-      {/* Options */}
-      <View style={styles.optionsContainer}>
-        {options.map((option) => (
-          <TouchableOpacity
-            key={option}
-            style={[
-              styles.optionButton,
-              selectedOption === option && styles.selectedOption,
-            ]}
-            onPress={() => setSelectedOption(option)}
-          >
-            <Text
-              style={[
-                styles.optionText,
-                selectedOption === option && styles.selectedOptionText,
-              ]}
-            >
-              {option}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
+              {/* Options */}
+              <View style={styles.optionsContainer}>
+                {options.map((option) => (
+                  <TouchableOpacity
+                    key={option}
+                    style={[
+                      styles.optionButton,
+                      selectedOption === option && styles.selectedOption,
+                    ]}
+                    onPress={() => setSelectedOption(option)}
+                  >
+                    <Text
+                      style={[
+                        styles.optionText,
+                        selectedOption === option && styles.selectedOptionText,
+                      ]}
+                    >
+                      {option}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
             </View>
           </>
         )}
@@ -513,8 +553,15 @@ const RegisterRestaurant = () => {
               <Text style={styles.sectionTitle}>Oveview</Text>
             </View>
             <View style={styles.formCard}>
-              <Text style={styles.sectionTitle}>Letter of Understanding</Text>
+              <View style={styles.titleContainer}>
+                <Text style={styles.title}>Letter of Understanding</Text>
+                <Image
+                  source={require("../../assets/images/Download.png")}
+                  style={styles.image}
+                />
+              </View>
             </View>
+
             {/* <CustomCheckbox
               label="I have read & accept the Terms & Condition"
               checked={noGST}
@@ -651,7 +698,23 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "Poppins-SemiBold",
     color: "#333333",
-    marginBottom: 12,
+    marginBottom: 8,
+  },
+  title: {
+    fontSize: 16,
+    fontFamily: "Poppins-SemiBold",
+    color: "#333333",
+  },
+  titleContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between", // Keeps the text on the left and image on the right
+  },
+
+  image: {
+    width: 20, // Adjust size as needed
+    height: 20,
+    marginLeft: 8, // Add some spacing between text and image
   },
   sectionSubtitle: {
     fontSize: 12,
@@ -756,8 +819,17 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: "#01615F",
   },
-  radioGroupNew: { flexDirection: "row", alignItems: "center", flexWrap: "wrap" },
-  radioButton: { flexDirection: "row", alignItems: "center", marginRight: 15, marginVertical: 5 },
+  radioGroupNew: {
+    flexDirection: "row",
+    alignItems: "center",
+    flexWrap: "wrap",
+  },
+  radioButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginRight: 15,
+    marginVertical: 5,
+  },
   additionalOptions: {
     marginTop: 8,
   },
