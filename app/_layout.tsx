@@ -1,11 +1,22 @@
 import { Stack } from "expo-router";
 import { useFonts } from "expo-font";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import '../global.css';
+
+// Create a client
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 2,
+      staleTime: 1000 * 60 * 5, // 5 minutes
+    },
+  },
+});
 
 export default function RootLayout() {
   // Load fonts asynchronously using useFonts hook
   const [fontsLoaded] = useFonts({
-    'outfit': require('../assets/fonts/Itim-Regular.ttf'), // Outfit font
+    'outfit': require('../assets/fonts/Itim-Regular.ttf'),
     'poppins-regular': require('../assets/fonts/Poppins-Regular.ttf'),
     'poppins-medium': require('../assets/fonts/Poppins-Medium.ttf'),
     'poppins-bold': require('../assets/fonts/Poppins-Bold.ttf'),
@@ -18,8 +29,10 @@ export default function RootLayout() {
   }
 
   return (
-    <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="(tabs)" />
-    </Stack>
+    <QueryClientProvider client={queryClient}>
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="(tabs)" />
+      </Stack>
+    </QueryClientProvider>
   );
 }

@@ -54,21 +54,17 @@ const ProfileScreen = () => {
         <Text style={styles.profileName}>Lorem Ipsum</Text>
       </View>
       <ScrollView style={styles.content}>
-        <TouchableOpacity style={styles.sectionBox} onPress={() => router.push("/Screens/ProfileEdit")}
+        <TouchableOpacity style={styles.sectionBox} onPress={() => router.push("/Screens/RidersDetails")}
         >
-          <Text style={styles.sectionTitle}>Restaurant Information</Text>
+          <Text style={styles.sectionTitle}>Basic Details</Text>
           <AntDesign name="right" size={16} color="#757575" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.sectionBox} onPress={() => router.push("/Screens/RestaurantDocuments")}>
-          <Text style={styles.sectionTitle}>Restaurant Documents</Text>
+        <TouchableOpacity style={styles.sectionBox} onPress={() => router.push("/Screens/RidersAddress")}>
+          <Text style={styles.sectionTitle}>Address</Text>
           <AntDesign name="right" size={16} color="#757575" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.sectionBox} onPress={() => router.push("/Screens/MenuSetUp")}>
-          <Text style={styles.sectionTitle}>Menu Set-up</Text>
-          <AntDesign name="right" size={16} color="#757575" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.sectionBox} onPress={() => router.push("/Screens/PartnerContract")}>
-          <Text style={styles.sectionTitle}>Partner Contract</Text>
+        <TouchableOpacity style={styles.sectionBox} onPress={() => router.push("/Screens/RidersDocument")}>
+          <Text style={styles.sectionTitle}>Documentations</Text>
           <AntDesign name="right" size={16} color="#757575" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.sectionBox} onPress={() => router.push("/Screens/RatingReview")}>

@@ -12,7 +12,7 @@ import {
   Modal,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import DateTimePicker from "react-native-modal-datetime-picker";
+// import DateTimePicker from "react-native-modal-datetime-picker";
 import GoBack from "@/components/GoBack";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
@@ -232,12 +232,12 @@ const HelpOrder = () => {
             <Ionicons name="calendar" size={18} color="#ccc" />
           </TouchableOpacity>
 
-          <DateTimePicker
+          {/* <DateTimePicker
             isVisible={isDatePickerVisible}
             mode="date"
             onConfirm={handleConfirm}
             onCancel={() => setDatePickerVisibility(false)}
-          />
+          /> */}
 
 <Pressable
             style={styles.checkboxContainer}

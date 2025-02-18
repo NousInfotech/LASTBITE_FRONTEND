@@ -12,7 +12,6 @@ import {
   Alert,
 } from "react-native";
 import GoBack from "@/components/GoBack";
-import CustomCheckbox from "@/components/CustomCheckbox";
 import * as Font from "expo-font";
 import { router } from "expo-router";
 import { useCreateRestaurant } from "@/api/queryHooks";
@@ -22,7 +21,6 @@ const RegisterRestaurant = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [chosenFile, setChosenFile] = useState(null);
   const [activeStep, setActiveStep] = useState(1);
-  const [noGST, setNoGST] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("Category I");
   const [selectedFoodType, setSelectedFoodType] = useState("Veg Only");
   const [selectedCuisines, setSelectedCuisines] = useState([
@@ -63,15 +61,7 @@ const RegisterRestaurant = () => {
   });
 
   const mutation = useCreateRestaurant();
-
-  const [sameWhatsApp, setSameWhatsApp] = useState(true);
-  const [timingMode, setTimingMode] = useState<"sameTime" | "daywise">(
-    "sameTime"
-  );
-  const [modalVisible, setModalVisible] = useState(false);
-
   const [selectedOption, setSelectedOption] = useState(null);
-
   const options = [
     "Zero",
     "Based on item price",
@@ -94,11 +84,9 @@ const RegisterRestaurant = () => {
   const toggleCuisine = (cuisine) => {
     setSelectedCuisines((prev) => {
       const updatedCuisines = prev.includes(cuisine)
-        ? prev.filter((item) => item !== cuisine) // Remove if already selected
-        : [...prev, cuisine]; // Add if not selected
-
-      setForm((formPrev) => ({ ...formPrev, cuisines: updatedCuisines })); // Update form
-
+        ? prev.filter((item) => item !== cuisine) 
+        : [...prev, cuisine]; 
+      setForm((formPrev) => ({ ...formPrev, cuisines: updatedCuisines })); 
       return updatedCuisines;
     });
   };
@@ -119,22 +107,6 @@ const RegisterRestaurant = () => {
     return null;
   }
 
-  const categories = [
-    {
-      name: "Category I",
-      description: "Sells only freshly prepared food, no packed items",
-    },
-    {
-      name: "Category II",
-      description:
-        "Sells only ice creams, bakery items, sweets, or packed foods",
-    },
-    {
-      name: "Category III",
-      description: "Sells both fresh and packed food items",
-    },
-  ];
-
   const handleSubmit = async () => {
     const formattedForm = {
       ...form,
@@ -154,7 +126,6 @@ const RegisterRestaurant = () => {
   };
 
   const handleContinue = (): void => {
-    // Define required fields based on active step
     let requiredFields: string[] = [];
   
     if (activeStep === 1) {
@@ -182,7 +153,6 @@ const RegisterRestaurant = () => {
       return;
     }
   
-    // Check if all required fields are filled
     const isFormValid: boolean = requiredFields.every((field) => {
       const value = form[field as keyof typeof form];
       return typeof value === "string" && value.trim() !== "";
@@ -201,22 +171,7 @@ const RegisterRestaurant = () => {
     }
   };
   
-
-  const handleSelectAll = () => {
-    const allSelected = Object.values(form.workingDays).every(Boolean);
-
-    setForm((prev) => ({
-      ...prev,
-      workingDays: Object.fromEntries(
-        (
-          Object.keys(prev.workingDays) as (keyof typeof prev.workingDays)[]
-        ).map((day) => [day, !allSelected])
-      ) as typeof prev.workingDays, // Explicitly type as the same structure
-    }));
-  };
-
   const handleChooseFile = async () => {
-    // Request permission to access media library
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
     if (status !== "granted") {
@@ -226,18 +181,16 @@ const RegisterRestaurant = () => {
       );
       return;
     }
-
-    // Open image picker
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true, // Enable image cropping
-      quality: 1, // Highest quality
+      allowsEditing: true, 
+      quality: 1, 
     });
 
     if (!result.canceled) {
       setForm((prev) => ({
         ...prev,
-        profilePhoto: result.assets[0].uri, // Store the selected image URI
+        profilePhoto: result.assets[0].uri, 
       }));
     }
   };
@@ -246,14 +199,14 @@ const RegisterRestaurant = () => {
     label: string,
     field: keyof typeof form,
     placeholder?: string,
-    required?: boolean // Optional parameter for required field
+    required?: boolean 
   ) => (
     <View style={styles.inputContainer}>
       <Text style={styles.label}>
         {label} {required && <Text style={styles.required}>*</Text>}
       </Text>
       <TextInput
-        value={form[field]} // Ensure value matches form field
+        value={form[field]} 
         onChangeText={(text) => setForm((prev) => ({ ...prev, [field]: text }))} // Update state
         placeholder={placeholder || `Enter ${label}`} // Default placeholder
         style={styles.input}
@@ -269,324 +222,9 @@ const RegisterRestaurant = () => {
           <TouchableOpacity style={styles.backButton}>
             <GoBack />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Restaurant Information</Text>
-          <View style={styles.progressContainer}>
-            {[1, 2, 3, 4].map((step, index) => (
-              <React.Fragment key={index}>
-                <View
-                  style={[
-                    styles.progressStep,
-                    step <= activeStep ? styles.activeStep : {},
-                  ]}
-                />
-                {index < 3 && <View style={styles.progressLine} />}
-              </React.Fragment>
-            ))}
-          </View>
+          <Text style={styles.headerTitle}>Menu SetUp</Text>
         </View>
-        {activeStep === 1 && (
-          <>
-            <View style={styles.formCard}>
-              <View style={styles.formSection}>
-                <Text style={styles.sectionTitle}>Basic Details</Text>
-                {renderInput(
-                  "Owner's full name ",
-                  "ownerName",
-                  "Enter Full name",
-                  true
-                )}
-                {renderInput(
-                  "Restaurant Name",
-                  "restaurantName",
-                  "Enter Restaurant name",
-                  true
-                )}
-                <Text style={styles.label}>
-                  Profile Photo <Text style={styles.required}>*</Text>
-                </Text> 
-                <View style={styles.inputContainer_A}>
-                  <TouchableOpacity
-                    style={styles.uploadButton}
-                    onPress={handleChooseFile}
-                  >
-                    <Text style={styles.uploadButtonText}>Upload File</Text>
-                  </TouchableOpacity>
-                  <Text style={styles.fileName}>
-                    {form.profilePhoto ? "Profile chose" : "Choose a File"}
-                  </Text>
-                </View>
-                <Text style={styles.sectionTitle}>Add restaurant location</Text>
-                <Text style={styles.sectionSubtitle}>
-                  Provide exact details for quick food delivery.
-                </Text>
-
-                <View style={styles.row}>
-                  <View style={styles.halfInputContainer}>
-                    {renderInput(
-                      "Shop/Plot Number",
-                      "shopNumber",
-                      "Shop/PlotNo",
-                      true
-                    )}
-                  </View>
-                  <View style={styles.halfInputContainer}>
-                    {renderInput("Address", "address", "Floor no", true)}
-                  </View>
-                </View>
-
-                {renderInput(
-                  "Building/Mall/Complex Name",
-                  "complexName",
-                  "Enter Building/Mall/Complex Name",
-                  true
-                )}
-
-                {renderInput("Pincode", "pincode", "Enter Pincode", true)}
-              </View>
-            </View>
-
-            <View style={styles.formCard}>
-              <View style={styles.formSection}>
-                <Text style={styles.sectionTitle}>Owner Contact Details</Text>
-
-                {/* Email Address & Mobile Number */}
-                {renderInput(
-                  "Email Address",
-                  "emailAddress",
-                  "Enter email address",
-                  true
-                )}
-                {renderInput(
-                  "Mobile Number",
-                  "mobileNumber",
-                  "Enter mobile number",
-                  true
-                )}
-
-                {/* WhatsApp Number Options */}
-                <Text style={styles.radioGroupTitle}>
-                  WhatsApp Number Options
-                </Text>
-
-                <TouchableOpacity
-                  style={styles.radioOption}
-                  onPress={() => setSameWhatsApp(true)}
-                >
-                  <View style={styles.radioCircle}>
-                    {sameWhatsApp && <View style={styles.radioFill} />}
-                  </View>
-                  <Text style={styles.radioText}>
-                    My WhatsApp number is the same as above
-                  </Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={styles.radioOption}
-                  onPress={() => setSameWhatsApp(false)}
-                >
-                  <View style={styles.radioCircle}>
-                    {!sameWhatsApp && <View style={styles.radioFill} />}
-                  </View>
-                  <Text style={styles.radioText}>
-                    I have a different WhatsApp number
-                  </Text>
-                </TouchableOpacity>
-
-                {!sameWhatsApp &&
-                  renderInput("WhatsApp Number", "whatsappNumber", "whatsapp")}
-              </View>
-            </View>
-
-            <View style={styles.formCard}>
-              <View style={styles.formSection}>
-                <View style={styles.workingDaysHeader}>
-                  <Text style={styles.sectionTitle}>
-                    Working Days <Text style={{ color: "red" }}>*</Text>
-                  </Text>
-                  <TouchableOpacity onPress={handleSelectAll}>
-                    <Text style={styles.selectAllText}>Select All</Text>
-                  </TouchableOpacity>
-                </View>
-
-                <View style={styles.checkboxGrid}>
-                  <View style={styles.checkboxColumn}>
-                    {(
-                      ["Monday", "Tuesday", "Wednesday", "Thursday"] as Array<
-                        keyof typeof form.workingDays
-                      >
-                    ).map((day) => (
-                      <CustomCheckbox
-                        key={day}
-                        label={day}
-                        checked={form.workingDays[day]}
-                        onPress={() =>
-                          setForm((prev) => ({
-                            ...prev,
-                            workingDays: {
-                              ...prev.workingDays,
-                              [day]: !prev.workingDays[day],
-                            },
-                          }))
-                        }
-                      />
-                    ))}
-                  </View>
-                  <View style={styles.checkboxColumn}>
-                    {(
-                      ["Friday", "Saturday", "Sunday"] as Array<
-                        keyof typeof form.workingDays
-                      >
-                    ).map((day) => (
-                      <CustomCheckbox
-                        key={day}
-                        label={day}
-                        checked={form.workingDays[day]}
-                        onPress={() =>
-                          setForm((prev) => ({
-                            ...prev,
-                            workingDays: {
-                              ...prev.workingDays,
-                              [day]: !prev.workingDays[day],
-                            },
-                          }))
-                        }
-                      />
-                    ))}
-                  </View>
-                </View>
-              </View>
-            </View>
-
-            <View style={styles.formCard}>
-              <View style={styles.formSection}>
-                {/* <View style={styles.radioGroup}> */}
-                <TouchableOpacity
-                  style={styles.radioOption}
-                  onPress={() => setTimingMode("sameTime")}
-                >
-                  <View style={styles.radioCircle}>
-                    {timingMode === "sameTime" && (
-                      <View style={styles.radioFill} />
-                    )}
-                  </View>
-                  <Text style={styles.radioText}>
-                    I open and close my restaurant at the same time
-                  </Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={styles.radioOption}
-                  onPress={() => setTimingMode("daywise")}
-                >
-                  <View style={styles.radioCircle}>
-                    {timingMode === "daywise" && (
-                      <View style={styles.radioFill} />
-                    )}
-                  </View>
-                  <Text style={styles.radioText}>
-                    I've separate daywise timings.
-                  </Text>
-                </TouchableOpacity>
-              </View>
-              {/* </View> */}
-              <View style={styles.row}>
-                <View style={styles.halfInputContainer}>
-                  {renderInput("Opening Time", "openingTime", "9:00 AM", true)}
-                </View>
-                <View style={styles.halfInputContainer}>
-                  {renderInput("Closing Time", "closingTime", "9:00 PM", true)}
-                </View>
-              </View>
-            </View>
-          </>
-        )}
-        {activeStep === 2 && (
-          <>
-            <View style={styles.formCard}>
-              <Text style={styles.sectionTitle}>
-                What's your outlet-type? <Text style={{ color: "red" }}>*</Text>
-              </Text>
-              <Text style={styles.sectionSubtitle}>
-                This determines whether Last Bite or you pay GST on the items
-                sold.
-              </Text>
-              <TouchableOpacity
-                style={styles.categoryButton}
-                onPress={() => {
-                  setModalVisible(true);
-                  setForm((prev) => ({ ...prev, category: selectedCategory }));
-                }}
-              >
-                <Text style={styles.categoryText}>{selectedCategory}</Text>
-                <Text style={styles.editText}>Edit</Text>
-              </TouchableOpacity>
-              <Text style={styles.noteText}>
-                Last Bite will pay the GST on your behalf.
-              </Text>
-            </View>
-
-            <View style={styles.formCard}>
-              <Text style={styles.sectionTitle}>Enter PAN & GSTIN details</Text>
-              {renderInput(
-                "Business/Owner PAN",
-                "ownerPanNo",
-                "Enter Business/Owner PAN",
-                true
-              )}
-              {/* <Text style={styles.cardHolderText}>Card Holder: xoyyzz</Text> */}
-              {renderInput("GSTIN", "gstinNo", "Enter GSTIN", false)}
-
-              <CustomCheckbox
-                label="I don’t have a GST Number"
-                checked={noGST}
-                onPress={() => setNoGST(!noGST)}
-              />
-            </View>
-
-            {/* Official Bank Details */}
-            <View style={styles.formCard}>
-              <Text style={styles.sectionTitle}>Official Bank Details</Text>
-              {renderInput(
-                "Bank IFSC code",
-                "bankIfscCode",
-                "Enter IFSC Code",
-                true
-              )}
-              {renderInput(
-                "Bank Account number",
-                "bankAccountNumber",
-                "Enter account number",
-                true
-              )}
-            </View>
-
-            <View style={styles.formCard}>
-              <Text style={styles.sectionTitle}>FSSAI certificate</Text>
-              {renderInput(
-                "FSSAI certificate number",
-                "fssaiCertificateNo",
-                "Enter FSSAI certificate number",
-                true
-              )}
-
-              <Text style={styles.requirementsTitle}>Requirements:</Text>
-              <View style={styles.requirementsList}>
-                <Text style={styles.bulletPoint}>
-                  • The FSSAI certificate should either match the name of the
-                  restaurant or the owner.
-                </Text>
-                <Text style={styles.bulletPoint}>
-                  • The address on the FSSAI certificate should match the
-                  address of the restaurant.
-                </Text>
-                <Text style={styles.bulletPoint}>
-                  • The FSSAI certificate should not be expiring before 30 days.
-                </Text>
-              </View>
-            </View>
-          </>
-        )}
-        {activeStep === 3 && (
+        
           <>
             <View style={styles.formCard}>
               <Text style={styles.sectionTitle}>Upload your menu</Text>
@@ -716,123 +354,45 @@ const RegisterRestaurant = () => {
               </View>
             </View>
           </>
-        )}
+       
+          <View style={styles.buttonContainer}>
+  <TouchableOpacity style={styles.cancelButton}>
+    <Text style={styles.cancelButtonText}>Cancel</Text>
+  </TouchableOpacity>
+  <TouchableOpacity style={styles.saveButton}>
+    <Text style={styles.saveButtonText}>Save</Text>
+  </TouchableOpacity>
+</View>
 
-        {activeStep === 4 && (
-          <>
-            <View style={styles.formCard}>
-              <Text style={styles.sectionTitle}>Oveview</Text>
-            </View>
-            <View style={styles.formCard}>
-              <View style={styles.titleContainer}>
-                <Text style={styles.title}>Letter of Understanding</Text>
-                <Image
-                  source={require("../../assets/images/Download.png")}
-                  style={styles.image}
-                />
-              </View>
-            </View>
-
-            {/* <CustomCheckbox
-              label="I have read & accept the Terms & Condition"
-              checked={noGST}
-              onPress={() => setNoGST(!noGST)}
-            /> */}
-          </>
-        )}
-        <TouchableOpacity style={styles.button} onPress={handleContinue}>
-          <Text style={styles.buttonText}>Continue</Text>
-        </TouchableOpacity>
       </ScrollView>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContainer}>
-            {/* Close Button at Top Right */}
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={() => setModalVisible(false)}
-            >
-              <Text style={styles.closeButtonText}>✕</Text>
-            </TouchableOpacity>
-            ``
-            <Text style={styles.modalTitle}>Select your outlet type</Text>
-            {/* Category Options */}
-            {categories.map((category, index) => (
-              <TouchableOpacity
-                key={index}
-                style={styles.categoryBox}
-                onPress={() => {
-                  setSelectedCategory(category.name); // Update category
-                  setModalVisible(false); // Close modal
-                }}
-              >
-                <View style={styles.categoryHeader}>
-                  <Text style={styles.categoryHeading}>{category.name}</Text>
-                  <Text style={styles.selectText}>Select</Text>
-                </View>
-                <Text style={styles.categoryDescription}>
-                  {category.description}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-        </View>
-      </Modal>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#FFFFFF",
-  },
+    container: {
+        flex: 1,
+        backgroundColor: "#fff",
+      },
+      header: {
+        flexDirection: "row",
+        alignItems: "center",
+        padding: 16,
+      },
+      headerTitle: {
+        fontSize: 16,
+        marginLeft: 16,
+        fontWeight: "500",
+        fontFamily: "Poppins-SemiBold",
+      },
   scrollView: {
     flex: 1,
   },
-  header: {
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-  },
+
   backButton: {
     marginBottom: 8,
   },
-  headerTitle: {
-    fontSize: 18,
-    fontFamily: "Poppins-SemiBold",
-    color: "#01615F",
-    textAlign: "center",
-    marginBottom: 8,
-  },
-  progressContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    marginVertical: 6,
-  },
-  progressStep: {
-    width: 16,
-    height: 16,
-    borderRadius: 8,
-    backgroundColor: "#ccc",
-  },
-  activeStep: {
-    backgroundColor: "#01615F",
-  },
-  completedStep: {
-    backgroundColor: "#B0B0B0",
-  },
-  progressLine: {
-    width: 70,
-    height: 4,
-    backgroundColor: "#ccc",
-  },
-
+  
   formCard: {
     backgroundColor: "#FFFFFF",
     margin: 16,
@@ -865,13 +425,13 @@ const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between", // Keeps the text on the left and image on the right
+    justifyContent: "space-between", 
   },
 
   image: {
-    width: 20, // Adjust size as needed
+    width: 20,
     height: 20,
-    marginLeft: 8, // Add some spacing between text and image
+    marginLeft: 8, 
   },
   sectionSubtitle: {
     fontSize: 12,
@@ -995,20 +555,46 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 12,
   },
-  button: {
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    padding: 16,
+  },
+  
+  cancelButton: {
+    backgroundColor: "#FFFFFF",
+    borderWidth: 1,
+    borderColor: "#01615F",
+    height: 48,
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
+    flex: 1,
+    marginRight: 8,
+  },
+  
+  cancelButtonText: {
+    color: "#01615F",
+    fontSize: 16,
+    fontFamily: "Poppins-Medium",
+  },
+  
+  saveButton: {
     backgroundColor: "#01615F",
     height: 48,
     borderRadius: 8,
     alignItems: "center",
     justifyContent: "center",
-    margin: 18,
-    padding: 12,
+    flex: 1,
+    marginLeft: 8,
   },
-  buttonText: {
+  
+  saveButtonText: {
     color: "#FFFFFF",
     fontSize: 16,
     fontFamily: "Poppins-Medium",
   },
+  
   workingDaysHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -1031,7 +617,7 @@ const styles = StyleSheet.create({
   },
   categoryHeader: {
     flexDirection: "row",
-    justifyContent: "space-between", // Ensures "Select" is aligned right
+    justifyContent: "space-between", 
     alignItems: "center",
   },
   categoryButton: {

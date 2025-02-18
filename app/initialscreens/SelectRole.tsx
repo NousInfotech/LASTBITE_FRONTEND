@@ -51,8 +51,9 @@ const SelectRole = () => {
 
   const handleGetStarted = () => {
     if (activeOption === "User") {
-      // Navigate to OnBoarding screen for User
       router.push("./onboarding");
+    } else if (activeOption === "Rider") {
+      router.push("/Screens/RegisterRiders");
     } else {
       router.push({
         pathname: "./../auth/NumberLogin/otpScreen",
@@ -60,6 +61,7 @@ const SelectRole = () => {
       });
     }
   };
+  
 
   if (!fontsLoaded) {
     return null; // Optionally, show a loading screen or placeholder while fonts are loading
@@ -75,7 +77,6 @@ const SelectRole = () => {
           alignItems: "center",
         }}
       >
-        {/* Main Illustration Container */}
         <View
           style={{
             width: "100%",
@@ -87,7 +88,7 @@ const SelectRole = () => {
         >
           <Animated.View style={{ opacity: fadeAnim }}>
             <Image
-              source={images[activeOption]} // Dynamically render the current option's GIF
+              source={images[activeOption]} 
               style={{ width: 400, height: 400, resizeMode: "contain" }}
             />
           </Animated.View>

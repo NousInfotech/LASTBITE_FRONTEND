@@ -9,47 +9,108 @@ import {
   StatusBar,
   TouchableOpacity,
   SafeAreaView,
+  ActivityIndicator,
 } from "react-native";
 import { useFonts } from "expo-font";
 import CustomButton from "@/components/CustomButton";
 import GoBack from "@/components/GoBack";
-import { useRouter , useLocalSearchParams} from "expo-router";
+import { useRouter, useLocalSearchParams } from "expo-router";
+import { useSendOtp } from "@/api/queryHooks";
 
 const OTPScreen: React.FC = () => {
   const { role } = useLocalSearchParams();
   const [mobileNumber, setMobileNumber] = useState("");
   const [isInputFocused, setInputFocused] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [fontsLoaded] = useFonts({
     "Poppins-Regular": require("../../../assets/fonts/Poppins-Regular.ttf"),
   });
 
   const router = useRouter();
+  
+  const { mutate: sendOtp } = useSendOtp();
 
   if (!fontsLoaded) {
     return <Text>Loading...</Text>;
   }
 
-  const isValidInput = mobileNumber.length > 0;
+  const isValidInput = mobileNumber.length === 10;
 
   const handleGetOTP = async () => {
-    if (mobileNumber.length < 10) {
-      Alert.alert("Invalid Input", "Please enter a valid mobile number or Restaurant ID.");
+    console.log("Initiating OTP request for:", mobileNumber);
+
+    if (!mobileNumber || mobileNumber.length !== 10) {
+      Alert.alert("Invalid Input", "Please enter a valid 10-digit mobile number.");
       return;
     }
 
-    setIsLoading(true);
+    const formattedNumber = `+91${mobileNumber}`;
+    console.log("Formatted Number:", formattedNumber);
 
-    // Simulate API call delay
-    setTimeout(() => {
-      setIsLoading(false);
-      // Navigate to OTP screen with the mobile number as a parameter
-      router.push({
-        pathname: "../getotpscreen/EnterOTP",
-        params: { phoneNumber: mobileNumber, role: role  }
-      });
-    }, 2000);
+    try {
+      sendOtp(
+        { phoneNumber: formattedNumber },
+        {
+          onSuccess: (response) => {
+            console.log("OTP Success Response:", response);
+            if (response.success) {
+              // router.push({
+              //   pathname: "../getotpscreen/EnterOTP",
+              //   params: { phoneNumber: formattedNumber, role: role }
+              // });
+
+              router.push("/(tabstwo)/home");
+            } else {
+              Alert.alert(
+                "Error",
+                response.message || "Failed to send OTP. Please try again."
+              );
+            }
+          },
+          onError: (error: any) => {
+            console.error("OTP Error Details:", {
+              message: error.message,
+              response: error.response?.data,
+              status: error.response?.status,
+            });
+
+            let errorMessage = "Something went wrong. Please try again later.";
+            
+            if (error.message === "Network Error") {
+              errorMessage = "Network connection error. Please check your internet connection.";
+            } else if (error.response?.data?.message) {
+              errorMessage = error.response.data.message;
+            }
+
+            Alert.alert("Error", errorMessage);
+          }
+        }
+      );
+    } catch (error) {
+      console.error("Unexpected Error:", error);
+      Alert.alert(
+        "Error",
+        "An unexpected error occurred. Please try again later."
+      );
+    }
   };
+
+  
+  // const handleGetOTP = async () => {
+  //   if (mobileNumber.length < 10) {
+  //     Alert.alert("Invalid Input", "Please enter a valid mobile number or Restaurant ID.");
+  //     return;
+  //   }
+
+
+  //   // Simulate API call delay
+  //   setTimeout(() => {
+  //     // Navigate to OTP screen with the mobile number as a parameter
+  //     router.push({
+  //       pathname: "../getotpscreen/EnterOTP",
+  //       params: { phoneNumber: mobileNumber, role: role  }
+  //     });
+  //   }, 2000);
+  // };
 
   const handleTermsClick = () => {
     Linking.openURL("https://example.com/terms");
@@ -86,10 +147,10 @@ const OTPScreen: React.FC = () => {
             </View>
           </View>
           <CustomButton
-            title="Continue"
+            title={"Continue"}
             onPress={handleGetOTP}
             backgroundColor={!isValidInput ? "#ccc" : "#01615F"}
-            isDisabled={!isValidInput || isLoading}
+            isDisabled={!isValidInput}
           />
           <View style={styles.termsAndPolicyContainer}>
             <Text style={styles.text}>
@@ -104,6 +165,7 @@ const OTPScreen: React.FC = () => {
     </SafeAreaView>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {

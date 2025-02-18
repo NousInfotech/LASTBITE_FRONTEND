@@ -137,7 +137,7 @@ const Orders: React.FC = () => {
             ) : (
               <>
                 <TouchableOpacity style={styles.actionButton}
-                 onPress={() => router.push("/Screens/HelpOrder")}
+                //  onPress={() => router.push("/Screens/HelpOrder")}
                 >
                   <Text style={styles.actionText}>Help</Text>
                 </TouchableOpacity>

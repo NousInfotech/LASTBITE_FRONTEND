@@ -292,7 +292,6 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     color: "#01615F",
   },
-
   preparingStatus: {
     fontSize: 14,
     fontWeight: "500",
