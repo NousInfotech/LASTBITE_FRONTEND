@@ -12,13 +12,12 @@ const SelectRole = () => {
   const options: string[] = ["User", "Restaurant", "Rider"];
 
   const images: Record<string, any> = {
-    User: require("../../assets/images/Coffee shop.gif"),
-    Restaurant: require("../../assets/images/Order food.gif"),
+    User: require("../../assets/images/Order food.gif"),
+    Restaurant: require("../../assets/images/Coffee shop.gif"),
     Rider: require("../../assets/images/Takeaway.gif"),
   };
 
   const router = useRouter();
-
   useEffect(() => {
     async function loadFonts() {
       await Font.loadAsync({
@@ -53,10 +52,13 @@ const SelectRole = () => {
     if (activeOption === "User") {
       router.push("./onboarding");
     } else if (activeOption === "Rider") {
-      router.push("/Screens/RegisterRiders");
-    } else {
+      router.push("./RidersWelcome");
+    } else if (activeOption === "Restaurant") {
+      router.push("./RestaurantWelcome");
+    }
+     else {
       router.push({
-        pathname: "./../auth/NumberLogin/otpScreen",
+        pathname: "./onboarding",
         params: { role: activeOption },
       });
     }

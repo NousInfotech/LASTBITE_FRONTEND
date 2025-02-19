@@ -33,33 +33,31 @@ const WelcomeScreen = () => {
   useEffect(() => {
     Animated.sequence([
       Animated.timing(boxAnimation, {
-        toValue: 0, // Set the final position to be at the center (or wherever you prefer)
+        toValue: 0, 
         duration: 2000,
         useNativeDriver: true,
       }),
       Animated.timing(fadeAnim, {
-        toValue: 0, // Fade out after the box animation is done
+        toValue: 0, 
         duration: 2000,
         useNativeDriver: true,
       }),
     ]).start();
 
-    // Redirect after 2 seconds when the fadeout is done
     setTimeout(() => {
-      router.push("/UserDetails/GetUserDetails"); // Corrected navigation method with router.push
-    }, 3000); // Adjust the time to match your animation duration
+      router.push("/UserDetails/GetUserDetails"); 
+    }, 3000); 
   }, [boxAnimation, fadeAnim, router]);
 
   if (!fontsLoaded) {
-    return null; // Optionally, you can show a loading screen or placeholder until fonts are loaded
+    return null; 
   }
 
   return (
     <View style={styles.container}>
-      {/* Apply the fade animation to the entire container */}
       <Animated.View style={{ opacity: fadeAnim }}>
         <Animated.Image
-          source={require("../../assets/images/welcome.png")} // Ensure the image path is correct
+          source={require("../../assets/images/welcome.png")} 
           style={[
             styles.image,
             {
@@ -94,12 +92,12 @@ const styles = StyleSheet.create({
   welcome: {
     fontSize: 40,
     marginBottom: 24,
-    fontFamily: "myCustomFont", // Make sure the font is applied here
+    fontFamily: "myCustomFont", 
     textAlign: "center",
   },
   image: {
-    width: 350, // Set the width of your image
-    height: 350, // Set the height of your image
+    width: 350, 
+    height: 350,
     marginVertical: 24,
   },
   offer: {
@@ -108,10 +106,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
   },
   discount: {
-    fontSize: 27, // Set the font size to 32px
-    color: "#01615F", // Set the color to #01615F
+    fontSize: 27,
+    color: "#01615F", 
     textAlign: "center",
-    fontFamily: "Poppins-Medium", // Apply the Poppins-Medium font
+    fontFamily: "Poppins-Medium", 
     paddingHorizontal: 24,
   },
 });

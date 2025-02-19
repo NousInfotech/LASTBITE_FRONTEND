@@ -7,7 +7,7 @@ import Button from "@/components/ButtoN";
 const Onboarding = () => {
   const navigation = useNavigation();
   const [activeOption, setActiveOption] = useState<string>("Food");
-  const [fadeAnim] = useState(new Animated.Value(1)); // For image transition
+  const [fadeAnim] = useState(new Animated.Value(1)); 
   const options: string[] = ["Food", "Instamart", "Dineout"];
 
   const images: Record<string, any> = {
@@ -25,9 +25,9 @@ const Onboarding = () => {
       handleOptionChange(
         options[(options.indexOf(activeOption) + 1) % options.length]
       );
-    }, 2000); // Change every 3 seconds
+    }, 2000); 
 
-    return () => clearInterval(interval); // Cleanup on component unmount
+    return () => clearInterval(interval); 
   }, [activeOption]);
 
   const handleOptionChange = (option: string) => {
@@ -37,8 +37,7 @@ const Onboarding = () => {
       duration: 200,
       useNativeDriver: true,
     }).start(() => {
-      setActiveOption(option); // Change the active option
-      // Fade in the new image
+      setActiveOption(option); 
       Animated.timing(fadeAnim, {
         toValue: 1,
         duration: 200,
@@ -58,7 +57,6 @@ const Onboarding = () => {
           alignItems: "center",
         }}
       >
-        {/* Main Illustration Container */}
         <View
           style={{
             width: "100%",
@@ -70,13 +68,12 @@ const Onboarding = () => {
         >
           <Animated.View style={{ opacity: fadeAnim }}>
             <Image
-              source={images[activeOption]} // Dynamically render the current option's GIF
+              source={images[activeOption]} 
               style={{ width: 400, height: 400, resizeMode: "contain" }}
             />
           </Animated.View>
         </View>
 
-        {/* Logo and Text */}
         <View style={{ alignItems: "center", marginBottom: 32 }}>
           <View
             style={{ flexDirection: "row", marginTop: 32, marginBottom: 8 }}
@@ -99,7 +96,6 @@ const Onboarding = () => {
           </Text>
         </View>
 
-        {/* Service Options */}
         <View
           style={{
             flexDirection: "row",
@@ -139,10 +135,9 @@ const Onboarding = () => {
           ))}
         </View>
 
-        {/* Get Started Button */}
         <Button
           buttonContent="Get Started"
-          onPress={() => router.push("/auth2/signup/signup")}
+          onPress={() => router.push("/initialscreens/welcomescreen")}
           backgroundColor="#01615F"
         />
       </View>
