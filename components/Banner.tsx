@@ -1,44 +1,36 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import { useRouter } from 'expo-router';
 
 const windowWidth = Dimensions.get('window').width;
 
-// Update Banner Component to accept `right` and `bottom` props
 const Banner = ({
-    // Title and subtitle
     title = "Instamart Essentials",
     subtitle = "Fresh groceries delivered within",
     deliveryTime = "15 minutes.",
     
-    // Button
     buttonText = "Shop Groceries",
     buttonColor = "#006B4D",
     buttonTextColor = "#FFFFFF",
     
-    // Colors
     backgroundColor = "#E2FFEC",
     titleColor = "#000000",
     subtitleColor = "#4A4A4A",
     
-    // Image
     groceryImage = require('../assets/images/instamart-img.png'),
     
-    // Component dimensions
     height = 180,
     borderRadius = 12,
     
-    // Positioning
-    right = -5,   // Default value for right
-    bottom = 0,   // Default value for bottom
+    right = -5,   
+    bottom = 0,   
     
-    // Optional callback
     onButtonPress = () => {},
   }) => {
+    const router = useRouter();
     return (
       <View style={[styles.container, { backgroundColor, height, borderRadius }]}>
-        {/* Content Container */}
         <View style={styles.contentContainer}>
-          {/* Text Content */}
           <View style={styles.textContainer}>
             <Text style={[styles.title, { color: titleColor }]} className='poppins-font-bold'>
               {title}
@@ -52,13 +44,12 @@ const Banner = ({
             </View>
             <TouchableOpacity
               style={[styles.button, { backgroundColor: buttonColor }]}
-              onPress={onButtonPress}
+              onPress={() => router.push('/(tabs)/supermart')}
             >
               <Text style={[styles.buttonText, { color: buttonTextColor }]}>{buttonText}</Text>
             </TouchableOpacity>
           </View>
   
-          {/* Image Container with Absolute Positioning */}
           <View style={[styles.imageWrapper, { right, bottom }]}>
             <Image
               source={groceryImage}
@@ -70,8 +61,6 @@ const Banner = ({
       </View>
     );
   };
-  
-
   
 const styles = StyleSheet.create({
   container: {
@@ -90,7 +79,7 @@ const styles = StyleSheet.create({
     zIndex: 2,  
   },
   title: {
-    fontSize: 24,
+    fontSize: 20,
     maxWidth: '90%',
     marginBottom: 0,
   },
@@ -98,7 +87,7 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   subtitle: {
-    fontSize: 12,
+    fontSize: 10,
     color: "#929292",
     maxWidth: '60%',
   },
@@ -115,11 +104,11 @@ const styles = StyleSheet.create({
   },
   imageWrapper: {
     position: 'absolute',
-    right: -5, // Extend slightly beyond container
+    right: -5, 
     top: '20%',
     transform: [{ translateY: -50 }],
-    width: '65%', // Adjust based on your needs
-    height: '170%', // Make image slightly larger than container
+    width: '65%', 
+    height: '170%', 
     zIndex: 1,
   },
   image: {

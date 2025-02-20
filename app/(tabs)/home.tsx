@@ -6,7 +6,6 @@ import {
   StatusBar,
   Modal,
   Text,
-  TouchableOpacity,
 } from "react-native";
 import LocationHeader from "@/components/LocationHeader";
 import SearchBarVoice from "@/components/SearchBarVoice";
@@ -16,40 +15,137 @@ import FilterButtons from "@/components/FilterButtons";
 import RestaurantCard from "@/components/FoodList";
 import SuccessToast from "@/components/SuccessToast";
 import HiddenRestaurant from "@/components/HiddenRestaurant";
-import restaurantData from "@/JSON DATA/restaurantData.json";
 import { useRouter } from "expo-router";
 
 interface Restaurant {
-  id: string | number;
+  restaurantId: string;
   name: string;
-  image: string;
-  rating: number;
-  deliveryTime: string;
-  location: string;
+  details: string;
+  coverImage: string;
+  ratingCount: number;
+  ratingAverage: number;
+  categories: string[];
+  menu: string[];
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+  veg: boolean;
+  nonVeg: boolean;
+  vegan: boolean;
 }
 
+const restaurants: Restaurant[] = [
+  {
+    restaurantId: "r1",
+    name: "The Spice Hub",
+    details: "35-45 mins to Westside Park",
+    coverImage:
+      "https://www.seasonsandsuppers.ca/wp-content/uploads/2019/10/slow-cooker-pulled-pork-1200.jpg",
+    ratingCount: 250,
+    ratingAverage: 4.5,
+    categories: ["Biryani", "North Indian", "Desserts"],
+    menu: ["m1", "m2", "m3"],
+    isActive: true,
+    veg: false,
+    nonVeg: true,
+    vegan: false,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  },
+  {
+    restaurantId: "r2",
+    name: "Westside Grill",
+    details: "35-45 mins to Westside Park",
+    coverImage:
+      "https://www.seasonsandsuppers.ca/wp-content/uploads/2019/10/slow-cooker-pulled-pork-1200.jpg",
+    ratingCount: 180,
+    ratingAverage: 4.2,
+    categories: ["Grill", "American", "Steakhouse"],
+    menu: ["m4", "m5", "m6"],
+    isActive: true,
+    veg: false,
+    nonVeg: true,
+    vegan: false,
+    createdAt: "2023-12-15T10:30:00.000Z",
+    updatedAt: "2024-01-10T12:00:00.000Z",
+  },
+  {
+    restaurantId: "r3",
+    name: "Food Hut",
+    details: "35-45 mins to Westside Park",
+    coverImage:
+      "https://www.seasonsandsuppers.ca/wp-content/uploads/2019/10/slow-cooker-pulled-pork-1200.jpg",
+    ratingCount: 300,
+    ratingAverage: 2.7,
+    categories: ["South Indian", "Vegetarian", "Healthy"],
+    menu: ["m7", "m8", "m9"],
+    isActive: true,
+    veg: true,
+    nonVeg: false,
+    vegan: true,
+    createdAt: "2023-12-15T10:30:00.000Z",
+    updatedAt: "2024-01-10T12:00:00.000Z",
+  },
+  {
+    restaurantId: "r4",
+    name: "Green Leaf Cafe",
+    details: "30-40 mins to Westside Park",
+    coverImage:
+      "https://www.seasonsandsuppers.ca/wp-content/uploads/2019/10/slow-cooker-pulled-pork-1200.jpg",
+    ratingCount: 220,
+    ratingAverage: 3.6,
+    categories: ["Vegan", "Organic", "Smoothies"],
+    menu: ["m10", "m11", "m12"],
+    isActive: true,
+    veg: true,
+    nonVeg: false,
+    vegan: true,
+    createdAt: "2024-01-05T08:45:00.000Z",
+    updatedAt: "2024-02-02T14:20:00.000Z",
+  },
+];
+
 const Home = () => {
-  const [restaurants, setRestaurants] = useState<Restaurant[]>(
-    restaurantData.restaurants
-  );
+  const [restaurantList, setRestaurantList] =
+    useState<Restaurant[]>(restaurants);
   const router = useRouter();
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
-  const [hiddenRestaurants, setHiddenRestaurants] = useState<
-    (string | number)[]
-  >([]);
+  const [hiddenRestaurants, setHiddenRestaurants] = useState<string[]>([]);
   const [toastVisible, setToastVisible] = useState(false);
   const [hiddenPopup, setHiddenPopup] = useState<Restaurant | null>(null);
+  const [filteredRestaurants, setFilteredRestaurants] =
+    useState(restaurantList);
+  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+
+  const applyFilters = (filters: string[]) => {
+    setSelectedFilters(filters);
+
+    let filtered = restaurantList.filter((restaurant) => {
+      if (filters.includes("Pure Veg") && !restaurant.veg) return false;
+      if (filters.includes("Non Veg") && !restaurant.nonVeg) return false;
+      if (filters.includes("Vegan") && !restaurant.vegan) return false;
+      if (filters.includes("Ratings 4.0+") && restaurant.ratingAverage < 4.0)
+        return false;
+      if (filters.includes("Rating 4.5+") && restaurant.ratingAverage < 4.5)
+        return false;
+      return true;
+    });
+
+    setFilteredRestaurants(filtered);
+  };
 
   const handleFavorite = (id: string | number) => {
     console.log("Added to favorites:", id);
   };
 
-  const handleHide = (id: string | number) => {
-    console.log("Hidden restaurant:", id);
-    const hiddenRestaurant = restaurants.find((restaurant) => restaurant.id === id);
+  const handleHide = (restaurantId: string) => {
+    console.log("Hidden restaurant:", restaurantId);
+    const hiddenRestaurant = restaurantList.find(
+      (restaurant) => restaurant.restaurantId === restaurantId
+    );
     if (hiddenRestaurant) {
-      setHiddenRestaurants((prev) => [...prev, id]);
-      setHiddenPopup(hiddenRestaurant); // Show the popup with hidden restaurant details
+      setHiddenRestaurants((prev) => [...prev, restaurantId]);
+      setHiddenPopup(hiddenRestaurant);
     }
   };
 
@@ -77,7 +173,7 @@ const Home = () => {
       borderRadius: 12,
     },
     ,
-     {
+    {
       title: "Craving Something Special?",
       subtitle: "Find popular cuisines and discover",
       deliveryTime: "what you're in the mood for!",
@@ -112,7 +208,19 @@ const Home = () => {
       setCurrentBannerIndex((prevIndex) => (prevIndex + 1) % banners.length);
     }, 3000);
     return () => clearInterval(interval);
-  }, []);
+    applyFilters(selectedFilters);
+  }, [selectedFilters]);
+
+  const [selectedMenu, setSelectedMenu] = useState<string | null>(null);
+
+  const handleMenuSelection = (menuName: string) => {
+    setSelectedMenu(menuName);
+    console.log(menuName);
+    router.push({
+      pathname: "/Screens/DishesSearch",
+      params: { name: menuName },
+    });
+  };
 
   return (
     <View style={styles.container}>
@@ -122,6 +230,7 @@ const Home = () => {
         onInputPress={handleInputRedirect}
         redirectTargets={["Dishes", "Restaurants"]}
         placeholder="Dishes, restaurants & more"
+        onChangeText={handleMenuSelection}
       />
       <ScrollView
         contentContainerStyle={styles.scrollContent}
@@ -131,18 +240,26 @@ const Home = () => {
           {...banners[currentBannerIndex]}
           onButtonPress={() => console.log("Button pressed")}
         />
-        <FoodMenu />
-        <FilterButtons />
+        <FoodMenu onSelectMenu={handleMenuSelection} />
 
-        {restaurants
-          .filter((restaurant) => !hiddenRestaurants.includes(restaurant.id))
+        <FilterButtons onFilterChange={applyFilters} />
+        {filteredRestaurants
+          .filter(
+            (restaurant) => !hiddenRestaurants.includes(restaurant.restaurantId)
+          )
           .map((restaurant) => (
             <RestaurantCard
-              key={restaurant.id}
+              key={restaurant.restaurantId}
               restaurant={restaurant}
               onFavorite={handleFavorite}
               onHide={handleHide}
               setToastVisible={setToastVisible}
+              onPress={() =>
+                router.push({
+                  pathname: "/Screens/RestaurantSelect",
+                  params: { restaurantId: restaurant.restaurantId },
+                })
+              }
             />
           ))}
       </ScrollView>
@@ -153,7 +270,6 @@ const Home = () => {
         onHide={() => setToastVisible(false)}
       />
 
-      {/* HiddenRestaurant Popup */}
       <Modal
         transparent
         animationType="fade"
@@ -186,7 +302,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "transparent", // No extra background
+    backgroundColor: "transparent",
+  },
+  selectedText: {
+    marginTop: 20,
+    fontSize: 18,
+    fontWeight: "bold",
   },
 });
 

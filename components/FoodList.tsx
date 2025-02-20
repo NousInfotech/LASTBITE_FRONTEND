@@ -4,19 +4,25 @@ import { MaterialIcons } from "@expo/vector-icons";
 import FilterModal from "./FilterModal";
 
 interface Restaurant {
-  id: string | number;
+  restaurantId: string;
   name: string;
-  image: string;
-  rating: number;
-  deliveryTime: string;
-  location: string;
+  details: string;
+  coverImage: string;
+  ratingCount: number;
+  ratingAverage: number;
+  categories: string[];
+  menu: string[];
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface RestaurantCardProps {
   restaurant: Restaurant;
-  onFavorite?: (id: string | number) => void;
-  onHide?: (id: string | number) => void;
+  onFavorite?: (id: string) => void;
+  onHide?: (id: string) => void;
   setToastVisible?: (visible: boolean) => void;
+  onPress: (restaurantId: string) => void;
 }
 
 const RestaurantCard: React.FC<RestaurantCardProps> = ({
@@ -24,6 +30,7 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({
   onFavorite,
   onHide,
   setToastVisible,
+  onPress
 }) => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -31,25 +38,26 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({
 
   const handleFavorite = () => {
     setIsFavorite(!isFavorite);
-    onFavorite?.(restaurant.id);
+    onFavorite?.(restaurant.restaurantId);
     if (!isFavorite) {
       setToastVisible?.(true);
     }
   };
 
   const handleHide = () => {
-    setIsModalVisible(true); // Show the modal when hiding
+    setIsModalVisible(true);
   };
 
   const handleModalSubmit = () => {
     setIsModalVisible(false);
-    onHide?.(restaurant.id); // Pass the restaurant id to the parent
+    onHide?.(restaurant.restaurantId);
   };
 
   return (
+    <TouchableOpacity onPress={() => onPress(restaurant.restaurantId)}>
     <View style={styles.card}>
       <Image
-        source={{ uri: restaurant.image }}
+        source={{ uri: restaurant.coverImage }}
         style={styles.image}
         resizeMode="cover"
       />
@@ -60,16 +68,6 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({
       >
         <View style={styles.menuCircle}>
           <MaterialIcons name="more-vert" size={24} color="black" />
-        </View>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.menuButtonHeart} onPress={handleFavorite}>
-        <View style={styles.menuCircle}>
-          <MaterialIcons
-            name={isFavorite ? "favorite" : "favorite-border"}
-            size={24}
-            color={isFavorite ? "green" : "black"}
-          />
         </View>
       </TouchableOpacity>
 
@@ -95,12 +93,12 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({
           <Text style={styles.title}>{restaurant.name}</Text>
           <View style={styles.ratingContainer}>
             <MaterialIcons name="star" size={20} color="#FFD700" />
-            <Text style={styles.rating}>{restaurant.rating}</Text>
+            <Text style={styles.rating}>{restaurant.ratingAverage}</Text>
+            <Text style={styles.ratingCount}>({restaurant.ratingCount})</Text>
           </View>
         </View>
-        <Text style={styles.subtitle}>
-          {restaurant.deliveryTime} • {restaurant.location}
-        </Text>
+        <Text style={styles.subtitle}>{restaurant.details}</Text>
+        {/* <Text style={styles.categories}>{restaurant.categories.join(" • ")}</Text> */}
       </View>
 
       <FilterModal
@@ -121,9 +119,10 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({
           apply: "Submit",
         }}
         inputType="checkbox"
-        onApply={handleModalSubmit} // Submit the hide action
+        onApply={handleModalSubmit}
       />
     </View>
+    </TouchableOpacity>
   );
 };
 
@@ -174,8 +173,8 @@ const styles = StyleSheet.create({
   },
   menuContainer: {
     position: "absolute",
-    top: 48, // Align below the "more-vert" button
-    right: 8, // Align horizontally with the button
+    top: 48,
+    right: 8,
     width: 200,
     backgroundColor: "#fff",
     borderRadius: 8,
@@ -187,7 +186,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-    zIndex: 5, // Ensure it is above other elements
+    zIndex: 5,
   },
   menuItem: {
     padding: 12,
@@ -218,6 +217,16 @@ const styles = StyleSheet.create({
     marginLeft: 4,
   },
   subtitle: {
+    fontSize: 14,
+    color: "#666",
+    marginTop: 4,
+  },
+  ratingCount: {
+    fontSize: 14,
+    color: "#666",
+    marginLeft: 4,
+  },
+  categories: {
     fontSize: 14,
     color: "#666",
     marginTop: 4,

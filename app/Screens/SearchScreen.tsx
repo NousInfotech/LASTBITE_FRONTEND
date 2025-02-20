@@ -53,6 +53,12 @@ const SearchScreen = () => {
       type: "Dish",
       image: "https://via.placeholder.com/32",
     },
+    {
+      id: 3,
+      name: "Idly",
+      type: "Dish",
+      image: "https://via.placeholder.com/32",
+    },
   ];
 
   const restaurants: Restaurant[] = [
@@ -72,6 +78,19 @@ const SearchScreen = () => {
     {
       restaurantId: "r2",
       name: "Westside Grill",
+      details: "35-45 mins to Westside Park",
+      coverImage: "https://via.placeholder.com/500x300",
+      ratingCount: 250,
+      ratingAverage: 4.5,
+      categories: ["Biryani", "North Indian", "Desserts"],
+      menu: ["m1", "m2", "m3"],
+      isActive: true,
+      createdAt: "2023-12-15T10:30:00.000Z",
+      updatedAt: "2024-01-10T12:00:00.000Z",
+    },
+    {
+      restaurantId: "r3",
+      name: "Food Hut",
       details: "35-45 mins to Westside Park",
       coverImage: "https://via.placeholder.com/500x300",
       ratingCount: 250,
@@ -142,7 +161,7 @@ const SearchScreen = () => {
           // onInputPress={(text: string) => setSearchText(text)} 
           redirectTargets={["Dishes", "Restaurants"]}
           placeholder="Dishes, restaurants & more"
-          onChangeText={(text: string) => setSearchText(text)} // Trigger search immediately as text changes
+          onChangeText={(text: string) => setSearchText(text)} 
         />
       </View>
   
@@ -153,7 +172,7 @@ const SearchScreen = () => {
               <Text style={styles.sectionTitle}>Recommendations "Dishes"</Text>
             </View>
           )}
-          {filteredDishes.map((dish) => (
+          {filteredDishes.slice(0, 2).map((dish) => (
             <View key={dish.id} style={styles.dishesItem}>
               <View style={styles.dishesLeft}>
                 <TouchableOpacity
@@ -182,7 +201,7 @@ const SearchScreen = () => {
               <Text style={styles.sectionTitle}>Recommendation "Restaurants"</Text>
             </View>
           )}
-          {filteredRestaurants.map((restaurant) => (
+          {filteredRestaurants.slice(0, 2).map((restaurant) => (
             <View key={restaurant.restaurantId} style={styles.dishesItem}>
               <View style={styles.dishesLeft}>
                 <TouchableOpacity
@@ -233,7 +252,6 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 16,
-    marginLeft: 16,
     fontWeight: "500",
     fontFamily: "Poppins-SemiBold",
   },

@@ -13,7 +13,7 @@ import * as Font from "expo-font";
 import * as Location from "expo-location";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Entypo from "@expo/vector-icons/Entypo";
-import { useNavigation } from "@react-navigation/native"; // Import useNavigation hook
+import { useNavigation } from "@react-navigation/native";
 import { useRouter } from "expo-router";
 import AddressManagementScreen from "@/app/initialscreens/AddressManagementScreen";
 
@@ -27,7 +27,7 @@ const LocationHeader = () => {
   )[0];
 
   const [userProfileImage, setUserProfileImage] = useState<string | null>(null);
-  const navigation = useNavigation(); // Initialize the navigation hook
+  const navigation = useNavigation();
   const router = useRouter();
 
   useEffect(() => {
@@ -91,7 +91,6 @@ const LocationHeader = () => {
   };
 
   const navigateToAddressManagement = () => {
-    // Trigger the navigation to AddressManagement screen with the slide animation
     router.push("/initialscreens/AddressManagementScreen");
   };
 
@@ -124,7 +123,7 @@ const LocationHeader = () => {
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity style={styles.profileButton}>
+        <TouchableOpacity style={styles.profileButton} onPress={()=> router.push("/(tabs)/profile")}>
           <Image
             style={styles.profileImage}
             source={{
@@ -153,7 +152,7 @@ const LocationHeader = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#ffffff" 
+    backgroundColor: "#ffffff",
   },
   locationContainer: {
     flexDirection: "row",

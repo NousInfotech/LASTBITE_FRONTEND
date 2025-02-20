@@ -1,27 +1,37 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Dimensions, Platform } from 'react-native';
-import { useFonts } from 'expo-font'; // Font loader hook
+import { 
+  View, 
+  Text, 
+  StyleSheet, 
+  ScrollView, 
+  Dimensions, 
+  Platform, 
+  TouchableOpacity 
+} from 'react-native';
+import { useFonts } from 'expo-font';
 
 const { width } = Dimensions.get('window');
 
-const FoodMenu: React.FC = () => {
-  const [menuData, setMenuData] = useState<any[]>([]);
+interface FoodMenuProps {
+  onSelectMenu: (menuName: string) => void;
+}
+
+const FoodMenu: React.FC<FoodMenuProps> = ({ onSelectMenu }) => {
+  const [menuData, setMenuData] = useState<{ id: string; name: string; icon: string }[]>([]);
 
   const [fontsLoaded] = useFonts({
-     'outfit': require('../assets/fonts/Itim-Regular.ttf'), // Outfit font
+    'outfit': require('../assets/fonts/Itim-Regular.ttf'),
     'poppins-regular': require('../assets/fonts/Poppins-Regular.ttf'),
     'poppins-medium': require('../assets/fonts/Poppins-Medium.ttf'),
     'poppins-bold': require('../assets/fonts/Poppins-Bold.ttf'),
     'poppins-semibold': require('../assets/fonts/Poppins-SemiBold.ttf'),
   });
 
-  // Fetch menu data from local JSON file
   useEffect(() => {
     const fetchMenuData = async () => {
-      const data = require('../JSON DATA/food.json'); // Use require to load local JSON
+      const data = require('../JSON DATA/food.json');
       setMenuData(data);
     };
-    
     fetchMenuData();
   }, []);
 
@@ -38,7 +48,11 @@ const FoodMenu: React.FC = () => {
         contentContainerStyle={styles.scrollView}
       >
         {menuData.map((item) => (
-          <View key={item.id} style={styles.itemContainer}>
+          <TouchableOpacity 
+            key={item.id} 
+            style={styles.itemContainer} 
+            onPress={() => onSelectMenu(item.name)}
+          >
             <Text
               style={styles.icon}
               accessibilityLabel={`${item.name} icon`}
@@ -47,7 +61,7 @@ const FoodMenu: React.FC = () => {
               {item.icon}
             </Text>
             <Text style={styles.itemName}>{item.name}</Text>
-          </View>
+          </TouchableOpacity>
         ))}
       </ScrollView>
     </View>
@@ -60,9 +74,9 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 16,
-    fontFamily: 'Poppins-Medium',
+    fontFamily: "Poppins-Medium",
     marginBottom: 10,
-    paddingHorizontal:16,
+    paddingHorizontal: 16,
   },
   scrollView: {
     flexDirection: 'row',

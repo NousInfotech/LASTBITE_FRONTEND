@@ -10,9 +10,9 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import * as Font from "expo-font";
 
 interface SearchBarVoiceProps extends TextInputProps {
-  onInputPress?: () => void; // Action to redirect (non-editable)
-  onChangeText?: (text: string) => void; // Trigger on text change (editable)
-  placeholder?: string; // Placeholder text
+  onInputPress?: () => void; 
+  onChangeText?: (text: string) => void; 
+  placeholder?: string; 
   redirectTargets: string[];
 }
 
@@ -41,7 +41,7 @@ const SearchBarVoice: React.FC<SearchBarVoiceProps> = ({
   }, []);
 
   if (!fontsLoaded) {
-    return null; // Avoid rendering until fonts are loaded
+    return null; 
   }
 
   return (
@@ -49,16 +49,16 @@ const SearchBarVoice: React.FC<SearchBarVoiceProps> = ({
       <TouchableOpacity
         style={styles.searchContainer}
         onPress={onInputPress}
-        activeOpacity={onInputPress ? 0.7 : 1} // Disable opacity change if no onInputPress
+        activeOpacity={onInputPress ? 0.7 : 1} 
       >
         <Icon name="search" size={24} color="#757575" style={styles.searchIcon} />
         <TextInput
           style={styles.input}
           placeholder={placeholder}
           placeholderTextColor="#757575"
-          editable={!onInputPress} // Editable if no redirection
+          editable={!onInputPress} 
           onChangeText={onChangeText}
-          {...rest} // Pass additional props like value, keyboardType, etc.
+          {...rest} 
         />
         <Icon name="mic-none" size={24} color="#01615F" style={styles.voiceIcon} />
       </TouchableOpacity>

@@ -3,7 +3,6 @@ import { View, Text, TouchableOpacity, Modal, StyleSheet } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
 
-// Define the props interface
 interface FilterModalProps {
   visible: boolean;
   onClose: () => void;
@@ -15,7 +14,7 @@ interface FilterModalProps {
     apply: string;
   };
   inputType: "radio" | "checkbox";
-  onApply: (selectedFilter: string | string[]) => void; // Callback for Apply action
+  onApply: (selectedFilter: string | string[]) => void; 
 }
 
 const FilterModal: React.FC<FilterModalProps> = ({
@@ -26,9 +25,9 @@ const FilterModal: React.FC<FilterModalProps> = ({
   filterOptions,
   buttonText,
   inputType,
-  onApply, // Accept the callback function
+  onApply, 
 }) => {
-  const [selectedFilter, setSelectedFilter] = useState<string[]>([]); // Use an array to hold selected filters
+  const [selectedFilter, setSelectedFilter] = useState<string[]>([]); 
 
   const [fontsLoaded] = useFonts({
     "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
@@ -36,30 +35,28 @@ const FilterModal: React.FC<FilterModalProps> = ({
   });
 
   if (!fontsLoaded) {
-    return <View />; // Render nothing or a placeholder while fonts are loading
+    return <View />; 
   }
 
   const handleSelectOption = (option: string) => {
-    // If the option is already selected, remove it, else add it to the array
     setSelectedFilter((prev) => {
       if (prev.includes(option)) {
-        return prev.filter((item) => item !== option); // Deselect option
+        return prev.filter((item) => item !== option); 
       } else {
-        return [...prev, option]; // Select option
+        return [...prev, option]; 
       }
     });
   };
 
   const handleApply = () => {
-    onApply(selectedFilter); // Trigger the callback passed from the parent
-    onClose(); // Close the modal
+    onApply(selectedFilter); 
+    onClose(); 
   };
 
   return (
     <Modal visible={visible} animationType="slide" transparent>
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
-          {/* Modal Header */}
           <View style={styles.header}>
             <View>
               {tellUsMoreText && (
@@ -72,7 +69,6 @@ const FilterModal: React.FC<FilterModalProps> = ({
             </TouchableOpacity>
           </View>
 
-          {/* Filter Options */}
           {filterOptions.map((option) => (
             <TouchableOpacity
               key={option}
@@ -95,7 +91,6 @@ const FilterModal: React.FC<FilterModalProps> = ({
             </TouchableOpacity>
           ))}
 
-          {/* Action Buttons */}
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={[styles.button, styles.cancelButton]}
@@ -159,19 +154,19 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     borderWidth: 2,
-    borderColor: "#ccc", // Outer border color (unselected state)
+    borderColor: "#ccc", 
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 10, // Circle shape for radio
+    borderRadius: 10, 
   },
   radioSelectedCircle: {
-    borderColor: "#006D5B", // Green color for selected radio
+    borderColor: "#006D5B", 
   },
   radioInner: {
     width: 10,
     height: 10,
     borderRadius: 5,
-    backgroundColor: "#006D5B", // Green color when selected
+    backgroundColor: "#006D5B", 
   },
   buttonContainer: {
     flexDirection: "row",

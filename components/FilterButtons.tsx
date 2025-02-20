@@ -6,14 +6,16 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
-import { X } from "react-native-feather"; // For the X icon
-import * as Font from "expo-font"; // Correct way to load fonts
-import AppLoading from "expo-app-loading"; // To handle font loading splash
+import { X } from "react-native-feather";
 import Octicons from "@expo/vector-icons/Octicons";
-import FilterModal from "./FilterModal"; // Ensure this file/component exists and is correctly implemented
+import FilterModal from "./FilterModal"; 
 
-const FilterButtons = () => {
-  const [filters, setFilters] = useState([
+interface FilterButtonsProps {
+  onFilterChange: (selectedFilters: string[]) => void; // Callback to pass selected filters
+}
+
+const FilterButtons: React.FC<FilterButtonsProps> = ({ onFilterChange }) => {
+  const [filters] = useState<string[]>([
     "Filter by",
     "Pure Veg",
     "Non Veg",
@@ -21,36 +23,31 @@ const FilterButtons = () => {
     "Rating 4.5+",
   ]);
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
-  const [fontsLoaded, setFontsLoaded] = useState(false);
+  const onApply = (selectedFilter: string | string[]) => {
+    const selectedArray = Array.isArray(selectedFilter)
+      ? selectedFilter
+      : [selectedFilter];
 
-  const loadFonts = async () => {
-    await Font.loadAsync({
-      "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
-      "Poppins-Medium": require("../assets/fonts/Poppins-Medium.ttf"),
-    });
-    setFontsLoaded(true);
+    setActiveFilters(selectedArray);
+    onFilterChange(selectedArray); // Notify parent component
+    setIsModalVisible(false);
   };
 
-  React.useEffect(() => {
-    loadFonts();
-  }, []);
+  const handleFilterPress = (filter: string) => {
+    if (filter === "Filter by") {
+      setIsModalVisible(true);
+    } else {
+      setActiveFilters((prev) => {
+        const newFilters = prev.includes(filter)
+          ? prev.filter((f) => f !== filter)
+          : [...prev, filter];
 
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  }
-
-  const toggleActiveFilter = (filter: string) => {
-    setActiveFilters((prevFilters) =>
-      prevFilters.includes(filter)
-        ? prevFilters.filter((f) => f !== filter)
-        : [...prevFilters, filter]
-    );
-  };
-
-  const removeActiveFilter = (filter: string) => {
-    setActiveFilters((prevFilters) => prevFilters.filter((f) => f !== filter));
+        onFilterChange(newFilters); // Notify parent component
+        return newFilters;
+      });
+    }
   };
 
   return (
@@ -63,15 +60,9 @@ const FilterButtons = () => {
             style={[
               styles.filterButton,
               activeFilters.includes(filter) && styles.activeFilter,
-              index === 0 && styles.firstButtonWithMargin, // Add left margin to the first button
+              index === 0 && styles.firstButtonWithMargin,
             ]}
-            onPress={() => {
-              if (filter === "Filter by") {
-                setIsModalVisible(true); // Open modal
-              } else {
-                toggleActiveFilter(filter);
-              }
-            }}
+            onPress={() => handleFilterPress(filter)}
           >
             <Text
               style={[
@@ -86,21 +77,17 @@ const FilterButtons = () => {
                 stroke="#fff"
                 width={16}
                 height={16}
-                onPress={() => removeActiveFilter(filter)}
+                onPress={() => handleFilterPress(filter)}
                 style={styles.icon}
               />
             )}
             {filter === "Filter by" && (
-              <Octicons
-                name="filter"
-                size={16}
-                color="#01615F"
-                style={styles.icon}
-              />
+              <Octicons name="filter" size={16} color="#000" style={styles.icon} />
             )}
           </TouchableOpacity>
         ))}
       </ScrollView>
+
       {isModalVisible && (
         <FilterModal
           visible={isModalVisible}
@@ -120,6 +107,7 @@ const FilterButtons = () => {
             apply: "Apply",
           }}
           inputType="radio"
+          onApply={onApply}
         />
       )}
     </View>
@@ -148,7 +136,7 @@ const styles = StyleSheet.create({
     borderColor: "#e0e0e0",
   },
   firstButtonWithMargin: {
-    marginLeft: 16, // Add default left margin to the first button
+    marginLeft: 16,
   },
   activeFilter: {
     backgroundColor: "#01615F",

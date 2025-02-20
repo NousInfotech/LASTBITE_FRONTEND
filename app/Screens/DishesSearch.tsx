@@ -160,7 +160,6 @@ const DishesSearch: React.FC = () => {
   const [searchText, setSearchText] = useState("");
   const totalItemsInCart = Object.values(cartCounts).reduce((sum, count) => sum + count, 0);
 
-  // Keep existing useEffect for font loading
   useEffect(() => {
     const loadFonts = async () => {
       try {
@@ -208,7 +207,6 @@ const DishesSearch: React.FC = () => {
         };
       });
   
-    // Extract the restaurant ID from the first item in the cart
     const firstItemId = Object.keys(cartCounts).find((menuItemId :any) => cartCounts[menuItemId] > 0);
     const restaurantId = firstItemId
       ? mockMenu.find((item) => item.menuItemId === parseInt(firstItemId))?.restaurantId
@@ -233,19 +231,15 @@ const DishesSearch: React.FC = () => {
   };
   
 
-  // Updated search filtering function that maintains existing grouping logic
   const filterMenuItems = (searchQuery: string): Record<string, MenuItem[]> => {
     const grouped: Record<string, MenuItem[]> = {};
     
-    // If there's no search query, use the name from URL params
     const searchTerm = searchQuery.toLowerCase() || (name ? name.toLowerCase() : '');
     
-    // First, find matching restaurants
     const matchingRestaurants = mockRestaurants.filter(restaurant => 
       restaurant.name.toLowerCase().includes(searchTerm)
     );
     
-    // Add all menu items from matching restaurants
     matchingRestaurants.forEach(restaurant => {
       const restaurantMenuItems = mockMenu.filter(item => 
         item.restaurantId === restaurant.restaurantId
@@ -255,14 +249,11 @@ const DishesSearch: React.FC = () => {
       }
     });
     
-    // Then find matching menu items from all restaurants
     mockMenu.forEach((menuItem) => {
       if (menuItem.name.toLowerCase().includes(searchTerm)) {
-        // Only add if not already added from restaurant name match
         if (!grouped[menuItem.restaurantId]) {
           grouped[menuItem.restaurantId] = [];
         }
-        // Avoid duplicates
         if (!grouped[menuItem.restaurantId].some(item => item.menuItemId === menuItem.menuItemId)) {
           grouped[menuItem.restaurantId].push(menuItem);
         }
@@ -271,7 +262,6 @@ const DishesSearch: React.FC = () => {
   
     return grouped;
   };
-  // Keep existing restaurant section renderer
   const renderRestaurantSection = (restaurantId: string, menuItems: MenuItem[]) => {
     const restaurant = mockRestaurants.find((rest) => rest.restaurantId === restaurantId);
     if (!restaurant) return null;
@@ -367,7 +357,9 @@ const DishesSearch: React.FC = () => {
     return <Text>Loading Fonts...</Text>;
   }
 
-  const groupedMenu = filterMenuItems(searchText);
+  const groupedMenu = filterMenuItems(searchText || name || "");
+
+  const hasResults = Object.keys(groupedMenu).length > 0;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -381,16 +373,27 @@ const DishesSearch: React.FC = () => {
 
       <SearchBarVoice
         redirectTargets={["Dishes", "Restaurants"]}
-        placeholder="Search for dishes"
+        placeholder={name?.toString() || "Search for dishes"}
         value={searchText}
         onChangeText={setSearchText}
       />
       
-      <ScrollView>
-        {Object.entries(groupedMenu).map(([restaurantId, menuItems]) =>
-          renderRestaurantSection(restaurantId, menuItems)
-        )}
-      </ScrollView>
+     {!hasResults ? (
+        <View style={styles.noResultsContainer}>
+          <Text style={styles.noResultsText}>
+            The searched dish is not available at any restaurant
+          </Text>
+          <Text style={styles.noResultsSubText}>
+            Try searching for a different dish
+          </Text>
+        </View>
+      ) : (
+        <ScrollView>
+          {Object.entries(groupedMenu).map(([restaurantId, menuItems]) =>
+            renderRestaurantSection(restaurantId, menuItems)
+          )}
+        </ScrollView>
+      )}
       
       {totalItemsInCart > 0 && (
         <CheckoutPopup 
@@ -425,7 +428,6 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 14,
-    marginLeft: 30,
     fontFamily: 'Poppins-SemiBold',
   },
   headerLocation: {
@@ -583,12 +585,12 @@ counterText: {
     justifyContent: 'center',
     borderColor: '#01615F',
     borderRadius: 2,
-    width: 30, // Slightly increase the width for better proportions
-    height: 30, // Increase height for a larger container
-    padding: 4, // Equal padding on all sides
+    width: 30, 
+    height: 30, 
+    padding: 4, 
     borderWidth: 1,
     backgroundColor: "#fff",
-    textAlign: "center", // Centers text horizontally
+    textAlign: "center", 
 },
   popupContainer: {
     position: 'absolute', 
@@ -613,6 +615,25 @@ counterText: {
     color: 'white',
     fontSize: 12,
     fontFamily: 'Poppins-Regular',
+  },
+  noResultsContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+  },
+  noResultsText: {
+    fontFamily: 'Poppins-Medium',
+    fontSize: 16,
+    color: '#000',
+    textAlign: 'center',
+    marginBottom: 8,
+  },
+  noResultsSubText: {
+    fontFamily: 'Poppins-Regular',
+    fontSize: 14,
+    color: '#000',
+    textAlign: 'center',
   },
 });
 

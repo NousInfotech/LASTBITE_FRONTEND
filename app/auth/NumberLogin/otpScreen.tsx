@@ -126,7 +126,7 @@ const OTPScreen: React.FC = () => {
       </View>
       <View style={styles.header}>
         <Text style={styles.headerTitle}>
-          Enter your mobile number or restaurant ID
+          Enter your mobile number
         </Text>
       </View>
       <View style={styles.container_A}>
@@ -135,7 +135,7 @@ const OTPScreen: React.FC = () => {
             <View style={[styles.row, isInputFocused && { borderColor: "#000" }]}>
               <TextInput
                 style={styles.input}
-                placeholder="Enter Mobile Number/ Restaurant ID"
+                placeholder="Enter Mobile Number"
                 value={mobileNumber}
                 onChangeText={setMobileNumber}
                 placeholderTextColor="#999"
