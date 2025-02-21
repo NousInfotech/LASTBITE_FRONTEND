@@ -32,13 +32,16 @@ const resendOtpApi: ResendOtpApi = async (phoneNumber) => {
 
 const EnterOtp: React.FC = () => {
   const router = useRouter();
-  const { phoneNumber, role } = useLocalSearchParams<{ phoneNumber: string; role: string }>();
+  const { phoneNumber, role } = useLocalSearchParams<{
+    phoneNumber: string;
+    role: string;
+  }>();
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
   const [timer, setTimer] = useState<number>(30);
   const [isOtpWrong, setIsOtpWrong] = useState<boolean>(false);
   const [showResend, setShowResend] = useState<boolean>(false);
-  
+
   const inputs = useRef<(TextInput | null)[]>([]);
   const verifyMutation = useVerifyOtp();
   const sendOtpMutation = useSendOtp();
@@ -64,106 +67,117 @@ const EnterOtp: React.FC = () => {
     }
   }, [timer]);
 
-  // const handleOtpChange = (value: string, index: number) => {
-  //   const updatedOtp = [...otp];
-  //   updatedOtp[index] = value;
-  //   setOtp(updatedOtp);
-  //   setIsOtpWrong(false);
-  //   if (value && index < otp.length - 1) inputs.current[index + 1]?.focus();
-  //   else if (!value && index > 0) inputs.current[index - 1]?.focus();
-  // };
-
-  // const handleVerify = async () => {
-  //   const enteredOtp = otp.join("");
-  //   verifyMutation.mutate(
-  //     { phoneNumber, otp: enteredOtp },
-  //     {
-  //       onSuccess: (data) => {
-  //         if (data.success) {
-  //           router.push(role === "Restaurant" ? "./../../initialscreens/RestaurantScreen" : "../NumberLogin/otpScreen");
-  //         } else {
-  //           setIsOtpWrong(true);
-  //           setTimer(30);
-  //           setShowResend(false);
-  //           Alert.alert("Invalid OTP", "Please enter the correct OTP or request a new one.");
-  //         }
-  //       },
-  //     }
-  //   );
-  // };
-
-  // const handleResend = async () => {
-  //   sendOtpMutation.mutate(
-  //     { phoneNumber },
-  //     {
-  //       onSuccess: () => {
-  //         setOtp(["", "", "", "", "", ""]);
-  //         setTimer(30);
-  //         setShowResend(false);
-  //         setIsOtpWrong(false);
-  //         inputs.current[0]?.focus();
-  //       },
-  //     }
-  //   );
-  // };
-
   const handleOtpChange = (value: string, index: number) => {
     const updatedOtp = [...otp];
     updatedOtp[index] = value;
     setOtp(updatedOtp);
-    setIsOtpWrong(false); // Reset error state when user types
-
-    if (value && index < otp.length - 1) {
-      inputs.current[index + 1]?.focus();
-    } else if (!value && index > 0) {
-      // Handle backspace
-      inputs.current[index - 1]?.focus();
-    }
+    setIsOtpWrong(false);
+    if (value && index < otp.length - 1) inputs.current[index + 1]?.focus();
+    else if (!value && index > 0) inputs.current[index - 1]?.focus();
   };
 
   const handleVerify = async () => {
     const enteredOtp = otp.join("");
-    const isValid = await verifyOtpApi(phoneNumber, enteredOtp);
-  
-    if (isValid) {
-        router.push({
-          pathname: "/initialscreens/SelectRole",
-        });
-    } else {
-      setIsOtpWrong(true);
-      setTimer(30);
-      setShowResend(false);
-      Alert.alert("Invalid OTP", "Please enter the correct OTP or request a new one.");
-    }
+    verifyMutation.mutate(
+      { phoneNumber, otp: enteredOtp },
+      {
+        onSuccess: (data) => {
+          if (data.success) {
+            router.push({
+              pathname: "/initialscreens/SelectRole",
+            });
+          } else {
+            setIsOtpWrong(true);
+            setTimer(30);
+            setShowResend(false);
+            Alert.alert(
+              "Invalid OTP",
+              "Please enter the correct OTP or request a new one."
+            );
+          }
+        },
+      }
+    );
   };
-  
 
   const handleResend = async () => {
-    const success = await resendOtpApi(phoneNumber);
-
-    if (success) {
-      setOtp(["", "", "", "", "", ""]);
-      setTimer(30);
-      setShowResend(false);
-      setIsOtpWrong(false);
-      inputs.current[0]?.focus();
-    } else {
-      Alert.alert("Error", "Failed to resend OTP. Please try again.");
-    }
+    sendOtpMutation.mutate(
+      { phoneNumber },
+      {
+        onSuccess: () => {
+          setOtp(["", "", "", "", "", ""]);
+          setTimer(30);
+          setShowResend(false);
+          setIsOtpWrong(false);
+          inputs.current[0]?.focus();
+        },
+      }
+    );
   };
+
+  // const handleOtpChange = (value: string, index: number) => {
+  //   const updatedOtp = [...otp];
+  //   updatedOtp[index] = value;
+  //   setOtp(updatedOtp);
+  //   setIsOtpWrong(false); // Reset error state when user types
+
+  //   if (value && index < otp.length - 1) {
+  //     inputs.current[index + 1]?.focus();
+  //   } else if (!value && index > 0) {
+  //     // Handle backspace
+  //     inputs.current[index - 1]?.focus();
+  //   }
+  // };
+
+  // const handleVerify = async () => {
+  //   const enteredOtp = otp.join("");
+  //   const isValid = await verifyOtpApi(phoneNumber, enteredOtp);
+
+  //   if (isValid) {
+  //       router.push({
+  //         pathname: "/initialscreens/SelectRole",
+  //       });
+  //   } else {
+  //     setIsOtpWrong(true);
+  //     setTimer(30);
+  //     setShowResend(false);
+  //     Alert.alert("Invalid OTP", "Please enter the correct OTP or request a new one.");
+  //   }
+  // };
+
+  // const handleResend = async () => {
+  //   const success = await resendOtpApi(phoneNumber);
+
+  //   if (success) {
+  //     setOtp(["", "", "", "", "", ""]);
+  //     setTimer(30);
+  //     setShowResend(false);
+  //     setIsOtpWrong(false);
+  //     inputs.current[0]?.focus();
+  //   } else {
+  //     Alert.alert("Error", "Failed to resend OTP. Please try again.");
+  //   }
+  // };
 
   if (!fontsLoaded) return null;
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      <KeyboardAvoidingView style={styles.keyboardContainer} behavior={Platform.OS === "ios" ? "padding" : undefined}>
+      <KeyboardAvoidingView
+        style={styles.keyboardContainer}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+      >
         <View style={styles.header}>
-          <TouchableOpacity><GoBack /></TouchableOpacity>
+          <TouchableOpacity>
+            <GoBack />
+          </TouchableOpacity>
         </View>
         <View style={styles.content}>
           <Text style={styles.title}>Enter OTP</Text>
-          <Text style={styles.subText}>Sent to <Text style={styles.phoneNumber}>+91 {phoneNumber}</Text></Text>
+          <Text style={styles.subText}>
+            Sent to <Text style={styles.phoneNumber}>+91 {phoneNumber}</Text>
+          </Text>
           <View style={styles.otpContainer}>
             {otp.map((digit, index) => (
               <TextInput
@@ -178,18 +192,33 @@ const EnterOtp: React.FC = () => {
             ))}
           </View>
           <TouchableOpacity
-            style={[styles.verifyButton, { backgroundColor: otp.every((digit) => digit) ? "#01615F" : "#C7C7C7" }]}
+            style={[
+              styles.verifyButton,
+              {
+                backgroundColor: otp.every((digit) => digit)
+                  ? "#01615F"
+                  : "#C7C7C7",
+              },
+            ]}
             disabled={!otp.every((digit) => digit)}
             onPress={handleVerify}
           >
             <Text style={styles.buttonText}>Continue</Text>
           </TouchableOpacity>
           {showResend ? (
-            <TouchableOpacity style={styles.resendButton} onPress={handleResend}>
+            <TouchableOpacity
+              style={styles.resendButton}
+              onPress={handleResend}
+            >
               <Text style={styles.resendText}>Resend OTP</Text>
             </TouchableOpacity>
           ) : (
-            <Text style={styles.timer}>Didn't receive the code? <Text style={styles.timerText}>Retry in 00:{timer < 10 ? `0${timer}` : timer}</Text></Text>
+            <Text style={styles.timer}>
+              Didn't receive the code?{" "}
+              <Text style={styles.timerText}>
+                Retry in 00:{timer < 10 ? `0${timer}` : timer}
+              </Text>
+            </Text>
           )}
         </View>
       </KeyboardAvoidingView>

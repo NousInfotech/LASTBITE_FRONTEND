@@ -9,17 +9,28 @@ import {
   StyleSheet,
   ScrollView,
   Switch,
+  Alert,
+  Image
 } from "react-native";
-import { Picker } from "@react-native-picker/picker";
-import GoBack from "@/components/GoBack";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
+import * as ImagePicker from "expo-image-picker";
+import GoBack from "@/components/GoBack";
+import { useAddGrocery } from "@/api/queryHooks";
+import * as FileSystem from "expo-file-system";
 
 const AddGrocery = () => {
   const router = useRouter();
+  const { mutate } = useAddGrocery();
+  
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [chosenFile, setChosenFile] = useState<string | null>(null);
-  const [category, setCategory] = useState("select");
+  const [form, setForm] = useState({
+    itemName: "",
+    quantity: "0",
+    price: "",
+    image: "",
+  });
   const [stockStatus, setStockStatus] = useState(true);
 
   useEffect(() => {
@@ -38,6 +49,84 @@ const AddGrocery = () => {
     return null;
   }
 
+  const handleChooseFile = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+  
+    if (status !== "granted") {
+      Alert.alert(
+        "Permission Required",
+        "You need to grant permission to access the gallery."
+      );
+      return;
+    }
+  
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      quality: 1,
+    });
+  
+    if (!result.canceled) {
+      const imageUri = result.assets[0].uri;
+      const imageName = imageUri.split("/").pop(); // Extract filename
+      const newUri = `${FileSystem.documentDirectory}${imageName}`;
+  
+      try {
+        // Move image to a permanent directory
+        await FileSystem.moveAsync({
+          from: imageUri,
+          to: newUri,
+        });
+  
+        // Update state with the new permanent URI
+        setForm((prev) => ({
+          ...prev,
+          image: newUri, // Use newUri instead of the temporary one
+        }));
+        setChosenFile(newUri);
+      } catch (error) {
+        console.error("Error saving image:", error);
+      }
+    }
+  };
+  
+
+  const handleAddGrocery = () => {
+    if (!form.itemName || !form.quantity || !form.price || !form.image) {
+      Alert.alert("Error", "Please fill all the fields.");
+      return;
+    }
+
+    mutate(
+      {
+        image: form.image,
+        itemName: form.itemName,
+        quantity: Number(form.quantity),
+        price: Number(form.price),
+      },
+      {
+        onSuccess: (data) => {
+          Alert.alert("Success", data.message);
+          router.back();
+        },
+        onError: (error) => {
+          Alert.alert("Error", error.message);
+        },
+      }
+    );
+  };
+
+  const renderInput = (label: string, placeholder: string, field: string, keyboardType = "default") => (
+    <View style={styles.inputContainer}>
+      <Text style={styles.label}>{label}</Text>
+      <TextInput
+        placeholder={placeholder}
+        style={styles.input}
+        placeholderTextColor="#A0A0A0"
+        onChangeText={(text) => setForm((prev) => ({ ...prev, [field]: text }))}
+      />
+    </View>
+  );
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
@@ -52,20 +141,19 @@ const AddGrocery = () => {
         <View style={styles.formCard}>
           <Text style={styles.label}>Profile Photo</Text>
           <View style={styles.inputContainer_A}>
-            <TouchableOpacity
-              style={styles.uploadButton}
-              onPress={() => {
-                // Handle file selection logic
-              }}
-            >
+            <TouchableOpacity style={styles.uploadButton} onPress={handleChooseFile}>
               <Text style={styles.uploadButtonText}>Upload File</Text>
             </TouchableOpacity>
-            <Text style={styles.fileName}>{chosenFile || "Choose a file"}</Text>
+            {chosenFile ? (
+    <Image source={{ uri: chosenFile }} style={styles.previewImage} />
+  ) : (
+    <Text style={styles.fileName}>Choose a file</Text>
+  )}
           </View>
 
-          {renderInput("Item Name", "Enter Item name")}
-          {renderInput("Quatity", "Enter quatity")}
-          {renderInput("Price", "Enter price of Grocery")}
+          {renderInput("Item Name", "Enter Item name", "itemName")}
+          {renderInput("Quantity", "Enter quantity", "quantity", "numeric")}
+          {renderInput("Price", "Enter price of Grocery", "price", "numeric")}
           <Text style={styles.label}>Stock Status</Text>
           <View style={styles.stockStatusContainer}>
             <Switch
@@ -85,12 +173,14 @@ const AddGrocery = () => {
               </Text>
             </View>
           </View>
-          {/* Buttons */}
           <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.cancelButton}>
+            <TouchableOpacity style={styles.cancelButton} onPress={() => router.back()}>
               <Text style={styles.CancelbuttonText}>Cancel</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.addButton}>
+            <TouchableOpacity
+              style={[styles.addButton]}
+              onPress={handleAddGrocery}
+            >
               <Text style={styles.buttonText}>Add</Text>
             </TouchableOpacity>
           </View>
@@ -100,16 +190,7 @@ const AddGrocery = () => {
   );
 };
 
-const renderInput = (label: string, placeholder: string) => (
-  <View style={styles.inputContainer}>
-    <Text style={styles.label}>{label}</Text>
-    <TextInput
-      placeholder={placeholder}
-      style={styles.input}
-      placeholderTextColor="#A0A0A0"
-    />
-  </View>
-);
+
 
 export default AddGrocery;
 
@@ -218,4 +299,13 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: "Poppins-Medium",
   },
+  previewImage: {
+    width: 80,
+    height: 80,
+    borderRadius: 8,
+    marginLeft: 16,
+    borderWidth: 1,
+    borderColor: "#ccc",
+  },
+  
 });

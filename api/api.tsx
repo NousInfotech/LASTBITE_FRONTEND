@@ -5,13 +5,12 @@ const BASE_URL = 'http://192.168.152.87:5000/api'; // Replace with your actual A
 
 const api = axios.create({
   baseURL: BASE_URL,
-  timeout: 10000, // 10 seconds timeout
+  timeout: 10000, 
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-// Request interceptor
 api.interceptors.request.use(
   (config) => {
     console.log('API Request:', {

@@ -3,62 +3,27 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Image,
   SafeAreaView,
   StatusBar,
   StyleSheet,
   ScrollView,
   Switch,
   Modal,
+  Image,
 } from "react-native";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
-
-interface MenuItem {
-  id: string;
-  name: string;
-  price: number;
-  available: boolean;
-  category: "food" | "grocery";
-  isVeg: boolean;
-  quantity:string;
-}
+import { useGroceries, useDeleteGrocery } from "@/api/queryHooks"; 
+import { GroceryItem } from "@/api/types";
 
 const Menu = () => {
   const router = useRouter();
   const [fontsLoaded, setFontsLoaded] = useState(false);
-  const [activeTab, setActiveTab] = useState<"food" | "grocery">("food");
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
-  const [menuItems, setMenuItems] = useState<MenuItem[]>([
-    {
-      id: "1",
-      name: "Lorem ipsum emat",
-      price: 200,
-      available: true,
-      category: "food",
-      isVeg: true,
-      quantity:"1kg"
-    },
-    {
-      id: "2",
-      name: "Lorem ipsum emat",
-      price: 300,
-      available: false,
-      category: "food",
-      isVeg: false,
-      quantity:"1kg"
-    },
-    {
-      id: "3",
-      name: "Lorem ipsum emat",
-      price: 250,
-      available: true,
-      category: "food",
-      isVeg: true,
-      quantity:"1kg"
-    },
-  ]);
+  const [selectedItem, setSelectedItem] = useState<GroceryItem | null>(null);
+
+  const { data: menuItems = [], isLoading, error, refetch } = useGroceries(); // Fetching data
+  const deleteGrocery = useDeleteGrocery(); // Mutation for delete API
 
   useEffect(() => {
     async function loadFonts() {
@@ -77,112 +42,104 @@ const Menu = () => {
     console.log("Modal State Changed:", isModalVisible);
   }, [isModalVisible]);
 
-  const toggleAvailability = (itemId: string) => {
-    setMenuItems((items) =>
-      items.map((item) =>
-        item.id === itemId ? { ...item, available: !item.available } : item
-      )
-    );
-  };
-
   if (!fontsLoaded) {
     return null;
   }
 
-  const openDeleteModal = (item: MenuItem) => {
-    console.log("Opening Modal for:", item); // Debugging
+  if (isLoading) {
+    return <Text>Loading...</Text>;
+  }
+
+  if (error) {
+    return <Text>Error loading groceries</Text>;
+  }
+
+  const openDeleteModal = (item: GroceryItem) => {
     setSelectedItem(item);
     setIsModalVisible(true);
   };
 
-  const deleteItem = () => {
+  const deleteItem = async () => {
     if (selectedItem) {
-      setMenuItems((items) =>
-        items.filter((item) => item.id !== selectedItem.id)
-      );
+      try {
+        await deleteGrocery.mutateAsync(selectedItem._id);
+        setIsModalVisible(false);
+        refetch(); // Refresh the list after deletion
+      } catch (err) {
+        console.error("Error deleting item:", err);
+      }
     }
-    setIsModalVisible(false);
   };
 
   return (
     <>
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.menuList}>
-          {menuItems
-            .filter((item) => item.category === activeTab)
-            .map((item) => (
-              <View key={item.id} style={styles.menuItem}>
-                <View style={styles.itemImage} />
-                <View style={styles.itemDetails}>
-                  <View style={styles.nameContainer}>
-                    <Text style={styles.itemName}>{item.name}</Text>
-                  </View>
-                  <Text style={styles.itemType}>
-                    {item.quantity}
-                  </Text>
-                  <Text style={styles.itemPrice}>₹{item.price}</Text>
+          {menuItems.map((item) => (
+            <View key={item._id} style={styles.menuItem}>
+              <Image source={{ uri: item.image }} style={styles.itemImage} />
+              <View style={styles.itemDetails}>
+                <View style={styles.nameContainer}>
+                  <Text style={styles.itemName}>{item.itemName}</Text>
                 </View>
-                <View style={styles.rightContainer}>
-                  <View style={styles.statusContainer}>
-                    <Text
-                      style={[
-                        styles.availabilityText,
-                        !item.available && styles.outOfStockText,
-                      ]}
-                    >
-                      {item.available ? "Available" : "Out of Stock"}
-                    </Text>
-                    <Switch
-                      value={item.available}
-                      onValueChange={() => toggleAvailability(item.id)}
-                      trackColor={{ false: "#E5E5E5", true: "#01615F" }}
-                      thumbColor={"#FFFFFF"}
-                    />
-                  </View>
-                  <View style={styles.buttonContainer}>
-                    <TouchableOpacity
-                      style={styles.actionButton}
-                      onPress={() => openDeleteModal(item)}
-                    >
-                      <Text style={styles.actionButtonText}>Delete</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      style={[styles.actionButton, styles.editButton]}
-                      onPress={() =>
-                        router.push({
-                          pathname: "/Screens/EditGrocery",
-                          params: {
-                            id: item.id,
-                            name: item.name,
-                            price: item.price.toString(), 
-                            available: item.available.toString(), 
-                            category: item.category,
-                            isVeg: item.quantity.toString(), 
-                          },
-                        })
-                      }
-                    >
-                      <Text style={styles.editButtonText}>Edit</Text>
-                    </TouchableOpacity>
-                  </View>
+                <Text style={styles.itemType}>{item.quantity} Kg</Text>
+                <Text style={styles.itemPrice}>₹{item.price}</Text>
+              </View>
+              <View style={styles.rightContainer}>
+                <View style={styles.statusContainer}>
+                  <Text
+                    style={[
+                      styles.availabilityText,
+                      !item.available && styles.outOfStockText,
+                    ]}
+                  >
+                    {item.available ? "Available" : "Out of Stock"}
+                  </Text>
+                  <Switch
+                    value={item.available}
+                    onValueChange={() => {}}
+                    trackColor={{ false: "#E5E5E5", true: "#01615F" }}
+                    thumbColor={"#FFFFFF"}
+                  />
+                </View>
+                <View style={styles.buttonContainer}>
+                  <TouchableOpacity
+                    style={styles.actionButton}
+                    onPress={() => openDeleteModal(item)}
+                  >
+                    <Text style={styles.actionButtonText}>Delete</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[styles.actionButton, styles.editButton]}
+                    onPress={() =>
+                      router.push({
+                        pathname: "/Screens/EditGrocery",
+                        params: {
+                          id: item._id , // Ensure correct key
+                        },
+                      })
+                    }
+                  >
+                    <Text style={styles.editButtonText}>Edit</Text>
+                  </TouchableOpacity>
                 </View>
               </View>
-            ))}
+            </View>
+          ))}
         </ScrollView>
-
         <Modal
           animationType="fade"
           transparent={true}
           visible={isModalVisible}
           onRequestClose={() => {
-            console.log("Closing Modal"); // Debugging
+            console.log("Closing Modal");
             setIsModalVisible(false);
           }}
         >
           <View style={styles.modalContainer}>
             <View style={styles.modalContent}>
               <Text style={styles.modalTitle}>
-                Are you sure want to delete?
+                Are you sure you want to delete?
               </Text>
               <View style={styles.modalButtons}>
                 <TouchableOpacity
@@ -208,6 +165,7 @@ const Menu = () => {
     </>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {

@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   Image,
   SafeAreaView,
-  StatusBar,
   StyleSheet,
   ScrollView,
   Switch,

@@ -154,7 +154,6 @@ const RegisterRestaurant = () => {
   };
 
   const handleContinue = (): void => {
-    // Define required fields based on active step
     let requiredFields: string[] = [];
   
     if (activeStep === 1) {
@@ -182,7 +181,6 @@ const RegisterRestaurant = () => {
       return;
     }
   
-    // Check if all required fields are filled
     const isFormValid: boolean = requiredFields.every((field) => {
       const value = form[field as keyof typeof form];
       return typeof value === "string" && value.trim() !== "";
@@ -216,7 +214,6 @@ const RegisterRestaurant = () => {
   };
 
   const handleChooseFile = async () => {
-    // Request permission to access media library
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
     if (status !== "granted") {
@@ -227,17 +224,16 @@ const RegisterRestaurant = () => {
       return;
     }
 
-    // Open image picker
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true, // Enable image cropping
-      quality: 1, // Highest quality
+      allowsEditing: true,
+      quality: 1, 
     });
 
     if (!result.canceled) {
       setForm((prev) => ({
         ...prev,
-        profilePhoto: result.assets[0].uri, // Store the selected image URI
+        profilePhoto: result.assets[0].uri,
       }));
     }
   };

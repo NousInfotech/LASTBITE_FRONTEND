@@ -48,3 +48,31 @@ export interface CreateRestaurantResponse {
   message: string;
   data?: RestaurantDetails;
 }
+
+export interface AddGroceryPayload {
+  image: string;
+  itemName: string;
+  quantity: number;
+  price: number;
+}
+
+export interface AddGroceryResponse {
+  success: boolean;
+  message: string;
+  data?: {
+    id: string;
+    image: string;
+    itemName: string;
+    quantity: number;
+    price: number;
+  };
+}
+
+export interface GroceryItem {
+  _id: string;
+  itemName: string;
+  price: number;
+  available: boolean;
+  quantity: string;
+  image: string; 
+}

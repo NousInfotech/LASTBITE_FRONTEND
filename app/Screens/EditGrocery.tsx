@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -10,130 +10,134 @@ import {
   TextInput,
   Switch,
 } from "react-native";
+import * as ImagePicker from "expo-image-picker";
 import { useRouter, useLocalSearchParams } from "expo-router";
+import { useGrocery, useUpdateGrocery } from "@/api/queryHooks";
+import { useFocusEffect } from "@react-navigation/native";
+import { useQueryClient } from "@tanstack/react-query";
 import GoBack from "@/components/GoBack";
-import * as Font from "expo-font";
-import { Picker } from "@react-native-picker/picker";
+import { GroceryItem } from "@/api/types";
 
 const EditGrocery = () => {
   const router = useRouter();
-  const params = useLocalSearchParams();
-  const [fontsLoaded, setFontsLoaded] = useState(false);
+  const queryClient = useQueryClient();
+  const { id } = useLocalSearchParams<{ id: string }>(); // Ensure ID is correctly typed
+  const { data: grocery, isLoading, refetch } = useGrocery(id, { staleTime: 0 });
+  const updateGrocery = useUpdateGrocery();
 
-  // Form state
-  const [name, setName] = useState(params.name || "");
-  const [quantity, setQuantity] = useState(params.quantity || "1Kg");
-  const [price, setPrice] = useState(params.price || "");
-  const [available, setAvailable] = useState(
-    params.available === "true" || false
+  const [form, setForm] = useState<Partial<GroceryItem>>({
+    itemName: "",
+    quantity: "",
+    price: 0,
+    available: false,
+    image: "",
+  });
+
+  // Populate state when data is fetched
+  useEffect(() => {
+    if (grocery) {
+      setForm({
+        itemName: grocery.itemName,
+        quantity: grocery.quantity?.toString() || "",
+        price: grocery.price,
+        available: grocery.available,
+        image: grocery.image,
+      });
+    }
+  }, [grocery]);
+
+  // Refetch data when screen is focused
+  useFocusEffect(
+    React.useCallback(() => {
+      refetch();
+    }, [])
   );
 
-  useEffect(() => {
-    async function loadFonts() {
-      await Font.loadAsync({
-        "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
-        "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
-        "Poppins-SemiBold": require("../../assets/fonts/Poppins-SemiBold.ttf"),
-      });
-      setFontsLoaded(true);
-    }
-    loadFonts();
-  }, []);
+  if (isLoading) return <Text>Loading...</Text>;
 
-  if (!fontsLoaded) {
-    return null;
-  }
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setForm((prev) => ({ ...prev, image: result.assets[0].uri }));
+    }
+  };
 
   const handleSave = () => {
-    // Handle save logic here
-    // You can make an API call or update local storage
-    router.back();
+    updateGrocery.mutate(
+      { id, data: form },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ["grocery", id] }); // Refresh data
+          router.back();
+        },
+      }
+    );
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
-
-      {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()}>
           <GoBack />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Edit Grocery Items</Text>
+        <Text style={styles.headerTitle}>Edit Grocery</Text>
       </View>
 
-      {/* Form Content */}
       <View style={styles.content}>
-        {/* Image Placeholder */}
-        <View style={styles.imageContainer}>
-          <View style={styles.imagePlaceholder}>
-            <Text style={styles.loremText}>Lorem ipsum</Text>
-          </View>
-        </View>
+        <TouchableOpacity style={styles.imageContainer} onPress={pickImage}>
+          <Image source={{ uri: form.image }} style={styles.image} />
+        </TouchableOpacity>
 
-        {/* Form Fields */}
         <View style={styles.formContainer}>
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Grocery Name</Text>
             <TextInput
               style={styles.input}
-              value={name}
-              onChangeText={setName}
-              placeholder="Enter Grocery name"
+              value={form.itemName}
+              onChangeText={(text) => setForm((prev) => ({ ...prev, itemName: text }))}
             />
           </View>
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Quantity</Text>
             <TextInput
               style={styles.input}
-              value={quantity}
-              onChangeText={setName}
-              placeholder="Enter Grocery name"
+              value={form.quantity}
+              onChangeText={(text) => setForm((prev) => ({ ...prev, quantity: text }))}
             />
           </View>
-
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Price</Text>
             <TextInput
               style={styles.input}
-              value={price}
-              onChangeText={setPrice}
+              value={form.price.toString()}
+              onChangeText={(text) => setForm((prev) => ({ ...prev, price: Number(text) || 0 }))}
               keyboardType="numeric"
-              placeholder="Enter price"
             />
           </View>
 
           <Text style={styles.label}>Stock Status</Text>
           <View style={styles.stockStatusContainer}>
             <Switch
-              value={available}
-              onValueChange={setAvailable}
-              trackColor={{ false: "#767577", true: "#006D5B" }}
-              thumbColor="#ffffff"
-              ios_backgroundColor="#767577"
+              value={form.available}
+              onValueChange={(value) => setForm((prev) => ({ ...prev, available: value }))}
             />
-            <View style={{ flex: 1, alignItems: "flex-end" }}>
-              <Text
-                style={[
-                  styles.availableText,
-                  { color: available ? "#34C759" : "#FF3B30" }, // Green for Available, Red for Out of Stock
-                ]}
-              >
-                {available ? "Available" : "Out of Stock"}
-              </Text>
-            </View>
+            <Text style={[styles.availableText, { color: form.available ? "#34C759" : "#FF3B30" }]}>
+              {form.available ? "Available" : "Out of Stock"}
+            </Text>
           </View>
         </View>
 
-        {/* Bottom Buttons */}
         <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={styles.cancelButton}
-            onPress={() => router.back()}
-          >
+          <TouchableOpacity style={styles.cancelButton} onPress={() => router.back()}>
             <Text style={styles.cancelButtonText}>Cancel</Text>
           </TouchableOpacity>
-
           <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
             <Text style={styles.saveButtonText}>Save</Text>
           </TouchableOpacity>
@@ -142,6 +146,7 @@ const EditGrocery = () => {
     </SafeAreaView>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
@@ -163,16 +168,31 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   imageContainer: {
-    alignItems: "center",
-    marginBottom: 24,
-  },
-  imagePlaceholder: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: "#F5F5F5",
+    alignSelf: "center",
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    overflow: "hidden",
+    backgroundColor: "#E0E0E0",
     justifyContent: "center",
     alignItems: "center",
+  },
+  image: {
+    width: 100, // Adjust size as needed
+    height: 100,
+    borderRadius: 50, // Ensures circular image
+    resizeMode: "cover", // Makes sure image fits properly
+  },
+  imagePlaceholder: {
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  imageText: {
+    fontSize: 32,
+    fontWeight: "bold",
+    color: "#888",
   },
   loremText: {
     fontFamily: "Poppins-Regular",
@@ -230,7 +250,7 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: "#E5E5E5",
+    borderColor: "#01516F",
     alignItems: "center",
   },
   saveButton: {
@@ -243,7 +263,7 @@ const styles = StyleSheet.create({
   },
   cancelButtonText: {
     fontFamily: "Poppins-Medium",
-    color: "#333",
+    color: "#01615F",
   },
   saveButtonText: {
     fontFamily: "Poppins-Medium",

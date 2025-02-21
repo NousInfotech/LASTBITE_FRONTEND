@@ -3,21 +3,19 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Image,
   SafeAreaView,
   StatusBar,
   StyleSheet,
-  ScrollView,
-  Switch,
   Modal,
   TouchableWithoutFeedback,
+  Dimensions,
 } from "react-native";
 import GoBack from "@/components/GoBack";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import FoodItems from "./../Screens/FoodItems"
-import GroceryItems from "./../Screens/GroceryItems"
+import FoodItems from "./../Screens/FoodItems";
+import GroceryItems from "./../Screens/GroceryItems";
 
 interface MenuItem {
   id: string;
@@ -81,25 +79,21 @@ const Menu = () => {
 
   const openOptionsModal = () => setIsOptionsModalVisible(true);
 
-  // Open the Filter Modal
   const openFilterModal = () => {
     setIsOptionsModalVisible(false);
     setIsFilterModalVisible(true);
   };
 
-  // Apply the selected filter
   const applyFilter = (filterType: "all" | "available" | "outOfStock") => {
     setFilter(filterType);
     setIsFilterModalVisible(false);
   };
 
-  // Filtered menu items
   const filteredItems = menuItems.filter((item) => {
     if (filter === "available") return item.available;
     if (filter === "outOfStock") return !item.available;
     return true;
   });
-
 
   return (
     <SafeAreaView style={styles.container}>
@@ -142,28 +136,43 @@ const Menu = () => {
           </Text>
         </TouchableOpacity>
       </View>
+
       {activeTab === "food" ? <FoodItems /> : <GroceryItems />}
 
+      {/* Options Modal */}
       <Modal
         animationType="fade"
         transparent={true}
         visible={isOptionsModalVisible}
         onRequestClose={() => setIsOptionsModalVisible(false)}
       >
-        <View style={styles.modalContainer_A}>
-          <View style={styles.modalContent_A}>
-            <TouchableOpacity style={styles.modalButton} 
-            onPress={() => {
-              const targetScreen = activeTab === "food" ? "/Screens/AddFood" : "/Screens/AddGrocery";
-              router.push(targetScreen);
-            }}>
-              <Text style={styles.modalButtonText}>Add New Item</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.modalButton} onPress={openFilterModal}>
-              <Text style={styles.modalButtonText}>Filter</Text>
-            </TouchableOpacity>
+        <TouchableWithoutFeedback onPress={() => setIsOptionsModalVisible(false)}>
+          <View style={styles.modalOverlay}>
+            <View style={styles.dropdownContainer}>
+              <View style={styles.dropdownContent}>
+                <TouchableOpacity 
+                  style={styles.modalButton}
+                  onPress={() => {
+                    setIsOptionsModalVisible(false);
+                    const targetScreen = activeTab === "food" ? "/Screens/AddFood" : "/Screens/AddGrocery";
+                    router.push(targetScreen);
+                  }}
+                >
+                  <Text style={styles.modalButtonText}>Add New Item</Text>
+                </TouchableOpacity>
+                <TouchableOpacity 
+                  style={styles.modalButton}
+                  onPress={() => {
+                    setIsOptionsModalVisible(false);
+                    openFilterModal();
+                  }}
+                >
+                  <Text style={styles.modalButtonText}>Filter</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
           </View>
-        </View>
+        </TouchableWithoutFeedback>
       </Modal>
 
       {/* Filter Modal */}
@@ -173,20 +182,32 @@ const Menu = () => {
         visible={isFilterModalVisible}
         onRequestClose={() => setIsFilterModalVisible(false)}
       >
-        <View style={styles.modalContainer_A}>
-          <View style={styles.modalContent_A}>
-            <TouchableOpacity style={styles.modalButton} onPress={() => applyFilter("available")}>
-              <Text style={styles.modalButtonText}>Available</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.modalButton} onPress={() => applyFilter("outOfStock")}>
-              <Text style={styles.modalButtonText}>Out of Stock</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.modalButton} onPress={() => applyFilter("all")}>
-              <Text style={styles.modalButtonText}>Reset</Text>
-            </TouchableOpacity>
-           
+        <TouchableWithoutFeedback onPress={() => setIsFilterModalVisible(false)}>
+          <View style={styles.modalOverlay}>
+            <View style={styles.dropdownContainer}>
+              <View style={styles.dropdownContent}>
+                <TouchableOpacity 
+                  style={styles.modalButton}
+                  onPress={() => applyFilter("available")}
+                >
+                  <Text style={styles.modalButtonText}>Available</Text>
+                </TouchableOpacity>
+                <TouchableOpacity 
+                  style={styles.modalButton}
+                  onPress={() => applyFilter("outOfStock")}
+                >
+                  <Text style={styles.modalButtonText}>Out of Stock</Text>
+                </TouchableOpacity>
+                <TouchableOpacity 
+                  style={styles.modalButton}
+                  onPress={() => applyFilter("all")}
+                >
+                  <Text style={styles.modalButtonText}>Reset</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
           </View>
-        </View>
+        </TouchableWithoutFeedback>
       </Modal>
     </SafeAreaView>
   );
@@ -208,13 +229,6 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     fontFamily: "Poppins-SemiBold",
     flex: 1,
-    //   textAlign: "center",
-  },
-  moreIcon: {
-    width: 24,
-    height: 24,
-    backgroundColor: "#E5E5E5",
-    borderRadius: 4,
   },
   tabContainer: {
     flexDirection: "row",
@@ -238,34 +252,46 @@ const styles = StyleSheet.create({
   activeTabText: {
     color: "#01615F",
   },
-  modalContainer_A: { 
-    flex: 1, 
-    justifyContent: "center", 
-    alignItems: "center", 
-    top: 50, 
-    right: 16, 
-    position: "absolute",
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "transparent",
+  },
+  dropdownContainer: {
+    position: 'absolute',
+    top: 60, 
+    right: 16,
+    width: 200,
+    backgroundColor: 'transparent',
+  },
+  filterDropdownContainer: {
+    position: 'absolute',
+    top: 120,
+    right: 16,
+    width: 200,
+    backgroundColor: 'transparent',
+  },
+  dropdownContent: {
+    backgroundColor: "white",
+    borderRadius: 8,
+    padding: 8,
+    elevation: 5,
     shadowColor: "#000",
-    shadowOpacity: 0.05,
-    shadowRadius: 4,
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 2,
-},
-  modalContent_A: { 
-    backgroundColor: "#fff", 
-    padding: 10, 
-    borderRadius: 10, 
-    width:"100%",
-
-},
-  modalButton: { 
-    padding: 12, 
-    width: "100%", 
-},
-  modalButtonText: { 
-    fontSize: 16, 
-    fontWeight: "500" 
-},
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+  },
+  modalButton: {
+    paddingVertical: 12,
+    paddingHorizontal: 12,
+  },
+  modalButtonText: {
+    fontFamily: "Poppins-Regular",
+    fontSize: 14,
+    color: "#333333",
+  },
 });
 
 export default Menu;
