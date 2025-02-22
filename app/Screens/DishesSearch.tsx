@@ -7,7 +7,6 @@ import {
   SafeAreaView,
   StyleSheet,
   StatusBar,
-  FlatList,
   ScrollView,
   Modal,
 } from "react-native";

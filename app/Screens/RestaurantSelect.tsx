@@ -435,7 +435,7 @@ const RestaurantSelect = () => {
         
         <NavigationBar />
         
-        <ScrollView contentContainerStyle={styles.scrollContainer}>
+        {/* <ScrollView contentContainerStyle={styles.scrollContainer}> */}
           <FlatList
             data={filteredCategories}
             keyExtractor={(item) => item}
@@ -459,7 +459,7 @@ const RestaurantSelect = () => {
               </View>
             )}
           />
-        </ScrollView>
+        {/* </ScrollView> */}
         <TouchableOpacity
           style={styles.floatingButton}
           onPress={handleOpenModal}

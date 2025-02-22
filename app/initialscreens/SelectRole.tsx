@@ -54,8 +54,8 @@ const SelectRole = () => {
     } else if (activeOption === "Rider") {
       router.push("./RidersWelcome");
     } else if (activeOption === "Restaurant") {
-      // router.push("./RestaurantWelcome");
-      router.push("/(tabstwo)/home");
+      router.push("./RestaurantScreen");
+      // router.push("/(tabstwo)/home");
     }
      else {
       router.push({

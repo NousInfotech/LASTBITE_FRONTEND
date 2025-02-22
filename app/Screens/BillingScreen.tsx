@@ -17,8 +17,8 @@ import DeliveryTypeSelection from "@/components/DeliveryTypeSelector";
 import DeliveryPopup from "@/components/DeliveryPopup";
 import * as Font from "expo-font";
 import DelieveryInstruction from "@/components/DeliveryInstructions";
-import { MaterialIcons } from '@expo/vector-icons';
-import CouponModal from '@/components/Coupon';
+import { MaterialIcons } from "@expo/vector-icons";
+import CouponModal from "@/components/Coupon";
 
 interface CartItem {
   name: string;
@@ -49,9 +49,7 @@ const BillingScreen = () => {
     );
   };
 
-  
   useEffect(() => {
-    // Load custom fonts
     const loadFonts = async () => {
       try {
         await Font.loadAsync({
@@ -93,7 +91,6 @@ const BillingScreen = () => {
     });
   };
 
-
   useEffect(() => {
     if (cart) {
       try {
@@ -118,27 +115,24 @@ const BillingScreen = () => {
   ) => {
     const updatedCartItems = [...cartItems];
     const item = updatedCartItems[index];
-  
+
     if (action === "increment") {
       item.quantity += 1;
     } else if (action === "decrement") {
       item.quantity -= 1;
-  
-      // Remove the item if quantity reaches 0
+
       if (item.quantity <= 0) {
         updatedCartItems.splice(index, 1);
       }
     }
-  
+
     setCartItems(updatedCartItems);
     updateTotalAmount(updatedCartItems);
-  
-    // If no items remain in the cart, navigate back
+
     if (updatedCartItems.length === 0) {
       router.back();
     }
   };
-  
 
   const updateTotalAmount = (updatedCartItems: CartItem[]) => {
     const total = updatedCartItems.reduce(
@@ -147,7 +141,6 @@ const BillingScreen = () => {
     );
     setTotalAmount(total);
   };
-
 
   const renderCartItem = ({
     item,
@@ -192,34 +185,33 @@ const BillingScreen = () => {
   const SavingsCorner = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isCouponApplied, setIsCouponApplied] = useState(false);
-  
+
     const handleApplyCoupon = () => {
       setIsCouponApplied(true);
     };
-  
+
     return (
       <View style={styles.savingsCornerContainer}>
         <Text style={styles.savingsCornerText}>SAVINGS CORNER</Text>
-        
+
         <TouchableOpacity style={styles.applyCouponContainer}>
           <Image
             source={require("./../../assets/images/coupon.png")}
             style={styles.couponImage}
           />
-          
+
           <View style={styles.textContainer}>
             <Text style={styles.applyCouponText}>Save $150 on this order</Text>
-            <TouchableOpacity onPress={() => router.push('./ApplyCoupon')}>
-            <View style={styles.viewAllContainer}>
-              <Text style={styles.viewAllText}>View all coupons</Text>
-              <MaterialIcons name="chevron-right" size={16} color="#01615F" />
-            </View>
+            <TouchableOpacity onPress={() => router.push("./ApplyCoupon")}>
+              <View style={styles.viewAllContainer}>
+                <Text style={styles.viewAllText}>View all coupons</Text>
+                <MaterialIcons name="chevron-right" size={16} color="#01615F" />
+              </View>
             </TouchableOpacity>
-
           </View>
-  
+
           {!isCouponApplied ? (
-            <TouchableOpacity 
+            <TouchableOpacity
               style={styles.applyButton}
               onPress={() => setIsModalVisible(true)}
             >
@@ -232,7 +224,7 @@ const BillingScreen = () => {
             </View>
           )}
         </TouchableOpacity>
-  
+
         <CouponModal
           isVisible={isModalVisible}
           onClose={() => setIsModalVisible(false)}
@@ -241,6 +233,7 @@ const BillingScreen = () => {
       </View>
     );
   };
+
   const AddMoreButton = () => {
     const router = useRouter();
     return (
@@ -265,11 +258,14 @@ const BillingScreen = () => {
 
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.cartListContainer}>
-          <FlatList
-            data={cartItems}
-            renderItem={({ item, index }) => renderCartItem({ item, index })}
-            keyExtractor={(item, index) => `${item.name}-${index}`}
-          />
+          <ScrollView>
+            {cartItems.map((item, index) => (
+              <View key={`${item.name}-${index}`}>
+                {renderCartItem({ item, index })}
+              </View>
+            ))}
+          </ScrollView>
+
           <AddMoreButton />
         </View>
 
@@ -348,7 +344,7 @@ export default BillingScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f8f8f8",
+    backgroundColor: "#fff",
   },
   scrollContainer: {
     flexGrow: 1,
@@ -484,10 +480,10 @@ const styles = StyleSheet.create({
     color: "#000",
   },
   applyCouponContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: '#fff',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "#fff",
     padding: 8,
   },
   couponImage: {
@@ -505,36 +501,36 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   viewAllContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   viewAllText: {
     fontSize: 10,
     fontFamily: "Poppins-Medium",
-    color: '#7a7a7a',
+    color: "#7a7a7a",
     marginRight: 2,
   },
   applyButton: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     paddingHorizontal: 16,
     paddingVertical: 6,
     borderRadius: 4,
     borderWidth: 1,
-    borderColor: '#01615F',
+    borderColor: "#01615F",
     marginLeft: 12,
   },
   applyButtonText: {
-    color: '#01615F',
+    color: "#01615F",
     fontSize: 12,
     fontFamily: "Poppins-Medium",
   },
   appliedContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginLeft: 12,
   },
   appliedText: {
-    color: '#01615F',
+    color: "#01615F",
     fontSize: 12,
     fontFamily: "Poppins-Medium",
     marginLeft: 4,

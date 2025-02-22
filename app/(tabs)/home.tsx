@@ -175,7 +175,7 @@ const Home = () => {
     ,
     {
       title: "Craving Something Special?",
-      subtitle: "Find popular cuisines and discover",
+      subtitle: "Popular cuisines and discover",
       deliveryTime: "what you're in the mood for!",
       buttonText: "Explore Cuisines",
       buttonColor: "#FF6347",

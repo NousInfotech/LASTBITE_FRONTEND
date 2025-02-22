@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, FlatList, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import { View, Text,StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import GoBack from '@/components/GoBack';
 import ProductSearch from '../../components/ProductSearch';  // Import the ProductSearch component
 import ProductGrid from '@/components/ProductGrid';  // Assuming ProductGrid is another component

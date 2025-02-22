@@ -6,7 +6,6 @@ import {
   SafeAreaView,
   StatusBar,
   StyleSheet,
-  FlatList,
   ScrollView,
 } from "react-native";
 import GoBack from "@/components/GoBack";

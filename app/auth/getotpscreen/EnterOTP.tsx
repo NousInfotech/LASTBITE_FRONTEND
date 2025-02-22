@@ -67,97 +67,97 @@ const EnterOtp: React.FC = () => {
     }
   }, [timer]);
 
-  const handleOtpChange = (value: string, index: number) => {
-    const updatedOtp = [...otp];
-    updatedOtp[index] = value;
-    setOtp(updatedOtp);
-    setIsOtpWrong(false);
-    if (value && index < otp.length - 1) inputs.current[index + 1]?.focus();
-    else if (!value && index > 0) inputs.current[index - 1]?.focus();
-  };
-
-  const handleVerify = async () => {
-    const enteredOtp = otp.join("");
-    verifyMutation.mutate(
-      { phoneNumber, otp: enteredOtp },
-      {
-        onSuccess: (data) => {
-          if (data.success) {
-            router.push({
-              pathname: "/initialscreens/SelectRole",
-            });
-          } else {
-            setIsOtpWrong(true);
-            setTimer(30);
-            setShowResend(false);
-            Alert.alert(
-              "Invalid OTP",
-              "Please enter the correct OTP or request a new one."
-            );
-          }
-        },
-      }
-    );
-  };
-
-  const handleResend = async () => {
-    sendOtpMutation.mutate(
-      { phoneNumber },
-      {
-        onSuccess: () => {
-          setOtp(["", "", "", "", "", ""]);
-          setTimer(30);
-          setShowResend(false);
-          setIsOtpWrong(false);
-          inputs.current[0]?.focus();
-        },
-      }
-    );
-  };
-
   // const handleOtpChange = (value: string, index: number) => {
   //   const updatedOtp = [...otp];
   //   updatedOtp[index] = value;
   //   setOtp(updatedOtp);
-  //   setIsOtpWrong(false); // Reset error state when user types
-
-  //   if (value && index < otp.length - 1) {
-  //     inputs.current[index + 1]?.focus();
-  //   } else if (!value && index > 0) {
-  //     // Handle backspace
-  //     inputs.current[index - 1]?.focus();
-  //   }
+  //   setIsOtpWrong(false);
+  //   if (value && index < otp.length - 1) inputs.current[index + 1]?.focus();
+  //   else if (!value && index > 0) inputs.current[index - 1]?.focus();
   // };
 
   // const handleVerify = async () => {
   //   const enteredOtp = otp.join("");
-  //   const isValid = await verifyOtpApi(phoneNumber, enteredOtp);
-
-  //   if (isValid) {
-  //       router.push({
-  //         pathname: "/initialscreens/SelectRole",
-  //       });
-  //   } else {
-  //     setIsOtpWrong(true);
-  //     setTimer(30);
-  //     setShowResend(false);
-  //     Alert.alert("Invalid OTP", "Please enter the correct OTP or request a new one.");
-  //   }
+  //   verifyMutation.mutate(
+  //     { phoneNumber, otp: enteredOtp },
+  //     {
+  //       onSuccess: (data) => {
+  //         if (data.success) {
+  //           router.push({
+  //             pathname: "/initialscreens/SelectRole",
+  //           });
+  //         } else {
+  //           setIsOtpWrong(true);
+  //           setTimer(30);
+  //           setShowResend(false);
+  //           Alert.alert(
+  //             "Invalid OTP",
+  //             "Please enter the correct OTP or request a new one."
+  //           );
+  //         }
+  //       },
+  //     }
+  //   );
   // };
 
   // const handleResend = async () => {
-  //   const success = await resendOtpApi(phoneNumber);
-
-  //   if (success) {
-  //     setOtp(["", "", "", "", "", ""]);
-  //     setTimer(30);
-  //     setShowResend(false);
-  //     setIsOtpWrong(false);
-  //     inputs.current[0]?.focus();
-  //   } else {
-  //     Alert.alert("Error", "Failed to resend OTP. Please try again.");
-  //   }
+  //   sendOtpMutation.mutate(
+  //     { phoneNumber },
+  //     {
+  //       onSuccess: () => {
+  //         setOtp(["", "", "", "", "", ""]);
+  //         setTimer(30);
+  //         setShowResend(false);
+  //         setIsOtpWrong(false);
+  //         inputs.current[0]?.focus();
+  //       },
+  //     }
+  //   );
   // };
+
+  const handleOtpChange = (value: string, index: number) => {
+    const updatedOtp = [...otp];
+    updatedOtp[index] = value;
+    setOtp(updatedOtp);
+    setIsOtpWrong(false); // Reset error state when user types
+
+    if (value && index < otp.length - 1) {
+      inputs.current[index + 1]?.focus();
+    } else if (!value && index > 0) {
+      // Handle backspace
+      inputs.current[index - 1]?.focus();
+    }
+  };
+
+  const handleVerify = async () => {
+    const enteredOtp = otp.join("");
+    const isValid = await verifyOtpApi(phoneNumber, enteredOtp);
+
+    if (isValid) {
+        router.push({
+          pathname: "/initialscreens/SelectRole",
+        });
+    } else {
+      setIsOtpWrong(true);
+      setTimer(30);
+      setShowResend(false);
+      Alert.alert("Invalid OTP", "Please enter the correct OTP or request a new one.");
+    }
+  };
+
+  const handleResend = async () => {
+    const success = await resendOtpApi(phoneNumber);
+
+    if (success) {
+      setOtp(["", "", "", "", "", ""]);
+      setTimer(30);
+      setShowResend(false);
+      setIsOtpWrong(false);
+      inputs.current[0]?.focus();
+    } else {
+      Alert.alert("Error", "Failed to resend OTP. Please try again.");
+    }
+  };
 
   if (!fontsLoaded) return null;
 

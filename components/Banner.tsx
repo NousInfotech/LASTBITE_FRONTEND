@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     zIndex: 2,  
   },
   title: {
-    fontSize: 20,
+    fontSize: 24,
     maxWidth: '90%',
     marginBottom: 0,
   },
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   subtitle: {
-    fontSize: 10,
+    fontSize: 13,
     color: "#929292",
     maxWidth: '60%',
   },

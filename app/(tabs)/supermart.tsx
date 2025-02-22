@@ -31,17 +31,17 @@ const productData = [
       { id: '12', name: 'Lorem Ipsum', image: require('../../assets/images/Tropicana.png') },
     ],
   },
-  {
-    title: 'Beauty Products',
-    items: [
-      { id: '13', name: 'Lorem Ipsum', image: require('../../assets/images/BodyScrub.png') },
-      { id: '14', name: 'Lorem Ipsum', image: require('../../assets/images/Centella.png') },
-      { id: '15', name: 'Lorem Ipsum', image: require('../../assets/images/SunScreen.png') },
-      { id: '16', name: 'Lorem Ipsum', image: require('../../assets/images/SkinCare.png') },
-      { id: '17', name: 'Lorem Ipsum', image: require('../../assets/images/Concealer.png') },
-      { id: '18', name: 'Lorem Ipsum', image: require('../../assets/images/Foundation.png') },
-    ],
-  },
+  // {
+  //   title: 'Beauty Products',
+  //   items: [
+  //     { id: '13', name: 'Lorem Ipsum', image: require('../../assets/images/BodyScrub.png') },
+  //     { id: '14', name: 'Lorem Ipsum', image: require('../../assets/images/Centella.png') },
+  //     { id: '15', name: 'Lorem Ipsum', image: require('../../assets/images/SunScreen.png') },
+  //     { id: '16', name: 'Lorem Ipsum', image: require('../../assets/images/SkinCare.png') },
+  //     { id: '17', name: 'Lorem Ipsum', image: require('../../assets/images/Concealer.png') },
+  //     { id: '18', name: 'Lorem Ipsum', image: require('../../assets/images/Foundation.png') },
+  //   ],
+  // },
 ];
 
 const SuperMart: React.FC = () => {

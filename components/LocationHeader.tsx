@@ -13,7 +13,6 @@ import * as Font from "expo-font";
 import * as Location from "expo-location";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Entypo from "@expo/vector-icons/Entypo";
-import { useNavigation } from "@react-navigation/native";
 import { useRouter } from "expo-router";
 import AddressManagementScreen from "@/app/initialscreens/AddressManagementScreen";
 
@@ -27,7 +26,6 @@ const LocationHeader = () => {
   )[0];
 
   const [userProfileImage, setUserProfileImage] = useState<string | null>(null);
-  const navigation = useNavigation();
   const router = useRouter();
 
   useEffect(() => {
@@ -106,8 +104,6 @@ const LocationHeader = () => {
             <Entypo name="location-pin" size={24} color="#01615F" />
             <Text style={styles.locationLabel}>Location</Text>
             <TouchableOpacity onPress={navigateToAddressManagement}>
-              {" "}
-              {/* Use navigation here */}
               <AntDesign
                 name="caretdown"
                 size={13}
@@ -117,13 +113,16 @@ const LocationHeader = () => {
             </TouchableOpacity>
           </View>
           <TouchableOpacity style={styles.locationSelector}>
-            <Text style={styles.locationText} className="font-medium">
+            <Text style={styles.locationText}>
               {location || errorMsg || "Fetching location..."}
             </Text>
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity style={styles.profileButton} onPress={()=> router.push("/(tabs)/profile")}>
+        <TouchableOpacity
+          style={styles.profileButton}
+          onPress={() => router.push("/(tabs)/profile")}
+        >
           <Image
             style={styles.profileImage}
             source={{
@@ -140,7 +139,7 @@ const LocationHeader = () => {
             { transform: [{ translateY: sliderAnimation }] },
           ]}
         >
-          <AddressManagementScreen /> {/* Replace placeholder with component */}
+          <AddressManagementScreen />
           <TouchableOpacity style={styles.closeButton} onPress={toggleSlider}>
             <Text style={styles.closeButtonText}>Close</Text>
           </TouchableOpacity>
@@ -149,6 +148,7 @@ const LocationHeader = () => {
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
