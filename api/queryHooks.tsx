@@ -12,19 +12,18 @@ import {
   GroceryItem,
 } from "./types";
 
-const sendOtp = async (data: OtpRequest): Promise<OtpResponse> => {
-  const response = await api.post<OtpResponse>("/otp/send-otp", data);
-  return response.data;
-};
-
 export const useSendOtp = () => {
-  return useMutation({
-    mutationFn: sendOtp,
+  return useMutation<OtpResponse, Error, OtpRequest>({
+    mutationFn: async (data: OtpRequest) => {
+      const response = await api.post<OtpResponse>("/auth/send-otp", data);
+      return response.data;
+    },
   });
 };
 
+
 const verifyOtp = async (data: VerifyOtpRequest): Promise<VerifyOtpResponse> => {
-  const response = await api.post<VerifyOtpResponse>("/otp/verify-otp", data);
+  const response = await api.post<VerifyOtpResponse>("/auth/verify-otp", data);
   return response.data;
 };
 

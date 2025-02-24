@@ -31,8 +31,6 @@
     "@react-navigation/stack": "^7.0.13",
     "@tanstack/react-query": "^5.66.0",
     "axios": "^1.7.9",
-    "cookie": "^1.0.2",
-    "dompurify": "^3.2.4",
     "expo": "~52.0.36",
     "expo-app-loading": "^2.1.1",
     "expo-av": "~15.0.1",
@@ -86,12 +84,9 @@
     "react-native-voice": "^0.3.0",
     "react-native-web": "~0.19.13",
     "react-native-webview": "^13.12.5",
-    "semver": "^7.7.1",
     "swagger-client": "^3.32.2",
     "swagger-ui-react": "^5.18.2",
-    "tailwindcss": "^3.4.15",
-    "xml2js": "^0.6.2",
-    "xmldom": "^0.6.0"
+    "tailwindcss": "^3.4.15"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

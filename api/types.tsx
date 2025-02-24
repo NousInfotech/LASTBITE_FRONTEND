@@ -1,5 +1,5 @@
 export interface OtpRequest {
-  phoneNumber: string;
+  phone: string;
 }
 
 export interface OtpResponse {

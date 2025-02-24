@@ -24,10 +24,9 @@ const OTPScreen: React.FC = () => {
   const [fontsLoaded] = useFonts({
     "Poppins-Regular": require("../../../assets/fonts/Poppins-Regular.ttf"),
   });
-
+  const { mutate: sendOtpMutation } = useSendOtp();
   const router = useRouter();
   
-  const { mutate: sendOtp } = useSendOtp();
 
   if (!fontsLoaded) {
     return <Text>Loading...</Text>;
@@ -35,82 +34,68 @@ const OTPScreen: React.FC = () => {
 
   const isValidInput = mobileNumber.length === 10;
 
-  // const handleGetOTP = async () => {
-  //   console.log("Initiating OTP request for:", mobileNumber);
 
-  //   if (!mobileNumber || mobileNumber.length !== 10) {
-  //     Alert.alert("Invalid Input", "Please enter a valid 10-digit mobile number.");
+  const handleGetOTP = () => {
+    console.log("Initiating OTP request for:", mobileNumber);
+  
+    if (!mobileNumber || mobileNumber.length !== 10) {
+      Alert.alert("Invalid Input", "Please enter a valid 10-digit mobile number.");
+      return;
+    }
+  
+    const formattedNumber = `+91${mobileNumber}`; // Ensure this matches API expectations
+    console.log("Formatted Number:", formattedNumber);
+  
+    sendOtpMutation(
+      { phone: formattedNumber }, // API expects `phone`
+      {
+        onSuccess: (response) => {
+          console.log("OTP Success Response:", response);
+          if (response.success) {
+            router.push("/auth/getotpscreen/EnterOTP");
+            params: { phoneNumber: mobileNumber}
+          } else {
+            Alert.alert("Error", response.message || "Failed to send OTP. Please try again.");
+          }
+        },
+        onError: (error: any) => {
+          console.error("OTP Error Details:", {
+            message: error.message,
+            response: error.response?.data,
+            status: error.response?.status,
+          });
+  
+          let errorMessage = "Something went wrong. Please try again later.";
+  
+          if (error.message === "Network Error") {
+            errorMessage = "Network connection error. Please check your internet connection.";
+          } else if (error.response?.data?.message) {
+            errorMessage = error.response.data.message;
+          }
+  
+          Alert.alert("Error", errorMessage);
+        },
+      }
+    );
+  };
+  
+  
+  // const handleGetOTP = async () => {
+  //   if (mobileNumber.length < 10) {
+  //     Alert.alert("Invalid Input", "Please enter a valid mobile number or Restaurant ID.");
   //     return;
   //   }
 
-  //   const formattedNumber = `+91${mobileNumber}`;
-  //   console.log("Formatted Number:", formattedNumber);
 
-  //   try {
-  //     sendOtp(
-  //       { phoneNumber: formattedNumber },
-  //       {
-  //         onSuccess: (response) => {
-  //           console.log("OTP Success Response:", response);
-  //           if (response.success) {
-  //             // router.push({
-  //             //   pathname: "../getotpscreen/EnterOTP",
-  //             //   params: { phoneNumber: formattedNumber, role: role }
-  //             // });
-
-  //             router.push("/(tabstwo)/home");
-  //           } else {
-  //             Alert.alert(
-  //               "Error",
-  //               response.message || "Failed to send OTP. Please try again."
-  //             );
-  //           }
-  //         },
-  //         onError: (error: any) => {
-  //           console.error("OTP Error Details:", {
-  //             message: error.message,
-  //             response: error.response?.data,
-  //             status: error.response?.status,
-  //           });
-
-  //           let errorMessage = "Something went wrong. Please try again later.";
-            
-  //           if (error.message === "Network Error") {
-  //             errorMessage = "Network connection error. Please check your internet connection.";
-  //           } else if (error.response?.data?.message) {
-  //             errorMessage = error.response.data.message;
-  //           }
-
-  //           Alert.alert("Error", errorMessage);
-  //         }
-  //       }
-  //     );
-  //   } catch (error) {
-  //     console.error("Unexpected Error:", error);
-  //     Alert.alert(
-  //       "Error",
-  //       "An unexpected error occurred. Please try again later."
-  //     );
-  //   }
+  //   // Simulate API call delay
+  //   setTimeout(() => {
+  //     // Navigate to OTP screen with the mobile number as a parameter
+  //     router.push({
+  //       pathname: "../getotpscreen/EnterOTP",
+  //       params: { phoneNumber: mobileNumber, role: role  }
+  //     });
+  //   }, 2000);
   // };
-
-  
-  const handleGetOTP = async () => {
-    if (mobileNumber.length < 10) {
-      Alert.alert("Invalid Input", "Please enter a valid mobile number or Restaurant ID.");
-      return;
-    }
-
-
-    // Simulate API call delay
-    setTimeout(() => {
-      // Navigate to OTP screen with the mobile number as a parameter
-      router.push({
-        pathname: "../getotpscreen/EnterOTP",
-        params: { phoneNumber: mobileNumber, role: role  }
-      });
-    }, 2000);
-  };
 
   const handleTermsClick = () => {
     Linking.openURL("https://example.com/terms");
