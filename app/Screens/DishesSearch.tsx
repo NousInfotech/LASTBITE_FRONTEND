@@ -287,7 +287,7 @@ const DishesSearch: React.FC = () => {
         <View style={styles.restaurantSubContainer}>
           <Text style={styles.restaurantSub}>{restaurant.ratingAverage}</Text>
           <Image 
-            source={require("./../../assets/images/Star.png")} 
+            source={require("./../../assets/images/star.png")} 
             style={styles.starIcon} 
           />
           <Text style={styles.headerLocation}>{restaurant?.location}</Text>

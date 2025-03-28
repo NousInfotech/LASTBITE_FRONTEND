@@ -487,7 +487,7 @@ const RestaurantSelect = () => {
               {restaurant?.ratingAverage}
             </Text>
             <Image
-              source={require("./../../assets/images/Star.png")}
+              source={require("./../../assets/images/star.png")}
               style={styles.starIcon}
             />
           </View>
