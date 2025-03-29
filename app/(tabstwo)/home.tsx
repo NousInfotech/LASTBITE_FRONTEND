@@ -35,7 +35,7 @@ const Home = () => {
           </View>
           <View style={styles.card}>
             <View style={styles.imageContainer}>
-              <Image source={require("../../assets/images/star.png")} style={styles.icon} />
+              <Image source={require("../../assets/images/Star.png")} style={styles.icon} />
             </View>
             <Text style={styles.label}>Average Rating</Text>
             <Text style={styles.value}>₹500</Text>

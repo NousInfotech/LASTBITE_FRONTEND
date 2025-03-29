@@ -14,7 +14,7 @@ const SelectRole = () => {
   const images: Record<string, any> = {
     User: require("../../assets/images/Order food.gif"),
     Restaurant: require("../../assets/images/Coffee shop.gif"),
-    Rider: require("../../assets/images/Takeaway.gif"),
+    Rider: require("../../assets/images/TakeAway.gif"),
   };
 
   const router = useRouter();
