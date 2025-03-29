@@ -1,17 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-} from "react-native";
-import GoBack from "@/components/GoBack";
-import SearchBarVoice from "@/components/SearchBarVoice";
+import { View, Text, TouchableOpacity, Image, SafeAreaView, StatusBar, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
+import GoBack from "@/components/GoBack";
+import SearchBarVoice from "@/components/SearchBarVoice";
 
 interface Restaurant {
   restaurantId: string;
@@ -30,35 +22,12 @@ interface Restaurant {
 const SearchScreen = () => {
   const router = useRouter();
   const [fontsLoaded, setFontsLoaded] = useState(false);
-  const [searchText, setSearchText] = useState<string>("");
-
-  const isNewRestaurant = (createdAt: string) => {
-    const createdAtDate = new Date(createdAt);
-    const now = new Date();
-    const diffInDays =
-      (now.getTime() - createdAtDate.getTime()) / (1000 * 60 * 60 * 24);
-    return diffInDays <= 7;
-  };
+  const [searchText, setSearchText] = useState("");
 
   const dishes = [
-    {
-      id: 1,
-      name: "Pasta",
-      type: "Dish",
-      image: "https://via.placeholder.com/32",
-    },
-    {
-      id: 2,
-      name: "Burger",
-      type: "Dish",
-      image: "https://via.placeholder.com/32",
-    },
-    {
-      id: 3,
-      name: "Idly",
-      type: "Dish",
-      image: "https://via.placeholder.com/32",
-    },
+    { id: 1, name: "Pasta", type: "Dish", image: "https://via.placeholder.com/32" },
+    { id: 2, name: "Burger", type: "Dish", image: "https://via.placeholder.com/32" },
+    { id: 3, name: "Idly", type: "Dish", image: "https://via.placeholder.com/32" },
   ];
 
   const restaurants: Restaurant[] = [
@@ -104,33 +73,38 @@ const SearchScreen = () => {
   ];
 
   useEffect(() => {
-    async function loadFonts() {
+    const loadFonts = async () => {
       await Font.loadAsync({
         "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
         "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
         "Poppins-SemiBold": require("../../assets/fonts/Poppins-SemiBold.ttf"),
       });
       setFontsLoaded(true);
-    }
+    };
     loadFonts();
   }, []);
 
-  if (!fontsLoaded) {
-    return null;
-  }
+  if (!fontsLoaded) return null;
 
-  const filteredDishes = dishes.filter((dish) =>
-    dish.name.toLowerCase().includes((searchText || "").toString().toLowerCase())
+  const isNewRestaurant = (createdAt: string) => {
+    const createdAtDate = new Date(createdAt);
+    const now = new Date();
+    const diffInDays = (now.getTime() - createdAtDate.getTime()) / (1000 * 60 * 60 * 24);
+    return diffInDays <= 7;
+  };
+
+  const filteredDishes = dishes.filter(dish => 
+    dish.name.toLowerCase().includes(searchText.toLowerCase())
   );
-  
-  const filteredRestaurants = restaurants.filter((restaurant) =>
-    restaurant.name.toLowerCase().includes((searchText || "").toString().toLowerCase())
+
+  const filteredRestaurants = restaurants.filter(restaurant => 
+    restaurant.name.toLowerCase().includes(searchText.toLowerCase())
   );
-  
-  const displayType = searchText.toLowerCase().includes("dish")
-    ? "dish"
-    : searchText.toLowerCase().includes("restaurant")
-    ? "restaurant"
+
+  const displayType = searchText.toLowerCase().includes("dish") 
+    ? "dish" 
+    : searchText.toLowerCase().includes("restaurant") 
+    ? "restaurant" 
     : "both";
 
   const handleRestaurantClick = (restaurant: Restaurant) => {
@@ -156,67 +130,71 @@ const SearchScreen = () => {
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Search for Dishes & Restaurants</Text>
       </View>
-      <View>
-        <SearchBarVoice
-          // onInputPress={(text: string) => setSearchText(text)} 
-          redirectTargets={["Dishes", "Restaurants"]}
-          placeholder="Dishes, restaurants & more"
-          onChangeText={(text: string) => setSearchText(text)} 
-        />
-      </View>
-  
-      {displayType === "dish" || displayType === "both" ? (
-        <>
-          {filteredDishes.length > 0 && (
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Recommendations "Dishes"</Text>
-            </View>
-          )}
-          {filteredDishes.slice(0, 2).map((dish) => (
+      
+      <SearchBarVoice
+        redirectTargets={["Dishes", "Restaurants"]}
+        placeholder="Dishes, restaurants & more"
+        onChangeText={setSearchText}
+      />
+
+      {/* Dishes Section - Show only when no search text or no search results */}
+      {(!searchText || searchText.trim() === '') && (
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Recommendations "Dishes"</Text>
+          {dishes.slice(0, 2).map(dish => (
             <View key={dish.id} style={styles.dishesItem}>
               <View style={styles.dishesLeft}>
-                <TouchableOpacity
-                  style={styles.dishButton}
-                  onPress={() => handleDishClick(dish)}
-                >
+                <TouchableOpacity style={styles.dishButton} onPress={() => handleDishClick(dish)}>
                   <Image style={styles.dishImage} source={{ uri: dish.image }} />
                 </TouchableOpacity>
                 <View style={styles.dishesDetails}>
                   <TouchableOpacity onPress={() => handleDishClick(dish)}>
                     <Text style={styles.dishesType}>{dish.name}</Text>
                     <Text style={styles.dishesText}>Dish</Text>
-                  
                   </TouchableOpacity>
                 </View>
               </View>
             </View>
           ))}
-        </>
-      ) : null}
-  
-      {displayType === "restaurant" || displayType === "both" ? (
-        <>
-          {filteredRestaurants.length > 0 && (
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Recommendation "Restaurants"</Text>
-            </View>
-          )}
-          {filteredRestaurants.slice(0, 2).map((restaurant) => (
-            <View key={restaurant.restaurantId} style={styles.dishesItem}>
+        </View>
+      )}
+
+      {/* Filtered Dishes Section */}
+      {(displayType === "dish" || displayType === "both") && searchText.trim() !== '' && filteredDishes.length > 0 && (
+        <View style={styles.section}>
+          {filteredDishes.slice(0, 2).map(dish => (
+            <View key={dish.id} style={styles.dishesItem}>
               <View style={styles.dishesLeft}>
-                <TouchableOpacity
-                  style={styles.dishButton}
-                  onPress={() => handleRestaurantClick(restaurant)}
-                >
-                  <Image
-                    style={styles.dishImage}
-                    source={{ uri: restaurant.coverImage }}
-                  />
+                <TouchableOpacity style={styles.dishButton} onPress={() => handleDishClick(dish)}>
+                  <Image style={styles.dishImage} source={{ uri: dish.image }} />
                 </TouchableOpacity>
                 <View style={styles.dishesDetails}>
-                  <TouchableOpacity
-                    onPress={() => handleRestaurantClick(restaurant)}
-                  >
+                  <TouchableOpacity onPress={() => handleDishClick(dish)}>
+                    <Text style={styles.dishesType}>{dish.name}</Text>
+                    <Text style={styles.dishesText}>Dish</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          ))}
+        </View>
+      )}
+
+      {/* Restaurants Section - Show only when no search text or no search results */}
+      {(!searchText || searchText.trim() === '') && (
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Recommendation "Restaurants"</Text>
+          {restaurants.slice(0, 2).map(restaurant => (
+            <View key={restaurant.restaurantId} style={styles.dishesItem}>
+              <View style={styles.dishesLeft}>
+                <TouchableOpacity 
+                  style={styles.dishButton} 
+                  onPress={() => handleRestaurantClick(restaurant)}
+                >
+                  <Image style={styles.dishImage} source={{ uri: restaurant.coverImage }} />
+                </TouchableOpacity>
+                <View style={styles.dishesDetails}>
+                  <TouchableOpacity onPress={() => handleRestaurantClick(restaurant)}>
                     <Text style={styles.dishesType}>{restaurant.name}</Text>
                   </TouchableOpacity>
                   <Text style={styles.dishesText}>
@@ -229,11 +207,39 @@ const SearchScreen = () => {
               </View>
             </View>
           ))}
-        </>
-      ) : null}
+        </View>
+      )}
+
+      {/* Filtered Restaurants Section */}
+      {(displayType === "restaurant" || displayType === "both") && searchText.trim() !== '' && filteredRestaurants.length > 0 && (
+        <View style={styles.section}>
+          {filteredRestaurants.slice(0, 2).map(restaurant => (
+            <View key={restaurant.restaurantId} style={styles.dishesItem}>
+              <View style={styles.dishesLeft}>
+                <TouchableOpacity 
+                  style={styles.dishButton} 
+                  onPress={() => handleRestaurantClick(restaurant)}
+                >
+                  <Image style={styles.dishImage} source={{ uri: restaurant.coverImage }} />
+                </TouchableOpacity>
+                <View style={styles.dishesDetails}>
+                  <TouchableOpacity onPress={() => handleRestaurantClick(restaurant)}>
+                    <Text style={styles.dishesType}>{restaurant.name}</Text>
+                  </TouchableOpacity>
+                  <Text style={styles.dishesText}>
+                    {isNewRestaurant(restaurant.createdAt) && (
+                      <Text style={styles.newBadge}>New • </Text>
+                    )}
+                    {restaurant.details}
+                  </Text>
+                </View>
+              </View>
+            </View>
+          ))}
+        </View>
+      )}
     </SafeAreaView>
   );
-  
 };
 
 export default SearchScreen;

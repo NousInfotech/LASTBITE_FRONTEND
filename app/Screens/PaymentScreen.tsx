@@ -91,22 +91,6 @@ const PaymentScreen = () => {
         <View style={styles.paymentContainer}>
           <Text style={styles.paymentHeader}>Pay by any UPI App</Text>
           <View style={styles.divider} />
-          <TouchableOpacity
-            style={styles.paymentOption}
-            onPress={() => setIsPopupVisible(true)}
-          >
-            <Image
-              source={require("../../assets/images/image 1 1.png")}
-              style={styles.payImage}
-            />
-            <View style={styles.paymentDetails}>
-              <Text style={styles.paymentText}>Unlock Last Bites UPI</Text>
-              <Text style={styles.subNewText}>
-              Activate fastest UPI ID in 10 seconds
-              </Text>
-            </View>
-            <AntDesign name="right" size={16} color="grey" />
-          </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.paymentOption}

@@ -61,7 +61,7 @@ const SuperMart: React.FC = () => {
         <SearchBarVoice
         onInputPress={handleInputRedirect}
         redirectTargets={["Bottles"]}
-        placeholder="Search for  'Bottles' "
+        placeholder="Search for 'Bottles' "
       />
       </View>
 

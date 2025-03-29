@@ -6,6 +6,7 @@ export interface OtpResponse {
   success: boolean;
   message: string;
   otp?: string;
+  role?:string;
 }
 
 export interface VerifyOtpRequest {

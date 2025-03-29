@@ -2,6 +2,10 @@ import { Stack } from "expo-router";
 import { useFonts } from "expo-font";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import '../global.css';
+import { LogBox } from 'react-native';
+
+// Hide all warnings in the UI, but keep them in the terminal
+LogBox.ignoreAllLogs();
 
 // Create a client
 const queryClient = new QueryClient({

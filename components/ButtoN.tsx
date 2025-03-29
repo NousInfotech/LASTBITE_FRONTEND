@@ -43,13 +43,13 @@ const Button: React.FC<ButtonProps> = ({
 
   // Get the window width using the Dimensions API
   const windowWidth = Dimensions.get("window").width;
-  const buttonWidth = windowWidth * 0.9; // 90% of the window width
+  const buttonWidth = windowWidth * 0.87; // 90% of the window width
 
   return (
     <View>
       <TouchableOpacity
         activeOpacity={0.8}
-        style={[styles.button, { backgroundColor, width: buttonWidth }]} // Set the width dynamically
+        style={[styles.button, { backgroundColor, width: buttonWidth }]}
         onPress={onPress}
       >
         <Text
@@ -74,6 +74,6 @@ const styles = StyleSheet.create({
   },
   text: {
     textAlign: "center",
-    fontSize: 18, // Ensure the font size is 12px
+    fontSize: 16, // Ensure the font size is 12px
   },
 });

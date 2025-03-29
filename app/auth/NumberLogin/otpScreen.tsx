@@ -6,173 +6,124 @@ import {
   StyleSheet,
   Linking,
   Alert,
-  StatusBar,
-  TouchableOpacity,
-  SafeAreaView,
-  ActivityIndicator,
 } from "react-native";
 import { useFonts } from "expo-font";
+import Navigation from "@/components/Navigation";
 import CustomButton from "@/components/CustomButton";
-import GoBack from "@/components/GoBack";
-import { useRouter, useLocalSearchParams } from "expo-router";
-import { useSendOtp } from "@/api/queryHooks";
+import { useRouter } from "expo-router";
+// import { requestOtp } from "@/api/api";
 
 const OTPScreen: React.FC = () => {
-  const { role } = useLocalSearchParams();
   const [mobileNumber, setMobileNumber] = useState("");
   const [isInputFocused, setInputFocused] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [fontsLoaded] = useFonts({
     "Poppins-Regular": require("../../../assets/fonts/Poppins-Regular.ttf"),
   });
-  const { mutate: sendOtpMutation } = useSendOtp();
+
   const router = useRouter();
-  
 
   if (!fontsLoaded) {
     return <Text>Loading...</Text>;
   }
 
-  const isValidInput = mobileNumber.length === 10;
-
-
-  const handleGetOTP = () => {
-    console.log("Initiating OTP request for:", mobileNumber);
-  
-    if (!mobileNumber || mobileNumber.length !== 10) {
-      Alert.alert("Invalid Input", "Please enter a valid 10-digit mobile number.");
+  const handleGetOTP = async () => {
+    if (mobileNumber.length !== 10 || !/^[6-9]\d{9}$/.test(mobileNumber)) {
+      Alert.alert(
+        "Invalid Number",
+        "Please enter a valid 10-digit mobile number."
+      );
       return;
     }
-  
-    const formattedNumber = `+91${mobileNumber}`; // Ensure this matches API expectations
-    console.log("Formatted Number:", formattedNumber);
-  
-    sendOtpMutation(
-      { phone: formattedNumber }, // API expects `phone`
-      {
-        onSuccess: (response) => {
-          console.log("OTP Success Response:", response);
-          if (response.success) {
-            router.push("/auth/getotpscreen/EnterOTP");
-            params: { phoneNumber: mobileNumber}
-          } else {
-            Alert.alert("Error", response.message || "Failed to send OTP. Please try again.");
-          }
-        },
-        onError: (error: any) => {
-          console.error("OTP Error Details:", {
-            message: error.message,
-            response: error.response?.data,
-            status: error.response?.status,
-          });
-  
-          let errorMessage = "Something went wrong. Please try again later.";
-  
-          if (error.message === "Network Error") {
-            errorMessage = "Network connection error. Please check your internet connection.";
-          } else if (error.response?.data?.message) {
-            errorMessage = error.response.data.message;
-          }
-  
-          Alert.alert("Error", errorMessage);
-        },
-      }
-    );
+
+    setIsLoading(true);
+
+    // try {
+    //   const result = await requestOtp(mobileNumber);
+    //   setIsLoading(false);
+
+    //   if (result.success) {
+    //     console.log("OTP Sent:", result.data.otp); // Debugging purpose
+    //     router.push("/auth/getotpscreen/getotpscreen");
+    //   } else {
+    //     Alert.alert(
+    //       "Error",
+    //       result.message || "Failed to send OTP. Please try again."
+    //     );
+    //   }
+    // } catch (error) {
+    //   setIsLoading(false);
+    //   Alert.alert("Error", "An unexpected error occurred. Please try again.");
+    //   console.error("Error:", error);
+    // }
   };
-  
-  
-  // const handleGetOTP = async () => {
-  //   if (mobileNumber.length < 10) {
-  //     Alert.alert("Invalid Input", "Please enter a valid mobile number or Restaurant ID.");
-  //     return;
-  //   }
-
-
-  //   // Simulate API call delay
-  //   setTimeout(() => {
-  //     // Navigate to OTP screen with the mobile number as a parameter
-  //     router.push({
-  //       pathname: "../getotpscreen/EnterOTP",
-  //       params: { phoneNumber: mobileNumber, role: role  }
-  //     });
-  //   }, 2000);
-  // };
 
   const handleTermsClick = () => {
     Linking.openURL("https://example.com/terms");
   };
 
+  const handlePrivacyClick = () => {
+    Linking.openURL("https://example.com/privacy");
+  };
+
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" />
-      <View style={styles.header}>
-        <TouchableOpacity>
-          <GoBack />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>
-          Enter your mobile number
-        </Text>
-      </View>
-      <View style={styles.container_A}>
-        <View style={styles.content}>
-          <View style={styles.inputContainer}>
-            <View style={[styles.row, isInputFocused && { borderColor: "#000" }]}>
-              <TextInput
-                style={styles.input}
-                placeholder="Enter Mobile Number"
-                value={mobileNumber}
-                onChangeText={setMobileNumber}
-                placeholderTextColor="#999"
-                onFocus={() => setInputFocused(true)}
-                onBlur={() => setInputFocused(false)}
-                maxLength={10}
-                keyboardType="numeric"
-              />
-            </View>
-          </View>
-          <CustomButton
-            title={"Continue"}
-            onPress={handleGetOTP}
-            backgroundColor={!isValidInput ? "#ccc" : "#01615F"}
-            isDisabled={!isValidInput}
-          />
-          <View style={styles.termsAndPolicyContainer}>
-            <Text style={styles.text}>
-              By logging in, I accept to Last Bite's{" "}
-              <Text style={styles.link} onPress={handleTermsClick}>
-                terms of service
-              </Text>{" "}
-            </Text>
+    <View style={styles.container}>
+      <Navigation
+        content="Enter your mobile number to get OTP"
+        routes={{ skip: "/initialscreens/welcomescreen" }}
+      />
+      <View style={styles.content}>
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Mobile Number</Text>
+          <View style={[styles.row, isInputFocused && { borderColor: "#000" }]}>
+            <Text style={styles.countryCode}>+91</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="10 digit mobile number"
+              value={mobileNumber}
+              onChangeText={setMobileNumber}
+              keyboardType="phone-pad"
+              placeholderTextColor="#999"
+              onFocus={() => setInputFocused(true)}
+              onBlur={() => setInputFocused(false)}
+              maxLength={10}
+            />
           </View>
         </View>
+        <CustomButton
+          title={isLoading ? "Sending..." : "Get OTP"}
+          onPress={handleGetOTP}
+          isDisabled={mobileNumber.length < 10 || isLoading}
+          backgroundColor={
+            mobileNumber.length === 10 && !isLoading ? "#01615F" : "#ccc"
+          }
+        />
+        <View style={styles.termsAndPolicyContainer}>
+          <Text style={styles.text}>
+            By clicking, I accept the{" "}
+            <Text style={styles.link} onPress={handleTermsClick}>
+              terms of service
+            </Text>{" "}
+            and{" "}
+            <Text style={styles.link} onPress={handlePrivacyClick}>
+              privacy policy
+            </Text>
+            .
+          </Text>
+        </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-  },
-  container_A: {
-    flex: 1,
-    backgroundColor: "#fff",
     paddingHorizontal: 20,
   },
-  header: {
-    flexDirection: "row",
-    padding: 16,
-  },
-  headerTitle: {
-    fontSize: 20,
-    fontWeight: "500",
-    fontFamily: "Poppins-SemiBold",
-  },
   content: {
-    marginTop: 4,
+    marginTop: 20,
     justifyContent: "center",
     alignItems: "center",
     fontFamily: "Poppins-Regular",
@@ -180,6 +131,12 @@ const styles = StyleSheet.create({
   inputContainer: {
     width: "100%",
     marginBottom: 16,
+  },
+  label: {
+    fontSize: 13, // Increased font size for better readability
+    color: "#666",
+    fontFamily: "Poppins-Regular",
+    marginBottom: 8,
   },
   row: {
     flexDirection: "row",
@@ -189,17 +146,24 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 10,
   },
+  countryCode: {
+    fontSize: 16,
+    color: "#000",
+    fontFamily: "Poppins-Regular",
+    marginRight: 10,
+  },
   input: {
     flex: 1,
     height: 48,
-    fontSize: 14,
+    fontSize: 16, // Adjusted for better readability
     fontFamily: "Poppins-Regular",
+    marginTop: 0,
   },
   termsAndPolicyContainer: {
     alignItems: "center",
   },
   text: {
-    fontSize: 12, // Adjusted for better readability
+    fontSize: 14, // Adjusted for better readability
     color: "#000",
     textAlign: "left",
     fontFamily: "Poppins-Regular",

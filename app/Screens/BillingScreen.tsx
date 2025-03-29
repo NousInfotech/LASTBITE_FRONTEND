@@ -331,7 +331,6 @@ const BillingScreen = () => {
             address and order details are correct. This order, if cancelled, is
             non-refundable.
           </Text>
-          <Text style={styles.linkText}>READ POLICY</Text>
         </View>
       </ScrollView>
       {showPopup && <DeliveryPopup />}

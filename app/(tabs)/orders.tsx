@@ -8,11 +8,10 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
-import GoBack from "@/components/GoBack"; // Replace with your back button component
+import GoBack from "@/components/GoBack";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
 
-// Define interfaces for active and past orders
 interface Order {
   restaurant: string;
   location: string;
@@ -26,9 +25,8 @@ interface PastOrder extends Order {
   rating?: number; 
   feedback?: string; 
   ratingDel?: number;
-  feedbackDel?:string;
+  feedbackDel?: string;
 }
-
 
 const Orders: React.FC = () => {
   const router = useRouter();
@@ -60,25 +58,25 @@ const Orders: React.FC = () => {
       rating: 4.0,
       feedback: "Good",
       ratingDel: 3.0,
-      feedbackDel:"Loved it",
+      feedbackDel: "Loved it",
     },
   ]);
 
   useEffect(() => {
-    async function loadFonts() {
+    const loadFonts = async () => {
       await Font.loadAsync({
         "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
         "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
         "Poppins-Bold": require("../../assets/fonts/Poppins-Bold.ttf"),
       });
       setFontsLoaded(true);
-    }
+    };
 
     loadFonts();
   }, []);
 
   if (!fontsLoaded) {
-    return null; // Optionally show a loading placeholder
+    return null;
   }
 
   const renderOrder = (order: Order | PastOrder, isPast: boolean = false) => (
@@ -123,21 +121,24 @@ const Orders: React.FC = () => {
           <>
             {isPast ? (
               <>
-                <TouchableOpacity style={styles.actionButton}
-                onPress={() => router.push("/Screens/BillingScreen")}
+                <TouchableOpacity 
+                  style={styles.actionButton}
+                  onPress={() => router.push("/Screens/BillingScreen")}
                 >
                   <Text style={styles.actionText}>Reorder</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.actionButton, styles.rateButton]}
-                onPress={() => router.push("/Screens/RateOrder")}
+                <TouchableOpacity 
+                  style={[styles.actionButton, styles.rateButton]}
+                  onPress={() => router.push("/Screens/RateOrder")}
                 >
                   <Text style={styles.mainText}>Rate Order</Text>
                 </TouchableOpacity>
               </>
             ) : (
               <>
-                <TouchableOpacity style={styles.actionButton}
-                //  onPress={() => router.push("/Screens/HelpOrder")}
+                <TouchableOpacity 
+                  style={styles.actionButton}
+                  onPress={() => router.push("/Screens/HelpOrder")}
                 >
                   <Text style={styles.actionText}>Help</Text>
                 </TouchableOpacity>
@@ -151,8 +152,6 @@ const Orders: React.FC = () => {
       </View>
     </View>
   );
-
-  
 
   return (
     <SafeAreaView style={styles.container}>

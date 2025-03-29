@@ -1,48 +1,72 @@
 import React, { useState } from 'react';
-import { View, Text,StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import GoBack from '@/components/GoBack';
-import ProductSearch from '../../components/ProductSearch';  // Import the ProductSearch component
-import ProductGrid from '@/components/ProductGrid';  // Assuming ProductGrid is another component
-import SearchBarVoice from '@/components/SearchBarVoice';
-import HotDeals from '@/components/HotDeals';
+import ProductSearch from '../../components/ProductSearch';
 import ProductGridScrollView from '@/components/ProductGridScrollView';
+import SearchBarVoice from '@/components/SearchBarVoice';
 
 type Product = {
   id: string;
   name: string;
-  weight: string;
-  price: string;
-  image: any; // Use `ImageSourcePropType` if you want stricter type-checking
+  image: any;
+};
+
+type ProductCategory = {
+  title: string;
+  items: Product[];
 };
 
 const ProductList = () => {
   const [searchQuery, setSearchQuery] = useState('');
+ 
 
-  const productData = [
+  const productData: ProductCategory[] = [
     {
       title: 'Popular Searches',
       items: [
-        { id: '1', name: 'Lorem Ipsum', image: require('../../assets/images/Orange.png') },
-        { id: '2', name: 'Lorem Ipsum', image: require('../../assets/images/Broccoli.png') },
-        { id: '3', name: 'Lorem Ipsum', image: require('../../assets/images/Apple.png') },
-        { id: '4', name: 'Lorem Ipsum', image: require('../../assets/images/Mixture.png') },
-        { id: '5', name: 'Lorem Ipsum', image: require('../../assets/images/Pulses.png') },
-        { id: '6', name: 'Lorem Ipsum', image: require('../../assets/images/QuestNatural.png') },
+        { id: '1', name: 'Orange', image: require('../../assets/images/Orange.png') },
+        { id: '2', name: 'Broccoli', image: require('../../assets/images/Broccoli.png') },
+        { id: '3', name: 'Apple', image: require('../../assets/images/Apple.png') },
+        { id: '4', name: 'Mixture', image: require('../../assets/images/Mixture.png') },
+        { id: '5', name: 'Pulses', image: require('../../assets/images/Pulses.png') },
+        { id: '6', name: 'Quest Natural', image: require('../../assets/images/QuestNatural.png') },
       ],
     },
     {
       title: 'Discover More',
       items: [
-        { id: '7', name: 'Lorem Ipsum', image: require('../../assets/images/Chips.png') },
-        { id: '8', name: 'Lorem Ipsum', image: require('../../assets/images/FreshJuice.png') },
-        { id: '9', name: 'Lorem Ipsum', image: require('../../assets/images/Lays.png') },
-        { id: '10', name: 'Lorem Ipsum', image: require('../../assets/images/Lays.png') },
-        { id: '11', name: 'Lorem Ipsum', image: require('../../assets/images/LaysWavy.png') },
-        { id: '12', name: 'Lorem Ipsum', image: require('../../assets/images/Tropicana.png') },
+        { id: '7', name: 'Chips', image: require('../../assets/images/Chips.png') },
+        { id: '8', name: 'Fresh Juice', image: require('../../assets/images/FreshJuice.png') },
+        { id: '9', name: 'Lays Classic', image: require('../../assets/images/Lays.png') },
+        { id: '10', name: 'Lays Flavor', image: require('../../assets/images/Lays.png') },
+        { id: '11', name: 'Lays Wavy', image: require('../../assets/images/LaysWavy.png') },
+        { id: '12', name: 'Tropicana', image: require('../../assets/images/Tropicana.png') },
       ],
     },
-   
   ];
+
+  const [filteredProductData, setFilteredProductData] = useState<ProductCategory[]>(productData);
+  
+  const handleSearch = (text: string) => {
+    setSearchQuery(text);
+
+    if (text.trim() === '') {
+      // If search query is empty, show all products
+      setFilteredProductData(productData);
+      return;
+    }
+
+    // Filter products across all categories
+    const filtered = productData.map(category => ({
+      ...category,
+      items: category.items.filter(product => 
+        product.name.toLowerCase().includes(text.toLowerCase())
+      )
+    })).filter(category => category.items.length > 0);
+
+    setFilteredProductData(filtered);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       {/* Fixed header */}
@@ -53,13 +77,17 @@ const ProductList = () => {
       
       {/* Fixed SearchBar */}
       <View style={styles.fixedSearchBar}>
-        <SearchBarVoice />
+        <SearchBarVoice
+          placeholder="Search products..."
+          value={searchQuery}
+          onChangeText={handleSearch}
+        />
       </View>
 
       {/* Scrollable content */}
       <ScrollView style={styles.scrollView}>
         <ProductSearch />
-        <ProductGridScrollView categories={productData} />
+        <ProductGridScrollView categories={filteredProductData} />
       </ScrollView>
     </SafeAreaView>
   );
@@ -77,7 +105,7 @@ const styles = StyleSheet.create({
     right: 0,
     zIndex: 10,
     backgroundColor: '#fff',
-    paddingTop: 10, // Adjust for status bar height
+    paddingTop: 10,
     paddingBottom: 10,
     paddingHorizontal: 16,
     flexDirection: 'row',
@@ -86,20 +114,19 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 16,
     fontWeight: '500',
-    
+    marginLeft: 16,
   },
   fixedSearchBar: {
     position: 'absolute',
-    top: 60, // Adjust to align under the header
+    top: 60,
     left: 0,
     right: 0,
     zIndex: 5,
     backgroundColor: '#fff',
- 
     paddingBottom: 10,
   },
   scrollView: {
-    marginTop: 120, // Adjust for both header and search bar height
+    marginTop: 120,
   },
 });
 

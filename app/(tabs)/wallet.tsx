@@ -11,6 +11,7 @@ import {
 import GoBack from "@/components/GoBack";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import * as Font from "expo-font";
+import { Linking } from 'react-native';
 
 const Wallet = () => {
   const router = useRouter();
@@ -43,13 +44,15 @@ const Wallet = () => {
     return null; // Optionally, show a loading screen or placeholder
   }
 
-  const handleContinuePress = () => {
-    if (isPanCompleted) {
-      router.push("/Screens/PersonalDetails"); // Redirect if PAN is completed
-    } else {
-      router.push("/Screens/PanInfo");
-    }
-  };
+ const handleContinuePress = () => {
+  if (isPanCompleted && isPersonalCompleted) {
+    Linking.openURL('https://www.hdfcbank.com/personal/useful-links/important-messages/complete-your-re-kyc');
+  } else if (isPanCompleted) {
+    router.push("/Screens/PersonalDetails");
+  } else {
+    router.push("/Screens/PanInfo");
+  }
+};
 
   return (
     <SafeAreaView style={styles.container}>

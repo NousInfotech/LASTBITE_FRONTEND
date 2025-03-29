@@ -159,7 +159,7 @@ const Home = () => {
 
   const banners = [
     {
-      title: "Instamart Essentials",
+      title: "Supermart Essentials",
       subtitle: "Fresh groceries delivered within",
       deliveryTime: "15 minutes.",
       buttonText: "Shop Groceries",
@@ -174,7 +174,7 @@ const Home = () => {
     },
     ,
     {
-      title: "Craving Something Special?",
+      title: "Craving  Special?",
       subtitle: "Popular cuisines and discover",
       deliveryTime: "what you're in the mood for!",
       buttonText: "Explore Cuisines",
