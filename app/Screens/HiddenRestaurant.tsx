@@ -4,7 +4,6 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  SafeAreaView,
   StatusBar,
   StyleSheet,
   FlatList,
@@ -14,6 +13,8 @@ import FilterButtons from "@/components/filter";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
 import RestaurantCard from "@/components/Foods"; // Corrected import
+import { SafeAreaView } from "react-native-safe-area-context";
+
 
 const HiddenRestaurant = () => {
   const router = useRouter();

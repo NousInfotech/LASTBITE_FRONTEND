@@ -6,6 +6,7 @@ import {
   StatusBar,
   Modal,
   Text,
+  PixelRatio
 } from "react-native";
 import LocationHeader from "@/components/LocationHeader";
 import SearchBarVoice from "@/components/SearchBarVoice";
@@ -16,6 +17,9 @@ import RestaurantCard from "@/components/FoodList";
 import SuccessToast from "@/components/SuccessToast";
 import HiddenRestaurant from "@/components/HiddenRestaurant";
 import { useRouter } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
+
+
 
 interface Restaurant {
   restaurantId: string;
@@ -35,6 +39,7 @@ interface Restaurant {
 }
 
 const restaurants: Restaurant[] = [
+
   {
     restaurantId: "r1",
     name: "The Spice Hub",
@@ -223,6 +228,7 @@ const Home = () => {
   };
 
   return (
+
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
       <LocationHeader />
@@ -287,6 +293,7 @@ const Home = () => {
         </View>
       </Modal>
     </View>
+
   );
 };
 

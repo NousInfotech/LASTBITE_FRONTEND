@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, TextInput, SafeAreaView, StatusBar, StyleSheet, FlatList,Image } from "react-native";
+import { View, Text, TouchableOpacity, TextInput, StatusBar, StyleSheet, FlatList,Image } from "react-native";
 import GoBack from "@/components/GoBack";
 import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 type SectionState = {
   mealRating: boolean;

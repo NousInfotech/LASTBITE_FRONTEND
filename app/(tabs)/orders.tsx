@@ -3,7 +3,6 @@ import {
   View,
   Text,
   TouchableOpacity,
-  SafeAreaView,
   StatusBar,
   StyleSheet,
   ScrollView,
@@ -11,6 +10,7 @@ import {
 import GoBack from "@/components/GoBack";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface Order {
   restaurant: string;
@@ -154,7 +154,7 @@ const Orders: React.FC = () => {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView>
       <StatusBar barStyle="dark-content" />
       <View style={styles.header}>
         <TouchableOpacity>

@@ -4,7 +4,6 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  SafeAreaView,
   StatusBar,
   StyleSheet,
   ScrollView,
@@ -18,6 +17,7 @@ import { useRouter } from "expo-router";
 import * as Font from "expo-font";
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const HelpOrder = () => {
   const router = useRouter();

@@ -3,7 +3,6 @@ import {
   View,
   Text,
   TouchableOpacity,
-  SafeAreaView,
   StatusBar,
   StyleSheet,
   Switch,
@@ -14,6 +13,7 @@ import {
 import GoBack from "@/components/GoBack";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Settings = () => {
   const router = useRouter();

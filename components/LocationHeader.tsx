@@ -15,6 +15,7 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import Entypo from "@expo/vector-icons/Entypo";
 import { useRouter } from "expo-router";
 import AddressManagementScreen from "@/app/initialscreens/AddressManagementScreen";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const LocationHeader = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -97,6 +98,7 @@ const LocationHeader = () => {
   }
 
   return (
+    <SafeAreaView>
     <View style={styles.container}>
       <View style={styles.locationContainer}>
         <View style={styles.locationContent}>
@@ -146,6 +148,7 @@ const LocationHeader = () => {
         </Animated.View>
       )}
     </View>
+    </SafeAreaView>
   );
 };
 
