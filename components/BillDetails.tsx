@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   title: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontFamily:'Poppins-SemiBold',
     fontWeight: '600',
     color: '#000',

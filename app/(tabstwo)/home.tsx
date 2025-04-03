@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import LocationHeader from "@/components/LocationHeader";
 import SearchBarVoice from "@/components/SearchBarVoice";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 const Home = () => {
   return (
@@ -206,7 +207,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   sectionTitle: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontWeight: "600",
     color: "#000",
   },

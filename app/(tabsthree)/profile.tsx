@@ -13,6 +13,7 @@ import GoBack from "@/components/GoBack";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
 import { AntDesign, Entypo } from "@expo/vector-icons";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 const ProfileScreen = () => {
   const router = useRouter();
@@ -87,7 +88,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   headerTitle: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     marginLeft: 16,
     fontWeight: "500",
     fontFamily: "Poppins-SemiBold",
@@ -117,7 +118,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   profileName: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-Medium",
     marginTop: 8,
   },
@@ -141,7 +142,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   sectionTitle: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-Medium",
   },
 });

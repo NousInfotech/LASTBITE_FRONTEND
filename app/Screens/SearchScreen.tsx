@@ -257,7 +257,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "#eee",
   },
   headerTitle: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontWeight: "500",
     fontFamily: "Poppins-SemiBold",
   },
@@ -274,7 +274,7 @@ const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
     marginLeft: 8,
-    fontSize: 16,
+    fontSize: RFPercentage(2),
   },
   locationOption: {
     flexDirection: "row",
@@ -284,7 +284,7 @@ const styles = StyleSheet.create({
   locationText: {
     marginLeft: 16,
     color: "#01615F",
-    fontSize: 16,
+    fontSize: RFPercentage(2),
   },
   section: {
     marginTop: 16,
@@ -346,7 +346,7 @@ const styles = StyleSheet.create({
   },
   menuOption: {
     padding: 8,
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     color: "#333",
   },
   newBadge: {

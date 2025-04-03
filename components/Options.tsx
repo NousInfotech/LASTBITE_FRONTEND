@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
   },
   menuText: {
     marginLeft: 12,
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     color: "#333",
   },
   deleteText: {
@@ -272,11 +272,11 @@ const styles = StyleSheet.create({
   cancelButtonText: {
     color: "#333",
     textAlign: "center",
-    fontSize: 16,
+    fontSize: RFPercentage(2),
   },
   confirmButtonText: {
     color: "white",
     textAlign: "center",
-    fontSize: 16,
+    fontSize: RFPercentage(2),
   },
 });

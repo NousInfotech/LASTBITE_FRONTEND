@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   productPrice: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontWeight: '600',
     color: '#01615F',
   },

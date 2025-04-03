@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   },
   closeButtonText: {
     color: "#fff",
-    fontSize: 16,
+    fontSize: RFPercentage(2),
   },
 });
 

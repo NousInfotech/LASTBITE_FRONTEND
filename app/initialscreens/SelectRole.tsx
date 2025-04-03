@@ -110,7 +110,7 @@ const SelectRole = () => {
             style={{
               color: "#929292",
               textAlign: "center",
-              fontSize: 16,
+              fontSize: RFPercentage(2),
               fontFamily: "Poppins-Regular", // Use loaded font
             }}
           >

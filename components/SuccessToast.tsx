@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   toastMessage: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
 
     marginTop: 4,
     textAlign: "center",

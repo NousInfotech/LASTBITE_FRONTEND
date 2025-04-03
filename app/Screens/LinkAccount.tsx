@@ -258,7 +258,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   title: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-Medium",
     marginBottom: 8,
   },
@@ -353,7 +353,7 @@ const styles = StyleSheet.create({
   },
   delinkText: {
     color: "#01615F",
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-Medium",
   },
   modalContainer: {
@@ -369,7 +369,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modalText: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-Medium",
     marginBottom: 20,
     textAlign: "center",

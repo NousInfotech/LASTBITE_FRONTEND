@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   countryCode: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     color: "#000",
     fontFamily: "Poppins-Regular",
     marginRight: 10,
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     height: 48,
-    fontSize: 16, // Adjusted for better readability
+    fontSize: RFPercentage(2), // Adjusted for better readability
     fontFamily: "Poppins-Regular",
     marginTop: 0,
   },

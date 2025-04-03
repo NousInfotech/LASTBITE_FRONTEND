@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   retryText: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     color: "#808080",
   },
   retryTimer: {

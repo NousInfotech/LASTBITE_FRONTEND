@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   headerTitle: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontWeight: '500',
     marginLeft: 8,
   },
@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
   },
   checkoutButtonText: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontWeight: '600',
   },
 });

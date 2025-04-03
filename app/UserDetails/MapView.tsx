@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   headerTitle: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-SemiBold",
     marginLeft: 8,
   },
@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
     marginLeft: 2,
   },
   streetName: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-Medium",
   },
   addressDetails: {
@@ -254,7 +254,7 @@ const styles = StyleSheet.create({
   },
   confirmButtonText: {
     color: "#fff",
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-Regular",
   },
 });

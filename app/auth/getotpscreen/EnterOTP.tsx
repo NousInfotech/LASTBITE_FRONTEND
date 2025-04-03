@@ -16,6 +16,7 @@ import GoBack from "@/components/GoBack";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import * as Font from "expo-font";
 import { useSendOtp, useVerifyOtp } from "@/api/queryHooks";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 // Type definitions
 type VerifyOtpApi = (phoneNumber: string, otp: string) => Promise<boolean>;
@@ -256,7 +257,7 @@ const styles = StyleSheet.create({
   buttonText: {
     textAlign: "center",
     color: "#fff",
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-Medium",
   },
   resendButton: {
@@ -269,7 +270,7 @@ const styles = StyleSheet.create({
   },
   resendText: {
     color: "#01615F",
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-Medium",
   },
 });

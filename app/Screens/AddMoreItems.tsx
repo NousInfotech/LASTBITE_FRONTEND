@@ -601,7 +601,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "#eee",
   },
   headerTitle: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     marginLeft: 20,
     fontFamily: "Poppins-SemiBold",
   },
@@ -861,11 +861,11 @@ const styles = StyleSheet.create({
     borderBottomColor: "#ccc",
   },
   wishlistText: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     color: "#333",
   },
   emptyWishlistText: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     color: "#666",
     textAlign: "center",
     marginTop: 20,
@@ -879,6 +879,6 @@ const styles = StyleSheet.create({
   },
   closeButtonText: {
     color: "#fff",
-    fontSize: 16,
+    fontSize: RFPercentage(2),
   },
 });

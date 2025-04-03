@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     borderColor: "#ddd",
     borderRadius: 8,
     padding: 12,
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     marginBottom: 20,
     fontFamily: "Poppins-Regular",
   },
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "#fff",
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-Medium",
   },
 });

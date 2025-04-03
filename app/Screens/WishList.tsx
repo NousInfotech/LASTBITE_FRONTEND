@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   headerTitle: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     marginLeft: 16,
     fontWeight: "500",
     fontFamily: "Poppins-SemiBold",
@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   detailTitle: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontWeight: "600",
     fontFamily: "Poppins-SemiBold",
     marginBottom: 2,

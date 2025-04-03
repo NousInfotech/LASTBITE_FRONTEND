@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',   
   },
   headerTitle: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontWeight: '500',
     marginLeft: 16,
   },

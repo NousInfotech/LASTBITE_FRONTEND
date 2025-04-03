@@ -74,6 +74,6 @@ const styles = StyleSheet.create({
   },
   text: {
     textAlign: "center",
-    fontSize: 16, // Ensure the font size is 12px
+    fontSize: RFPercentage(2), // Ensure the font size is 12px
   },
 });

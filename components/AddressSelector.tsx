@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#FFFFFF',
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontFamily: 'Poppins-Medium',
   },
 });

@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
   },
   categoryTitle: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     marginBottom: 16,
     color: '#000',
     fontFamily: 'Poppins-Medium',

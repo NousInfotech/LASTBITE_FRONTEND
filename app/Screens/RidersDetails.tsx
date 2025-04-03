@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   headerTitle: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     marginLeft: 16,
     fontWeight: "500",
     fontFamily: "Poppins-SemiBold",
@@ -297,7 +297,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   profileName: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-Medium",
     marginTop: 8,
   },
@@ -322,13 +322,13 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   sectionTitle: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-SemiBold",
     color: "#333333",
     marginBottom: 8,
   },
   title: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-SemiBold",
     color: "#333333",
   },
@@ -485,7 +485,7 @@ const styles = StyleSheet.create({
 
   cancelButtonText: {
     color: "#01615F",
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-Medium",
   },
 
@@ -501,7 +501,7 @@ const styles = StyleSheet.create({
 
   saveButtonText: {
     color: "#FFFFFF",
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-Medium",
   },
 

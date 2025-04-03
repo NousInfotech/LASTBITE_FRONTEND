@@ -16,6 +16,7 @@ import Entypo from "@expo/vector-icons/Entypo";
 import { useRouter } from "expo-router";
 import AddressManagementScreen from "@/app/initialscreens/AddressManagementScreen";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 const LocationHeader = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -173,7 +174,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   locationLabel: {
-    fontSize: 16,
+    // fontSize: RFPercentage(2),
+    fontSize: RFPercentage(2),
     fontFamily: "PoppinsSemibold",
     color: "#191A1F",
     marginLeft: 4,
@@ -220,7 +222,7 @@ const styles = StyleSheet.create({
   },
   closeButtonText: {
     color: "#fff",
-    fontSize: 16,
+    fontSize: RFPercentage(2),
   },
 });
 

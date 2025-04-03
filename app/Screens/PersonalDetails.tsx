@@ -479,7 +479,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "#fff",
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-Medium",
   },
   modalOverlay: {
@@ -506,7 +506,7 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins-SemiBold",
   },
   closeButton: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-Medium",
     color: "#929292",
   },
@@ -518,7 +518,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   radioText: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-Regular",
     flex: 1,
   },
@@ -548,7 +548,7 @@ const styles = StyleSheet.create({
   },
   confirmButtonText: {
     color: "#fff",
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-Medium",
   },
   scrollContainer: {
@@ -573,7 +573,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   addressTitle: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-SemiBold",
   },
   addressText: {
@@ -666,7 +666,7 @@ detailsContainer: {
   width: "90%",
 },
 detailsText: {
-  fontSize: 16,
+  fontSize: RFPercentage(2),
   color: "#333",
 },
 

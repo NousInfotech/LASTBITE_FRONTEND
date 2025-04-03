@@ -12,6 +12,7 @@ import GoBack from "@/components/GoBack";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import * as Font from "expo-font";
 import { Linking } from 'react-native';
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 const Wallet = () => {
   const router = useRouter();
@@ -239,7 +240,7 @@ const styles = StyleSheet.create({
   buttonText: {
     textAlign: "center",
     color: "#fff",
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-Medium",
   },
 });

@@ -44,7 +44,7 @@ const Onboarding = () => {
           </Text>
           <Text
             style={{
-              fontSize: 16,
+              fontSize: RFPercentage(2),
               color: "#4A4A4A",
               textAlign: "center",
               marginBottom: 32,

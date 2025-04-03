@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   title: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontWeight: "600",
     color: "#333",
   },

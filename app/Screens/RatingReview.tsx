@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   avgRatingLabel: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-SemiBold",
   },
   subText: {
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
     borderColor: "#EEEEEE",
   },
   sectionTitle: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-SemiBold",
     marginBottom: 12,
     borderBottomWidth: 1,

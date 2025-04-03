@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   headerTitle: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     marginLeft: 16,
     fontWeight: "500",
     fontFamily: "Poppins-SemiBold",
@@ -258,7 +258,7 @@ const styles = StyleSheet.create({
   buttonText: {
     textAlign: "center",
     color: "#fff",
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-Medium",
   },
   modalOverlay: {
@@ -273,7 +273,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 15,
   },
   modalTitle: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-SemiBold",
     marginBottom: 16,
   },

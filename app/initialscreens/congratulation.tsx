@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   },
   offer: {
     fontFamily: "Poppins-Regular",
-    fontSize: 16, // Adjusted font size
+    fontSize: RFPercentage(2), // Adjusted font size
     color: "white",
     marginBottom: 16, // Reduced spacing
     textAlign: "center",

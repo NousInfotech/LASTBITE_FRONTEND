@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
   },
   menuText: {
     marginLeft: 10,
-    fontSize: 16,
+    fontSize: RFPercentage(2),
   },
   infoContainer: {
     padding: 16,
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   rating: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     marginLeft: 4,
   },
   subtitle: {

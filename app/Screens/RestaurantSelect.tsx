@@ -511,7 +511,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "#eee",
   },
   headerTitle: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     marginLeft: 70,
     fontFamily: "Poppins-SemiBold",
   },

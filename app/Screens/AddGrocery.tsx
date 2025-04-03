@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   headerTitle: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     marginLeft: 16,
     fontWeight: "500",
     fontFamily: "Poppins-SemiBold",

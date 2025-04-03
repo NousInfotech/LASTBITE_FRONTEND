@@ -13,6 +13,7 @@ import { useRouter } from "expo-router";
 import * as Font from "expo-font";
 import { AntDesign } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 const ProfileScreen = () => {
   const router = useRouter();
@@ -246,7 +247,7 @@ const styles = StyleSheet.create({
   helpText: {
     color: "#01615F",
     fontFamily: "Poppins-Medium",
-    fontSize: 16,
+    fontSize: RFPercentage(2),
   },
   content: {
     paddingHorizontal: 16,
@@ -288,7 +289,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   menuTitle: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-Medium",
   },
   menuSubtitle: {

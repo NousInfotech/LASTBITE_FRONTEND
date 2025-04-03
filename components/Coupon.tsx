@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
   },
   yayButtonText: {
     color: '#01615F',
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontFamily: 'Poppins-Medium',
   },
 });

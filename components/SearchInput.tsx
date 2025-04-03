@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   textInput: {
     flex: 1, // Allow the TextInput to take up remaining space
     marginLeft: 8,
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     color: "black",
   },
 });

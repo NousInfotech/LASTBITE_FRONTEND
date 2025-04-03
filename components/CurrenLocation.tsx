@@ -22,7 +22,7 @@ const CurrentLocation: React.FC<CurrentLocationButtonProps> = ({
           marginLeft: 8,
           color: "#01615F",
           fontWeight: "600",
-          fontSize: 16,
+          fontSize: RFPercentage(2),
         }}
       >
         Use my current location

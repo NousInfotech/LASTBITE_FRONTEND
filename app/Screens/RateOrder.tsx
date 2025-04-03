@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
     marginBottom:15,
   },
  sectionTitle: {
-   fontSize: 16,
+   fontSize: RFPercentage(2),
    fontWeight: "500",
    fontFamily: "Poppins-SemiBold",
  },
@@ -285,7 +285,7 @@ const styles = StyleSheet.create({
  submitButtonText: {
    textAlign: "center",
    color: "#fff",
-   fontSize: 16,
+   fontSize: RFPercentage(2),
    fontFamily: "Poppins-Medium",
  },
  thankYouContainer: {

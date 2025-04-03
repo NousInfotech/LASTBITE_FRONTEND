@@ -11,6 +11,7 @@ import {
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
 import GoBack from "@/components/GoBack";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 interface PaymentType {
   id: string;
@@ -178,7 +179,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   headerTitle: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     marginLeft: 16,
     fontFamily: "Poppins-SemiBold",
   },

@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     optionTitle: {
-      fontSize: 16,
+      fontSize: RFPercentage(2),
       color: '#444',
       fontWeight: '500',
       marginBottom: 4,

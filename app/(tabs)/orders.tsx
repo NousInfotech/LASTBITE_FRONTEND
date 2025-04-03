@@ -11,6 +11,7 @@ import GoBack from "@/components/GoBack";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 interface Order {
   restaurant: string;
@@ -198,7 +199,7 @@ const styles = StyleSheet.create({
     padding: 14,
   },
   sectionTitle: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-SemiBold",
     marginVertical: 6,
     color: "#555555",

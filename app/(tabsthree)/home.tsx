@@ -12,6 +12,7 @@ import LocationHeader from "@/components/LocationHeader";
 import SearchBarVoice from "@/components/SearchBarVoice";
 import * as Font from "expo-font";
 import { router } from "expo-router";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 const Home = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -169,7 +170,7 @@ const styles = StyleSheet.create({
   },
   startShiftText: {
     color: "#FFFFFF",
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontWeight: "600",
   },
   shiftedAtText: {
@@ -177,7 +178,7 @@ const styles = StyleSheet.create({
     color: "#999999",
   },
   sectionTitle: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontWeight: "600",
     color: "#333333",
     marginTop: 24,
@@ -234,7 +235,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   orderStatus: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontWeight: "600",
     color: "#01615F",
   },
@@ -305,7 +306,7 @@ const styles = StyleSheet.create({
   },
   amount: {
     color: "#01615F",
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-SemiBold",
   },
 });

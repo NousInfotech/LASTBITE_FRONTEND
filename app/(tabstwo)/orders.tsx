@@ -15,6 +15,7 @@ import {
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
 import GoBack from "@/components/GoBack";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 interface FilterPosition {
   x: number;
@@ -262,7 +263,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   headerTitle: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     marginLeft: 16,
     fontWeight: "500",
     fontFamily: "Poppins-SemiBold",
@@ -418,7 +419,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Medium',
   },
   filterText: { 
-    fontSize: 16, 
+    fontSize: RFPercentage(2), 
     fontFamily: "Poppins-Medium" 
   }
 });

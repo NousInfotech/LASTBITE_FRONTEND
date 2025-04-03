@@ -16,6 +16,7 @@ import * as Font from "expo-font";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import FoodItems from "./../Screens/FoodItems";
 import GroceryItems from "./../Screens/GroceryItems";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 interface MenuItem {
   id: string;
@@ -225,7 +226,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   headerTitle: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontWeight: "500",
     fontFamily: "Poppins-SemiBold",
     flex: 1,

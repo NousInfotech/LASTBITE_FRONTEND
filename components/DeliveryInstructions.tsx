@@ -274,7 +274,7 @@ const styles = StyleSheet.create({
   },
   saveButtonText: {
     color: "#fff",
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontWeight: "bold",
   },
   
@@ -286,7 +286,7 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
   },
   closeButtonText: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontWeight: "bold",
     color: "black",
   },

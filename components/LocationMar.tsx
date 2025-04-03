@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   },
   mainText: {
     color: "#FFFFFF",
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontWeight: "600",
     textAlign: "center", // Center align text
     marginBottom: 4,

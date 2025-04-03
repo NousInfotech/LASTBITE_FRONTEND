@@ -116,7 +116,7 @@ const FilterButtons: React.FC<FilterButtonsProps> = ({ onFilterChange }) => {
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-Medium",
     marginBottom: 10,
     paddingHorizontal: 16,

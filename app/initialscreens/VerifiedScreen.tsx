@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
   loadingText: {
     color: 'white',
     fontFamily: 'Poppins-Regular',
-    fontSize: 16,
+    fontSize: RFPercentage(2),
   },
   verifiedContainer: {
     alignItems: 'center',

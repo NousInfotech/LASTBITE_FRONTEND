@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   subtitle: {
-    fontSize: 16, // Reduced size
+    fontSize: RFPercentage(2), // Reduced size
     color: "#6B7280",
   },
   imageContainer: {

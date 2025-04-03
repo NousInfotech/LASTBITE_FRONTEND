@@ -135,12 +135,12 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   title: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontFamily: 'Poppins-Medium',
     color: '#000',
   },
   seeAll: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     color: '#01615F',
     fontFamily: 'Poppins-Medium',
   },

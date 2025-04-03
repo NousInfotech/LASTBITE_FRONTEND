@@ -623,7 +623,7 @@ counterText: {
   },
   noResultsText: {
     fontFamily: 'Poppins-Medium',
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     color: '#000',
     textAlign: 'center',
     marginBottom: 8,

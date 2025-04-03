@@ -46,7 +46,7 @@ const LocationInputScreen: React.FC = () => {
         }}
       >
         <GoBack /> {/* BackButton component here */}
-        <Text style={{ fontSize: 16, fontWeight: "700" }}>
+        <Text style={{ fontSize: RFPercentage(2), fontWeight: "700" }}>
           Enter your area or apartment name
         </Text>
       </View>

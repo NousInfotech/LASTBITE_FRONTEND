@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
     marginLeft: 4,
   },
   sectionTitle: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontWeight: "bold",
     marginBottom: 10,
   },

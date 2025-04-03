@@ -287,7 +287,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   headerTitle: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     marginLeft: 16,
     fontWeight: "500",
     fontFamily: "Poppins-SemiBold",
@@ -382,7 +382,7 @@ const styles = StyleSheet.create({
   submitButtonText: {
     color: "#fff",
     fontFamily: "Poppins-Medium",
-    fontSize: 16,
+    fontSize: RFPercentage(2),
   },
   // Modal styles
   modalBackground: {

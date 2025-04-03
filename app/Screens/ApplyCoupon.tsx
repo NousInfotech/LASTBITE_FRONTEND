@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "#E0E0E0",
   },
   headerTitle: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     marginLeft: 16,
     fontWeight: "500",
     fontFamily: "Poppins-SemiBold",
@@ -247,7 +247,7 @@ const styles = StyleSheet.create({
     // marginBottom: 8,
   },
   couponCode: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-Medium",
     color: "black", // Green text for the code
   },

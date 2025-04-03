@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
     borderRadius: 8,
     padding: 8,
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     marginBottom: 16,
   },
   actions: {
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "#fff",
-    fontSize: 16,
+    fontSize: RFPercentage(2),
   },
 });
 

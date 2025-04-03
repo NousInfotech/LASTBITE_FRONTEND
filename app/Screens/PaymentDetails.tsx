@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
         padding: 16,
       },
       headerTitle: {
-        fontSize: 16,
+        fontSize: RFPercentage(2),
         marginLeft: 16,
         fontFamily: "Poppins-SemiBold",
       },
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   sectionTitle: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-SemiBold",
     marginBottom: 12,
     color: "#000000",
@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
     color: "#000000",
   },
   totalValue: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-SemiBold",
     color: "#000000",
   },

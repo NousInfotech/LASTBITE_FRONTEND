@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   addressType: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontWeight: '500',
     marginBottom: 4,
   },
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     borderTopColor: '#EEEEEE',
   },
   addAddressText: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     marginLeft: 10,
   },
 });
