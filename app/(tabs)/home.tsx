@@ -23,6 +23,7 @@ import { RFPercentage } from "react-native-responsive-fontsize";
 
 
 
+
 interface Restaurant {
   restaurantId: string;
   name: string;

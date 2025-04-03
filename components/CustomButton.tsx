@@ -1,5 +1,7 @@
 import React from "react";
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
+import { RFPercentage} from "react-native-responsive-fontsize";
+
 
 interface CustomButtonProps {
   title: string;

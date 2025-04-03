@@ -1,6 +1,9 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import { useRouter } from 'expo-router';
+import { RFPercentage} from "react-native-responsive-fontsize";
+
+
 
 const windowWidth = Dimensions.get('window').width;
 

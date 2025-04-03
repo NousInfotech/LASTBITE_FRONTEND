@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Modal, StyleSheet } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
+import { RFPercentage} from "react-native-responsive-fontsize";
+
 
 interface FilterModalProps {
   visible: boolean;
