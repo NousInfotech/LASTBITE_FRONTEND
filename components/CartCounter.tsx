@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import * as Font from 'expo-font';
+import { RFPercentage } from 'react-native-responsive-fontsize';
 
 type CartCounterProps = {
   count: number;

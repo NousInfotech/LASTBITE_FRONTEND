@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; 
 import * as Font from 'expo-font';
 import { MaterialIcons } from '@expo/vector-icons'; // Correct import
+import { RFPercentage } from 'react-native-responsive-fontsize';
 
 const DeliveryTypeSelector = () => {
   const [selectedType, setSelectedType] = useState('eco');

@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
   },
   title: {
-    fontSize: 18,
+    fontSize: RFPercentage(2.5),
     fontFamily: "Poppins-SemiBold",
     marginBottom: 4,
   },
@@ -317,7 +317,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modalTitle: {
-    fontSize: 18,
+    fontSize: RFPercentage(2.5),
     fontFamily: "Poppins-SemiBold",
   },
   closeButton: {

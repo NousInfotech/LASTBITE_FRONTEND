@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "bold",
     fontFamily: "Poppins-Regular",
-    fontSize: 18,
+    fontSize: RFPercentage(2.5),
   },
 });
 

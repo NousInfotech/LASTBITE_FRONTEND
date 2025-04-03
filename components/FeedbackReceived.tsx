@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Check, X } from "react-native-feather";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 interface FeedbackReceivedProps {
   message: string;

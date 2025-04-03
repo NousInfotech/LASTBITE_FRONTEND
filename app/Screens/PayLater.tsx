@@ -12,6 +12,7 @@ import GoBack from "@/components/GoBack";
 import SearchBarVoice from "@/components/SearchBarVoice";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 const PayLater = () => {
   const router = useRouter();

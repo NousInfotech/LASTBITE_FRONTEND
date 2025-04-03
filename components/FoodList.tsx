@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   title: {
-    fontSize: 18,
+    fontSize: RFPercentage(2.5),
     fontWeight: "bold",
   },
   ratingContainer: {

@@ -435,7 +435,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   storeName: {
-    fontSize: 18,
+    fontSize: RFPercentage(2.5),
     fontWeight: "bold",
   },
   statusContainer: {
@@ -469,7 +469,7 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins-SemiBold",
   },
   amount: {
-    fontSize: 18,
+    fontSize: RFPercentage(2.5),
     fontWeight: "bold",
     color: "#000",
   },

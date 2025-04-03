@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 15,
   },
   modalTitle: {
-    fontSize: 18,
+    fontSize: RFPercentage(2.5),
     fontWeight: "600",
     marginBottom: 10,
   },

@@ -154,12 +154,12 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   closeButtonText: {
-    fontSize: 18,
+    fontSize: RFPercentage(2.5),
     color: "#01615F",
     fontWeight: "bold",
   },
   title: {
-    fontSize: 18,
+    fontSize: RFPercentage(2.5),
     fontWeight: "bold",
     marginBottom: 20,
     marginTop: 10,

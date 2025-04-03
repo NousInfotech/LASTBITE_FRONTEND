@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
   },
   value: {
     color: "#fff",
-    fontSize: 18,
+    fontSize: RFPercentage(2.5),
     fontWeight: "bold",
     marginTop: 5,
   },

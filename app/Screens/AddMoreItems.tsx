@@ -823,7 +823,7 @@ const styles = StyleSheet.create({
   },
   floatbuttonImage: {
     color: "white",
-    fontSize: 18,
+    fontSize: RFPercentage(2.5),
     fontWeight: "bold",
   },
   floatbuttonText: {

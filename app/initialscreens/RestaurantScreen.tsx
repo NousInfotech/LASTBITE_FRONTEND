@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   heading: {
-    fontSize: 18,
+    fontSize: RFPercentage(2.5),
     fontFamily: "Poppins-SemiBold",
     color: "#FFFFFF",
     marginBottom: 15,

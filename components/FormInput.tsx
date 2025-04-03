@@ -7,6 +7,7 @@ import {
   View,
   TextInputProps,
 } from "react-native";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 interface FormInputProps extends TextInputProps {
   placeholder: string;

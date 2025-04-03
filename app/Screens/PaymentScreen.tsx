@@ -14,6 +14,7 @@ import GoBack from "@/components/GoBack";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
 import { AntDesign } from "@expo/vector-icons";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 const PaymentScreen = () => {
   const router = useRouter();
@@ -495,7 +496,7 @@ const styles = StyleSheet.create({
   //   alignItems: 'center',
   // },
   popupTitle: {
-    fontSize: 18,
+    fontSize: RFPercentage(2.5),
     fontWeight: 'bold',
     fontFamily: 'Poppins-SemiBold',
     marginBottom: 8,

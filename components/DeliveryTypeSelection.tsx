@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
       marginBottom: 4,
     },
     optionTime: {
-      fontSize: 18,
+      fontSize: RFPercentage(2.5),
       fontWeight: 'bold',
       marginBottom: 16,
       color: '#000',

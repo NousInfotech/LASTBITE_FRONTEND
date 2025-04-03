@@ -16,6 +16,7 @@ import {
   Poppins_600SemiBold,
 } from "@expo-google-fonts/poppins";
 import { useRouter } from "expo-router";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 const ForgotPasswordScreen = () => {
   const [email, setEmail] = useState("");

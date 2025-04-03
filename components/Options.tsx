@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   deleteTitle: {
-    fontSize: 18,
+    fontSize: RFPercentage(2.5),
     fontWeight: "600",
     marginBottom: 8,
     textAlign: "center",

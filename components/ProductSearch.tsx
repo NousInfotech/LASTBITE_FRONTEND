@@ -234,7 +234,7 @@ const styles = StyleSheet.create({
   plusButtonText: {
     color: '#01615F',
     fontFamily: 'Poppins-Regular',
-    fontSize: 18,
+    fontSize: RFPercentage(2.5),
   },
   buttonText: {
     color: '#fff',

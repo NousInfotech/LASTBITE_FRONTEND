@@ -18,6 +18,8 @@ import SuccessToast from "@/components/SuccessToast";
 import HiddenRestaurant from "@/components/HiddenRestaurant";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { RFPercentage } from "react-native-responsive-fontsize";
+
 
 
 
@@ -297,6 +299,8 @@ const Home = () => {
   );
 };
 
+export default Home;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -313,9 +317,9 @@ const styles = StyleSheet.create({
   },
   selectedText: {
     marginTop: 20,
-    fontSize: 18,
+    fontSize: RFPercentage(2.5),
     fontWeight: "bold",
   },
 });
 
-export default Home;
+

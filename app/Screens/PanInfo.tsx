@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   title: {
-    fontSize: 18,
+    fontSize: RFPercentage(2.5),
     fontFamily: "Poppins-SemiBold",
     marginBottom: 8,
   },

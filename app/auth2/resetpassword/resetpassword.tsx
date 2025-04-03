@@ -17,6 +17,7 @@ import {
   Poppins_400Regular,
   Poppins_600SemiBold,
 } from "@expo-google-fonts/poppins";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 const ResetPassword = () => {
   const [formData, setFormData] = useState({

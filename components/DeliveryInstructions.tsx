@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
   },
   modalTitle: { 
-    fontSize: 18, 
+    fontSize: RFPercentage(2.5), 
     fontWeight: "bold", 
     marginBottom: 10 
   },

@@ -1,6 +1,6 @@
 import React from "react";
 import { TouchableOpacity, Text, View, StyleSheet } from "react-native";
-
+import { RFPercentage } from "react-native-responsive-fontsize";
 interface CustomCheckboxProps {
   label: string;
   checked: boolean;

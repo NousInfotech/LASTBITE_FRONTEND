@@ -800,7 +800,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   headerTitle: {
-    fontSize: 18,
+    fontSize: RFPercentage(2.5),
     fontFamily: "Poppins-SemiBold",
     color: "#01615F",
     textAlign: "center",
@@ -1090,7 +1090,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   modalTitle: {
-    fontSize: 18,
+    fontSize: RFPercentage(2.5),
     fontWeight: "bold",
     marginBottom: 15,
     textAlign: "center",

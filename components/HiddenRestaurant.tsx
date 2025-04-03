@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   feedbackTitle: {
-    fontSize: 18,
+    fontSize: RFPercentage(2.5),
     fontWeight: "600",
     color: "#333",
   },

@@ -15,6 +15,7 @@ import { useRouter } from "expo-router";
 import * as Font from "expo-font";
 import { useGroceries, useDeleteGrocery } from "@/api/queryHooks"; 
 import { GroceryItem } from "@/api/types";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 const Menu = () => {
   const router = useRouter();

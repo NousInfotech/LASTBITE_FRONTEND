@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import CartCounter from './CartCounter';
 import * as Font from 'expo-font';
+import { RFPercentage } from 'react-native-responsive-fontsize';
 
 type Product = {
   id: string;

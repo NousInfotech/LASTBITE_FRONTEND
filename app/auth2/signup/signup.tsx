@@ -13,6 +13,7 @@ import { useRouter } from "expo-router";
 import Icon from "react-native-vector-icons/FontAwesome";
 import FormInput from "@/components/FormInput";
 import CustomButton from "@/components/CustomButton";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 const SignupScreen = () => {
   const navigation = useNavigation();

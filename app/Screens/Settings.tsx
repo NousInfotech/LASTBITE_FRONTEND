@@ -14,6 +14,7 @@ import GoBack from "@/components/GoBack";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 const Settings = () => {
   const router = useRouter();
@@ -179,7 +180,7 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
   },
   headerTitle: {
-    fontSize: 18,
+    fontSize: RFPercentage(2.5),
     marginLeft: 16,
     fontWeight: "600",
     fontFamily: "Poppins-SemiBold",

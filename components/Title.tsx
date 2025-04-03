@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Text, StyleSheet } from "react-native";
 import * as Font from "expo-font";
+import { RFPercentage } from "react-native-responsive-fontsize";
+
 interface TitleComponentProps {
   title: string;
 }

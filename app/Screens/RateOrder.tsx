@@ -306,7 +306,7 @@ closeButton: {
   alignItems: "center",
 },
 closeButtonText: {
-  fontSize: 18,
+  fontSize: RFPercentage(2.5),
   color: "#FFF",
   fontWeight: "bold",
 },
@@ -322,7 +322,7 @@ thankYouImage: {
 },
 thankYouText: {
   color: "#FFF",
-  fontSize: 18,
+  fontSize: RFPercentage(2.5),
   fontFamily: "Poppins-SemiBold",
   marginTop: 16,
   textAlign: "center",

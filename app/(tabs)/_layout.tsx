@@ -6,6 +6,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { RFPercentage } from 'react-native-responsive-fontsize';
 
 export default function TabLayout() {
   return (

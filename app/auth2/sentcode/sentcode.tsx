@@ -16,6 +16,7 @@ import {
 } from "@expo-google-fonts/poppins";
 import OtpBox from "@/components/OtpBox"; // Import the OtpBox component
 import { useRouter } from "expo-router";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 const Sentcode = () => {
   const [email, setEmail] = useState("67*******@gmail.com"); // Set the email dynamically (use the actual email from the previous screen)

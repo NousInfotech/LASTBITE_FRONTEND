@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Voice from "react-native-voice";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 // Define a custom type for speech results
 interface SpeechResultsEvent {

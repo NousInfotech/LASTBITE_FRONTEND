@@ -14,6 +14,7 @@ import GoBack from "@/components/GoBack";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
 import { AntDesign } from "@expo/vector-icons";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 const NetBank = () => {
   const router = useRouter();

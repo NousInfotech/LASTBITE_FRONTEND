@@ -13,6 +13,7 @@ import GoBack from "@/components/GoBack";
 import * as Font from "expo-font";
 import Button from "@/components/ButtoN";
 import { useRouter } from "expo-router";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 type AddressInputProps = {
   navigation: NavigationProp<any>; // You can specify a more specific type for your screen if needed

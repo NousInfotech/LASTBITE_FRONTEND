@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start", // Ensures the content starts right below the header
   },
   title: {
-    fontSize: 18,
+    fontSize: RFPercentage(2.5),
     fontFamily: "Poppins-SemiBold",
     marginBottom: 8,
   },
@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
     borderColor: "#000",
     borderRadius: 8,
     textAlign: "center",
-    fontSize: 18,
+    fontSize: RFPercentage(2.5),
     fontFamily: "Poppins-Medium",
   },
   timer: {

@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   headerText: {
-    fontSize: 18,
+    fontSize: RFPercentage(2.5),
     fontWeight: 'bold',
   },
   closeButton: {

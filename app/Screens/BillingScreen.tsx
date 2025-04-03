@@ -420,7 +420,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   totalText: {
-    fontSize: 18,
+    fontSize: RFPercentage(2.5),
     fontWeight: "bold",
   },
   addMoreButton: {

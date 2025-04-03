@@ -7,6 +7,7 @@ import {
   FlatList,
 } from 'react-native';
 import * as Font from 'expo-font';
+import { RFPercentage } from 'react-native-responsive-fontsize';
 
 const MealCustomizer = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
