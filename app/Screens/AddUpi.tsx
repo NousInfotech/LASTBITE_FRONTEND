@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
   },
   tickMark: {
     color: "#fff",
-    fontSize: 10,
+    fontSize: RFPercentage(1.3),,
     fontWeight: "bold",
   },
   checkboxLabel: {

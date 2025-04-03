@@ -390,7 +390,7 @@ const styles = StyleSheet.create({
   uploadButtonText: {
     color: "#fff",
     fontFamily: "Poppins-Regular",
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
   },
   fileName: {
     marginLeft: 16,

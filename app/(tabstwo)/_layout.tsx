@@ -19,7 +19,7 @@ export default function TabLayout() {
           height: 70,
         },
         tabBarLabelStyle: {
-          fontSize: 10, 
+          fontSize: RFPercentage(1.3),, 
         },
         tabBarIconStyle: {
           marginBottom: 0,
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   tabLabel: {
-    fontSize: 10, 
+    fontSize: RFPercentage(1.3),, 
     textAlign: 'center',
   },
   activeTabUnderline: {

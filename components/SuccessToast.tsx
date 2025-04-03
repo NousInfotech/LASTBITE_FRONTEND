@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   toastSubMessage: {
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     color: "#929292",
     textAlign: "center",
   },

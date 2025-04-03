@@ -293,7 +293,7 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins-Medium",
   },
   menuSubtitle: {
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     color: "#757575",
     fontFamily: "Poppins-Regular",
     marginTop: 2,

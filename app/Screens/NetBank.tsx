@@ -236,7 +236,7 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins-Medium",
   },
   subText: {
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     fontWeight: "500",
     color: "grey",
     fontFamily: "Poppins-Regular",

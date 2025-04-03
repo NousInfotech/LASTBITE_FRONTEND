@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     fontFamily: 'Poppins-Regular',
-    fontSize: 10,
+    fontSize: RFPercentage(1.3),,
     color: '#929292',
   },
   cardTime: {
@@ -154,13 +154,13 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   bullet: {
-    fontSize: 10,
+    fontSize: RFPercentage(1.3),,
     color: '#929292',
     marginRight:4,
     fontFamily: 'Poppins-Regular',
   },
   featureText: {
-    fontSize: 10,
+    fontSize: RFPercentage(1.3),,
     marginRight:4,
     fontFamily: 'Poppins-Regular',
     color: '#929292',
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   ecoText: {
-    fontSize: 10,
+    fontSize: RFPercentage(1.3),,
     fontFamily: 'Poppins-Medium',
     color: '#01615F',
     marginLeft: 0,

@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     color: "#929292",
     paddingVertical: 8,
     fontFamily: "Poppins-Regular",

@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   title: {
-    fontSize: 24,
+    fontSize: RFPercentage(3),,
     marginBottom: 10,
     textAlign: "center",
     fontFamily: "Poppins-Medium",

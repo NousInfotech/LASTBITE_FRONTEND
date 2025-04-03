@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
     color: "#666666",
   },
   value: {
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     fontFamily: "Poppins-Medium",
     color: "#000000",
   },

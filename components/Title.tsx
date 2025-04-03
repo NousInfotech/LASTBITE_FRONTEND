@@ -29,7 +29,7 @@ const TitleComponent: React.FC<TitleComponentProps> = ({ title }) => {
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 24,
+    fontSize: RFPercentage(3),,
 
     marginBottom: 24,
   },

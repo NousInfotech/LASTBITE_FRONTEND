@@ -555,7 +555,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     marginLeft: 2,
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     color: "black",
     fontFamily: "Poppins-Regular",
   },
@@ -605,18 +605,18 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   menuName: {
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     color: "#333",
     fontFamily: "Poppins-SemiBold",
   },
   menuCategory: {
-    fontSize: 10,
+    fontSize: RFPercentage(1.3),,
     color: "#777",
     marginVertical: 2,
     fontFamily: "Poppins-Regular",
   },
   menuPrice: {
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     color: "#01615F",
     fontFamily: "Poppins-SemiBold",
   },
@@ -660,7 +660,7 @@ const styles = StyleSheet.create({
   },
   addButtonText: {
     color: "#fff",
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     fontFamily: "Poppins-Medium",
   },
   popupContainer: {
@@ -684,7 +684,7 @@ const styles = StyleSheet.create({
   },
   checkoutText: {
     color: "white",
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     fontFamily: "Poppins-Regular",
   },
   floatingButton: {

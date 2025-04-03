@@ -287,7 +287,7 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   sectionSubtitle: {
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     fontFamily: "Poppins-Regular",
     color: "#666",
     marginTop: -12,
@@ -322,7 +322,7 @@ const styles = StyleSheet.create({
   uploadButtonText: {
     color: "#fff",
     fontFamily: "Poppins-Regular",
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
   },
   fileName: {
     marginLeft: 16,
@@ -365,12 +365,12 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins-Medium",
   },
   cardHolderText: {
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     color: "#666",
     marginVertical: 5,
   },
   noteText: {
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     color: "#666",
     marginTop: 5,
   },

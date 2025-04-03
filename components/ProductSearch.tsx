@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Medium',
   },
   productWeight: {
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     color: '#666',
     marginBottom: 8,
     fontFamily: 'Poppins',

@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   uploadButton: { backgroundColor: "#01615F", padding: 8, borderRadius: 8 },
-  uploadButtonText: { color: "#fff", fontSize: 12 },
+  uploadButtonText: { color: "#fff", fontSize: RFPercentage(2), },
   fileName: { marginLeft: 16, fontSize: 14, color: "#333" },
   pickerContainer: { borderWidth: 1, borderColor: "#E5E5E5", borderRadius: 8 },
   picker: { height: 50, width: "100%" },

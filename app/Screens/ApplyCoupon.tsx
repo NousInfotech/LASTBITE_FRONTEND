@@ -276,7 +276,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   moreText: {
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     fontFamily: "Poppins-Medium",
     color: "black", // Green color for "More" option
     textTransform: "uppercase", // Ensures consistency with the design
@@ -313,7 +313,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   offerDetails: {
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     fontFamily: "Poppins-Regular",
     color: "#01615F", // Green text
   },
@@ -328,7 +328,7 @@ const styles = StyleSheet.create({
     color: "#555555",
   },
   offerDetail: {
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     fontFamily: "Poppins-Regular",
     color: "#777777",
     lineHeight: 18,

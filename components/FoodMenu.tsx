@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   itemName: {
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     fontFamily: 'Poppins-Regular',
   },
 });

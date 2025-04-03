@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
   },
   linkButtonText: {
     color: "#01615F",
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     fontFamily: "Poppins-Medium",
   },
 });

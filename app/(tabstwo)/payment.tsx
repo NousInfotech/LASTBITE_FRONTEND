@@ -234,22 +234,22 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   paymentDate: {
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     color: "#666666",
     width: 100,
   },
   paymentAmount: {
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     color: "#666666",
     width: 100,
   },
   date: {
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     color: "#000000",
     fontFamily: "Poppins-Medium",
   },
   amount: {
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     color: "#000000",
     fontFamily: "Poppins-Medium",
   },

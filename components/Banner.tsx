@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     zIndex: 2,  
   },
   title: {
-    fontSize: 24,
+    fontSize: RFPercentage(3),,
     maxWidth: '90%',
     marginBottom: 0,
   },

@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   label: {
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     fontFamily: "Poppins-Regular",
     color: "black",
     marginBottom: 4,
@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
   },
   tickMark: {
     color: "#fff",
-    fontSize: 10,
+    fontSize: RFPercentage(1.3),,
     fontWeight: "bold",
   },
   checkboxLabel: {

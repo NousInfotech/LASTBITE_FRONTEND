@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins-Medium",
   },
   dishes: {
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     color: "#666",
     fontFamily: "Poppins-Regular",
   },
@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   subtitle: {
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     color: "#666",
     fontFamily: "Poppins-Regular",
     marginBottom: 8,
@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   viewMore: {
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     color: "#444",
     marginTop: 4,
     textDecorationLine: "underline",

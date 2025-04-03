@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   label: {
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     fontFamily: "Poppins-Medium",
     marginBottom: 6,
   },
@@ -237,11 +237,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   input: {
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     fontFamily: "Poppins-Regular",
   },
   editText: {
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     color: "#01615F",
     fontFamily: "Poppins-Medium",
   },

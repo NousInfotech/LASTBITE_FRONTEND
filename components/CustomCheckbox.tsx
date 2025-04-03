@@ -41,11 +41,11 @@ const styles = StyleSheet.create({
   },
   checkmark: {
     color: "#FFFFFF",
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     fontWeight: "bold",
   },
   label: {
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     fontFamily: "Poppins-Regular",
     color: "#333333",
   },

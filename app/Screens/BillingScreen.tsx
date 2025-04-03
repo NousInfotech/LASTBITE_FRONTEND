@@ -382,12 +382,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   cartItemText: {
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     flex: 2,
     fontFamily: "Poppins-Medium",
   },
   cartItemPrice: {
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     fontFamily: "Poppins-Medium",
     flex: 1,
     textAlign: "right",
@@ -399,7 +399,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   quantityText: {
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     fontFamily: "Poppins-Regular",
   },
   button: {
@@ -436,7 +436,7 @@ const styles = StyleSheet.create({
   },
   addMoreButtonText: {
     color: "#01615F",
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     fontFamily: "Poppins-Regular",
   },
   simpleContainer: {
@@ -495,7 +495,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   applyCouponText: {
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     fontFamily: "Poppins-SemiBold",
     // color: '#01615F',
     marginBottom: 4,
@@ -505,7 +505,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   viewAllText: {
-    fontSize: 10,
+    fontSize: RFPercentage(1.3),,
     fontFamily: "Poppins-Medium",
     color: "#7a7a7a",
     marginRight: 2,
@@ -521,7 +521,7 @@ const styles = StyleSheet.create({
   },
   applyButtonText: {
     color: "#01615F",
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     fontFamily: "Poppins-Medium",
   },
   appliedContainer: {
@@ -531,7 +531,7 @@ const styles = StyleSheet.create({
   },
   appliedText: {
     color: "#01615F",
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     fontFamily: "Poppins-Medium",
     marginLeft: 4,
   },
@@ -547,7 +547,7 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins-SemiBold",
   },
   DelieverySubText: {
-    fontSize: 10,
+    fontSize: RFPercentage(1.3),,
     marginTop: 4,
     color: "#7a7a7a",
     fontFamily: "Poppins-Regular",
@@ -629,7 +629,7 @@ const styles = StyleSheet.create({
     marginVertical: 4,
   },
   billText: {
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     fontFamily: "Poppins-Regular",
   },
   billTotal: {
@@ -639,7 +639,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   totaltoText: {
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     fontFamily: "Poppins-Medium",
   },
   reviewContainer: {
@@ -658,7 +658,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   noteText: {
-    fontSize: 12,
+    fontSize: RFPercentage(2),,
     color: "#333",
     lineHeight: 20,
     fontFamily: "Poppins-Medium",
