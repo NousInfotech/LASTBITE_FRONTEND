@@ -18,6 +18,7 @@ import * as Font from "expo-font";
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
 import { SafeAreaView } from "react-native-safe-area-context";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 const HelpOrder = () => {
   const router = useRouter();

@@ -12,6 +12,7 @@ import Navigation from "@/components/Navigation";
 import CustomButton from "@/components/CustomButton";
 import { useRouter } from "expo-router";
 // import { requestOtp } from "@/api/api";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 const OTPScreen: React.FC = () => {
   const [mobileNumber, setMobileNumber] = useState("");

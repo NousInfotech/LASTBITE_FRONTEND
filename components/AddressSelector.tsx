@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Feather } from '@expo/vector-icons'; // For icons (Expo)
 import DeliveryAddressSelector from '@/components/DeliveryAddressSelector'; // Assuming the modal component
+import { RFPercentage } from 'react-native-responsive-fontsize';
 
 const AddressSelector: React.FC = () => {
   const [showModal, setShowModal] = useState(false); // State to manage modal visibility

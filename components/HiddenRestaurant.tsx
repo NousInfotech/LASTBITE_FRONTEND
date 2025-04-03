@@ -13,6 +13,7 @@ import {
 import { X } from "react-native-feather";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import FeedbackReceived from "./FeedbackReceived";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 const HiddenRestaurant = ({ restaurant, onClose, onUndo }) => {
   const [feedbackVisible, setFeedbackVisible] = useState(false);

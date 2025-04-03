@@ -14,6 +14,7 @@ import { useRouter } from "expo-router";
 import * as Font from "expo-font";
 import RestaurantCard from "@/components/Foods"; // Corrected import
 import { SafeAreaView } from "react-native-safe-area-context";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 const Favourites = () => {
   const router = useRouter();

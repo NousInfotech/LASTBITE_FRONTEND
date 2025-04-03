@@ -19,6 +19,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
 import FilterPopup from "@/components/FilterFood";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 interface Restaurant {
   restaurantId: string;

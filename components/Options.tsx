@@ -9,6 +9,7 @@ import {
   TextInput,
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 // Define types for the props
 interface MoreOptionsMenuProps {

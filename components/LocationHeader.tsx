@@ -174,7 +174,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   locationLabel: {
-    // fontSize: RFPercentage(2),
     fontSize: RFPercentage(2),
     fontFamily: "PoppinsSemibold",
     color: "#191A1F",

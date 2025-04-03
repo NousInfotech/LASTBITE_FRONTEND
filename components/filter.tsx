@@ -11,6 +11,7 @@ import * as Font from "expo-font"; // Correct way to load fonts
 import AppLoading from "expo-app-loading"; // To handle font loading splash
 import Octicons from "@expo/vector-icons/Octicons";
 import FilterModal from "./FilterModal"; // Ensure this file/component exists and is correctly implemented
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 const FilterButtons = () => {
   const [filters, setFilters] = useState([

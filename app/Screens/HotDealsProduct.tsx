@@ -5,6 +5,7 @@ import { View, Text, TouchableOpacity, FlatList, SafeAreaView, StyleSheet, Image
 import * as Font from 'expo-font';
 import { useRouter } from 'expo-router';
 import AddMoreItems from '@/app/Screens/AddMoreItems'; // Import AddMoreItems component
+import { RFPercentage } from 'react-native-responsive-fontsize';
 
 // Define types for product data and cart items
 interface Product {

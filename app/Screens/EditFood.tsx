@@ -14,6 +14,7 @@ import { useRouter, useLocalSearchParams } from "expo-router";
 import GoBack from "@/components/GoBack";
 import * as Font from "expo-font";
 import { Picker } from "@react-native-picker/picker";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 const EditFood = () => {
   const router = useRouter();

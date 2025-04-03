@@ -7,6 +7,7 @@ import {
   StyleSheet,
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 interface ShareModalProps {
   visible: boolean;

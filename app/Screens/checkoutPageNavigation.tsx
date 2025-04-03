@@ -11,6 +11,7 @@ import BillDetails from '@/components/BillDetails';
 import ReviewNotice from '@/components/ReviewNotice';
 import DeliveryAddressSelector from '@/components/DeliveryAddressSelector';
 import AddressSelector from '@/components/AddressSelector';
+import { RFPercentage } from 'react-native-responsive-fontsize';
 
 
 

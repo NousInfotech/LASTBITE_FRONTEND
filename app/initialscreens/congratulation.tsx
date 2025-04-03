@@ -3,6 +3,7 @@ import { View, Text, Image, StyleSheet } from "react-native";
 import { useNavigation, useRouter } from "expo-router";
 import Button from "@/components/ButtoN";
 import * as Font from "expo-font";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 const Congratulation = () => {
   const navigation = useNavigation();

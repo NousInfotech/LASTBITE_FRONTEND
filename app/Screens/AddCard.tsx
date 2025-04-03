@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import GoBack from "@/components/GoBack";
 import * as Font from "expo-font";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 const AddCard = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);

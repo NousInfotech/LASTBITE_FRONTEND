@@ -4,6 +4,7 @@ import GoBack from '@/components/GoBack';
 import ProductSearch from '../../components/ProductSearch';
 import ProductGridScrollView from '@/components/ProductGridScrollView';
 import SearchBarVoice from '@/components/SearchBarVoice';
+import { RFPercentage } from 'react-native-responsive-fontsize';
 
 type Product = {
   id: string;

@@ -12,6 +12,7 @@ import {
 import Entypo from "@expo/vector-icons/Entypo";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 interface DeliveryInstruction {
   id: string;

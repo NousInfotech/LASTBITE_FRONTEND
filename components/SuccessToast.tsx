@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { View, Text, StyleSheet, Animated, Dimensions } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useFonts } from "expo-font"; // Import useFonts from expo-font
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 interface ToastProps {
   visible: boolean;

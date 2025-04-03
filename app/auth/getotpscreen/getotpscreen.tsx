@@ -4,6 +4,7 @@ import CustomButton from "@/components/CustomButton";
 import Navigation from "@/components/Navigation";
 import OtpBox from "@/components/OtpBox";
 import { useNavigation } from "expo-router";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 const Getotpscreen = () => {
   const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]); // State for 6-digit OTP

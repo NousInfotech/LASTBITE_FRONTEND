@@ -11,6 +11,8 @@ import {
 import GoBack from "@/components/GoBack";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
+import { RFPercentage } from "react-native-responsive-fontsize";
+
 
 const LogOut = () => {
   const router = useRouter();

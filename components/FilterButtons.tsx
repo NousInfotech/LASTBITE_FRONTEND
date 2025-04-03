@@ -9,6 +9,7 @@ import {
 import { X } from "react-native-feather";
 import Octicons from "@expo/vector-icons/Octicons";
 import FilterModal from "./FilterModal"; 
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 interface FilterButtonsProps {
   onFilterChange: (selectedFilters: string[]) => void; // Callback to pass selected filters

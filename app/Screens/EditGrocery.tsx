@@ -17,6 +17,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import { useQueryClient } from "@tanstack/react-query";
 import GoBack from "@/components/GoBack";
 import { GroceryItem } from "@/api/types";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 const EditGrocery = () => {
   const router = useRouter();

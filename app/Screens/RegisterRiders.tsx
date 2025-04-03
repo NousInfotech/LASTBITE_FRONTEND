@@ -15,6 +15,7 @@ import GoBack from "@/components/GoBack";
 import * as Font from "expo-font";
 import { router } from "expo-router";
 import * as ImagePicker from "expo-image-picker";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 const RegisterRiders = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);

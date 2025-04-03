@@ -1,6 +1,7 @@
 import React from 'react';
 import { Modal, View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import { RFPercentage } from 'react-native-responsive-fontsize';
 
 interface CouponModalProps {
   isVisible: boolean;

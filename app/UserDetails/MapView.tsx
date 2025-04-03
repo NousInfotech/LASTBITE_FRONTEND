@@ -12,6 +12,7 @@ import { MaterialIcons, Ionicons } from "@expo/vector-icons";
 import GoBack from "@/components/GoBack";
 import SearchInput from "@/components/SearchInput";
 import LocationMarker from "@/components/LocationMar";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 import * as Font from "expo-font"; // For font loading
 import { useRouter } from "expo-router";

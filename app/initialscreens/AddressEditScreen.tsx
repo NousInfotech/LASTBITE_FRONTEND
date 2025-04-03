@@ -8,6 +8,7 @@ import {
   ScrollView,
 } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 interface AddressParams {
   building?: string;

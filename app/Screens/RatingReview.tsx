@@ -12,6 +12,7 @@ import GoBack from "@/components/GoBack";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
 import { FontAwesome } from "@expo/vector-icons";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 const reviewsData = [
   {

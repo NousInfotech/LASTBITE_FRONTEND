@@ -17,6 +17,7 @@ import { router } from "expo-router";
 import { useCreateRestaurant } from "@/api/queryHooks";
 import * as ImagePicker from "expo-image-picker";
 import { Entypo } from "@expo/vector-icons";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 const RegisterRestaurant = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);

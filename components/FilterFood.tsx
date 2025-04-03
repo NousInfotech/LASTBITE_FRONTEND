@@ -7,6 +7,7 @@ import {
   StyleSheet,
   GestureResponderEvent,
 } from "react-native";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 interface FilterPopupProps {
   isVisible: boolean;

@@ -4,6 +4,7 @@ import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import Button from "@/components/ButtoN";
 import * as Font from "expo-font";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 const SelectRole = () => {
   const [activeOption, setActiveOption] = useState<string>("User");

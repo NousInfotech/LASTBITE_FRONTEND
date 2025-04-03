@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import { View, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 interface SearchInputProps {
   searchText: string;

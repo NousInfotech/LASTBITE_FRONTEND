@@ -18,6 +18,7 @@ import * as ImagePicker from "expo-image-picker";
 import GoBack from "@/components/GoBack";
 import { useAddGrocery } from "@/api/queryHooks";
 import * as FileSystem from "expo-file-system";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 const AddGrocery = () => {
   const router = useRouter();

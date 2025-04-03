@@ -9,6 +9,7 @@ import {
   Dimensions,
   ImageSourcePropType,
 } from 'react-native';
+import { RFPercentage } from 'react-native-responsive-fontsize';
 import * as Font from 'expo-font';
 
 const windowWidth = Dimensions.get('window').width;

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import FilterModal from "./FilterModal";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 interface Restaurant {
   restaurantId: string;

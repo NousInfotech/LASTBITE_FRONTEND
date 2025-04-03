@@ -15,6 +15,7 @@ import { DeleteConfirmationModal, MoreOptionsMenu } from "@/components/Options";
 import { useRouter } from "expo-router";
 import ShareModal from "@/components/ShareModal"; // Update the path accordingly
 import { SafeAreaView } from "react-native-safe-area-context";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 interface Address {
   id: number;

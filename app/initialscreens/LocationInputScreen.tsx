@@ -6,6 +6,7 @@ import { useNavigation, useRouter } from "expo-router";
 
 import React, { useState, useEffect } from "react";
 import { SafeAreaView, StatusBar, View, Text } from "react-native";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 const LocationInputScreen: React.FC = () => {
   const [searchText, setSearchText] = useState<string>("");

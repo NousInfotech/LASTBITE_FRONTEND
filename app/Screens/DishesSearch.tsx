@@ -16,6 +16,7 @@ import GoBack from "@/components/GoBack";
 import {  Ionicons } from "@expo/vector-icons";
 import SearchBarVoice from "@/components/SearchBarVoice";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { RFPercentage } from "react-native-responsive-fontsize";
 // Define the types for the query params
 interface DishesSearchParams {
   id: string | undefined;

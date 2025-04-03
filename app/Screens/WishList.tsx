@@ -13,6 +13,7 @@ import { useRouter } from "expo-router";
 import * as Font from "expo-font";
 import { AntDesign } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 
 interface WishlistItem {

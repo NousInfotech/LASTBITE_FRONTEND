@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RFPercentage } from 'react-native-responsive-fontsize';
 
 type RootStackParamList = {
   Policy: undefined;

@@ -8,6 +8,7 @@ import {
   Dimensions, // Import Dimensions API
 } from "react-native";
 import * as Font from "expo-font";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 // Define the types for the props
 interface ButtonProps {

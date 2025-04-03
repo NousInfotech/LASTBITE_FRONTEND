@@ -13,6 +13,7 @@ import { useRouter } from "expo-router";
 import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import Icon from "react-native-vector-icons/Feather";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 const Help = () => {
   const router = useRouter();

@@ -3,6 +3,7 @@ import { View, Text, SafeAreaView, Animated } from "react-native";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import Button from "@/components/ButtoN";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 const Onboarding = () => {
   const router = useRouter();

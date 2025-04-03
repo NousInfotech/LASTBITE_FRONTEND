@@ -19,6 +19,7 @@ import * as Font from "expo-font";
 import DelieveryInstruction from "@/components/DeliveryInstructions";
 import { MaterialIcons } from "@expo/vector-icons";
 import CouponModal from "@/components/Coupon";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 interface CartItem {
   name: string;

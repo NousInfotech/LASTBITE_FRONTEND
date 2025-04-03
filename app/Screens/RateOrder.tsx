@@ -4,6 +4,7 @@ import GoBack from "@/components/GoBack";
 import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 type SectionState = {
   mealRating: boolean;

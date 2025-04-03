@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import * as Font from "expo-font";
 import Button from "@/components/ButtoN";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 const LocationAccessScreen = () => {
   const [isPressed, setIsPressed] = useState(false);

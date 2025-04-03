@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router'; // Replace with your router library if not using Expo
 import * as Font from 'expo-font';
+import { RFPercentage } from 'react-native-responsive-fontsize';
 
 // Define the Product type
 type Product = {

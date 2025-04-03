@@ -9,6 +9,7 @@ import {
   TouchableOpacity 
 } from 'react-native';
 import { useFonts } from 'expo-font';
+import { RFPercentage } from 'react-native-responsive-fontsize';
 
 const { width } = Dimensions.get('window');
 

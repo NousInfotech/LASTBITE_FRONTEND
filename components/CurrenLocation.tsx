@@ -2,6 +2,7 @@
 import React from "react";
 import { TouchableOpacity, Text } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 interface CurrentLocationButtonProps {
   handleGetLocation: () => void;

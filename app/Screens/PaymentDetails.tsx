@@ -11,6 +11,7 @@ import {
 import { useRouter, useLocalSearchParams } from "expo-router";
 import * as Font from "expo-font";
 import GoBack from "@/components/GoBack";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 const PaymentDetails: React.FC = () => {
   const router = useRouter();

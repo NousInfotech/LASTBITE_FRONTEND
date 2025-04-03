@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   StatusBar,
 } from 'react-native';
+import { RFPercentage } from 'react-native-responsive-fontsize';
 
 export interface DeliveryOption {
   id: string;

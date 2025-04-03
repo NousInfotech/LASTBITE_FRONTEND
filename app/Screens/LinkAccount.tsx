@@ -13,6 +13,7 @@ import {
 import GoBack from "@/components/GoBack";
 import * as Font from "expo-font";
 import { useLocalSearchParams, useRouter } from 'expo-router';
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 type SearchParams = {
   walletName: string;
