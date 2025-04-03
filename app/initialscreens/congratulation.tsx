@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: "Poppins-Bold",
-    fontSize: RFPercentage(4.3),, // Adjusted font size
+    fontSize: RFPercentage(4.3), // Adjusted font size
     color: "white",
     marginBottom: 8, // Reduced margin
     textAlign: "center",

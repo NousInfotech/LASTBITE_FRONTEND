@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
   },
   itemName: {
     fontFamily: "Poppins-SemiBold",
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     color: "#333333",
   },
   vegIcon: {
@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
   },
   itemType: {
     fontFamily: "Poppins-Regular",
-    fontSize: RFPercentage(1.3),,
+    fontSize: RFPercentage(1.3),
     color: "#666666",
     marginTop: 2,
   },
@@ -239,7 +239,7 @@ const styles = StyleSheet.create({
   },
 
   availabilityText: {
-    fontSize: RFPercentage(1.3),,
+    fontSize: RFPercentage(1.3),
     fontFamily: "Poppins-Regular",
     color: "#01615F",
   },
@@ -262,14 +262,14 @@ const styles = StyleSheet.create({
   },
   actionButtonText: {
     color: "#FF0000",
-    fontSize: RFPercentage(1.3),,
+    fontSize: RFPercentage(1.3),
     fontFamily: "Poppins-Medium",
   },
   editButton: {
     borderColor: "#01615F",
   },
   editButtonText: {
-    fontSize: RFPercentage(1.3),,
+    fontSize: RFPercentage(1.3),
     fontFamily: "Poppins-Medium",
     color: "#01615F",
   },
@@ -292,14 +292,14 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   modalTitle: {
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-SemiBold",
     color: "#000",
     marginBottom: 10,
     textAlign: "center",
   },
   modalText: {
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-Regular",
     color: "#666",
     textAlign: "center",

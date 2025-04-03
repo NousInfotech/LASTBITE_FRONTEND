@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   imageText: {
-    fontSize: RFPercentage(4.3),,
+    fontSize: RFPercentage(4.3),
     fontWeight: "bold",
     color: "#888",
   },

@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
   },
   closeXText: {
     color: "#01615F",
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     fontWeight: "bold",
     marginLeft: 4,
   },

@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
     borderColor: "#E0E0E0",
   },
   alertText: {
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     color: "#666",
     fontFamily: "Poppins-Regular",
   },
@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
     width: 300,
   },
   description: {
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     color: "#666",
     fontFamily: "Poppins-Regular",
     marginBottom: 10,
@@ -287,14 +287,14 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   modalTitle: {
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-SemiBold",
     color: "#000",
     marginBottom: 10,
     textAlign: "center",
   },
   modalText: {
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-Regular",
     color: "#666",
     textAlign: "center",

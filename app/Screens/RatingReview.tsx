@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins-SemiBold",
   },
   subText: {
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     color: "gray",
     fontFamily: "Poppins-Regular",
   },
@@ -274,7 +274,7 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins-Medium",
   },
   reviewDate: {
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     color: "gray",
     marginTop: 4,
     fontFamily: "Poppins-Regular",

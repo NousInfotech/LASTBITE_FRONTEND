@@ -128,12 +128,12 @@ const styles = StyleSheet.create({
   },
   plusText: {
     color: '#01615F',
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     fontFamily:'Poppins-Regular'
   },
   secondContainer: {},
   productName: {
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     fontFamily: 'Poppins-Regular',
   },
   price: {

@@ -371,12 +371,12 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins-Regular",
   },
   itemsText: {
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-Regular",
     marginTop: 16,
   },
   itemsDetails: {
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-Regular",
     marginTop: 4,
     color: "#777",
@@ -456,12 +456,12 @@ const styles = StyleSheet.create({
   },
 
   paymentMethod: {
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     color: "#555",
     marginTop: 16,
   },
   completedOn: {
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     color: "#555",
     marginTop: 4,
   },
@@ -516,17 +516,17 @@ const styles = StyleSheet.create({
     color: "#333",
   },
   timelineDate: {
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     color: "#777",
     marginTop: 2,
   },
   completedText: {
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     marginTop: 2,
     color: "#333",
   },
   completedDescription: {
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     color: "#777",
     marginTop: 4,
   },

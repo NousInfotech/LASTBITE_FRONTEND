@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   sectionTitle: {
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     color: "#666",
     fontFamily: "Poppins-Regular",
     marginBottom: 8,
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   modalTitle: {
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-SemiBold",
     color: "#000",
     marginBottom: 18,

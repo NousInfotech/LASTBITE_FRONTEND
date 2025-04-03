@@ -329,7 +329,7 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins-Medium",
   },
   dishesText: {
-    fontSize: RFPercentage(1.3),,
+    fontSize: RFPercentage(1.3),
     color: "#666",
     marginTop: 1,
     fontFamily: "Poppins-Regular",

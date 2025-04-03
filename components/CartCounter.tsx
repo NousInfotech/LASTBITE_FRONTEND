@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   },
   counterButtonText: {
     color: '#fff',
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     fontFamily: 'Poppins-Medium',
   },
   counterText: {

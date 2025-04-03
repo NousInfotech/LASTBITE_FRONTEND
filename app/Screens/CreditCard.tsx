@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   label: {
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-Medium",
     marginBottom: 6,
     color: "#555",
@@ -238,13 +238,13 @@ const styles = StyleSheet.create({
 
   },
   bankInfoTitle: {
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-SemiBold",
     color: "#000",
     marginBottom: 8,
   },
   bankInfoSubText: {
-    fontSize: RFPercentage(1.3),,
+    fontSize: RFPercentage(1.3),
     fontFamily: "Poppins-Regular",
     color: "#000",
   },
@@ -279,7 +279,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   modalText: {
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-Regular",
     color: "#555",
     marginBottom: 12,

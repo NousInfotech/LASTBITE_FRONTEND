@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
     color: "#000",
   },
   orderTime: {
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     color: "#666666",
     marginTop: 4,
   },
@@ -299,7 +299,7 @@ const styles = StyleSheet.create({
     color: "#2196F3",
   },
   prepTime: {
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     color: "#666666",
   },
   singleButton: {

@@ -300,7 +300,7 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins-SemiBold",
   },
   subTitle: {
-    fontSize: RFPercentage(1.3),,
+    fontSize: RFPercentage(1.3),
     color: "grey",
     fontWeight: "500",
     fontFamily: "Poppins-Regular",
@@ -328,7 +328,7 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins-Medium",
   },
   subText: {
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     fontWeight: "500",
     color: "grey",
     fontFamily: "Poppins-Regular",
@@ -372,7 +372,7 @@ const styles = StyleSheet.create({
   },
   offerText: {
     marginLeft: -30,
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     fontWeight: "500",
     color: "#01615F",
     fontFamily: "Poppins-Medium",
@@ -436,7 +436,7 @@ const styles = StyleSheet.create({
     color: "#01615F",
   },
   subNewText: {
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     fontWeight: "500",
     color: "grey",
     fontFamily: "Poppins-Regular",
@@ -507,7 +507,7 @@ const styles = StyleSheet.create({
     marginTop: -8,
   },
   popupSubText: {
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     fontWeight: '500',
     color: 'grey',
     fontFamily: 'Poppins-Regular',
@@ -525,7 +525,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Medium',
   },
   popupBottom: {
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     fontWeight: '500',
     color: 'grey',
     fontFamily: 'Poppins-Regular',

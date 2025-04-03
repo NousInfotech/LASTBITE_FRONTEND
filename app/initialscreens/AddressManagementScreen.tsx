@@ -301,7 +301,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     paddingHorizontal: 16,
     paddingBottom: 8,
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     color: "#666",
     fontWeight: "500",
   },

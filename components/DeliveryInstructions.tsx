@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-start"
    },
   instructionText: {
-    fontSize: RFPercentage(1.3),,
+    fontSize: RFPercentage(1.3),
     color: "#000",
     lineHeight: 16,
     fontFamily: "Poppins-Regular",

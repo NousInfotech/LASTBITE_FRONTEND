@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   title: {
-    fontSize: RFPercentage(3),, // Reduced size
+    fontSize: RFPercentage(3), // Reduced size
     marginBottom: 6,
   },
   subtitle: {

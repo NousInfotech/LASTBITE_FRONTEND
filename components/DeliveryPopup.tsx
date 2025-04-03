@@ -274,7 +274,7 @@ const styles = StyleSheet.create({
   },
   popupButtonText: {
     color: '#fff',
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     fontFamily: 'Poppins-Medium',
   },
   addressPopupOverlay: {
@@ -321,17 +321,17 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   addressName: {
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     fontFamily: 'Poppins-Medium',
     color: '#333',
   },
   addressDetails: {
-    fontSize: RFPercentage(1.3),,
+    fontSize: RFPercentage(1.3),
     fontFamily: 'Poppins-Regular',
     color: '#666',
   },
   chevron: {
-    fontSize: RFPercentage(4),,
+    fontSize: RFPercentage(4),
     color: '#01615F',
     marginLeft: 'auto',
   },
@@ -347,7 +347,7 @@ const styles = StyleSheet.create({
     marginRight: 5, // Add space on the right
   },
   changeText: {
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     color: '#01615F',
     fontFamily: 'Poppins-Medium',
     marginRight: 5, // Space between "Change" text and chevron
@@ -377,7 +377,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   modalSubText: {
-    fontSize: RFPercentage(1.3),,
+    fontSize: RFPercentage(1.3),
     color: '#666',
     textAlign: 'center',
     marginBottom: 20,
@@ -398,7 +398,7 @@ const styles = StyleSheet.create({
   },
   modalButtonText: {
     color: '#fff',
-    fontSize: RFPercentage(1.3),,
+    fontSize: RFPercentage(1.3),
     fontFamily: 'Poppins-Medium',
   },
   modalCancelButton: {
@@ -412,7 +412,7 @@ const styles = StyleSheet.create({
   },
   modalCancelButtonText: {
     color: '#01615F',
-    fontSize: RFPercentage(1.3),,
+    fontSize: RFPercentage(1.3),
     fontFamily: 'Poppins-Medium',
   },
   iconTextContainer: {

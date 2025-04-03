@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   locationText: {
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     color: "#929292",
   },
   profileButton: {

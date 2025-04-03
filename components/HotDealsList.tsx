@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     fontFamily:'Poppins-SemiBold',
   },
   productWeight: {
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     color: '#666',
   },
   productFooter: {

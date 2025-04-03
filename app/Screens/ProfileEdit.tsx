@@ -526,7 +526,7 @@ const styles = StyleSheet.create({
     marginLeft: 8, 
   },
   sectionSubtitle: {
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-Regular",
     color: "#666",
     marginTop: -12,
@@ -561,7 +561,7 @@ const styles = StyleSheet.create({
   uploadButtonText: {
     color: "#fff",
     fontFamily: "Poppins-Regular",
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
   },
   fileName: {
     marginLeft: 16,
@@ -705,7 +705,7 @@ const styles = StyleSheet.create({
   },
   checkboxColumn: {
     flex: 1,
-    fontSize: RFPercentage(1.3),,
+    fontSize: RFPercentage(1.3),
   },
   
 });

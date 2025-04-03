@@ -247,7 +247,7 @@ const styles = StyleSheet.create({
     marginVertical: 6,
   },
   orderTime: {
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-Regular",
     color: "#999999",
     marginBottom: 8,
@@ -280,12 +280,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#01615F",
   },
   actionText: {
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-Medium",
     color: "#01615F",
   },
   mainText: {
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-Medium",
     color: "#FFF",
   },
@@ -314,7 +314,7 @@ const styles = StyleSheet.create({
     marginLeft: 16,
   },
   ratingLabel: {
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     fontFamily: "Poppins-Regular",
     color: "#666666",
     marginBottom: 4,

@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   description: {
-    fontSize: RFPercentage(2),, // Adjust font size for description
+    fontSize: RFPercentage(2), // Adjust font size for description
     color: "#666",
     lineHeight: 16,
   },

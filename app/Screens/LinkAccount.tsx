@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   subtitle: {
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     color: "#808080",
     fontFamily: "Poppins-Regular",
   },

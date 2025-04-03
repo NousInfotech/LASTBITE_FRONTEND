@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
   },
   errorText: {
     color: "red",
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     marginTop: 6,
     marginBottom: 8,
   },

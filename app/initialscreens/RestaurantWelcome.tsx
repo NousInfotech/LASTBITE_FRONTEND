@@ -35,7 +35,7 @@ const Onboarding = () => {
         <View style={{ alignItems: "center" }}>
           <Text
             style={{
-              fontSize: RFPercentage(2),,
+              fontSize: RFPercentage(2),
               color: "#014D4E",
               marginBottom: 28,
               fontWeight: "500",

@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins-Regular",
   },
   deliveryInfo: {
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     color: "#666666",
     marginBottom: 24,
   },

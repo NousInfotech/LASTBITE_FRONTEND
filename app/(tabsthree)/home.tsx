@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     borderColor: "#E5E5E5",
   },
   rupeeSign: {
-    fontSize: RFPercentage(3),,
+    fontSize: RFPercentage(3),
     fontWeight: "bold",
     color: "#01615F",
     marginBottom: 8,
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   shiftedAtText: {
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     color: "#999999",
   },
   sectionTitle: {
@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins-Regular",
   },
   deliveryInfo: {
-    fontSize: RFPercentage(2),,
+    fontSize: RFPercentage(2),
     color: "#666666",
     marginBottom: 24,
   },
