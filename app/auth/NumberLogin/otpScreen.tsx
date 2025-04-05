@@ -1,178 +1,248 @@
-import React, { useState } from "react";
-import {
-  View,
-  TextInput,
-  Text,
-  StyleSheet,
-  Linking,
-  Alert,
-} from "react-native";
-import { useFonts } from "expo-font";
-import Navigation from "@/components/Navigation";
-import CustomButton from "@/components/CustomButton";
-import { useRouter } from "expo-router";
-// import { requestOtp } from "@/api/api";
-import { RFPercentage } from "react-native-responsive-fontsize";
+// import React, { useState } from "react";
+// import {
+//   View,
+//   TextInput,
+//   Text,
+//   StyleSheet,
+//   Linking,
+//   Alert,
+// } from "react-native";
+// import { useFonts } from "expo-font";
+// import Navigation from "@/components/Navigation";
+// import CustomButton from "@/components/CustomButton";
+// import { useRouter } from "expo-router";
+// // import { requestOtp } from "@/api/api";
+// import { RFPercentage } from "react-native-responsive-fontsize";
 
-const OTPScreen: React.FC = () => {
-  const [mobileNumber, setMobileNumber] = useState("");
-  const [isInputFocused, setInputFocused] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [fontsLoaded] = useFonts({
-    "Poppins-Regular": require("../../../assets/fonts/Poppins-Regular.ttf"),
-  });
+// const OTPScreen: React.FC = () => {
+//   const [mobileNumber, setMobileNumber] = useState("");
+//   const [isInputFocused, setInputFocused] = useState(false);
+//   const [isLoading, setIsLoading] = useState(false);
+//   const [fontsLoaded] = useFonts({
+//     "Poppins-Regular": require("../../../assets/fonts/Poppins-Regular.ttf"),
+//   });
 
-  const router = useRouter();
+//   const router = useRouter();
 
-  if (!fontsLoaded) {
-    return <Text>Loading...</Text>;
+//   if (!fontsLoaded) {
+//     return <Text>Loading...</Text>;
+//   }
+
+//   const handleGetOTP = async () => {
+//     if (mobileNumber.length !== 10 || !/^[6-9]\d{9}$/.test(mobileNumber)) {
+//       Alert.alert(
+//         "Invalid Number",
+//         "Please enter a valid 10-digit mobile number."
+//       );
+//       return;
+//     }
+
+//     setIsLoading(true);
+
+//     // try {
+//     //   const result = await requestOtp(mobileNumber);
+//     //   setIsLoading(false);
+
+//     //   if (result.success) {
+//     //     console.log("OTP Sent:", result.data.otp); // Debugging purpose
+//     //     router.push("/auth/getotpscreen/getotpscreen");
+//     //   } else {
+//     //     Alert.alert(
+//     //       "Error",
+//     //       result.message || "Failed to send OTP. Please try again."
+//     //     );
+//     //   }
+//     // } catch (error) {
+//     //   setIsLoading(false);
+//     //   Alert.alert("Error", "An unexpected error occurred. Please try again.");
+//     //   console.error("Error:", error);
+//     // }
+//   };
+
+//   const handleTermsClick = () => {
+//     Linking.openURL("https://example.com/terms");
+//   };
+
+//   const handlePrivacyClick = () => {
+//     Linking.openURL("https://example.com/privacy");
+//   };
+
+//   return (
+//     <View style={styles.container}>
+//       <Navigation
+//         content="Enter your mobile number to get OTP"
+//         routes={{ skip: "/initialscreens/welcomescreen" }}
+//       />
+//       <View style={styles.content}>
+//         <View style={styles.inputContainer}>
+//           <Text style={styles.label}>Mobile Number</Text>
+//           <View style={[styles.row, isInputFocused && { borderColor: "#000" }]}>
+//             <Text style={styles.countryCode}>+91</Text>
+//             <TextInput
+//               style={styles.input}
+//               placeholder="10 digit mobile number"
+//               value={mobileNumber}
+//               onChangeText={setMobileNumber}
+//               keyboardType="phone-pad"
+//               placeholderTextColor="#999"
+//               onFocus={() => setInputFocused(true)}
+//               onBlur={() => setInputFocused(false)}
+//               maxLength={10}
+//             />
+//           </View>
+//         </View>
+//         <CustomButton
+//           title={isLoading ? "Sending..." : "Get OTP"}
+//           onPress={handleGetOTP}
+//           isDisabled={mobileNumber.length < 10 || isLoading}
+//           backgroundColor={
+//             mobileNumber.length === 10 && !isLoading ? "#01615F" : "#ccc"
+//           }
+//         />
+//         <View style={styles.termsAndPolicyContainer}>
+//           <Text style={styles.text}>
+//             By clicking, I accept the{" "}
+//             <Text style={styles.link} onPress={handleTermsClick}>
+//               terms of service
+//             </Text>{" "}
+//             and{" "}
+//             <Text style={styles.link} onPress={handlePrivacyClick}>
+//               privacy policy
+//             </Text>
+//             .
+//           </Text>
+//         </View>
+//       </View>
+//     </View>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: "#fff",
+//     paddingHorizontal: 20,
+//   },
+//   content: {
+//     marginTop: 20,
+//     justifyContent: "center",
+//     alignItems: "center",
+//     fontFamily: "Poppins-Regular",
+//   },
+//   inputContainer: {
+//     width: "100%",
+//     marginBottom: 16,
+//   },
+//   label: {
+//     fontSize: 13, // Increased font size for better readability
+//     color: "#666",
+//     fontFamily: "Poppins-Regular",
+//     marginBottom: 8,
+//   },
+//   row: {
+//     flexDirection: "row",
+//     alignItems: "center",
+//     borderWidth: 1,
+//     borderColor: "#ccc",
+//     borderRadius: 8,
+//     paddingHorizontal: 10,
+//   },
+//   countryCode: {
+//     fontSize: RFPercentage(2),
+//     color: "#000",
+//     fontFamily: "Poppins-Regular",
+//     marginRight: 10,
+//   },
+//   input: {
+//     flex: 1,
+//     height: 48,
+//     fontSize: RFPercentage(2), // Adjusted for better readability
+//     fontFamily: "Poppins-Regular",
+//     marginTop: 0,
+//   },
+//   termsAndPolicyContainer: {
+//     alignItems: "center",
+//   },
+//   text: {
+//     fontSize: 14, // Adjusted for better readability
+//     color: "#000",
+//     textAlign: "left",
+//     fontFamily: "Poppins-Regular",
+//   },
+//   link: {
+//     fontWeight: "bold",
+//     textDecorationLine: "underline",
+//   },
+// });
+
+// export default OTPScreen;
+
+
+
+
+
+
+
+
+
+
+
+
+import React, { useState, useEffect } from 'react';
+import { Button, TextInput } from 'react-native';
+import auth from '@react-native-firebase/auth';
+
+function PhoneSignIn() {
+  // If null, no SMS has been sent
+  const [confirm, setConfirm] = useState(null);
+
+  // verification code (OTP - One-Time-Passcode)
+  const [code, setCode] = useState('');
+
+  // Handle login
+  function onAuthStateChanged(user) {
+    if (user) {
+      // Some Android devices can automatically process the verification code (OTP) message, and the user would NOT need to enter the code.
+      // Actually, if he/she tries to enter it, he/she will get an error message because the code was already used in the background.
+      // In this function, make sure you hide the component(s) for entering the code and/or navigate away from this screen.
+      // It is also recommended to display a message to the user informing him/her that he/she has successfully logged in.
+    }
   }
 
-  const handleGetOTP = async () => {
-    if (mobileNumber.length !== 10 || !/^[6-9]\d{9}$/.test(mobileNumber)) {
-      Alert.alert(
-        "Invalid Number",
-        "Please enter a valid 10-digit mobile number."
-      );
-      return;
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
+  // Handle the button press
+  async function signInWithPhoneNumber(phoneNumber) {
+    const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
+    setConfirm(confirmation);
+  }
+
+  async function confirmCode() {
+    try {
+      await confirm.confirm(code);
+    } catch (error) {
+      console.log('Invalid code.');
     }
+  }
 
-    setIsLoading(true);
-
-    // try {
-    //   const result = await requestOtp(mobileNumber);
-    //   setIsLoading(false);
-
-    //   if (result.success) {
-    //     console.log("OTP Sent:", result.data.otp); // Debugging purpose
-    //     router.push("/auth/getotpscreen/getotpscreen");
-    //   } else {
-    //     Alert.alert(
-    //       "Error",
-    //       result.message || "Failed to send OTP. Please try again."
-    //     );
-    //   }
-    // } catch (error) {
-    //   setIsLoading(false);
-    //   Alert.alert("Error", "An unexpected error occurred. Please try again.");
-    //   console.error("Error:", error);
-    // }
-  };
-
-  const handleTermsClick = () => {
-    Linking.openURL("https://example.com/terms");
-  };
-
-  const handlePrivacyClick = () => {
-    Linking.openURL("https://example.com/privacy");
-  };
+  if (!confirm) {
+    return (
+      <Button
+        title="Phone Number Sign In"
+        onPress={() => signInWithPhoneNumber('+1 650-555-3434')}
+      />
+    );
+  }
 
   return (
-    <View style={styles.container}>
-      <Navigation
-        content="Enter your mobile number to get OTP"
-        routes={{ skip: "/initialscreens/welcomescreen" }}
-      />
-      <View style={styles.content}>
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Mobile Number</Text>
-          <View style={[styles.row, isInputFocused && { borderColor: "#000" }]}>
-            <Text style={styles.countryCode}>+91</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="10 digit mobile number"
-              value={mobileNumber}
-              onChangeText={setMobileNumber}
-              keyboardType="phone-pad"
-              placeholderTextColor="#999"
-              onFocus={() => setInputFocused(true)}
-              onBlur={() => setInputFocused(false)}
-              maxLength={10}
-            />
-          </View>
-        </View>
-        <CustomButton
-          title={isLoading ? "Sending..." : "Get OTP"}
-          onPress={handleGetOTP}
-          isDisabled={mobileNumber.length < 10 || isLoading}
-          backgroundColor={
-            mobileNumber.length === 10 && !isLoading ? "#01615F" : "#ccc"
-          }
-        />
-        <View style={styles.termsAndPolicyContainer}>
-          <Text style={styles.text}>
-            By clicking, I accept the{" "}
-            <Text style={styles.link} onPress={handleTermsClick}>
-              terms of service
-            </Text>{" "}
-            and{" "}
-            <Text style={styles.link} onPress={handlePrivacyClick}>
-              privacy policy
-            </Text>
-            .
-          </Text>
-        </View>
-      </View>
-    </View>
+    <>
+      <TextInput value={code} onChangeText={text => setCode(text)} />
+      <Button title="Confirm Code" onPress={() => confirmCode()} />
+    </>
   );
-};
+}
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    paddingHorizontal: 20,
-  },
-  content: {
-    marginTop: 20,
-    justifyContent: "center",
-    alignItems: "center",
-    fontFamily: "Poppins-Regular",
-  },
-  inputContainer: {
-    width: "100%",
-    marginBottom: 16,
-  },
-  label: {
-    fontSize: 13, // Increased font size for better readability
-    color: "#666",
-    fontFamily: "Poppins-Regular",
-    marginBottom: 8,
-  },
-  row: {
-    flexDirection: "row",
-    alignItems: "center",
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 8,
-    paddingHorizontal: 10,
-  },
-  countryCode: {
-    fontSize: RFPercentage(2),
-    color: "#000",
-    fontFamily: "Poppins-Regular",
-    marginRight: 10,
-  },
-  input: {
-    flex: 1,
-    height: 48,
-    fontSize: RFPercentage(2), // Adjusted for better readability
-    fontFamily: "Poppins-Regular",
-    marginTop: 0,
-  },
-  termsAndPolicyContainer: {
-    alignItems: "center",
-  },
-  text: {
-    fontSize: 14, // Adjusted for better readability
-    color: "#000",
-    textAlign: "left",
-    fontFamily: "Poppins-Regular",
-  },
-  link: {
-    fontWeight: "bold",
-    textDecorationLine: "underline",
-  },
-});
 
-export default OTPScreen;
