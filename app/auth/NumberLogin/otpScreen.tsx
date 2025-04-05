@@ -177,71 +177,121 @@
 
 // export default OTPScreen;
 
+import React, { useRef, useState } from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
+} from 'react-native';
+import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha';
+import { PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
+import { auth } from '@/utils/firebaseConfig.mjs'; // adjust path if needed
 
+const OTPVerificationScreen = () => {
+  const recaptchaVerifier = useRef<FirebaseRecaptchaVerifierModal>(null);
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [verificationId, setVerificationId] = useState<string | null>(null);
+  const [otp, setOtp] = useState('');
 
-
-
-
-
-
-
-
-
-import React, { useState, useEffect } from 'react';
-import { Button, TextInput } from 'react-native';
-import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
-
-function PhoneSignIn() {
-  const [confirm, setConfirm] = useState<FirebaseAuthTypes.ConfirmationResult | null>(null);
-  const [code, setCode] = useState('');
-
-  function onAuthStateChanged(user: FirebaseAuthTypes.User | null) {
-    if (user) {
-      // Logged in successfully
-      console.log("User logged in:", user.phoneNumber);
-    }
-  }
-
-  useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber;
-  }, []);
-
-  async function signInWithPhoneNumber(phoneNumber: string) {
-    const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
-    setConfirm(confirmation);
-  }
-
-  async function confirmCode() {
-    if (!confirm) return;
-
+  const sendVerification = async () => {
     try {
-      await confirm.confirm(code);
-    } catch (error) {
-      console.log('Invalid code.');
+      const phoneProvider = new PhoneAuthProvider(auth);
+      if (recaptchaVerifier.current) {
+        const id = await phoneProvider.verifyPhoneNumber(
+          phoneNumber,
+          recaptchaVerifier.current
+        );
+        setVerificationId(id);
+        Alert.alert('OTP sent successfully');
+      } else {
+        Alert.alert('Recaptcha not ready');
+      }
+    } catch (err) {
+      console.error(err);
+      Alert.alert('Failed to send OTP');
     }
-  }
+  };
 
-  if (!confirm) {
-    return (
-      <Button
-        title="Phone Number Sign In"
-        onPress={() => signInWithPhoneNumber('+1 650-555-3434')}
-      />
-    );
-  }
+  const confirmCode = async () => {
+    try {
+      if (!verificationId) {
+        Alert.alert('No verification ID found');
+        return;
+      }
+
+      const credential = PhoneAuthProvider.credential(verificationId, otp);
+      await signInWithCredential(auth, credential);
+      Alert.alert('Phone authentication successful');
+    } catch (error) {
+      console.error(error);
+      Alert.alert('Invalid code');
+    }
+  };
 
   return (
-    <>
-      <TextInput
-        value={code}
-        onChangeText={text => setCode(text)}
-        placeholder="Enter OTP"
-        keyboardType="number-pad"
+    <View style={styles.container}>
+      <FirebaseRecaptchaVerifierModal
+        ref={recaptchaVerifier}
+        firebaseConfig={auth.app.options}
       />
-      <Button title="Confirm Code" onPress={() => confirmCode()} />
-    </>
-  );
-}
 
-export default PhoneSignIn;
+      <Text style={styles.label}>Phone Number</Text>
+      <TextInput
+        placeholder="+91 1234567890"
+        onChangeText={setPhoneNumber}
+        keyboardType="phone-pad"
+        style={styles.input}
+      />
+
+      <TouchableOpacity onPress={sendVerification} style={styles.button}>
+        <Text style={styles.buttonText}>Send OTP</Text>
+      </TouchableOpacity>
+
+      <Text style={styles.label}>Enter OTP</Text>
+      <TextInput
+        placeholder="123456"
+        onChangeText={setOtp}
+        keyboardType="number-pad"
+        style={styles.input}
+      />
+
+      <TouchableOpacity onPress={confirmCode} style={styles.button}>
+        <Text style={styles.buttonText}>Verify OTP</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+export default OTPVerificationScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 24,
+    backgroundColor: '#fff',
+  },
+  input: {
+    padding: 12,
+    borderWidth: 1,
+    borderRadius: 8,
+    marginBottom: 16,
+  },
+  button: {
+    backgroundColor: '#4ad3bb',
+    padding: 16,
+    borderRadius: 8,
+    marginBottom: 24,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  label: {
+    marginBottom: 4,
+  },
+});
