@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   },
   triangle: {
     padding:10,
-    backgroundColor: "transparent",
+    backgroundColor: "transparent       ",
     borderStyle: "solid",
     borderLeftWidth: 10,
     borderRightWidth: 10,

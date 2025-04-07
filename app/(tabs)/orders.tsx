@@ -80,6 +80,10 @@ const Orders: React.FC = () => {
     return null;
   }
 
+  const handleTrackOrder = () => {
+    router.push('/Screens/TrackOrder');
+  }
+
   const renderOrder = (order: Order | PastOrder, isPast: boolean = false) => (
     <View style={styles.orderCard} key={order.orderTime}>
       <View style={styles.row}>
@@ -143,7 +147,7 @@ const Orders: React.FC = () => {
                 >
                   <Text style={styles.actionText}>Help</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.actionButton, styles.trackButton]}>
+                <TouchableOpacity style={[styles.actionButton, styles.trackButton]} onPress={handleTrackOrder}>
                   <Text style={styles.mainText}>Track Order</Text>
                 </TouchableOpacity>
               </>
