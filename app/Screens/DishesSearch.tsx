@@ -276,6 +276,10 @@ const DishesSearch: React.FC = () => {
       });
     };
 
+    const handleProductDetails = () => {
+      router.push('/Screens/ProductDetails');
+    };
+
     return (
       <View style={styles.restaurantSection} key={restaurantId}>
         <View style={styles.restaurantHeader}>
@@ -305,9 +309,16 @@ const DishesSearch: React.FC = () => {
                 <Text style={styles.menuName}>{item.name}</Text>
                 <Text style={styles.menuCategory}>{item.category}</Text>
                 <Text style={styles.menuPrice}>${item.price.toFixed(2)}</Text>
-                <TouchableOpacity 
+                {/* <TouchableOpacity 
                   style={styles.viewDetailsButton} 
                   onPress={() => handleViewDetails(item)}
+                >
+                  <Text style={styles.viewDetailsText}>View Details</Text>
+                </TouchableOpacity> */}
+
+                <TouchableOpacity 
+                  style={styles.viewDetailsButton} 
+                  onPress={handleProductDetails}
                 >
                   <Text style={styles.viewDetailsText}>View Details</Text>
                 </TouchableOpacity>
@@ -509,11 +520,8 @@ const styles = StyleSheet.create({
   },
   
   addButton: {
-    borderColor: '#01615F',
-    backgroundColor: "#fff",
-    borderWidth: 2,
+    backgroundColor: "#01615F",
     paddingVertical: 5,
-    paddingHorizontal: 15,
     borderRadius: 5,
     width: '100%', // Takes full width of container
     alignItems: 'center',
@@ -548,7 +556,8 @@ const styles = StyleSheet.create({
   },
  
   addButtonText: {
-    color: "#01615F",
+    // color: "#01615F",
+    color: "#fff",
     fontSize: RFPercentage(2),
   },
   ButtonText: {

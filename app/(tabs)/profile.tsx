@@ -38,6 +38,11 @@ const ProfileScreen = () => {
     return null;
   }
 
+
+  const handleMoney = () => {
+    router.push('/Screens/MoneyGifts')  
+  }
+
   return (
     // <SafeAreaView style={styles.container}>
     <SafeAreaView>
@@ -195,7 +200,7 @@ const ProfileScreen = () => {
           </View>
         )}
 
-        <TouchableOpacity style={styles.menuBox}>
+        <TouchableOpacity style={styles.menuBox} onPress={handleMoney}>
           <View>
             <Text style={styles.menuTitle}>Money & Gift cards</Text>
             <Text style={styles.menuSubtitle}>

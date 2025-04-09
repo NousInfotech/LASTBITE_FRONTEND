@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
   },
   map: {
     flex: 1,
-    position: "absolute", // Ensure Map is behind the bottom section
+    position: "absolute", 
     top: 0,
     bottom: 0,
     left: 0,

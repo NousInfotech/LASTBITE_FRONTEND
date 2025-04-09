@@ -11,8 +11,10 @@ import {
 } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import * as Font from 'expo-font';
+import { useRouter } from 'expo-router';
 
 const windowWidth = Dimensions.get('window').width;
+const router = useRouter();
 
 interface ProductItem {
   id: string;
@@ -50,14 +52,14 @@ const ProductGrid: React.FC<ProductGridProps> = ({ categories }) => {
     return null; // Optionally, show a loading screen or placeholder
   }
 
-  const renderProductItem = (item: ProductItem) => (
-    <TouchableOpacity key={item.id} style={styles.productItem}>
-      <View style={styles.imageContainer}>
-        <Image source={item.image} style={styles.productImage} />
-      </View>
-      <Text style={styles.productName}>{item.name}</Text>
-    </TouchableOpacity>
-  );
+  // const renderProductItem = (item: ProductItem) => (
+  //   <TouchableOpacity key={item.id} style={styles.productItem}>
+  //     <View style={styles.imageContainer}>
+  //       <Image source={item.image} style={styles.productImage} />
+  //     </View>
+  //     <Text style={styles.productName}>{item.name}</Text>
+  //   </TouchableOpacity>
+  // );
 
   const renderCategory = (category: Category) => (
     <View key={category.title} style={styles.categoryContainer}>
@@ -68,6 +70,22 @@ const ProductGrid: React.FC<ProductGridProps> = ({ categories }) => {
     </View>
   );
 
+  const handleProductDetails = () => {
+    router.push('/Screens/ProductDetails')
+  }
+
+  const renderProductItem = (item: ProductItem) => (
+    <TouchableOpacity
+      key={item.id}
+      style={styles.productItem}
+      onPress={handleProductDetails}
+    >
+      <View style={styles.imageContainer}>
+        <Image source={item.image} style={styles.productImage} />
+      </View>
+      <Text style={styles.productName}>{item.name}</Text>
+    </TouchableOpacity>
+  );
   return (
     <ScrollView style={styles.container}>
       {categories.map((category) => renderCategory(category))}
