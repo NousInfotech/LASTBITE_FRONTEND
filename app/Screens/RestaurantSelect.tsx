@@ -11,6 +11,7 @@ import {
   FlatList,
   Modal,
   ScrollView,
+  Pressable,
 } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import GoBack from "@/components/GoBack";
@@ -20,6 +21,7 @@ import { useRouter } from "expo-router";
 import * as Font from "expo-font";
 import FilterPopup from "@/components/FilterFood";
 import { RFPercentage } from "react-native-responsive-fontsize";
+import { Feather, MaterialIcons } from "@expo/vector-icons";
 
 interface Restaurant {
   restaurantId: string;
@@ -158,38 +160,57 @@ const RestaurantSelect = () => {
   const [isFilterVisible, setIsFilterVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const getFilteredMenuItems = (items: MenuItem[], query: string): MenuItem[] => {
+  const getFilteredMenuItems = (
+    items: MenuItem[],
+    query: string
+  ): MenuItem[] => {
     const searchTerm = query.toLowerCase();
     if (!searchTerm) return items;
-    
-    return items.filter(item => 
-      item.name.toLowerCase().includes(searchTerm) || 
-      item.category.toLowerCase().includes(searchTerm) ||
-      item.description.toLowerCase().includes(searchTerm)
+
+    return items.filter(
+      (item) =>
+        item.name.toLowerCase().includes(searchTerm) ||
+        item.category.toLowerCase().includes(searchTerm) ||
+        item.description.toLowerCase().includes(searchTerm)
+    );
+  };
+  //
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+
+  const toggleDropdown = () => setDropdownVisible(!dropdownVisible);
+  //
+  const getFilteredCategories = (
+    categories: string[],
+    filteredItems: MenuItem[]
+  ): string[] => {
+    if (!searchQuery) return categories;
+
+    const availableCategories = new Set(
+      filteredItems.map((item) => item.category)
+    );
+
+    return categories.filter(
+      (category) =>
+        category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        availableCategories.has(category)
     );
   };
 
-  // Filter categories based on search query and available menu items
-  const getFilteredCategories = (categories: string[], filteredItems: MenuItem[]): string[] => {
-    if (!searchQuery) return categories;
-    
-    // Get unique categories from filtered items
-    const availableCategories = new Set(filteredItems.map(item => item.category));
-    
-    // Filter categories that either match the search query or have matching items
-    return categories.filter(category => 
-      category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      availableCategories.has(category)
-    );
+  const getItemsCountPerCategory = () => {
+    const counts: Record<string, number> = {};
+    restaurant?.categories.forEach((category) => {
+      counts[category] = menuItems.filter(
+        (item) => item.category === category
+      ).length;
+    });
+    return counts;
   };
 
   const handleFilterApply = (filters: any) => {
     console.log("Applied Filters:", filters);
-    // Apply the filters to your data
   };
 
   useEffect(() => {
-    // Load custom fonts
     const loadFonts = async () => {
       try {
         await Font.loadAsync({
@@ -204,6 +225,7 @@ const RestaurantSelect = () => {
     };
     loadFonts();
   }, []);
+
   useEffect(() => {
     const selectedRestaurant = mockRestaurants.find(
       (r) => r.restaurantId === restaurantId
@@ -225,6 +247,7 @@ const RestaurantSelect = () => {
       return newSet;
     });
   };
+
   const handleCheckout = () => {
     const selectedItems = Object.entries(cartCounts).map(
       ([menuItemId, quantity]) => {
@@ -348,8 +371,13 @@ const RestaurantSelect = () => {
       </View>
     );
   };
- const filteredMenuItems = getFilteredMenuItems(menuItems, searchQuery);
-  const filteredCategories = getFilteredCategories(restaurant.categories, filteredMenuItems);
+
+  const filteredMenuItems = getFilteredMenuItems(menuItems, searchQuery);
+  const filteredCategories = getFilteredCategories(
+    restaurant.categories,
+    filteredMenuItems
+  );
+
   const renderMenuItem = (item: MenuItem) => {
     const count = cartCounts[item.menuItemId] || 0;
 
@@ -418,12 +446,49 @@ const RestaurantSelect = () => {
     <>
       <SafeAreaView style={styles.container}>
         <StatusBar barStyle="dark-content" />
-        {/* Header */}
-        <View style={styles.header}>
-          <TouchableOpacity>
-            <GoBack />
-          </TouchableOpacity>
-          <Text style={styles.headerTitle}>{restaurant.name}</Text>
+
+        <View style={styles.optionsContainer}>
+          {/* Header */}
+          <View style={styles.header}>
+            <TouchableOpacity>
+              <Feather name="arrow-left" size={24} color="black" />
+            </TouchableOpacity>
+
+            <Text style={styles.title} numberOfLines={1}>
+              {restaurant.name}
+            </Text>
+
+            <TouchableOpacity
+              onPress={toggleDropdown}
+              style={styles.menuButton}
+            >
+              <Feather name="more-vertical" size={24} color="black" />
+            </TouchableOpacity>
+          </View>
+
+          {/* Dropdown */}
+          {dropdownVisible && (
+            <View style={styles.dropdown}>
+              <Pressable style={styles.dropdownItem}>
+                <Feather
+                  name="heart"
+                  size={18}
+                  color="black"
+                  style={styles.icon}
+                />
+                <Text style={styles.dropdownText}>Add to favourites</Text>
+              </Pressable>
+              <Pressable style={styles.dropdownItem}>
+                <Feather
+                  name="share-2"
+                  size={18}
+                  color="black"
+                  style={styles.icon}
+                />
+                <Text style={styles.dropdownText}>Share</Text>
+              </Pressable>
+            </View>
+          )}
         </View>
 
         {/* Search Bar */}
@@ -433,34 +498,34 @@ const RestaurantSelect = () => {
           value={searchQuery}
           onChangeText={setSearchQuery}
         />
-        
+
         <NavigationBar />
-        
-        {/* <ScrollView contentContainerStyle={styles.scrollContainer}> */}
-          <FlatList
-            data={filteredCategories}
-            keyExtractor={(item) => item}
-            renderItem={({ item: category }) => (
-              <View>
-                <TouchableOpacity
-                  style={styles.categoryChip}
-                  onPress={() => toggleCategory(category)}
-                >
-                  <Text style={styles.categoryText}>{category}</Text>
-                  <Ionicons
-                    name={expandedCategories.has(category) ? "caret-up" : "caret-down"}
-                    size={16}
-                    color="grey"
-                  />
-                </TouchableOpacity>
-                {expandedCategories.has(category) &&
-                  filteredMenuItems
-                    .filter((menuItem) => menuItem.category === category)
-                    .map(renderMenuItem)}
-              </View>
-            )}
-          />
-        {/* </ScrollView> */}
+
+        <FlatList
+          data={filteredCategories}
+          keyExtractor={(item) => item}
+          renderItem={({ item: category }) => (
+            <View>
+              <TouchableOpacity
+                style={styles.categoryChip}
+                onPress={() => toggleCategory(category)}
+              >
+                <Text style={styles.categoryText}>{category}</Text>
+                <Ionicons
+                  name={
+                    expandedCategories.has(category) ? "caret-up" : "caret-down"
+                  }
+                  size={16}
+                  color="grey"
+                />
+              </TouchableOpacity>
+              {expandedCategories.has(category) &&
+                filteredMenuItems
+                  .filter((menuItem) => menuItem.category === category)
+                  .map(renderMenuItem)}
+            </View>
+          )}
+        />
         <TouchableOpacity
           style={styles.floatingButton}
           onPress={handleOpenModal}
@@ -475,14 +540,21 @@ const RestaurantSelect = () => {
           <View style={styles.modalBackground}>
             <TouchableWithoutFeedback>
               <View style={styles.modalContainer}>
+                <Text style={styles.modalTitle}>Menu Categories</Text>
                 <FlatList
                   data={restaurant?.categories}
                   keyExtractor={(item) => item}
-                  renderItem={({ item }) => (
-                    <View style={styles.categoryItem}>
-                      <Text style={styles.categoryText}>{item}</Text>
-                    </View>
-                  )}
+                  renderItem={({ item }) => {
+                    const itemsCount = getItemsCountPerCategory()[item];
+                    return (
+                      <View style={styles.categoryItem}>
+                        <Text style={styles.categoryText}>{item}</Text>
+                        <Text style={styles.itemsCountText}>
+                          ({itemsCount})
+                        </Text>
+                      </View>
+                    );
+                  }}
                 />
               </View>
             </TouchableWithoutFeedback>
@@ -504,18 +576,64 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     paddingBottom: 100,
   },
+
+  optionsContainer: {
+    zIndex: 10,
+  },
   header: {
     flexDirection: "row",
     alignItems: "center",
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: "#eee",
+    justifyContent: "space-between",
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    backgroundColor: "#fff",
   },
-  headerTitle: {
-    fontSize: RFPercentage(2),
-    marginLeft: 70,
-    fontFamily: "Poppins-SemiBold",
+  title: {
+    flex: 1,
+    textAlign: "center",
+    fontSize: 18,
+    fontWeight: "bold",
+    marginHorizontal: 8,
   },
+  menuButton: {
+    padding: 8,
+  },
+  dropdown: {
+    position: "absolute",
+    top: 60,
+    right: 16,
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    paddingVertical: 6,
+    width: 180,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  dropdownItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+  },
+  icon: {
+    marginRight: 10,
+  },
+  dropdownText: {
+    fontSize: 14,
+    color: "#333",
+  },
+  menuButton: {
+    padding: 8,
+  },
+  menuText: {
+    fontSize: 24,
+    color: "#333",
+    fontWeight: "600",
+  },
+
   FileListcontainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -533,6 +651,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderRadius: 16,
     marginBottom: 8,
+    marginLeft: 50,
     borderWidth: 1,
     borderColor: "black",
   },
@@ -620,7 +739,6 @@ const styles = StyleSheet.create({
     color: "#01615F",
     fontFamily: "Poppins-SemiBold",
   },
-
   addButtonContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -649,7 +767,6 @@ const styles = StyleSheet.create({
     color: "black",
     fontFamily: "Poppins-Regular",
   },
-
   addButton: {
     backgroundColor: "#01615F",
     borderRadius: 4,
@@ -717,15 +834,34 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent background
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContainer: {
     width: "80%",
     backgroundColor: "white",
     borderRadius: 10,
     padding: 20,
+    maxHeight: "60%",
+  },
+  modalTitle: {
+    fontSize: RFPercentage(2.2),
+    fontFamily: "Poppins-SemiBold",
+    marginBottom: 15,
+    textAlign: "center",
+    color: "#01615F",
   },
   categoryItem: {
     paddingVertical: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderBottomWidth: 1,
+    borderBottomColor: "#eee",
+  },
+  itemsCountText: {
+    marginLeft: 8,
+    color: "#777",
+    fontSize: RFPercentage(1.8),
+    fontFamily: "Poppins-Regular",
   },
 });

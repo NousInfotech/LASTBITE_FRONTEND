@@ -7,8 +7,30 @@ import CustomButton from "@/components/CustomButton";
 
 const EnterOtp = () => {
   const router = useRouter();
-  const { verificationId } = useLocalSearchParams();
-  const [otp, setOtp] = useState("");
+  // const { verificationId } = useLocalSearchParams();
+  // const [otp, setOtp] = useState("");
+
+  // const confirmCode = async () => {
+  //   try {
+  //     if (!verificationId) {
+  //       Alert.alert("Error", "Missing verification ID.");
+  //       return;
+  //     }
+  //     const credential = PhoneAuthProvider.credential(
+  //       verificationId as string,
+  //       otp
+  //     );
+  //     await signInWithCredential(auth, credential);
+  //     Alert.alert("Success", "Phone authentication successful");
+  //     console.log("")
+  //     // router.push("/initialscreens/welcomescreen");
+  //   } catch (error) {
+  //     console.error(error);
+  //     Alert.alert("Invalid OTP");
+  //   }
+  // };
+
+
 
   const confirmCode = async () => {
     try {
@@ -16,18 +38,35 @@ const EnterOtp = () => {
         Alert.alert("Error", "Missing verification ID.");
         return;
       }
+  
       const credential = PhoneAuthProvider.credential(
         verificationId as string,
         otp
       );
-      await signInWithCredential(auth, credential);
+  
+      // Sign in and get the auth result
+      const result = await signInWithCredential(auth, credential);
+      
+      // Log the entire user object
+      console.log("User Auth Object:", result.user);
+  
+      // Get the token from the signed-in user
+      const idToken = await result.user.getIdToken();
+  
+      // Log the token
+      console.log("Firebase ID Token:", idToken);
+  
       Alert.alert("Success", "Phone authentication successful");
-      router.push("/initialscreens/welcomescreen");
+  
+      // Navigate to next screen or use token for internal logic
+      // router.push("/initialscreens/welcomescreen");
     } catch (error) {
       console.error(error);
       Alert.alert("Invalid OTP");
     }
   };
+  
+  
 
   return (
     <View style={styles.container}>

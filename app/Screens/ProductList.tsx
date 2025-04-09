@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import GoBack from '@/components/GoBack';
-import ProductSearch from '../../components/ProductSearch';
+import ProductSearch from './ProductSearch';
 import ProductGridScrollView from '@/components/ProductGridScrollView';
 import SearchBarVoice from '@/components/SearchBarVoice';
 import { RFPercentage } from 'react-native-responsive-fontsize';
