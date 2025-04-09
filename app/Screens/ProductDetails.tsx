@@ -1,10 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams } from 'expo-router';
 
 export default function ProductDetail() {
   const {name, price, image} = useLocalSearchParams();
+  const [quantity, setQuantity] = useState(0);
+
+  const incrementQuantity = () => {
+    setQuantity(quantity + 1);
+  };
+
+  const decrementQuantity = () => {
+    if (quantity > 0) {
+      setQuantity(quantity - 1);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -37,9 +49,21 @@ export default function ProductDetail() {
             <View>
               <View style={styles.quantityContainer}>
                 <Text style={styles.quantityText}>Quantity (kg)</Text>
-                <TouchableOpacity style={styles.addButton}>
-                  <Text style={styles.addButtonText}>Add</Text>
-                </TouchableOpacity>
+                {quantity === 0 ? (
+                  <TouchableOpacity style={styles.addButton} onPress={incrementQuantity}>
+                    <Text style={styles.buttonText}>Add</Text>
+                  </TouchableOpacity>
+                ) : (
+                  <View style={styles.counterContainer}>
+                    <TouchableOpacity style={styles.counterButton} onPress={decrementQuantity}>
+                      <Text style={styles.counterButtonText}>-</Text>
+                    </TouchableOpacity>
+                    <Text style={styles.counterText}>{quantity}</Text>
+                    <TouchableOpacity style={styles.counterButton} onPress={incrementQuantity}>
+                      <Text style={styles.counterButtonText}>+</Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
               </View>
             </View>
           </View>
@@ -125,7 +149,7 @@ const styles = StyleSheet.create({
   productPrice: {
     fontSize: 20,
     fontWeight: '700',
-    color: '#333',
+    color: '#01615F',
     marginBottom: 8,
   },
   productDescription: {
@@ -144,14 +168,36 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   addButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: "#01615F",
     paddingHorizontal: 20,
     paddingVertical: 8,
     borderRadius: 4,
   },
-  addButtonText: {
+  buttonText: {
+    color: "#fff",
+    fontSize: 14,
+    fontFamily: "Poppins-Medium",
+  },
+  counterContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  counterButton: {
+    backgroundColor: '#01615F',
+    paddingHorizontal: 6,
+    paddingVertical: 6,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  counterButtonText: {
     color: '#fff',
-    fontWeight: '500',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  counterText: {
+    paddingHorizontal: 15,
+    fontSize: 16,
+    color: '#333',
   },
   detailsContainer: {
     marginTop: 24,

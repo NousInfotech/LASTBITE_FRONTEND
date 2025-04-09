@@ -12,12 +12,12 @@ const productData = [
   {
     title: 'Groceries',
     items: [
-      { id: '1', name: 'Lorem Ipsum', image: require('../../assets/images/Orange.png') },
-      { id: '2', name: 'Lorem Ipsum', image: require('../../assets/images/Broccoli.png') },
-      { id: '3', name: 'Lorem Ipsum', image: require('../../assets/images/Apple.png') },
-      { id: '4', name: 'Lorem Ipsum', image: require('../../assets/images/Mixture.png') },
-      { id: '5', name: 'Lorem Ipsum', image: require('../../assets/images/Pulses.png') },
-      { id: '6', name: 'Lorem Ipsum', image: require('../../assets/images/QuestNatural.png') },
+      { id: '1', name: 'Lorem Ipsum', image: require('../../assets/images/Orange.png'), price: '₹200' },
+      { id: '2', name: 'Lorem Ipsum', image: require('../../assets/images/Broccoli.png'), price: '₹200' },
+      { id: '3', name: 'Lorem Ipsum', image: require('../../assets/images/Apple.png'), price: '₹200' },
+      { id: '4', name: 'Lorem Ipsum', image: require('../../assets/images/Mixture.png'), price: '₹200' },
+      { id: '5', name: 'Lorem Ipsum', image: require('../../assets/images/Pulses.png'), price: '₹200' },
+      { id: '6', name: 'Lorem Ipsum', image: require('../../assets/images/QuestNatural.png'), price: '₹200' },
     ],
   },
   {
@@ -51,6 +51,14 @@ const SuperMart: React.FC = () => {
     router.push("/Screens/ProductList");
   };
 
+  const handleProductDetails =() => {
+    router.push("/Screens/ProductDetails");
+  };
+
+  type ProductGridProps = {
+    categories: typeof productData;
+    onPress: () => void;
+  };
 
   return (
     <View style={styles.container}>
