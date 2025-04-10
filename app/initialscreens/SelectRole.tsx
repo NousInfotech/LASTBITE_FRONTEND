@@ -51,7 +51,8 @@ const SelectRole = () => {
 
   const handleGetStarted = () => {
     if (activeOption === "User") {
-      router.push("./onboarding");
+      // router.push("./onboarding");
+      router.push('/auth/NumberLogin/otpScreen')
     } else if (activeOption === "Rider") {
       router.push("./RidersWelcome");
     } else if (activeOption === "Restaurant") {

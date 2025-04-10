@@ -12,42 +12,36 @@ import GoBack from "@/components/GoBack";
 import FilterButtons from "@/components/filter";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
-import RestaurantCard from "@/components/Foods"; // Corrected import
+import RestaurantCard from "@/components/Foods";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { RFPercentage } from "react-native-responsive-fontsize";
-
+import { getHiddenRestaurants, Restaurant } from "@/utils/RestaurantStorage";
 
 const HiddenRestaurant = () => {
   const router = useRouter();
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [toastVisible, setToastVisible] = useState(false);
+  const [hiddenRestaurants, setHiddenRestaurants] = useState<Restaurant[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const restaurantData = [
-    {
-      id: 1,
-      name: "Pizza Palace",
-      image: "https://example.com/pizza.jpg",
-      rating: 4.5,
-      deliveryTime: "30 min",
-      location: "Downtown",
-    },
-    {
-      id: 2,
-      name: "Sushi Spot",
-      image: "https://example.com/sushi.jpg",
-      rating: 4.8,
-      deliveryTime: "25 min",
-      location: "Uptown",
-    },
-  ];
+  const fetchHiddenRestaurants = async () => {
+    setLoading(true);
+    const restaurants = await getHiddenRestaurants();
+    setHiddenRestaurants(restaurants);
+    setLoading(false);
+  };
 
-  const handleFavorite = (id: number | string) => {
+  const handleFavorite = (id: string) => {
     console.log(`Favorited restaurant with ID: ${id}`);
   };
 
-  const handleHide = (id: number | string) => {
-    console.log(`Hidden restaurant with ID: ${id}`);
+  const handlePress = (restaurantId: string) => {
+    router.push(`/restaurant/${restaurantId}`);
   };
+
+  useEffect(() => {
+    fetchHiddenRestaurants();
+  }, []);
 
   useEffect(() => {
     const loadFonts = async () => {
@@ -66,7 +60,7 @@ const HiddenRestaurant = () => {
     loadFonts();
   }, []);
 
-  if (!fontsLoaded) {
+  if (!fontsLoaded || loading) {
     return null; // Show a loading screen if needed
   }
 
@@ -76,41 +70,51 @@ const HiddenRestaurant = () => {
 
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => router.back()}>
           <GoBack />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Hidden Restaurants</Text>
       </View>
 
-      {/* Centered Image */}
-      <View style={styles.imageContainer}>
-        <Image
-          source={require("../../assets/images/Hidden.png")}
-          style={styles.mainImage}
-        />
-      </View>
+      {hiddenRestaurants.length === 0 ? (
+        <>
+          {/* Centered Image */}
+          <View style={styles.imageContainer}>
+            <Image
+              source={require("../../assets/images/Hidden.png")}
+              style={styles.mainImage}
+            />
+            <Text style={styles.Title}>No Hidden Restaurants</Text>
+            <Text style={styles.subText}>
+              Restaurants you hide will appear here. You can unhide them anytime.
+            </Text>
+          </View>
+        </>
+      ) : (
+        <>
+          {/* Filter Buttons */}
+          <FilterButtons />
 
-      {/* Filter Buttons */}
-      <FilterButtons />
-
-      {/* Restaurant List */}
-      <FlatList
-        data={restaurantData}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <RestaurantCard
-            restaurant={item}
-            onFavorite={handleFavorite}
-            onHide={handleHide}
-            setToastVisible={setToastVisible}
+          {/* Restaurant List */}
+          <FlatList
+            data={hiddenRestaurants}
+            keyExtractor={(item) => item.restaurantId}
+            renderItem={({ item }) => (
+              <RestaurantCard
+                restaurant={item}
+                onFavorite={handleFavorite}
+                setToastVisible={setToastVisible}
+                onPress={handlePress}
+                hideOption={false}
+                refreshList={fetchHiddenRestaurants}
+              />
+            )}
           />
-        )}
-      />
+        </>
+      )}
     </SafeAreaView>
   );
 };
-
-export default HiddenRestaurant;
 
 const styles = StyleSheet.create({
   container: {
@@ -129,6 +133,7 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins-SemiBold",
   },
   imageContainer: {
+    flex: 1,
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 20,
@@ -139,18 +144,19 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   Title: {
-    fontSize: RFPercentage(2),
-    marginLeft: 16,
+    fontSize: RFPercentage(2.5),
     fontWeight: "500",
     fontFamily: "Poppins-SemiBold",
+    marginBottom: 8,
   },
   subText: {
     fontSize: RFPercentage(2),
     fontFamily: "Poppins-Regular",
     color: "#929292",
     marginBottom: 10,
-    textAlign: "center", // Centers the subtext
+    textAlign: "center",
     width: 300,
   },
-  
 });
+
+export default HiddenRestaurant;

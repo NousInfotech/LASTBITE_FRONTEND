@@ -180,7 +180,6 @@ const Home = () => {
       height: 180,
       borderRadius: 12,
     },
-    ,
     {
       title: "Craving  Special?",
       subtitle: "Popular cuisines and discover",
@@ -194,12 +193,13 @@ const Home = () => {
       groceryImage: require("../../assets/images/Img 1.png"),
       height: 180,
       borderRadius: 12,
+      onButtonPress: () => {handleCuisines}
     },
     {
       title: "Top Picks Around You",
       subtitle: "Order from the trending restaurants",
       deliveryTime: "in your area.",
-      buttonText: "Grab a Snack",
+      buttonText: "Order Now",
       buttonColor: "#FFC107",
       buttonTextColor: "#FFFFFF",
       backgroundColor: "#FFF7E1",
@@ -208,6 +208,7 @@ const Home = () => {
       groceryImage: require("../../assets/images/Img 3.png"),
       height: 180,
       borderRadius: 12,
+      onButtonPress: () => {handleCuisines}
     },
   ];
 
@@ -229,6 +230,10 @@ const Home = () => {
       params: { name: menuName },
     });
   };
+
+  const handleCuisines = () => {
+    router.push('/Screens/DishesSearch')
+  }
 
   return (
 

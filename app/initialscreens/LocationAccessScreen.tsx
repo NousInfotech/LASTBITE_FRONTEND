@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#E6F5F4",
   },
   borderButtonText: {
-    fontSize: RFPercentage(2.5), // Reduced font size
+    fontSize: RFPercentage(2), // Reduced font size
     color: "#01615F",
     fontWeight: "600",
   },
