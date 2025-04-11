@@ -51,9 +51,6 @@ const SuperMart: React.FC = () => {
     router.push("/Screens/ProductList");
   };
 
-  const handleProductDetails =() => {
-    router.push("/Screens/ProductDetails");
-  };
 
   type ProductGridProps = {
     categories: typeof productData;

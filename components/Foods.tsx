@@ -76,14 +76,6 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({
 
       {isMenuVisible && (
         <View style={styles.menuContainer}>
-          {/* <TouchableOpacity style={styles.menuItem} onPress={handleFavorite}>
-            <MaterialIcons
-              name={isFavorite ? "favorite" : "favorite-border"}
-              size={24}
-              color={isFavorite ? "green" : "black"}
-            />
-            <Text style={styles.menuText}>Add to favorites</Text>
-          </TouchableOpacity> */}
           <TouchableOpacity style={styles.menuItem} onPress={handleHide}>
             <MaterialIcons name="visibility-off" size={24} color="black" />
             <Text style={styles.menuText}>Hide this restaurant</Text>
@@ -226,3 +218,10 @@ const styles = StyleSheet.create({
 });
 
 export default RestaurantCard;
+
+
+
+
+
+
+

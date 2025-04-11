@@ -38,8 +38,8 @@ export default function SplashScreen() {
       }).start();
 
       setTimeout(() => {
-        router.push("/auth/NumberLogin/otpScreen"); 
-        // router.push("/initialscreens/SelectRole"); 
+        // router.push("/auth/NumberLogin/otpScreen"); 
+        router.push("/initialscreens/SelectRole"); 
       }, 3000); 
     }, 2000);
 

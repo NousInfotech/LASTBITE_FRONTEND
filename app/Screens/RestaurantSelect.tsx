@@ -12,6 +12,7 @@ import {
   Modal,
   ScrollView,
   Pressable,
+  Alert
 } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import GoBack from "@/components/GoBack";
@@ -22,6 +23,7 @@ import * as Font from "expo-font";
 import FilterPopup from "@/components/FilterFood";
 import { RFPercentage } from "react-native-responsive-fontsize";
 import { Feather, MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome } from '@expo/vector-icons';
 
 interface Restaurant {
   restaurantId: string;
@@ -36,9 +38,11 @@ interface Restaurant {
   isActive: boolean;
   details?: string;
 }
+
 interface CheckoutPopupProps {
   totalItems: number;
 }
+
 interface MenuItem {
   menuItemId: number;
   name: string;
@@ -149,6 +153,8 @@ const RestaurantSelect = () => {
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
     new Set()
   );
+  // Bookmark states
+  const [bookmarkedItems, setBookmarkedItems] = useState<Record<number, boolean>>({});
   const [cartCounts, setCartCounts] = useState<Record<number, number>>({});
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const router = useRouter();
@@ -159,6 +165,12 @@ const RestaurantSelect = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [isFilterVisible, setIsFilterVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+
+  // Add favorite restaurant state
+  const [favoriteRestaurants, setFavoriteRestaurants] = useState<Record<string, boolean>>({});
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+
+  const toggleDropdown = () => setDropdownVisible(!dropdownVisible);
 
   const getFilteredMenuItems = (
     items: MenuItem[],
@@ -174,11 +186,7 @@ const RestaurantSelect = () => {
         item.description.toLowerCase().includes(searchTerm)
     );
   };
-  //
-  const [dropdownVisible, setDropdownVisible] = useState(false);
 
-  const toggleDropdown = () => setDropdownVisible(!dropdownVisible);
-  //
   const getFilteredCategories = (
     categories: string[],
     filteredItems: MenuItem[]
@@ -194,6 +202,34 @@ const RestaurantSelect = () => {
         category.toLowerCase().includes(searchQuery.toLowerCase()) ||
         availableCategories.has(category)
     );
+  };
+
+  // Toggle bookmark for a specific menu item
+  const toggleBookmark = (menuItemId: number) => {
+    setBookmarkedItems(prev => ({
+      ...prev,
+      [menuItemId]: !prev[menuItemId]
+    }));
+  };
+
+  // Toggle favorite for a restaurant
+  const toggleFavorite = (restaurantId: string) => {
+    setFavoriteRestaurants(prev => {
+      const newState = {
+        ...prev,
+        [restaurantId]: !prev[restaurantId]
+      };
+      
+      // Show a toast or alert when adding to favorites
+      if (newState[restaurantId]) {
+        Alert.alert("Added to Favorites", "Restaurant has been added to your favorites!");
+      } else {
+        Alert.alert("Removed from Favorites", "Restaurant has been removed from your favorites.");
+      }
+      
+      return newState;
+    });
+    setDropdownVisible(false);
   };
 
   const getItemsCountPerCategory = () => {
@@ -297,6 +333,11 @@ const RestaurantSelect = () => {
     });
   };
 
+  const handleShareRestaurant = () => {
+    Alert.alert("Share", `Sharing ${restaurant.name} with friends!`);
+    setDropdownVisible(false);
+  };
+
   const NavigationBar = () => {
     const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
     const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
@@ -380,10 +421,21 @@ const RestaurantSelect = () => {
 
   const renderMenuItem = (item: MenuItem) => {
     const count = cartCounts[item.menuItemId] || 0;
+    const isBookmarked = bookmarkedItems[item.menuItemId] || false;
 
     return (
       <View style={styles.menuCard} key={item.menuItemId}>
         <Image style={styles.menuImage} source={{ uri: item.image }} />
+        <TouchableOpacity 
+          style={styles.iconWrapper} 
+          onPress={() => toggleBookmark(item.menuItemId)}
+        >
+          <FontAwesome
+            name={isBookmarked ? 'bookmark' : 'bookmark-o'}
+            size={18}
+            color="#01615F"
+          />
+        </TouchableOpacity>
         <View style={styles.menuDetails}>
           <Text style={styles.menuName}>{item.name}</Text>
           <Text style={styles.menuCategory}>{item.category}</Text>
@@ -442,6 +494,9 @@ const RestaurantSelect = () => {
     );
   };
 
+  // Check if the current restaurant is favorited
+  const isRestaurantFavorite = favoriteRestaurants[restaurantId] || false;
+
   return (
     <>
       <SafeAreaView style={styles.container}>
@@ -466,19 +521,27 @@ const RestaurantSelect = () => {
             </TouchableOpacity>
           </View>
 
-          {/* Dropdown */}
+          {/* Dropdown Menu */}
           {dropdownVisible && (
             <View style={styles.dropdown}>
-              <Pressable style={styles.dropdownItem}>
-                <Feather
-                  name="heart"
+              <Pressable 
+                style={styles.dropdownItem}
+                onPress={() => toggleFavorite(restaurantId)}
+              >
+                <FontAwesome
+                  name={isRestaurantFavorite ? "heart" : "heart-o"}
                   size={18}
-                  color="black"
+                  color={isRestaurantFavorite ? "#FF375F" : "black"}
                   style={styles.icon}
                 />
-                <Text style={styles.dropdownText}>Add to favourites</Text>
+                <Text style={styles.dropdownText}>
+                  {isRestaurantFavorite ? "Remove from favorites" : "Add to favorites"}
+                </Text>
               </Pressable>
-              <Pressable style={styles.dropdownItem}>
+              <Pressable 
+                style={styles.dropdownItem}
+                onPress={handleShareRestaurant}
+              >
                 <Feather
                   name="share-2"
                   size={18}
@@ -490,6 +553,14 @@ const RestaurantSelect = () => {
             </View>
           )}
         </View>
+
+        {/* Favorite Badge */}
+        {isRestaurantFavorite && (
+          <View style={styles.favoriteBadge}>
+            <FontAwesome name="heart" size={14} color="#fff" />
+            <Text style={styles.favoriteBadgeText}>Favorite</Text>
+          </View>
+        )}
 
         {/* Search Bar */}
         <SearchBarVoice
@@ -576,7 +647,6 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     paddingBottom: 100,
   },
-
   optionsContainer: {
     zIndex: 10,
   },
@@ -605,12 +675,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 8,
     paddingVertical: 6,
-    width: 180,
+    width: 200,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 4,
     elevation: 5,
+    zIndex: 20,
   },
   dropdownItem: {
     flexDirection: "row",
@@ -625,15 +696,29 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#333",
   },
-  menuButton: {
-    padding: 8,
-  },
   menuText: {
     fontSize: 24,
     color: "#333",
     fontWeight: "600",
   },
-
+  favoriteBadge: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#FF375F",
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    borderRadius: 4,
+    position: "absolute",
+    top: 12,
+    right: 55,
+    zIndex: 5,
+  },
+  favoriteBadgeText: {
+    color: "#fff",
+    fontSize: 12,
+    marginLeft: 4,
+    fontFamily: "Poppins-Medium",
+  },
   FileListcontainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -699,6 +784,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
+  },
+  iconWrapper: {
+    position: 'absolute',
+    top: 10,
+    left: 10,
+    padding: 6,
   },
   categoryText: {
     fontSize: 14,
@@ -865,3 +956,4 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins-Regular",
   },
 });
+

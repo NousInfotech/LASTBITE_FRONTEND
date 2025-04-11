@@ -7,16 +7,17 @@ import {
   StyleSheet,
   StatusBar,
   ScrollView,
-  Modal,
 } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { useRouter } from 'expo-router';
 import * as Font from "expo-font";
 import GoBack from "@/components/GoBack";
-import {  Ionicons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import SearchBarVoice from "@/components/SearchBarVoice";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { RFPercentage } from "react-native-responsive-fontsize";
+import ProductDetailsModal from "@/components/ProductDetailsModal"; // Make sure to adjust the import path
+
 // Define the types for the query params
 interface DishesSearchParams {
   id: string | undefined;
@@ -38,7 +39,7 @@ interface Restaurant {
 }
 interface CheckoutPopupProps {
   totalItems: number;
-  onCheckout: boolean;
+  onCheckout: () => void;
 }
 interface MenuItem {
   menuItemId: number;
@@ -140,6 +141,7 @@ const mockMenu: MenuItem[] = [
     isAvailable: true,
   },
 ];
+
 const CheckoutPopup: React.FC<CheckoutPopupProps> = ({ totalItems, onCheckout }) => {
   return (
     <View style={styles.popupContainer}>
@@ -159,6 +161,8 @@ const DishesSearch: React.FC = () => {
   const router = useRouter();
   const [searchText, setSearchText] = useState("");
   const totalItemsInCart = Object.values(cartCounts).reduce((sum, count) => sum + count, 0);
+  const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     const loadFonts = async () => {
@@ -176,12 +180,12 @@ const DishesSearch: React.FC = () => {
     loadFonts();
   }, []);
 
-  // Keep all existing cart handling functions
   const handleAddToCart = (item: MenuItem) => {
     setCartCounts((prevCounts) => ({
       ...prevCounts,
       [item.menuItemId]: (prevCounts[item.menuItemId] || 0) + 1
     }));
+    setModalVisible(false); // Close modal after adding to cart
   };
 
   const handleRemoveFromCart = (item: MenuItem) => {
@@ -192,7 +196,12 @@ const DishesSearch: React.FC = () => {
   };
 
   const handleViewDetails = (item: MenuItem) => {
-    console.log('View details for:', item.name);
+    setSelectedItem(item);
+    setModalVisible(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalVisible(false);
   };
 
   const handleCheckout = () => {
@@ -207,7 +216,7 @@ const DishesSearch: React.FC = () => {
         };
       });
   
-    const firstItemId = Object.keys(cartCounts).find((menuItemId :any) => cartCounts[menuItemId] > 0);
+    const firstItemId = Object.keys(cartCounts).find((menuItemId: any) => cartCounts[menuItemId] > 0);
     const restaurantId = firstItemId
       ? mockMenu.find((item) => item.menuItemId === parseInt(firstItemId))?.restaurantId
       : undefined;
@@ -229,7 +238,6 @@ const DishesSearch: React.FC = () => {
       console.error('No matching restaurant found for the selected items.');
     }
   };
-  
 
   const filterMenuItems = (searchQuery: string): Record<string, MenuItem[]> => {
     const grouped: Record<string, MenuItem[]> = {};
@@ -262,6 +270,7 @@ const DishesSearch: React.FC = () => {
   
     return grouped;
   };
+
   const renderRestaurantSection = (restaurantId: string, menuItems: MenuItem[]) => {
     const restaurant = mockRestaurants.find((rest) => rest.restaurantId === restaurantId);
     if (!restaurant) return null;
@@ -274,10 +283,6 @@ const DishesSearch: React.FC = () => {
           restaurantName: restaurant.name,
         },
       });
-    };
-
-    const handleProductDetails = () => {
-      router.push('/Screens/ProductDetails');
     };
 
     return (
@@ -309,16 +314,10 @@ const DishesSearch: React.FC = () => {
                 <Text style={styles.menuName}>{item.name}</Text>
                 <Text style={styles.menuCategory}>{item.category}</Text>
                 <Text style={styles.menuPrice}>${item.price.toFixed(2)}</Text>
-                {/* <TouchableOpacity 
-                  style={styles.viewDetailsButton} 
-                  onPress={() => handleViewDetails(item)}
-                >
-                  <Text style={styles.viewDetailsText}>View Details</Text>
-                </TouchableOpacity> */}
 
                 <TouchableOpacity 
                   style={styles.viewDetailsButton} 
-                  onPress={handleProductDetails}
+                  onPress={() => handleViewDetails(item)}
                 >
                   <Text style={styles.viewDetailsText}>View Details</Text>
                 </TouchableOpacity>
@@ -368,8 +367,7 @@ const DishesSearch: React.FC = () => {
     return <Text>Loading Fonts...</Text>;
   }
 
-  const groupedMenu = filterMenuItems(searchText || name || "");
-
+  const groupedMenu = filterMenuItems(searchText || (name as string) || "");
   const hasResults = Object.keys(groupedMenu).length > 0;
 
   return (
@@ -389,7 +387,7 @@ const DishesSearch: React.FC = () => {
         onChangeText={setSearchText}
       />
       
-     {!hasResults ? (
+      {!hasResults ? (
         <View style={styles.noResultsContainer}>
           <Text style={styles.noResultsText}>
             The searched dish is not available at any restaurant
@@ -412,10 +410,17 @@ const DishesSearch: React.FC = () => {
           onCheckout={handleCheckout}
         />
       )}
+
+      {/* Product Details Modal */}
+      <ProductDetailsModal
+        visible={modalVisible}
+        onClose={handleCloseModal}
+        item={selectedItem}
+        onAddToCart={handleAddToCart}
+      />
     </SafeAreaView>
   );
 };
-
 
 export default DishesSearch;
 
@@ -452,7 +457,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between", 
     alignItems: "center", 
   },
-
   restaurantSubContainer: {
     flexDirection: "row", 
     alignItems: "center", 
@@ -486,41 +490,36 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: "#fff",
   },
-  
   leftSection: {
     width: '50%', // Fixed width percentage
     justifyContent: 'space-between',
-    // paddingRight: 10,
   },
-  
   rightSection: {
     width: '50%', // Fixed width percentage
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  
   imageContainer: {
     width: 100,
     height: 100,
     marginBottom: 10,
   },
-  
   menuImage: {
     width: '100%',
     height: '100%',
     borderRadius: 8,
   },
-  
   addButtonContainer: {
-    width: 60, // Fixed width matching image container
+    width: 60, 
     alignItems: 'center',
     marginHorizontal: 50,
     marginVertical: 0,
     marginTop:-30,
   },
-  
   addButton: {
-    backgroundColor: "#01615F",
+    borderColor: "#01615F",
+    borderWidth: 1,
+    backgroundColor: "#fff",
     paddingVertical: 5,
     borderRadius: 5,
     width: '100%', // Takes full width of container
@@ -554,10 +553,8 @@ const styles = StyleSheet.create({
     fontSize: RFPercentage(1.3),
     fontFamily: 'Poppins-Regular',
   },
- 
   addButtonText: {
-    // color: "#01615F",
-    color: "#fff",
+    color: "#01615F",
     fontSize: RFPercentage(2),
   },
   ButtonText: {
@@ -566,8 +563,6 @@ const styles = StyleSheet.create({
   },
   counterContainer: {
     flexDirection: "row",
-    // alignItems: "center",
-    // marginLeft: 10,
   },
   minusButton: {                                 
     flexDirection: 'row',
@@ -589,7 +584,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     color: "#fff",
   },
-counterText: {
+  counterText: {
     alignItems: 'center',
     justifyContent: 'center',
     borderColor: '#01615F',
@@ -600,7 +595,7 @@ counterText: {
     borderWidth: 1,
     backgroundColor: "#fff",
     textAlign: "center", 
-},
+  },
   popupContainer: {
     position: 'absolute', 
     bottom: 0, 
@@ -644,5 +639,5 @@ counterText: {
     color: '#000',
     textAlign: 'center',
   },
+  // Modal styles are now in the ProductDetailsModal component
 });
-
