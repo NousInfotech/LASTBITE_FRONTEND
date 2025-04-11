@@ -71,7 +71,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ categories }) => {
   );
 
   const handleProductDetails = () => {
-    router.push('/Screens/ProductDetails')
+    router.push('/Screens/ProductList')
   }
 
   const renderProductItem = (item: ProductItem) => (
