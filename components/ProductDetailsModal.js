@@ -1,39 +1,14 @@
-
-
 import React, { useState, useEffect } from 'react';
 import { View, Text, Modal, StyleSheet, TouchableOpacity } from 'react-native';
 import { RFPercentage } from "react-native-responsive-fontsize";
 
-const ProductDetailsModal = ({ visible, onClose, item, onAddToCart }) => {
-  const [cartCounts, setCartCounts] = useState({});
+const ProductDetailsModal = ({ visible, onClose, item, onAddToCart, cartCounts }) => {
   const [modalVisible, setModalVisible] = useState(false);
   
   // Sync the modal visibility with the prop
   useEffect(() => {
     setModalVisible(visible);
   }, [visible]);
-  
-  const handleAddToCart = (item) => {
-    const currentCount = cartCounts[item.menuItemId] || 0;
-    setCartCounts({
-      ...cartCounts,
-      [item.menuItemId]: currentCount + 1
-    });
-    
-    if (onAddToCart) {
-      onAddToCart(item);
-    }
-  };
-  
-  const handleRemoveFromCart = (item) => {
-    const currentCount = cartCounts[item.menuItemId] || 0;
-    if (currentCount > 0) {
-      setCartCounts({
-        ...cartCounts,
-        [item.menuItemId]: currentCount - 1
-      });
-    }
-  };
   
   const handleRequestClose = () => {
     // Prevent accidental closing
@@ -58,35 +33,14 @@ const ProductDetailsModal = ({ visible, onClose, item, onAddToCart }) => {
                 <Text style={styles.itemPrice}>${item?.price?.toFixed(2) || "65"}</Text>
               </View>
               <View style={styles.addButtonContainer}>
-                {item && item.menuItemId && cartCounts[item.menuItemId] ? (
-                  <View style={styles.counterContainer}>
-                    <TouchableOpacity 
-                      style={styles.minusButton} 
-                      onPress={() => handleRemoveFromCart(item)}
-                      activeOpacity={0.8}
-                    >
-                      <Text style={styles.buttonText}>-</Text>
-                    </TouchableOpacity>
-                    <Text style={styles.counterText}>
-                      {cartCounts[item.menuItemId]}
-                    </Text>
-                    <TouchableOpacity 
-                      style={styles.plusButton} 
-                      onPress={() => handleAddToCart(item)}
-                      activeOpacity={0.8}
-                    >
-                      <Text style={styles.buttonText}>+</Text>
-                    </TouchableOpacity>
-                  </View>
-                ) : (
-                  <TouchableOpacity 
-                    style={styles.addButton} 
-                    onPress={() => handleAddToCart(item)}
-                    activeOpacity={0.8}
-                  >
-                    <Text style={styles.addButtonText}>Add</Text>
-                  </TouchableOpacity>
-                )}
+                {/* We use the Add button regardless of cart state in the modal */}
+                <TouchableOpacity 
+                  style={styles.addButton} 
+                  onPress={() => onAddToCart(item)}
+                  activeOpacity={0.8}
+                >
+                  <Text style={styles.addButtonText}>Add</Text>
+                </TouchableOpacity>
               </View>
             </View>
             <Text style={styles.itemDescription}>
@@ -204,43 +158,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  counterContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderColor: "#01615F",
-    borderWidth: 1,
-    borderRadius: 5,
-    overflow: 'hidden',
-  },
-  minusButton: {
-    backgroundColor: "#01615F",
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  plusButton: {
-    backgroundColor: "#01615F",
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  buttonText: {
-    color: "#FFFFFF",
-    fontFamily: 'Poppins-Medium',
-    fontSize: RFPercentage(2),
-  },
-  counterText: {
-    paddingHorizontal: 15,
-    fontFamily: 'Poppins-Medium',
-    fontSize: RFPercentage(2),
-  },
   addButton: {
     borderColor: "#01615F",
     borderWidth: 1,
     backgroundColor: "#fff",
-    paddingVertical: 5,
+    paddingVertical: 3,
+    paddingHorizontal: 20,
     borderRadius: 5,
     width: '100%', // Takes full width of container
     alignItems: 'center',

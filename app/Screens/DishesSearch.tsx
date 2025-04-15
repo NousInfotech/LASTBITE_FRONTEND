@@ -9,7 +9,7 @@ import {
   ScrollView,
 } from "react-native";
 import { useLocalSearchParams } from "expo-router";
-import { useRouter } from 'expo-router';
+import { useRouter } from "expo-router";
 import * as Font from "expo-font";
 import GoBack from "@/components/GoBack";
 import { Ionicons } from "@expo/vector-icons";
@@ -103,7 +103,8 @@ const mockMenu: MenuItem[] = [
   {
     menuItemId: 3,
     name: "Paneer Tikka",
-    description: "Soft paneer cubes marinated in spices and grilled to perfection.",
+    description:
+      "Soft paneer cubes marinated in spices and grilled to perfection.",
     price: 9.99,
     category: "North Indian",
     restaurantId: "r1",
@@ -133,7 +134,8 @@ const mockMenu: MenuItem[] = [
   {
     menuItemId: 6,
     name: "Pasta",
-    description: "Soft paneer cubes marinated in spices and grilled to perfection.",
+    description:
+      "Soft paneer cubes marinated in spices and grilled to perfection.",
     price: 9.99,
     category: "North Indian",
     restaurantId: "r1",
@@ -142,12 +144,15 @@ const mockMenu: MenuItem[] = [
   },
 ];
 
-const CheckoutPopup: React.FC<CheckoutPopupProps> = ({ totalItems, onCheckout }) => {
+const CheckoutPopup: React.FC<CheckoutPopupProps> = ({
+  totalItems,
+  onCheckout,
+}) => {
   return (
     <View style={styles.popupContainer}>
       <TouchableOpacity style={styles.checkoutButton} onPress={onCheckout}>
         <Text style={styles.checkoutText}>
-          {`Checkout ${totalItems} item${totalItems > 1 ? 's' : ''}`}
+          {`Checkout ${totalItems} item${totalItems > 1 ? "s" : ""}`}
         </Text>
       </TouchableOpacity>
     </View>
@@ -160,7 +165,10 @@ const DishesSearch: React.FC = () => {
   const [cartCounts, setCartCounts] = useState<Record<number, number>>({});
   const router = useRouter();
   const [searchText, setSearchText] = useState("");
-  const totalItemsInCart = Object.values(cartCounts).reduce((sum, count) => sum + count, 0);
+  const totalItemsInCart = Object.values(cartCounts).reduce(
+    (sum, count) => sum + count,
+    0
+  );
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -183,7 +191,7 @@ const DishesSearch: React.FC = () => {
   const handleAddToCart = (item: MenuItem) => {
     setCartCounts((prevCounts) => ({
       ...prevCounts,
-      [item.menuItemId]: (prevCounts[item.menuItemId] || 0) + 1
+      [item.menuItemId]: (prevCounts[item.menuItemId] || 0) + 1,
     }));
     setModalVisible(false); // Close modal after adding to cart
   };
@@ -191,7 +199,7 @@ const DishesSearch: React.FC = () => {
   const handleRemoveFromCart = (item: MenuItem) => {
     setCartCounts((prevCounts) => ({
       ...prevCounts,
-      [item.menuItemId]: Math.max((prevCounts[item.menuItemId] || 0) - 1, 0)
+      [item.menuItemId]: Math.max((prevCounts[item.menuItemId] || 0) - 1, 0),
     }));
   };
 
@@ -208,26 +216,31 @@ const DishesSearch: React.FC = () => {
     const selectedItems = Object.entries(cartCounts)
       .filter(([_, quantity]) => quantity > 0)
       .map(([menuItemId, quantity]) => {
-        const menuItem = mockMenu.find((item) => item.menuItemId === parseInt(menuItemId));
+        const menuItem = mockMenu.find(
+          (item) => item.menuItemId === parseInt(menuItemId)
+        );
         return {
           name: menuItem?.name,
           quantity,
           price: menuItem?.price,
         };
       });
-  
-    const firstItemId = Object.keys(cartCounts).find((menuItemId: any) => cartCounts[menuItemId] > 0);
+
+    const firstItemId = Object.keys(cartCounts).find(
+      (menuItemId: any) => cartCounts[menuItemId] > 0
+    );
     const restaurantId = firstItemId
-      ? mockMenu.find((item) => item.menuItemId === parseInt(firstItemId))?.restaurantId
+      ? mockMenu.find((item) => item.menuItemId === parseInt(firstItemId))
+          ?.restaurantId
       : undefined;
-  
+
     const restaurant = restaurantId
       ? mockRestaurants.find((rest) => rest.restaurantId === restaurantId)
       : undefined;
-  
+
     if (restaurant) {
       router.push({
-        pathname: './BillingScreen',
+        pathname: "./BillingScreen",
         params: {
           restaurantId: restaurant.restaurantId,
           restaurantName: restaurant.name,
@@ -235,49 +248,59 @@ const DishesSearch: React.FC = () => {
         },
       });
     } else {
-      console.error('No matching restaurant found for the selected items.');
+      console.error("No matching restaurant found for the selected items.");
     }
   };
 
   const filterMenuItems = (searchQuery: string): Record<string, MenuItem[]> => {
     const grouped: Record<string, MenuItem[]> = {};
-    
-    const searchTerm = searchQuery.toLowerCase() || (name ? name.toLowerCase() : '');
-    
-    const matchingRestaurants = mockRestaurants.filter(restaurant => 
+
+    const searchTerm =
+      searchQuery.toLowerCase() || (name ? name.toLowerCase() : "");
+
+    const matchingRestaurants = mockRestaurants.filter((restaurant) =>
       restaurant.name.toLowerCase().includes(searchTerm)
     );
-    
-    matchingRestaurants.forEach(restaurant => {
-      const restaurantMenuItems = mockMenu.filter(item => 
-        item.restaurantId === restaurant.restaurantId
+
+    matchingRestaurants.forEach((restaurant) => {
+      const restaurantMenuItems = mockMenu.filter(
+        (item) => item.restaurantId === restaurant.restaurantId
       );
       if (restaurantMenuItems.length > 0) {
         grouped[restaurant.restaurantId] = restaurantMenuItems;
       }
     });
-    
+
     mockMenu.forEach((menuItem) => {
       if (menuItem.name.toLowerCase().includes(searchTerm)) {
         if (!grouped[menuItem.restaurantId]) {
           grouped[menuItem.restaurantId] = [];
         }
-        if (!grouped[menuItem.restaurantId].some(item => item.menuItemId === menuItem.menuItemId)) {
+        if (
+          !grouped[menuItem.restaurantId].some(
+            (item) => item.menuItemId === menuItem.menuItemId
+          )
+        ) {
           grouped[menuItem.restaurantId].push(menuItem);
         }
       }
     });
-  
+
     return grouped;
   };
 
-  const renderRestaurantSection = (restaurantId: string, menuItems: MenuItem[]) => {
-    const restaurant = mockRestaurants.find((rest) => rest.restaurantId === restaurantId);
+  const renderRestaurantSection = (
+    restaurantId: string,
+    menuItems: MenuItem[]
+  ) => {
+    const restaurant = mockRestaurants.find(
+      (rest) => rest.restaurantId === restaurantId
+    );
     if (!restaurant) return null;
 
     const navigateToAddMoreItems = () => {
       router.push({
-        pathname: './AddMoreItems',
+        pathname: "./AddMoreItems",
         params: {
           restaurantId,
           restaurantName: restaurant.name,
@@ -293,19 +316,19 @@ const DishesSearch: React.FC = () => {
             <Ionicons name="arrow-forward-outline" size={18} color="gray" />
           </TouchableOpacity>
         </View>
-        
+
         <View style={styles.restaurantSubContainer}>
           <Text style={styles.restaurantSub}>{restaurant.ratingAverage}</Text>
-          <Image 
-            source={require("./../../assets/images/Star.png")} 
-            style={styles.starIcon} 
+          <Image
+            source={require("./../../assets/images/Star.png")}
+            style={styles.starIcon}
           />
           <Text style={styles.headerLocation}>{restaurant?.location}</Text>
         </View>
-        
-        <ScrollView 
-          horizontal={true} 
-          showsHorizontalScrollIndicator={false} 
+
+        <ScrollView
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
           style={styles.horizontalScroll}
         >
           {menuItems.map((item) => (
@@ -315,23 +338,26 @@ const DishesSearch: React.FC = () => {
                 <Text style={styles.menuCategory}>{item.category}</Text>
                 <Text style={styles.menuPrice}>${item.price.toFixed(2)}</Text>
 
-                <TouchableOpacity 
-                  style={styles.viewDetailsButton} 
+                <TouchableOpacity
+                  style={styles.viewDetailsButton}
                   onPress={() => handleViewDetails(item)}
                 >
                   <Text style={styles.viewDetailsText}>View Details</Text>
                 </TouchableOpacity>
               </View>
-              
+
               <View style={styles.rightSection}>
                 <View style={styles.imageContainer}>
-                  <Image style={styles.menuImage} source={{ uri: item.image }} />
+                  <Image
+                    style={styles.menuImage}
+                    source={{ uri: item.image }}
+                  />
                 </View>
                 <View style={styles.addButtonContainer}>
                   {cartCounts[item.menuItemId] ? (
                     <View style={styles.counterContainer}>
-                      <TouchableOpacity 
-                        style={styles.minusButton} 
+                      <TouchableOpacity
+                        style={styles.minusButton}
                         onPress={() => handleRemoveFromCart(item)}
                       >
                         <Text style={styles.ButtonText}>-</Text>
@@ -339,16 +365,16 @@ const DishesSearch: React.FC = () => {
                       <Text style={styles.counterText}>
                         {cartCounts[item.menuItemId]}
                       </Text>
-                      <TouchableOpacity 
-                        style={styles.plusButton} 
+                      <TouchableOpacity
+                        style={styles.plusButton}
                         onPress={() => handleAddToCart(item)}
                       >
                         <Text style={styles.ButtonText}>+</Text>
                       </TouchableOpacity>
                     </View>
                   ) : (
-                    <TouchableOpacity 
-                      style={styles.addButton} 
+                    <TouchableOpacity
+                      style={styles.addButton}
                       onPress={() => handleAddToCart(item)}
                     >
                       <Text style={styles.addButtonText}>Add</Text>
@@ -386,7 +412,7 @@ const DishesSearch: React.FC = () => {
         value={searchText}
         onChangeText={setSearchText}
       />
-      
+
       {!hasResults ? (
         <View style={styles.noResultsContainer}>
           <Text style={styles.noResultsText}>
@@ -403,10 +429,10 @@ const DishesSearch: React.FC = () => {
           )}
         </ScrollView>
       )}
-      
+
       {totalItemsInCart > 0 && (
-        <CheckoutPopup 
-          totalItems={totalItemsInCart} 
+        <CheckoutPopup
+          totalItems={totalItemsInCart}
           onCheckout={handleCheckout}
         />
       )}
@@ -417,6 +443,7 @@ const DishesSearch: React.FC = () => {
         onClose={handleCloseModal}
         item={selectedItem}
         onAddToCart={handleAddToCart}
+        cartCounts={cartCounts} // Pass the cartCounts from parent
       />
     </SafeAreaView>
   );
@@ -444,39 +471,39 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 14,
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
   },
   headerLocation: {
     fontSize: RFPercentage(1.3),
     marginLeft: 10,
-    color:"grey",
+    color: "grey",
     fontFamily: "Poppins-Regular",
   },
   restaurantHeader: {
     flexDirection: "row",
-    justifyContent: "space-between", 
-    alignItems: "center", 
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   restaurantSubContainer: {
-    flexDirection: "row", 
-    alignItems: "center", 
-    marginBottom: -2, 
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: -2,
     marginLeft: 10,
   },
   restaurantSub: {
     fontSize: RFPercentage(2),
     color: "gray",
     fontFamily: "Poppins-Regular",
-    marginRight: 4, 
+    marginRight: 4,
   },
   starIcon: {
-    width: 14, 
-    height: 14, 
+    width: 14,
+    height: 14,
   },
   restaurantName: {
     fontSize: 15,
     marginLeft: 10,
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
   },
   horizontalScroll: {
     marginTop: 10,
@@ -484,20 +511,20 @@ const styles = StyleSheet.create({
   menuCard: {
     width: 250, // Fixed width for stability
     flexDirection: "row",
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
     borderRadius: 8,
     marginLeft: 2,
     padding: 10,
     backgroundColor: "#fff",
   },
   leftSection: {
-    width: '50%', // Fixed width percentage
-    justifyContent: 'space-between',
+    width: "50%", // Fixed width percentage
+    justifyContent: "space-between",
   },
   rightSection: {
-    width: '50%', // Fixed width percentage
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    width: "50%", // Fixed width percentage
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   imageContainer: {
     width: 100,
@@ -505,16 +532,16 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   menuImage: {
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
     borderRadius: 8,
   },
   addButtonContainer: {
-    width: 60, 
-    alignItems: 'center',
+    width: 60,
+    alignItems: "center",
     marginHorizontal: 50,
     marginVertical: 0,
-    marginTop:-30,
+    marginTop: -30,
   },
   addButton: {
     borderColor: "#01615F",
@@ -522,26 +549,26 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     paddingVertical: 5,
     borderRadius: 5,
-    width: '100%', // Takes full width of container
-    alignItems: 'center',
+    width: "100%", // Takes full width of container
+    alignItems: "center",
   },
   menuName: {
     fontSize: 14,
-    fontFamily: 'Poppins-Medium',
+    fontFamily: "Poppins-Medium",
   },
   menuCategory: {
     fontSize: RFPercentage(1.3),
     color: "gray",
-    fontFamily: 'Poppins-Regular',
+    fontFamily: "Poppins-Regular",
   },
   menuPrice: {
     fontSize: 14,
-    fontFamily: 'Poppins-Medium',
+    fontFamily: "Poppins-Medium",
     color: "#01615F",
   },
   viewDetailsButton: {
     marginTop: 8,
-    width:85,
+    width: 85,
     paddingVertical: 6,
     paddingHorizontal: 10,
     backgroundColor: "#fff",
@@ -551,7 +578,7 @@ const styles = StyleSheet.create({
   },
   viewDetailsText: {
     fontSize: RFPercentage(1.3),
-    fontFamily: 'Poppins-Regular',
+    fontFamily: "Poppins-Regular",
   },
   addButtonText: {
     color: "#01615F",
@@ -564,80 +591,79 @@ const styles = StyleSheet.create({
   counterContainer: {
     flexDirection: "row",
   },
-  minusButton: {                                 
-    flexDirection: 'row',
-    justifyContent: 'center',
-    backgroundColor: '#01615F',
+  minusButton: {
+    flexDirection: "row",
+    justifyContent: "center",
+    backgroundColor: "#01615F",
     borderRadius: 4,
     marginRight: 10,
     paddingHorizontal: 4,
-    width:25,
+    width: 25,
     color: "white",
   },
   plusButton: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    backgroundColor: '#01615F',
+    flexDirection: "row",
+    justifyContent: "center",
+    backgroundColor: "#01615F",
     borderRadius: 4,
-    width:25,
+    width: 25,
     paddingHorizontal: 4,
     marginLeft: 10,
     color: "#fff",
   },
   counterText: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderColor: '#01615F',
+    alignItems: "center",
+    justifyContent: "center",
+    borderColor: "#01615F",
     borderRadius: 2,
-    width: 30, 
-    height: 30, 
-    padding: 4, 
+    width: 30,
+    height: 30,
+    padding: 4,
     borderWidth: 1,
     backgroundColor: "#fff",
-    textAlign: "center", 
+    textAlign: "center",
   },
   popupContainer: {
-    position: 'absolute', 
-    bottom: 0, 
-    width: '100%', 
-    backgroundColor: 'white', 
-    padding: 20, 
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: -2 }, 
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
+    backgroundColor: "white",
+    padding: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.2,
     shadowRadius: 4,
     elevation: 5,
     borderRadius: 20,
   },
   checkoutButton: {
-    backgroundColor: '#01615F', 
+    backgroundColor: "#01615F",
     borderRadius: 8,
-    paddingVertical: 12, 
-    alignItems: 'center', 
+    paddingVertical: 12,
+    alignItems: "center",
   },
   checkoutText: {
-    color: 'white',
+    color: "white",
     fontSize: RFPercentage(2),
-    fontFamily: 'Poppins-Regular',
+    fontFamily: "Poppins-Regular",
   },
   noResultsContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     paddingHorizontal: 20,
   },
   noResultsText: {
-    fontFamily: 'Poppins-Medium',
+    fontFamily: "Poppins-Medium",
     fontSize: RFPercentage(2),
-    color: '#000',
-    textAlign: 'center',
+    color: "#000",
+    textAlign: "center",
     marginBottom: 8,
   },
   noResultsSubText: {
-    fontFamily: 'Poppins-Regular',
+    fontFamily: "Poppins-Regular",
     fontSize: 14,
-    color: '#000',
-    textAlign: 'center',
+    color: "#000",
+    textAlign: "center",
   },
-  // Modal styles are now in the ProductDetailsModal component
 });
