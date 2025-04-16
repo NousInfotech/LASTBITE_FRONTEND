@@ -41,11 +41,14 @@ const ProfileScreen = () => {
 
   const handleMoney = () => {
     router.push('/Screens/MoneyGifts')  
+  } 
+
+  const handleReferEarn = () => {
+    router.push('/Screens/ReferEarn')  
   }
 
   return (
-    // <SafeAreaView style={styles.container}>
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
       <View style={styles.header}>
         <TouchableOpacity>
@@ -210,7 +213,7 @@ const ProfileScreen = () => {
           <AntDesign name="right" size={16} color="#757575" />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.menuBox}>
+        <TouchableOpacity style={styles.menuBox} onPress={handleReferEarn}>
           <View>
             <Text style={styles.menuTitle}>Refer & Earn Program</Text>
             <Text style={styles.menuSubtitle}>
@@ -219,6 +222,7 @@ const ProfileScreen = () => {
           </View>
           <AntDesign name="right" size={16} color="#757575" />
         </TouchableOpacity>
+
 
         <TouchableOpacity
           style={styles.menuBox}

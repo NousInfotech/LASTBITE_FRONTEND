@@ -16,8 +16,7 @@ import { Ionicons } from "@expo/vector-icons";
 import SearchBarVoice from "@/components/SearchBarVoice";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { RFPercentage } from "react-native-responsive-fontsize";
-import ProductDetailsModal from "@/components/ProductDetailsModal"; // Make sure to adjust the import path
-
+import ProductDetailsModal from "@/components/ProductDetailsModal";
 // Define the types for the query params
 interface DishesSearchParams {
   id: string | undefined;

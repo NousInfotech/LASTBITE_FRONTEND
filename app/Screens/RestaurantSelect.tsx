@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -12,7 +12,8 @@ import {
   Modal,
   ScrollView,
   Pressable,
-  Alert
+  Alert,
+  Animated
 } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import GoBack from "@/components/GoBack";
@@ -24,6 +25,7 @@ import FilterPopup from "@/components/FilterFood";
 import { RFPercentage } from "react-native-responsive-fontsize";
 import { Feather, MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome } from '@expo/vector-icons';
+import CreateWishlistPopup from "@/components/CreateWishlistPopup";
 
 interface Restaurant {
   restaurantId: string;
@@ -52,6 +54,21 @@ interface MenuItem {
   restaurantId: string;
   image: string;
   isAvailable: boolean;
+}
+
+interface WishlistPopupProps {
+  isVisible: boolean;
+  onClose: () => void;
+  onCreateNewList: () => void;
+  onSave: () => void;
+  selectedLists: string[];
+  onToggleList: (listId: string) => void;
+}
+
+interface WishlistList {
+  id: string;
+  name: string;
+  image: any;
 }
 
 const mockRestaurants: Restaurant[] = [
@@ -170,6 +187,26 @@ const RestaurantSelect = () => {
   const [favoriteRestaurants, setFavoriteRestaurants] = useState<Record<string, boolean>>({});
   const [dropdownVisible, setDropdownVisible] = useState(false);
 
+  // Wishlist popup states
+  const [isWishlistPopupVisible, setIsWishlistPopupVisible] = useState<boolean>(false);
+  const [selectedLists, setSelectedLists] = useState<string[]>([]);
+  const [activeBookmarkedItemId, setActiveBookmarkedItemId] = useState<number | null>(null);
+  const slideAnimation = useRef(new Animated.Value(0)).current;
+
+  // Create new wishlist states
+  const [isCreateWishlistVisible, setIsCreateWishlistVisible] = useState(false);
+  const [activeItemDetails, setActiveItemDetails] = useState({ 
+    image: '', 
+    name: '' 
+  });
+
+  // Lists for the wishlist popup
+  const wishlistLists: WishlistList[] = [
+    { id: 'all-time', name: 'All Time Fav', image: require("./../../assets/images/Restaurant.png") },
+    { id: 'late-night', name: 'Late night cravings', image: require("./../../assets/images/Restaurant.png") },
+    { id: 'comfort', name: 'Comfort Food', image: require("./../../assets/images/Restaurant.png") },
+  ];
+
   const toggleDropdown = () => setDropdownVisible(!dropdownVisible);
 
   const getFilteredMenuItems = (
@@ -206,10 +243,93 @@ const RestaurantSelect = () => {
 
   // Toggle bookmark for a specific menu item
   const toggleBookmark = (menuItemId: number) => {
+    const isCurrentlyBookmarked = bookmarkedItems[menuItemId] || false;
+    
     setBookmarkedItems(prev => ({
       ...prev,
       [menuItemId]: !prev[menuItemId]
     }));
+    
+    // Only show the wishlist popup when adding to bookmarks, not when removing
+    if (!isCurrentlyBookmarked) {
+      setActiveBookmarkedItemId(menuItemId);
+      showWishlistPopup();
+    }
+  };
+
+  // Wishlist popup functions
+  const showWishlistPopup = () => {
+    setIsWishlistPopupVisible(true);
+    Animated.timing(slideAnimation, {
+      toValue: 1,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const hideWishlistPopup = () => {
+    Animated.timing(slideAnimation, {
+      toValue: 0,
+      duration: 300,
+      useNativeDriver: true,
+    }).start(() => {
+      setIsWishlistPopupVisible(false);
+      setSelectedLists([]);
+    });
+  };
+
+  const handleCreateNewList = () => {
+    // Get the active menu item details if we have an active bookmarked item
+    if (activeBookmarkedItemId) {
+      const item = menuItems.find(item => item.menuItemId === activeBookmarkedItemId);
+      if (item) {
+        setActiveItemDetails({ 
+          image: item.image, 
+          name: item.name 
+        });
+      }
+    }
+    
+    hideWishlistPopup(); // Close the wishlist selection popup
+    setIsCreateWishlistVisible(true); // Open the create new list popup
+  };
+
+  const handleSaveNewWishlist = (listName: string) => {
+    // Here you would typically save the new wishlist to your app's state or database
+    // For now we'll just show an alert to confirm it worked
+    Alert.alert(
+      "New List Created", 
+      `Your new list "${listName}" has been created and item has been added!`
+    );
+    setIsCreateWishlistVisible(false);
+  };
+
+  const toggleListSelection = (listId: string) => {
+    setSelectedLists(prev => {
+      if (prev.includes(listId)) {
+        return prev.filter(id => id !== listId);
+      } else {
+        return [...prev, listId];
+      }
+    });
+  };
+
+  const handleSaveToWishlist = () => {
+    if (selectedLists.length === 0) {
+      Alert.alert("No List Selected", "Please select at least one list to save to.");
+      return;
+    }
+
+    const selectedListNames = selectedLists.map(id => 
+      wishlistLists.find(list => list.id === id)?.name
+    ).filter(Boolean);
+
+    Alert.alert(
+      "Added to Wishlist", 
+      `Item has been added to: ${selectedListNames.join(', ')}`
+    );
+    
+    hideWishlistPopup();
   };
 
   // Toggle favorite for a restaurant
@@ -338,6 +458,112 @@ const RestaurantSelect = () => {
     setDropdownVisible(false);
   };
 
+  const handleOpenModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalVisible(false);
+  };
+
+  // WishlistPopup component
+  const WishlistPopup: React.FC<WishlistPopupProps> = ({ 
+    isVisible, 
+    onClose, 
+    onCreateNewList,
+    onSave,
+    selectedLists,
+    onToggleList
+  }) => {
+    const translateY = slideAnimation.interpolate({
+      inputRange: [0, 1],
+      outputRange: [300, 0],
+    });
+  
+    if (!isVisible) return null;
+  
+    return (
+      <TouchableWithoutFeedback onPress={onClose}>
+        <View style={wishlistStyles.overlay}>
+          <TouchableWithoutFeedback>
+            <Animated.View 
+              style={[
+                wishlistStyles.container,
+                { transform: [{ translateY }] }
+              ]}
+            >
+              <View style={wishlistStyles.header}>
+                <Text style={wishlistStyles.title}>Add to Your Wishlist</Text>
+                <TouchableOpacity onPress={onClose} style={wishlistStyles.closeButton}>
+                  <Text style={wishlistStyles.closeButtonText}>✕</Text>
+                </TouchableOpacity>
+              </View>
+              
+              <TouchableOpacity 
+                style={wishlistStyles.createNewListButton}
+                onPress={onCreateNewList}
+              >
+                <View style={wishlistStyles.plusIconContainer}>
+                  <Text style={wishlistStyles.plusIcon}>+</Text>
+                </View>
+                <Text style={wishlistStyles.createNewListText}>Create New List</Text>
+              </TouchableOpacity>
+              
+              <Text style={wishlistStyles.listSectionTitle}>Your Lists</Text>
+              
+              {wishlistLists.slice(0, 1).map(list => (
+                <TouchableOpacity 
+                  key={list.id}
+                  style={wishlistStyles.listItem}
+                  onPress={() => onToggleList(list.id)}
+                >
+                  <Image source={list.image} style={wishlistStyles.listItemImage} />
+                  <Text style={wishlistStyles.listItemText}>{list.name}</Text>
+                  <View style={[
+                    wishlistStyles.checkbox,
+                    selectedLists.includes(list.id) && wishlistStyles.checkboxSelected
+                  ]}>
+                    {selectedLists.includes(list.id) && (
+                      <View style={wishlistStyles.checkboxInner} />
+                    )}
+                  </View>
+                </TouchableOpacity>
+              ))}
+              
+              <Text style={wishlistStyles.listSectionTitle}>Suggested List</Text>
+              
+              {wishlistLists.slice(1).map(list => (
+                <TouchableOpacity 
+                  key={list.id}
+                  style={wishlistStyles.listItem}
+                  onPress={() => onToggleList(list.id)}
+                >
+                  <Image source={list.image} style={wishlistStyles.listItemImage} />
+                  <Text style={wishlistStyles.listItemText}>{list.name}</Text>
+                  <View style={[
+                    wishlistStyles.checkbox,
+                    selectedLists.includes(list.id) && wishlistStyles.checkboxSelected
+                  ]}>
+                    {selectedLists.includes(list.id) && (
+                      <View style={wishlistStyles.checkboxInner} />
+                    )}
+                  </View>
+                </TouchableOpacity>
+              ))}
+              
+              <TouchableOpacity 
+                style={wishlistStyles.saveButton}
+                onPress={onSave}
+              >
+                <Text style={wishlistStyles.saveButtonText}>Save</Text>
+              </TouchableOpacity>
+            </Animated.View>
+          </TouchableWithoutFeedback>
+        </View>
+      </TouchableWithoutFeedback>
+    );
+  };
+
   const NavigationBar = () => {
     const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
     const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
@@ -413,11 +639,20 @@ const RestaurantSelect = () => {
     );
   };
 
-  const filteredMenuItems = getFilteredMenuItems(menuItems, searchQuery);
-  const filteredCategories = getFilteredCategories(
-    restaurant.categories,
-    filteredMenuItems
-  );
+  const CheckoutPopup: React.FC<CheckoutPopupProps> = ({ totalItems }) => {
+    return (
+      <View style={styles.popupContainer}>
+        <TouchableOpacity
+          style={styles.checkoutButton}
+          onPress={handleCheckout}
+        >
+          <Text style={styles.checkoutText}>
+            {`Checkout ${totalItems} item${totalItems > 1 ? "s" : ""}`}
+          </Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
 
   const renderMenuItem = (item: MenuItem) => {
     const count = cartCounts[item.menuItemId] || 0;
@@ -471,28 +706,11 @@ const RestaurantSelect = () => {
     );
   };
 
-  const handleOpenModal = () => {
-    setIsModalVisible(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalVisible(false);
-  };
-
-  const CheckoutPopup: React.FC<CheckoutPopupProps> = ({ totalItems }) => {
-    return (
-      <View style={styles.popupContainer}>
-        <TouchableOpacity
-          style={styles.checkoutButton}
-          onPress={handleCheckout}
-        >
-          <Text style={styles.checkoutText}>
-            {`Checkout ${totalItems} item${totalItems > 1 ? "s" : ""}`}
-          </Text>
-        </TouchableOpacity>
-      </View>
-    );
-  };
+  const filteredMenuItems = getFilteredMenuItems(menuItems, searchQuery);
+  const filteredCategories = getFilteredCategories(
+    restaurant.categories,
+    filteredMenuItems
+  );
 
   // Check if the current restaurant is favorited
   const isRestaurantFavorite = favoriteRestaurants[restaurantId] || false;
@@ -604,6 +822,25 @@ const RestaurantSelect = () => {
           <Image source={require("./../../assets/images/Restaurant.png")} />
           <Text style={styles.floatbuttonText}>Menu</Text>
         </TouchableOpacity>
+
+        {/* Wishlist Popup */}
+        <WishlistPopup
+          isVisible={isWishlistPopupVisible}
+          onClose={hideWishlistPopup}
+          onCreateNewList={handleCreateNewList}
+          onSave={handleSaveToWishlist}
+          selectedLists={selectedLists}
+          onToggleList={toggleListSelection}
+        />
+
+        {/* Create New Wishlist Popup */}
+        <CreateWishlistPopup
+          isVisible={isCreateWishlistVisible}
+          onClose={() => setIsCreateWishlistVisible(false)}
+          onSave={handleSaveNewWishlist}
+          itemImage={activeItemDetails.image}
+          itemName={activeItemDetails.name}
+        />
       </SafeAreaView>
       {totalItemsInCart > 0 && <CheckoutPopup totalItems={totalItemsInCart} />}
       <Modal visible={isModalVisible} transparent={true} animationType="fade">
@@ -657,6 +894,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     backgroundColor: "#fff",
+  },
+  headerTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginTop: 20,
   },
   title: {
     flex: 1,
@@ -954,6 +1197,125 @@ const styles = StyleSheet.create({
     color: "#777",
     fontSize: RFPercentage(1.8),
     fontFamily: "Poppins-Regular",
+  },
+});
+
+const wishlistStyles = StyleSheet.create({
+  overlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'flex-end',
+    zIndex: 1000,
+  },
+  container: {
+    backgroundColor: 'white',
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+    padding: 20,
+    paddingBottom: 30,
+    maxHeight: '80%',
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  title: {
+    fontSize: 16,
+    fontFamily: 'Poppins-SemiBold',
+    color: '#333',
+  },
+  closeButton: {
+    padding: 5,
+  },
+  closeButtonText: {
+    fontSize: 16,
+    color: '#777',
+  },
+  createNewListButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 12,
+    marginBottom: 16,
+  },
+  plusIconContainer: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: '#EAEAEA',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
+  },
+  plusIcon: {
+    fontSize: 16,
+    color: '#333',
+    lineHeight: 22,
+  },
+  createNewListText: {
+    fontSize: 14,
+    color: '#333',
+    fontFamily: 'Poppins-Medium',
+  },
+  listSectionTitle: {
+    fontSize: 14,
+    color: '#666',
+    marginBottom: 8,
+    fontFamily: 'Poppins-Regular',
+  },
+  listItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#F0F0F0',
+  },
+  listItemImage: {
+    width: 36,
+    height: 36,
+    borderRadius: 6,
+    marginRight: 12,
+  },
+  listItemText: {
+    flex: 1,
+    fontSize: 14,
+    color: '#333',
+    fontFamily: 'Poppins-Regular',
+  },
+  checkbox: {
+    width: 20,
+    height: 20,
+    borderRadius: 2,
+    borderWidth: 1,
+    borderColor: '#CCCCCC',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  checkboxSelected: {
+    borderColor: '#01615F',
+    backgroundColor: '#01615F',
+  },
+  checkboxInner: {
+    width: 10,
+    height: 10,
+    backgroundColor: 'white',
+  },
+  saveButton: {
+    backgroundColor: '#01615F',
+    borderRadius: 6,
+    paddingVertical: 14,
+    marginTop: 20,
+    alignItems: 'center',
+  },
+  saveButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontFamily: 'Poppins-Medium',
   },
 });
 

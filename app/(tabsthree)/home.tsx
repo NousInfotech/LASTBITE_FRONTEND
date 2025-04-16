@@ -81,7 +81,7 @@ const Home = () => {
           <View style={styles.quickLinkCard}>
             <View style={styles.iconCircle}>
               <Image
-                source={require("../../assets/images/Star.png")}
+                // source={require("../../assets/images/Star.png")}
                 style={styles.linkIcon}
               />
             </View>

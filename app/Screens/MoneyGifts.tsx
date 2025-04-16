@@ -1,13 +1,13 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import { router } from 'expo-router';
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default function MoneyGifts() {
   // Handle the back button press
   const handleBackPress = () => {
-    // Use router.back() for navigation
     router.back();
   };
 
@@ -24,6 +24,12 @@ export default function MoneyGifts() {
       </View>
       
       {/* Balance Card */}
+      <LinearGradient
+  colors={['#01615F', '#02C7C3']}
+  start={{ x: 0, y: 0 }}
+  end={{ x: 1, y: 1 }}
+  style={styles.balanceCard}
+>
       <View style={styles.balanceCard}>
         <View style={styles.balanceHeader}>
           <Text style={styles.balanceTitle}>Available Balance</Text>
@@ -40,10 +46,15 @@ export default function MoneyGifts() {
         
         {/* Coins Image - Replacing with icon since image might be causing issues */}
         <View style={styles.coinsImageContainer}>
-          <Ionicons name="cash-outline" size={60} color="#fff" style={styles.coinsIcon} />
+          {/* <Ionicons name="cash-outline" size={60} color="#fff" style={styles.coinsIcon} /> */}
+          <Image
+    source={require('../../assets/images/coins.png')} // local image
+    style={styles.coinsIcon}
+    resizeMode="contain"
+  />
         </View>
       </View>
-      
+      </LinearGradient>
       {/* Gift Card Option */}
       <View style={styles.giftCardSection}>
         <Text style={styles.giftCardTitle}>Spread joy with personalized e-gift cards!</Text>
@@ -85,7 +96,7 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 20,
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#fff',
     paddingHorizontal: 16,
   },
   header: {
@@ -101,7 +112,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   balanceCard: {
-    backgroundColor: '#00857A',
     borderRadius: 12,
     padding: 16,
     marginTop: 8,
@@ -145,29 +155,38 @@ const styles = StyleSheet.create({
   },
   giftCardSection: {
     marginTop: 20,
+    borderColor: "#ccc",
+    borderWidth: 1,
+    borderRadius: 8,
   },
   giftCardTitle: {
     fontSize: 16,
     fontWeight: '600',
     marginBottom: 6,
+    marginTop: 15,
+    marginHorizontal: 12,
   },
   giftCardDescription: {
     fontSize: 14,
     color: '#555',
     marginBottom: 12,
+    marginHorizontal: 12,
   },
   buyVoucherButton: {
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#01615F',
     borderRadius: 8,
     padding: 12,
     alignItems: 'center',
     backgroundColor: '#fff',
+    marginLeft: 10,
+    marginRight: 10,
     marginTop: 4,
+    marginBottom: 12,
   },
   buyVoucherText: {
-    fontWeight: '500',
-    color: '#333',
+    fontWeight: '700',
+    color: '#01615F',
   },
   alertBox: {
     backgroundColor: '#fff',
@@ -193,7 +212,7 @@ const styles = StyleSheet.create({
     right: 16,
   },
   addBalanceButton: {
-    backgroundColor: '#00857A',
+    backgroundColor: '#01615F',
     borderRadius: 8,
     padding: 14,
     alignItems: 'center',
@@ -214,8 +233,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   redeemLink: {
-    color: '#00857A',
+    color: '#01615F',
     fontSize: 14,
     fontWeight: '500',
+    textDecorationLine: "underline",
   },
 });

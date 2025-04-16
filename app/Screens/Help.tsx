@@ -33,9 +33,30 @@ const Help = () => {
     loadFonts();
   }, []);
 
+
+
+
   if (!fontsLoaded) {
     return null;
   }
+
+
+  const navigateToGeneralIssues = () => {
+    router.push('/Screens/GeneralIssues');
+  };
+
+  const navigateToFaq = () => {
+    router.push('/Screens/Faq');
+  };
+
+  const navigateToInstamartOnboarding = () => {
+    router.push('/Screens/InstamartOnboarding');
+  };
+
+  const navigateToLegalRegulations = () => {
+    router.push('/Screens/LegalRegulations');
+  };
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -217,28 +238,28 @@ const Help = () => {
           <View style={styles.queriesContainer}>
             <Text style={styles.queriesTitle}>Help with Other Queries</Text>
 
-            <TouchableOpacity style={styles.queryButton}>
+            <TouchableOpacity style={styles.queryButton} onPress={navigateToGeneralIssues}>
               <View style={styles.queryContent}>
                 <Text style={styles.queryButtonText}>General issues</Text>
                 <Ionicons name="chevron-forward" size={16} color="#777" />
               </View>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.queryButton}>
+            <TouchableOpacity style={styles.queryButton} onPress={navigateToFaq}>
               <View style={styles.queryContent}>
                 <Text style={styles.queryButtonText}>FAQs</Text>
                 <Ionicons name="chevron-forward" size={16} color="#777" />
               </View>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.queryButton}>
+            <TouchableOpacity style={styles.queryButton} onPress={navigateToInstamartOnboarding}>
               <View style={styles.queryContent}>
-                <Text style={styles.queryButtonText}>Instant Onboarding</Text>
+                <Text style={styles.queryButtonText}>Instamart Onboarding</Text>
                 <Ionicons name="chevron-forward" size={16} color="#777" />
               </View>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.queryButton}>
+            <TouchableOpacity style={styles.queryButton} onPress={navigateToLegalRegulations}>
               <View style={styles.queryContent}>
                 <Text style={styles.queryButtonText}>
                   Legal Terms & Conditions

@@ -21,7 +21,6 @@ const fetchRestaurants = async (): Promise<Restaurant[]> => {
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     },
-    // Add more restaurants
   ];
 };
 
