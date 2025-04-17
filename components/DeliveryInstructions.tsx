@@ -39,17 +39,17 @@ const instructions: DeliveryInstruction[] = [
     ),
     text: "Leave at\nthe door",
   },
-  {
-    id: "3",
-    icon: (isActive) => (
-      <FontAwesome
-        name="microphone"
-        size={24}
-        color={isActive ? "#01516F" : "#929292"}
-      />
-    ),
-    text: "Directions\nto reach",
-  },
+  // {
+  //   id: "3",
+  //   icon: (isActive) => (
+  //     <FontAwesome
+  //       name="microphone"
+  //       size={24}
+  //       color={isActive ? "#01516F" : "#929292"}
+  //     />
+  //   ),
+  //   text: "Directions\nto reach",
+  // },
   {
     id: "4",
     icon: (isActive) => (

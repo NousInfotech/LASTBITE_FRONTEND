@@ -62,7 +62,7 @@ const SearchBarVoice: React.FC<SearchBarVoiceProps> = ({
           onChangeText={onChangeText}
           {...rest}
         />
-        <Icon name="mic-none" size={24} color="#01615F" style={styles.voiceIcon} />
+        {/* <Icon name="mic-none" size={24} color="#01615F" style={styles.voiceIcon} /> */}
       </TouchableOpacity>
     </View>
   );
@@ -99,6 +99,7 @@ const styles = StyleSheet.create({
 });
 
 export default SearchBarVoice;
+
 
 
 

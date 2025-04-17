@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -7,89 +7,108 @@ import {
   TextInput,
   Image,
   ScrollView,
-  FlatList
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Ionicons, AntDesign, Feather } from '@expo/vector-icons';
+  FlatList,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import GoBack from "@/components/GoBack";
+import { Ionicons, AntDesign, Feather } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 
 export default function ReferEarn() {
+  const router = useRouter();
   const [expanded, setExpanded] = useState(null);
-  
-  const contacts = [
-    { id: '1', name: 'Oliver Harris', phone: '9382754321', invited: false },
-    { id: '2', name: 'Oliver Harris', phone: '9382754321', invited: true },
-    { id: '3', name: 'Oliver Harris', phone: '9382754321', invited: false },
-  ];
 
   const faqs = [
-    { 
-      id: '1', 
-      question: 'Where will I receive my cashback & how can I use it?',
-      answer: 'General Issues'
+    {
+      id: "1",
+      question: "Where will I receive my cashback & how can I use it?",
+      answer: "General Issues",
     },
     {
-      id: '2',
-      question: 'Can I club other offers with Last Bites cashback while placing an order?',
-      answer: 'General Issues'
+      id: "2",
+      question:
+        "Can I club other offers with Last Bites cashback while placing an order?",
+      answer: "General Issues",
     },
     {
-      id: '3',
-      question: 'Is there any expiry date for the Last Bites cashback?',
-      answer: 'General Issues'
+      id: "3",
+      question: "Is there any expiry date for the Last Bites cashback?",
+      answer: "General Issues",
     },
     {
-      id: '4',
-      question: 'What is the reward for my friend & how can they receive it?',
-      answer: 'General Issues'
+      id: "4",
+      question: "What is the reward for my friend & how can they receive it?",
+      answer: "General Issues",
     },
     {
-      id: '5',
-      question: 'Who should I reach out to in case of any issue?',
-      answer: 'General Issues'
-    }
+      id: "5",
+      question: "Who should I reach out to in case of any issue?",
+      answer: "General Issues",
+    },
   ];
 
   const toggleFaq = (id) => {
-    if (expanded === id) {
-      setExpanded(null);
-    } else {
-      setExpanded(id);
-    }
+    setExpanded((prev) => (prev === id ? null : id));
   };
 
+  const handleInviteToggle = (id) => {
+    setContacts((prevContacts) =>
+      prevContacts.map((contact) =>
+        contact.id === id
+          ? { ...contact, invited: !contact.invited }
+          : contact
+      )
+    );
+  };
+
+  const [contacts, setContacts] = useState([
+    { id: "1", name: "Oliver Harris", phone: "9382754321", invited: false },
+    { id: "2", name: "Sarah Jones", phone: "9234567890", invited: false },
+    { id: "3", name: "Emily White", phone: "9876543210", invited: false },
+  ]);
+  
+  const handleInvite = (id) => {
+    setContacts((prevContacts) =>
+      prevContacts.map((contact) =>
+        contact.id === id ? { ...contact, invited: true } : contact
+      )
+    );
+  };
+  
   const renderContact = ({ item }) => (
     <View style={styles.contactItem}>
       <View style={styles.contactInfo}>
         <Text style={styles.contactName}>{item.name}</Text>
         <Text style={styles.contactPhone}>{item.phone}</Text>
       </View>
-      <TouchableOpacity 
-        style={[
-          styles.inviteButton, 
-          item.invited && styles.reinviteButton
-        ]}
+      <TouchableOpacity
+        style={[styles.inviteButton, item.invited && styles.reinviteButton]}
+        onPress={() => handleInvite(item.id)}
       >
-        <Text style={[
-          styles.inviteButtonText,
-          item.invited && styles.reinviteButtonText
-        ]}>
-          {item.invited ? 'Reinvite' : 'Invite'}
+        <Text
+          style={[
+            styles.inviteButtonText,
+            item.invited && styles.reinviteButtonText,
+          ]}
+        >
+          {item.invited ? "Reinvite" : "Invite"}
         </Text>
       </TouchableOpacity>
     </View>
   );
 
+  const navigateToSeeMore = () => {
+    router.push('/Screens/SeeMore')
+  }
+
   const renderFaq = ({ item }) => (
-    <TouchableOpacity 
-      style={styles.faqItem} 
-      onPress={() => toggleFaq(item.id)}
-    >
+    <TouchableOpacity style={styles.faqItem} onPress={() => toggleFaq(item.id)}>
       <View style={styles.faqQuestion}>
         <Text style={styles.faqQuestionText}>{item.question}</Text>
-        <AntDesign 
-          name={expanded === item.id ? "up" : "down"} 
-          size={16} 
-          color="#757575" 
+        <AntDesign
+          name={expanded === item.id ? "up" : "down"}
+          size={16}
+          color="#757575"
         />
       </View>
       {expanded === item.id && (
@@ -103,8 +122,8 @@ export default function ReferEarn() {
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Header */}
         <View style={styles.header}>
-          <TouchableOpacity style={styles.backButton}>
-            <Ionicons name="arrow-back" size={20} color="#000" />
+          <TouchableOpacity>
+            <GoBack />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Refer friends & Earn ₹2500</Text>
         </View>
@@ -119,7 +138,7 @@ export default function ReferEarn() {
               <View style={styles.stepLine} />
               <View style={styles.stepDot} />
             </View>
-            
+
             <View style={styles.stepsTextContainer}>
               <Text style={styles.stepText}>
                 You get ₹50 cashback when friend places their first order
@@ -132,59 +151,59 @@ export default function ReferEarn() {
               </Text>
             </View>
           </View>
-          
-          <Image 
-            source={require('../../assets/images/refer.png')} 
+
+          <Image
+            source={require("../../assets/images/refer.png")}
             style={styles.deliveryImage}
           />
         </View>
 
         {/* Rewards Section */}
         <View style={styles.rewardsSection}>
-          <Text>
-            Get rewards by inviting your 
-          </Text>
-          <Text style={styles.rewardsText} >friends to order food</Text>
-          
+          <Text>Get rewards by inviting your</Text>
+          <Text style={styles.rewardsText}>friends to order food</Text>
+
           <View style={styles.shareLinkRow}>
             <Text style={styles.shareLinkText}>Share link in a group</Text>
             <TouchableOpacity style={styles.shareButton}>
               <Feather name="share-2" size={18} color="#01615F" />
             </TouchableOpacity>
-            <Image 
-              source={require('../../assets/images/coins.png')}
+            <Image
+              source={require("../../assets/images/coins.png")}
               style={styles.coinsImage}
             />
           </View>
-          
+
           {/* Search Input */}
           <View style={styles.searchContainer}>
             <Ionicons name="search" size={18} color="#757575" />
-            <TextInput 
+            <TouchableOpacity onPress={navigateToSeeMore}>
+            <TextInput
               style={styles.searchInput}
               placeholder="Find your friends"
               placeholderTextColor="#757575"
             />
+            </TouchableOpacity>
           </View>
-          
+
           {/* Contacts List */}
           <FlatList
             data={contacts}
             renderItem={renderContact}
-            keyExtractor={item => item.id}
+            keyExtractor={(item) => item.id}
             scrollEnabled={false}
           />
-          
-          <TouchableOpacity style={styles.seeMoreButton}>
+
+          <TouchableOpacity style={styles.seeMoreButton} onPress={navigateToSeeMore}>
             <Text style={styles.seeMoreText}>See More</Text>
-          </TouchableOpacity>
-          
+          </TouchableOpacity> 
+
           {/* FAQs Section */}
           <Text style={styles.faqTitle}>FAQs</Text>
           <FlatList
             data={faqs}
             renderItem={renderFaq}
-            keyExtractor={item => item.id}
+            keyExtractor={(item) => item.id}
             scrollEnabled={false}
           />
         </View>
@@ -196,66 +215,66 @@ export default function ReferEarn() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   header: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#F0F0F0',
+    borderBottomColor: "#F0F0F0",
   },
   backButton: {
     marginRight: 12,
   },
   headerTitle: {
     fontSize: 15,
-    fontWeight: '500',
+    fontWeight: "500",
   },
   referralCard: {
-    backgroundColor: '#01615F',
+    backgroundColor: "#01615F",
     margin: 16,
     borderRadius: 8,
     padding: 16,
-    position: 'relative',
+    position: "relative",
   },
   stepsContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     paddingRight: 100, // Make room for the image
   },
   stepLineContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginRight: 8,
   },
   stepDot: {
     width: 12,
     height: 12,
     borderRadius: 9,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   stepLine: {
     width: 1,
     height: 40,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   stepsTextContainer: {
     flex: 1,
   },
   stepText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 13,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 18,
     lineHeight: 16,
   },
   deliveryImage: {
-    position: 'absolute',
+    position: "absolute",
     right: 12,
     bottom: 16,
     width: 80,
     height: 80,
-    resizeMode: 'contain',
+    resizeMode: "contain",
   },
   rewardsSection: {
     paddingHorizontal: 16,
@@ -263,33 +282,33 @@ const styles = StyleSheet.create({
   rewardsText: {
     fontSize: 14,
     marginBottom: 16,
-    fontWeight: '500',
+    fontWeight: "500",
   },
   shareLinkRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 16,
-    position: 'relative',
+    position: "relative",
   },
   shareLinkText: {
     fontSize: 14,
-    color: '#01615F',
-    fontWeight: '500',
+    color: "#01615F",
+    fontWeight: "500",
   },
   shareButton: {
     marginLeft: 8,
   },
   coinsImage: {
-    position: 'absolute',
+    position: "absolute",
     right: 0,
     width: 50,
     height: 50,
-    resizeMode: 'contain',
+    resizeMode: "contain",
   },
   searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#F5F5F5',
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#F5F5F5",
     borderRadius: 8,
     paddingHorizontal: 12,
     paddingVertical: 10,
@@ -299,80 +318,82 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 8,
     fontSize: 14,
-    color: '#757575',
+    color: "#757575",
   },
   contactItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#F0F0F0',
+    borderBottomColor: "#F0F0F0",
   },
   contactInfo: {
     flex: 1,
   },
   contactName: {
     fontSize: 14,
-    fontWeight: '500',
+    fontWeight: "500",
   },
   contactPhone: {
     fontSize: 12,
-    color: '#757575',
+    color: "#757575",
     marginTop: 2,
   },
   inviteButton: {
-    backgroundColor: '#01615F',
+    backgroundColor: "#01615F",
     paddingHorizontal: 16,
     paddingVertical: 6,
     borderRadius: 4,
   },
   inviteButtonText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 12,
-    fontWeight: '500',
+    fontWeight: "500",
   },
   reinviteButton: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderWidth: 1,
-    borderColor: '#01615F',
+    borderColor: "#01615F",
   },
   reinviteButtonText: {
-    color: '#01615F',
+    color: "#01615F",
   },
   seeMoreButton: {
     paddingVertical: 12,
-    alignItems: 'center',
+    // alignItems: "center",
   },
   seeMoreText: {
-    color: '#757575',
+    color: "#000",
     fontSize: 14,
+    fontWeight: 700,
+    textDecorationLine: "underline",
   },
   faqTitle: {
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: "500",
     marginTop: 16,
     marginBottom: 8,
   },
   faqItem: {
     paddingVertical: 14,
     borderBottomWidth: 1,
-    borderBottomColor: '#F0F0F0',
+    borderBottomColor: "#F0F0F0",
   },
   faqQuestion: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   faqQuestionText: {
     fontSize: 14,
     flex: 1,
     paddingRight: 8,
-    color: '#333',
+    color: "#333",
   },
   faqAnswer: {
     fontSize: 14,
-    color: '#757575',
+    color: "#757575",
     marginTop: 8,
     lineHeight: 20,
   },

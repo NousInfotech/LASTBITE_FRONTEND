@@ -100,7 +100,9 @@ const Orders: React.FC = () => {
       <View style={styles.orderActions}>
         {isPast && "rating" in order ? (
           <View style={styles.ratedOrderContainer}>
-            <TouchableOpacity style={styles.fullWidthButton}>
+            <TouchableOpacity style={styles.fullWidthButton}
+             onPress={() => router.push("/Screens/BillingScreen")}
+             >
               <Text style={styles.actionText}>Reorder</Text>
             </TouchableOpacity>
             <View style={styles.ratingsRow}>

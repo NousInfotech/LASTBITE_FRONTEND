@@ -26,7 +26,7 @@ interface Item {
 }
 
 interface AddMoreItemsProps {
-  items?: Item[]; // Made optional with default value
+  items?: Item[]; 
   setItems: React.Dispatch<React.SetStateAction<Item[]>>;
   navigation?: any;
 }
