@@ -1,3 +1,432 @@
+// import React, { useState, useEffect } from "react";
+// import {
+//   View,
+//   Text,
+//   TouchableOpacity,
+//   StatusBar,
+//   StyleSheet,
+//   Switch,
+//   Alert,
+//   ScrollView,
+//   Modal,
+// } from "react-native";
+// import GoBack from "@/components/GoBack";
+// import { useRouter } from "expo-router";
+// import * as Font from "expo-font";
+// import { SafeAreaView } from "react-native-safe-area-context";
+// import { RFPercentage } from "react-native-responsive-fontsize";
+
+// const Settings = () => {
+//   const router = useRouter();
+//   const [fontsLoaded, setFontsLoaded] = useState(false);
+//   const [smsEnabled, setSmsEnabled] = useState(true);
+//   const [whatsappEnabled, setWhatsappEnabled] = useState(true);
+//   const [pipEnabled, setPipEnabled] = useState(true);
+//   const [modalVisible, setModalVisible] = useState(false);
+//   const [smsModalVisible, setSmsModalVisible] = useState(false);
+
+//   useEffect(() => {
+//     async function loadFonts() {
+//       await Font.loadAsync({
+//         "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
+//         "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
+//         "Poppins-SemiBold": require("../../assets/fonts/Poppins-SemiBold.ttf"),
+//       });
+//       setFontsLoaded(true);
+//     }
+//     loadFonts();
+//   }, []);
+
+//   if (!fontsLoaded) {
+//     return null;
+//   }
+  
+//   const confirmDelete = () => {
+//     setModalVisible(false);
+//     // router.push("/login");
+//   };
+
+//   const handleDeleteAccount = () => {
+//     Alert.alert(
+//       "Confirm Deletion",
+//       "Are you sure you want to delete your account?",
+//       [
+//         { text: "Cancel", style: "cancel" },
+//         { text: "Delete", style: "destructive", onPress: () => console.log("Account deleted") },
+//       ]
+//     );
+//   };
+
+//   const handleSmsToggle = () => {
+//     if (smsEnabled) {
+//       // If turning off SMS, show modal
+//       setSmsModalVisible(true);
+//     } else {
+//       // If turning on SMS, just toggle it
+//       setSmsEnabled(true);
+//     }
+//   };
+
+//   const confirmSmsOff = () => {
+//     setSmsEnabled(false);
+//     setSmsModalVisible(false);
+//   };
+
+//   const cancelSmsOff = () => {
+//     setSmsModalVisible(false);
+//     // Keep SMS enabled since user canceled
+//   };
+
+//   return (
+//     <SafeAreaView style={styles.container}>
+//       <StatusBar barStyle="dark-content" />
+
+//       {/* Header */}
+//       <View style={styles.header}>
+//         <TouchableOpacity>
+//           <GoBack />
+//         </TouchableOpacity>
+//         <Text style={styles.headerTitle}>Settings</Text>
+//       </View>
+//       <ScrollView>
+//         {/* Order Related Messages */}
+//         <View style={styles.Content}>
+//           <View style={styles.section}>
+//             <Text style={styles.sectionTitle}>Order Related Messages</Text>
+//             <Text style={styles.description}>
+//               Order-related SMS cannot be disabled as they are critical to providing service.
+//             </Text>
+//           </View>
+
+//           {/* Recommendations & Reminders */}
+//           <View style={styles.section}>
+//             <Text style={styles.sectionTitle}>Recommendations & Remainders</Text>
+//             <Text style={styles.description}>
+//               Keep this on to receive offer recommendations & timely reminders based on your interests.
+//             </Text>
+
+//             <View style={styles.switchRow}>
+//               <Text style={styles.switchLabel}>SMS</Text>
+//               <Switch
+//                 trackColor={{ false: "#ddd", true: "#01615F" }}
+//                 thumbColor={"#fff"}
+//                 ios_backgroundColor="#ddd"
+//                 onValueChange={handleSmsToggle}
+//                 value={smsEnabled}
+//               />
+//             </View>
+
+//             <View style={styles.switchRow}>
+//               <Text style={styles.switchLabel}>WhatsApp</Text>
+//               <Switch
+//                 trackColor={{ false: "#ddd", true: "#01615F" }}
+//                 thumbColor={"#fff"}
+//                 ios_backgroundColor="#ddd"
+//                 onValueChange={() => setWhatsappEnabled(!whatsappEnabled)}
+//                 value={whatsappEnabled}
+//               />
+//             </View>
+//           </View>
+
+//           {/* Picture in Picture Mode */}
+//           <View style={styles.section}>
+//             <Text style={styles.sectionTitle}>Picture In Picture Mode</Text>
+//             <View style={styles.switchRow}>
+//               <Text style={styles.switchLabel}>Allow Picture in Picture Mode</Text>
+//               <Switch
+//                 trackColor={{ false: "#ddd", true: "#01615F" }}
+//                 thumbColor={"#fff"}
+//                 ios_backgroundColor="#ddd"
+//                 onValueChange={() => setPipEnabled(!pipEnabled)}
+//                 value={pipEnabled}
+//               />
+//             </View>
+//             <Text style={styles.subText}>
+//               PIP mode allows you to live track your order in a small window pinned to one corner of your screen while you navigate to other apps or to the home screen.
+//             </Text>
+//           </View>
+
+//           <View style={styles.section}>
+//             <Text style={styles.sectionTitle}>Account Deletion</Text>
+//             <TouchableOpacity style={styles.deleteButton} onPress={() => setModalVisible(true)}>
+//               <Text style={styles.deleteButtonText}>Delete account</Text>
+//             </TouchableOpacity>
+//           </View>
+//         </View>
+//       </ScrollView>
+      
+//       {/* Account Deletion Modal */}
+//       <Modal
+//         animationType="fade"
+//         transparent={true}
+//         visible={modalVisible}
+//         onRequestClose={() => setModalVisible(false)}
+//       >
+//         <View style={styles.modalContainer}>
+//           <View style={styles.modalContent}>
+//             <Text style={styles.modalTitle}>Are you sure want to delete your account?</Text>
+//             <Text style={styles.modalText}>Once deleted, you will lose access to this account along with the saved details.</Text>
+//             <View style={styles.modalButtons}>
+//               <TouchableOpacity
+//                 style={[styles.button, styles.cancelButton]}
+//                 onPress={() => setModalVisible(false)}
+//               >
+//                 <Text style={styles.cancelbuttonText}>Cancel</Text>
+//               </TouchableOpacity>
+
+//               <TouchableOpacity
+//                 style={[styles.button, styles.confirmButton]}
+//                 onPress={confirmDelete}
+//               >
+//                 <Text style={[styles.buttonText, { color: "#FFF" }]}>
+//                   Delete
+//                 </Text>
+//               </TouchableOpacity>
+//             </View>
+//           </View>
+//         </View>
+//       </Modal>
+
+//       {/* SMS Toggle Modal */}
+//       <Modal
+//         animationType="fade"
+//         transparent={true}
+//         visible={smsModalVisible}
+//         onRequestClose={() => setSmsModalVisible(false)}
+//       >
+//         <View style={styles.modalContainer}>
+//           <View style={styles.modalContent}>
+//             <Text style={styles.modalTitle}>Recommendations & Reminders on SMS</Text>
+//             <Text style={styles.modalText}>You will not receive any recommendations & reminders on SMS.</Text>
+//             <View style={styles.modalButtons}>
+//               <TouchableOpacity
+//                 style={[styles.smsButton, styles.smsButtonCancel]}
+//                 onPress={cancelSmsOff}
+//               >
+//                 <Text style={styles.smsButtonCancelText}>No, Turn On</Text>
+//               </TouchableOpacity>
+
+//               <TouchableOpacity
+//                 style={[styles.smsButton, styles.smsButtonConfirm]}
+//                 onPress={confirmSmsOff}
+//               >
+//                 <Text style={styles.smsButtonConfirmText}>Keep it Off</Text>
+//               </TouchableOpacity>
+//             </View>
+//           </View>
+//         </View>
+//       </Modal>
+//     </SafeAreaView>
+//   );
+// };
+
+// export default Settings;
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: "#fff",
+//     paddingHorizontal: 16,
+//   },
+//   header: {
+//     flexDirection: "row",
+//     alignItems: "center",
+//     paddingVertical: 16,
+//   },
+//   headerTitle: {
+//     fontSize: RFPercentage(2.5),
+//     marginLeft: 16,
+//     fontWeight: "600",
+//     fontFamily: "Poppins-SemiBold",
+//   },
+//   Content: {
+//     paddingHorizontal: 10,
+//   },
+//   section: {
+//     marginBottom: 20,
+//   },
+//   sectionTitle: {
+//     fontSize: 14,
+//     fontFamily: "Poppins-SemiBold",
+//     marginBottom: 6,
+//     color: "#000",
+//   },
+//   alertBox: {
+//     backgroundColor: "#F9F9F9",
+//     padding: 10,
+//     borderRadius: 6,
+//     borderWidth: 1,
+//     borderColor: "#E0E0E0",
+//   },
+//   alertText: {
+//     fontSize: RFPercentage(2),
+//     color: "#666",
+//     fontFamily: "Poppins-Regular",
+//   },
+//   subText: {
+//     fontSize: 13,
+//     fontFamily: "Poppins-Regular",
+//     color: "#929292",
+//     marginBottom: 10,
+//     width: 300,
+//   },
+//   description: {
+//     fontSize: RFPercentage(2),
+//     color: "#666",
+//     fontFamily: "Poppins-Regular",
+//     marginBottom: 10,
+//     padding: 10,
+//     alignItems: "center",
+//     justifyContent: "space-between",
+//     backgroundColor: "#FFFFFF",
+//     borderWidth: 1,
+//     borderColor: "#ECECEC",
+//     borderRadius: 8,
+//     shadowColor: "#000",
+//     shadowOpacity: 0.05,
+//     shadowRadius: 4,
+//     shadowOffset: { width: 0, height: 2 },
+//     elevation: 2,
+//   },
+//   switchRow: {
+//     flexDirection: "row",
+//     justifyContent: "space-between",
+//     alignItems: "center",
+//     paddingVertical: 2,
+//     marginBottom: 10,
+//     padding: 10,
+//     backgroundColor: "#FFFFFF",
+//     borderWidth: 1,
+//     borderColor: "#ECECEC",
+//     borderRadius: 8,
+//     shadowColor: "#000",
+//     shadowOpacity: 0.05,
+//     shadowRadius: 4,
+//     shadowOffset: { width: 0, height: 2 },
+//     elevation: 2,
+//   },
+//   switchLabel: {
+//     fontSize: 14,
+//     fontFamily: "Poppins-Regular",
+//     color: "#000",
+//   },
+//   deleteButton: {
+//     borderWidth: 1,
+//     borderColor: "#FF3B30",
+//     paddingVertical: 12,
+//     borderRadius: 8,
+//     alignItems: "center",
+//   },
+//   deleteButtonText: {
+//     color: "#FF3B30",
+//     fontSize: 14,
+//     fontFamily: "Poppins-SemiBold",
+//   },
+//   // Modal Styles
+//   modalContainer: {
+//     flex: 1,
+//     justifyContent: "center",
+//     alignItems: "center",
+//     backgroundColor: "rgba(0, 0, 0, 0.5)",
+//   },
+//   modalContent: {
+//     width: "80%",
+//     backgroundColor: "#FFF",
+//     padding: 20,
+//     borderRadius: 10,
+//     alignItems: "center",
+//     shadowColor: "#000",
+//     shadowOpacity: 0.3,
+//     shadowRadius: 4,
+//     shadowOffset: { width: 0, height: 2 },
+//     elevation: 5,
+//   },
+//   modalTitle: {
+//     fontSize: RFPercentage(2),
+//     fontFamily: "Poppins-SemiBold",
+//     color: "#000",
+//     marginBottom: 10,
+//     textAlign: "center",
+//   },
+//   modalText: {
+//     fontSize: RFPercentage(2),
+//     fontFamily: "Poppins-Regular",
+//     color: "#666",
+//     textAlign: "center",
+//     marginBottom: 16,
+//   },
+//   modalButtons: {
+//     flexDirection: "row",
+//     justifyContent: "space-between",
+//     width: "100%",
+//   },
+//   button: {
+//     flex: 1,
+//     paddingVertical: 10,
+//     alignItems: "center",
+//     borderRadius: 8,
+//     borderWidth: 1,
+//     borderColor: 'red',
+//     marginHorizontal: 5,
+//   },
+//   cancelButton: {
+//     backgroundColor: "#FFFFFF",
+//   },
+//   confirmButton: {
+//     backgroundColor: "red",
+//   },
+//   buttonText: {
+//     fontSize: 14,
+//     fontFamily: "Poppins-Medium",
+//     color: "#000",
+//   },
+//   cancelbuttonText: {
+//     fontSize: 14,
+//     fontFamily: "Poppins-Medium",
+//     color: "red",
+//   },
+//   // SMS Popup buttons
+//   smsButton: {
+//     flex: 1,
+//     paddingVertical: 12,
+//     alignItems: "center",
+//     borderRadius: 8,
+//     marginHorizontal: 5,
+//   },
+//   smsButtonCancel: {
+//     backgroundColor: "#FFFFFF",
+//     borderWidth: 1,
+//     borderColor: "#01615F",
+//   },
+//   smsButtonConfirm: {
+//     backgroundColor: "#01615F",
+//   },
+//   smsButtonCancelText: {
+//     fontSize: 14,
+//     fontFamily: "Poppins-Medium",
+//     color: "#01615F",
+//   },
+//   smsButtonConfirmText: {
+//     fontSize: 14,
+//     fontFamily: "Poppins-Medium",
+//     color: "#FFFFFF",
+//   },
+// });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import React, { useState, useEffect } from "react";
 import {
   View,
@@ -22,7 +451,9 @@ const Settings = () => {
   const [smsEnabled, setSmsEnabled] = useState(true);
   const [whatsappEnabled, setWhatsappEnabled] = useState(true);
   const [pipEnabled, setPipEnabled] = useState(true);
- const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [smsModalVisible, setSmsModalVisible] = useState(false);
+  const [whatsappModalVisible, setWhatsappModalVisible] = useState(false);
 
   useEffect(() => {
     async function loadFonts() {
@@ -39,7 +470,8 @@ const Settings = () => {
   if (!fontsLoaded) {
     return null;
   }
-const confirmDelete = () => {
+  
+  const confirmDelete = () => {
     setModalVisible(false);
     // router.push("/login");
   };
@@ -55,6 +487,46 @@ const confirmDelete = () => {
     );
   };
 
+  const handleSmsToggle = () => {
+    if (smsEnabled) {
+      // If turning off SMS, show modal
+      setSmsModalVisible(true);
+    } else {
+      // If turning on SMS, just toggle it
+      setSmsEnabled(true);
+    }
+  };
+
+  const confirmSmsOff = () => {
+    setSmsEnabled(false);
+    setSmsModalVisible(false);
+  };
+
+  const cancelSmsOff = () => {
+    setSmsModalVisible(false);
+    // Keep SMS enabled since user canceled
+  };
+  
+  const handleWhatsappToggle = () => {
+    if (whatsappEnabled) {
+      // If turning off WhatsApp, show modal
+      setWhatsappModalVisible(true);
+    } else {
+      // If turning on WhatsApp, just toggle it
+      setWhatsappEnabled(true);
+    }
+  };
+
+  const confirmWhatsappOff = () => {
+    setWhatsappEnabled(false);
+    setWhatsappModalVisible(false);
+  };
+
+  const cancelWhatsappOff = () => {
+    setWhatsappModalVisible(false);
+    // Keep WhatsApp enabled since user canceled
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
@@ -66,102 +538,164 @@ const confirmDelete = () => {
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Settings</Text>
       </View>
-<ScrollView>
-      {/* Order Related Messages */}
-      <View style={styles.Content}>
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Order Related Messages</Text>
-          <Text style={styles.description}>
-            Order-related SMS cannot be disabled as they are critical to providing service.
-          </Text>
-      </View>
+      <ScrollView>
+        {/* Order Related Messages */}
+        <View style={styles.Content}>
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Order Related Messages</Text>
+            <Text style={styles.description}>
+              Order-related SMS cannot be disabled as they are critical to providing service.
+            </Text>
+          </View>
 
-      {/* Recommendations & Reminders */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Recommendations & Remainders</Text>
-        <Text style={styles.description}>
-          Keep this on to receive offer recommendations & timely reminders based on your interests.
-        </Text>
+          {/* Recommendations & Reminders */}
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Recommendations & Remainders</Text>
+            <Text style={styles.description}>
+              Keep this on to receive offer recommendations & timely reminders based on your interests.
+            </Text>
 
-        <View style={styles.switchRow}>
-          <Text style={styles.switchLabel}>SMS</Text>
-          <Switch
-            trackColor={{ false: "#ddd", true: "#01615F" }}
-            thumbColor={"#fff"}
-            ios_backgroundColor="#ddd"
-            onValueChange={() => setSmsEnabled(!smsEnabled)}
-            value={smsEnabled}
-          />
+            <View style={styles.switchRow}>
+              <Text style={styles.switchLabel}>SMS</Text>
+              <Switch
+                trackColor={{ false: "#ddd", true: "#01615F" }}
+                thumbColor={"#fff"}
+                ios_backgroundColor="#ddd"
+                onValueChange={handleSmsToggle}
+                value={smsEnabled}
+              />
+            </View>
+
+            <View style={styles.switchRow}>
+              <Text style={styles.switchLabel}>WhatsApp</Text>
+              <Switch
+                trackColor={{ false: "#ddd", true: "#01615F" }}
+                thumbColor={"#fff"}
+                ios_backgroundColor="#ddd"
+                onValueChange={handleWhatsappToggle}
+                value={whatsappEnabled}
+              />
+            </View>
+          </View>
+
+          {/* Picture in Picture Mode */}
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Picture In Picture Mode</Text>
+            <View style={styles.switchRow}>
+              <Text style={styles.switchLabel}>Allow Picture in Picture Mode</Text>
+              <Switch
+                trackColor={{ false: "#ddd", true: "#01615F" }}
+                thumbColor={"#fff"}
+                ios_backgroundColor="#ddd"
+                onValueChange={() => setPipEnabled(!pipEnabled)}
+                value={pipEnabled}
+              />
+            </View>
+            <Text style={styles.subText}>
+              PIP mode allows you to live track your order in a small window pinned to one corner of your screen while you navigate to other apps or to the home screen.
+            </Text>
+          </View>
+
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Account Deletion</Text>
+            <TouchableOpacity style={styles.deleteButton} onPress={() => setModalVisible(true)}>
+              <Text style={styles.deleteButtonText}>Delete account</Text>
+            </TouchableOpacity>
+          </View>
         </View>
+      </ScrollView>
+      
+      {/* Account Deletion Modal */}
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Are you sure want to delete your account?</Text>
+            <Text style={styles.modalText}>Once deleted, you will lose access to this account along with the saved details.</Text>
+            <View style={styles.modalButtons}>
+              <TouchableOpacity
+                style={[styles.button, styles.cancelButton]}
+                onPress={() => setModalVisible(false)}
+              >
+                <Text style={styles.cancelbuttonText}>Cancel</Text>
+              </TouchableOpacity>
 
-        <View style={styles.switchRow}>
-          <Text style={styles.switchLabel}>WhatsApp</Text>
-          <Switch
-            trackColor={{ false: "#ddd", true: "#01615F" }}
-            thumbColor={"#fff"}
-            ios_backgroundColor="#ddd"
-            onValueChange={() => setWhatsappEnabled(!whatsappEnabled)}
-            value={whatsappEnabled}
-          />
+              <TouchableOpacity
+                style={[styles.button, styles.confirmButton]}
+                onPress={confirmDelete}
+              >
+                <Text style={[styles.buttonText, { color: "#FFF" }]}>
+                  Delete
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
-      </View>
+      </Modal>
 
-      {/* Picture in Picture Mode */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Picture In Picture Mode</Text>
-        <View style={styles.switchRow}>
-          <Text style={styles.switchLabel}>Allow Picture in Picture Mode</Text>
-          <Switch
-            trackColor={{ false: "#ddd", true: "#01615F" }}
-            thumbColor={"#fff"}
-            ios_backgroundColor="#ddd"
-            onValueChange={() => setPipEnabled(!pipEnabled)}
-            value={pipEnabled}
-          />
+      {/* SMS Toggle Modal */}
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={smsModalVisible}
+        onRequestClose={() => setSmsModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Recommendations & Reminders on SMS</Text>
+            <Text style={styles.modalText}>You will not receive any recommendations & reminders on SMS.</Text>
+            <View style={styles.modalButtons}>
+              <TouchableOpacity
+                style={[styles.smsButton, styles.smsButtonCancel]}
+                onPress={cancelSmsOff}
+              >
+                <Text style={styles.smsButtonCancelText}>No, Turn On</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[styles.smsButton, styles.smsButtonConfirm]}
+                onPress={confirmSmsOff}
+              >
+                <Text style={styles.smsButtonConfirmText}>Keep it Off</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
-        <Text style={styles.subText}>
-          PIP mode allows you to live track your order in a small window pinned to one corner of your screen while you navigate to other apps or to the home screen.
-        </Text>
-      </View>
+      </Modal>
 
-      <View style={styles.section}>
-      <Text style={styles.sectionTitle}>Account Deletion</Text>
-        <TouchableOpacity style={styles.deleteButton} onPress={() => setModalVisible(true)}>
-          <Text style={styles.deleteButtonText}>Delete account</Text>
-        </TouchableOpacity>
-      </View>
-      </View>
-            </ScrollView>
-            <Modal
-                    animationType="fade"
-                    transparent={true}
-                    visible={modalVisible}
-                    onRequestClose={() => setModalVisible(false)}
-                  >
-                    <View style={styles.modalContainer}>
-                      <View style={styles.modalContent}>
-                        <Text style={styles.modalTitle}>Are you sure want to delete your account?</Text>
-                        <Text style={styles.modalText}>Once deleted, you will lose access to this account along with the saved details.</Text>
-                        <View style={styles.modalButtons}>
-                          <TouchableOpacity
-                            style={[styles.button, styles.cancelButton]}
-                            onPress={() => setModalVisible(false)}
-                          >
-                            <Text style={styles.cancelbuttonText}>Cancel</Text>
-                          </TouchableOpacity>
-            
-                          <TouchableOpacity
-                            style={[styles.button, styles.confirmButton]}
-                            onPress={confirmDelete}
-                          >
-                            <Text style={[styles.buttonText, { color: "#FFF" }]}>
-                              Delete
-                            </Text>
-                          </TouchableOpacity>
-                        </View>
-                      </View>
-                    </View>
-                  </Modal>
+      {/* WhatsApp Toggle Modal */}
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={whatsappModalVisible}
+        onRequestClose={() => setWhatsappModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Recommendations & Reminders on WhatsApp</Text>
+            <Text style={styles.modalText}>You will not receive any recommendations & reminders on WhatsApp.</Text>
+            <View style={styles.modalButtons}>
+              <TouchableOpacity
+                style={[styles.smsButton, styles.smsButtonCancel]}
+                onPress={cancelWhatsappOff}
+              >
+                <Text style={styles.smsButtonCancelText}>No, Turn On</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[styles.smsButton, styles.smsButtonConfirm]}
+                onPress={confirmWhatsappOff}
+              >
+                <Text style={styles.smsButtonConfirmText}>Keep it Off</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };
@@ -185,7 +719,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     fontFamily: "Poppins-SemiBold",
   },
-  Content:{
+  Content: {
     paddingHorizontal: 10,
   },
   section: {
@@ -257,7 +791,7 @@ const styles = StyleSheet.create({
     color: "#000",
   },
   deleteButton: {
-    borderWidth:1,
+    borderWidth: 1,
     borderColor: "#FF3B30",
     paddingVertical: 12,
     borderRadius: 8,
@@ -311,12 +845,12 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     alignItems: "center",
     borderRadius: 8,
-    borderWidth:1,
-    borderColor:'red',
+    borderWidth: 1,
+    borderColor: 'red',
     marginHorizontal: 5,
   },
   cancelButton: {
-    backgroundColor: "#FFFFF",
+    backgroundColor: "#FFFFFF",
   },
   confirmButton: {
     backgroundColor: "red",
@@ -330,5 +864,31 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: "Poppins-Medium",
     color: "red",
+  },
+  // SMS Popup buttons
+  smsButton: {
+    flex: 1,
+    paddingVertical: 12,
+    alignItems: "center",
+    borderRadius: 8,
+    marginHorizontal: 5,
+  },
+  smsButtonCancel: {
+    backgroundColor: "#FFFFFF",
+    borderWidth: 1,
+    borderColor: "#01615F",
+  },
+  smsButtonConfirm: {
+    backgroundColor: "#01615F",
+  },
+  smsButtonCancelText: {
+    fontSize: 14,
+    fontFamily: "Poppins-Medium",
+    color: "#01615F",
+  },
+  smsButtonConfirmText: {
+    fontSize: 14,
+    fontFamily: "Poppins-Medium",
+    color: "#FFFFFF",
   },
 });
