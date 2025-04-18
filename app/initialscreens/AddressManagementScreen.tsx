@@ -89,7 +89,8 @@ const AddressManagementScreen: React.FC = () => {
   const handleEdit = () => {
     if (selectedAddress) {
       router.push({
-        pathname: "/initialscreens/AddressEditScreen",  // Correct path
+        // pathname: "/initialscreens/AddressEditScreen",  
+        pathname: "/Screens/AddressInput",
         params: {
           building: "Building A",
           street: "Main Street",

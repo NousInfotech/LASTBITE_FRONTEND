@@ -270,9 +270,9 @@ const BillingScreen = () => {
           <AddMoreButton />
         </View>
 
-        <View style={styles.simpleContainer}>
+        {/* <View style={styles.simpleContainer}>
           <Text style={styles.completeMealText}>COMPLETE YOUR MEAL</Text>
-        </View>
+        </View> */}
 
         <SavingsCorner />
 

@@ -170,7 +170,7 @@ import DeliveryInstructions from '@/components/DeliveryInstructions';
 import BillDetails from '@/components/BillDetails';
 import ReviewNotice from '@/components/ReviewNotice';
 import AddressSelector from '@/components/AddressSelector';
-import AddMoreItems from '@/app/Screens/AddMoreItems';
+import AddMoreItems from '../../app/Screens/AddMoreItems';
 
 // Define the item type
 interface Item {
