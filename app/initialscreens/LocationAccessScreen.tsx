@@ -126,6 +126,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     alignItems: "flex-start",
     marginBottom: 24,
+    marginTop: RFPercentage(2.5),
   },
   title: {
     fontSize: RFPercentage(3), // Reduced size

@@ -164,6 +164,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 16,
     paddingVertical: 12,
+    marginTop: RFPercentage(2.5),
   },
   locationContent: {
     flex: 1,

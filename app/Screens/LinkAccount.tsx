@@ -243,6 +243,7 @@ const styles = StyleSheet.create({
     padding: 16,
     borderBottomWidth: 1,
     borderBottomColor: "#eee",
+    marginTop: RFPercentage(2.5),
   },
   headerTitle: {
     fontSize: 14,

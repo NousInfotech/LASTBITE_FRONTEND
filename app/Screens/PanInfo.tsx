@@ -173,6 +173,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     padding: 16,
+    marginTop: RFPercentage(2.5),
   },
   content: {
     flex: 1,
