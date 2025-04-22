@@ -155,7 +155,8 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: RFPercentage(2.5),
-    marginLeft: 16,
+    marginTop: RFPercentage(2),
+    marginLeft: RFPercentage(0.5),
     fontFamily: "Poppins-SemiBold",
   },
   ratingContainer: {

@@ -44,7 +44,7 @@ const PaymentDetails: React.FC = () => {
       finalAmount: "₹2,450.00"
     },
     payment: {
-      bankAccount: "XYZ Bank (Last four digits: 1234)",
+      bankAccount: "1234567890",
       transferDate: "January 15, 2025",
       transactionId: "TXN123456789"
     },

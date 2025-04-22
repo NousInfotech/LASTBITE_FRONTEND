@@ -7,12 +7,59 @@ import {
   Text,
   TouchableOpacity,
   Image,
+  Modal,
+  Pressable,
 } from "react-native";
 import LocationHeader from "@/components/LocationHeader";
 import SearchBarVoice from "@/components/SearchBarVoice";
 import { RFPercentage } from "react-native-responsive-fontsize";
+import { useRouter } from "expo-router";
 
 const Home = () => {
+  const router = useRouter();
+  const [prepTime, setPrepTime] = useState(15);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
+
+  const handleViewOrder = () => {
+    router.push('/Screens/ViewOrder');
+  };
+
+  const handleConfirmOrder = (orderId) => {
+    setSelectedOrderId(orderId);
+    setModalVisible(true);
+  };
+
+  const decrementPrepTime = () => {
+    if (prepTime > 5) {
+      setPrepTime(prepTime - 5);
+    }
+  };
+
+  const incrementPrepTime = () => {
+    if (prepTime < 60) {
+      setPrepTime(prepTime + 5);
+    }
+  };
+
+  const confirmPreparationTime = () => {
+    console.log(`Order ${selectedOrderId} confirmed with preparation time: ${prepTime} minutes`);
+    setModalVisible(false);
+    router.push('/Screens/ViewOrder')
+  };
+
+  const navigateToOrdersToday = () => {
+    router.push('/Screens/OrdersToday')
+  }
+
+  const navigateToAvgRating = () => {
+    router.push('/Screens/RatingReview')
+  }
+
+  const navigateToPayments = () => {
+    router.push('/(tabsthree)/earnings')
+  }
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
@@ -26,30 +73,30 @@ const Home = () => {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-             <View style={styles.cardContainer}>
-          <View style={styles.card}>
+        <View style={styles.cardContainer}>
+          <TouchableOpacity onPress={navigateToOrdersToday} style={styles.card}>
             <View style={styles.imageContainer}>
               <Image source={require("../../assets/images/order-1.png")} style={styles.icon} />
             </View>
             <Text style={styles.label}>Orders Today</Text>
             <Text style={styles.value}>20</Text>
-          </View>
-          <View style={styles.card}>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.card} onPress={navigateToAvgRating}>
             <View style={styles.imageContainer}>
               <Image source={require("../../assets/images/Star.png")} style={styles.icon} />
             </View>
             <Text style={styles.label}>Average Rating</Text>
             <Text style={styles.value}>₹500</Text>
-          </View>
+          </TouchableOpacity>
         </View>
         <View style={styles.singleCardContainer}>
-          <View style={styles.card}>
+          <TouchableOpacity style={styles.card} onPress={navigateToPayments}>
             <View style={styles.imageContainer}>
               <Image source={require("../../assets/images/cash.png")} style={styles.icon} />
             </View>
             <Text style={styles.label}>Pending Payments</Text>
             <Text style={styles.value}>2</Text>
-          </View>
+          </TouchableOpacity>
         </View>
 
         <View style={styles.headerRow}>
@@ -71,10 +118,13 @@ const Home = () => {
               <Text style={styles.orderAmount}>₹500</Text>
             </View>
             <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.viewButton}>
+              <TouchableOpacity style={styles.viewButton} onPress={handleViewOrder}>
                 <Text style={styles.viewButtonText}>View Order</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.confirmButton}>
+              <TouchableOpacity 
+                style={styles.confirmButton}
+                onPress={() => handleConfirmOrder("#136558-19")}
+              >
                 <Text style={styles.confirmButtonText}>Confirm Order</Text>
               </TouchableOpacity>
             </View>
@@ -84,9 +134,9 @@ const Home = () => {
           <View style={styles.orderCard}>
             <View style={styles.orderHeader}>
               <View>
-              <View style={styles.statusRow}>
-              <Text style={styles.status}>🚚 Order Delivered</Text>
-            </View>
+                <View style={styles.statusRow}>
+                  <Text style={styles.status}>🚚 Order Delivered</Text>
+                </View>
                 <Text style={styles.orderId}>Order ID: #136558-19</Text>
                 <Text style={styles.orderTime}>05:16 PM | 2 items for ₹500</Text>
               </View>
@@ -102,9 +152,9 @@ const Home = () => {
           <View style={styles.orderCard}>
             <View style={styles.orderHeader}>
               <View>
-              <View style={styles.statusRow}>
-              <Text style={styles.status}>📦 Packing</Text>
-            </View>
+                <View style={styles.statusRow}>
+                  <Text style={styles.status}>📦 Packing</Text>
+                </View>
                 <Text style={styles.orderId}>Order ID: #136558-19</Text>
                 <Text style={styles.orderTime}>05:16 PM | 2 items for ₹500</Text>
               </View>
@@ -129,10 +179,6 @@ const Home = () => {
               </View>
               <Text style={styles.orderAmount}>₹500</Text>
             </View>
-            {/* <View style={styles.statusRow}>
-              <Text style={styles.preparingStatus}>👨‍🍳 Preparing</Text>
-              <Text style={styles.prepTime}>Preparation Time: 18 mins</Text>
-            </View> */}
             <View style={styles.buttonContainer}>
               <TouchableOpacity style={styles.viewButton}>
                 <Text style={styles.viewButtonText}>View Order</Text>
@@ -144,6 +190,47 @@ const Home = () => {
           </View>
         </View>
       </ScrollView>
+
+      {/* Preparation Time Modal */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalTitle}>How long will this take to prepare?</Text>
+            
+            <View style={styles.timeSelector}>
+              <TouchableOpacity 
+                style={styles.timeButton} 
+                onPress={decrementPrepTime}
+              >
+                <Text style={styles.timeButtonText}>-</Text>
+              </TouchableOpacity>
+              
+              <View style={styles.timeDisplay}>
+                <Text style={styles.timeText}>{prepTime} MINS</Text>
+              </View>
+              
+              <TouchableOpacity 
+                style={styles.timeButton} 
+                onPress={incrementPrepTime}
+              >
+                <Text style={styles.timeButtonText}>+</Text>
+              </TouchableOpacity>
+            </View>
+            
+            <TouchableOpacity 
+              style={styles.doneButton}
+              onPress={confirmPreparationTime}
+            >
+              <Text style={styles.doneButtonText}>Done</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -167,7 +254,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 10,
-
   },
   singleCardContainer: {
     alignItems: "center",
@@ -177,7 +263,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#01615F",
     borderRadius: 12,
     padding: 16,
-    width: "48%", // To make them sit side by side
+    width: "48%", 
     alignItems: "center",
   },
   imageContainer: {
@@ -308,6 +394,77 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#01615F",
     alignItems: "center",
+  },
+  
+  // Modal styles
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
+  },
+  modalView: {
+    width: "80%",
+    backgroundColor: "white",
+    borderRadius: 8,
+    padding: 20,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalTitle: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: "#000000",
+    marginBottom: 20,
+    textAlign: "center",
+  },
+  timeSelector: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
+    marginBottom: 20,
+  },
+  timeButton: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: "#01615F",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  timeButtonText: {
+    fontSize: 20,
+    color: "#01615F",
+    fontWeight: "500",
+  },
+  timeDisplay: {
+    paddingHorizontal: 20,
+  },
+  timeText: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: "#000000",
+  },
+  doneButton: {
+    width: "100%",
+    backgroundColor: "#01615F",
+    borderRadius: 4,
+    paddingVertical: 12,
+    alignItems: "center",
+  },
+  doneButtonText: {
+    color: "#FFFFFF",
+    fontSize: 16,
+    fontWeight: "500",
   },
 });
 

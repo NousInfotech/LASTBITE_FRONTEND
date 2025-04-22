@@ -18,6 +18,7 @@ import { router } from "expo-router";
 import { useCreateRestaurant } from "@/api/queryHooks";
 import * as ImagePicker from "expo-image-picker";
 import { RFPercentage } from "react-native-responsive-fontsize";
+import { useRouter } from "expo-router";
 
 const RegisterRestaurant = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -26,6 +27,7 @@ const RegisterRestaurant = () => {
   const [noGST, setNoGST] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("Category I");
   const [selectedFoodType, setSelectedFoodType] = useState("Veg Only");
+  const router = useRouter(); 
   const [selectedCuisines, setSelectedCuisines] = useState([
     "Italian",
     "Chinese",
@@ -136,6 +138,9 @@ const RegisterRestaurant = () => {
     },
   ];
 
+  const restaurantHome = () => {
+    router.push('/(tabstwo)/home')
+  }
   const handleSubmit = async () => {
     const formattedForm = {
       ...form,
@@ -155,7 +160,7 @@ const RegisterRestaurant = () => {
   };
 
   const handleContinue = (): void => {
-    let requiredFields: string[] = [];
+    let requiredFields: string | integer | float [] = [];
   
     if (activeStep === 1) {
       requiredFields = [
@@ -200,6 +205,7 @@ const RegisterRestaurant = () => {
     }
   };
   
+
 
   const handleSelectAll = () => {
     const allSelected = Object.values(form.workingDays).every(Boolean);
@@ -737,7 +743,7 @@ const RegisterRestaurant = () => {
             /> */}
           </>
         )}
-        <TouchableOpacity style={styles.button} onPress={handleContinue}>
+        <TouchableOpacity style={styles.button} onPress={restaurantHome}>
           <Text style={styles.buttonText}>Continue</Text>
         </TouchableOpacity>
       </ScrollView>
