@@ -143,7 +143,7 @@ const Home = () => {
               <Text style={styles.orderAmount}>₹500</Text>
             </View>
           
-            <TouchableOpacity style={styles.singleButton}>
+            <TouchableOpacity style={styles.singleButton} onPress={handleViewOrder}>
               <Text style={styles.viewButtonText}>View Order</Text>
             </TouchableOpacity>
           </View>
@@ -161,7 +161,7 @@ const Home = () => {
               <Text style={styles.orderAmount}>₹500</Text>
             </View>
             <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.viewButton}>
+              <TouchableOpacity style={styles.viewButton} onPress={handleViewOrder}>
                 <Text style={styles.viewButtonText}>View Order</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.actionButton}>
@@ -180,7 +180,7 @@ const Home = () => {
               <Text style={styles.orderAmount}>₹500</Text>
             </View>
             <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.viewButton}>
+              <TouchableOpacity style={styles.viewButton} onPress={handleViewOrder}>
                 <Text style={styles.viewButtonText}>View Order</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.actionButton}>

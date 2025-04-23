@@ -20,19 +20,12 @@ interface PaymentType {
   status: "Completed" | "Processing" | "Failed";
 }
 
-const Payments: React.FC = () => {
+const Payment: React.FC = () => {
   const router = useRouter();
   const [fontsLoaded, setFontsLoaded] = useState<boolean>(false);
   const [selectedTab, setSelectedTab] = useState<string>("All (15)");
 
-  const tabs: string[] = [
-    "All (15)",
-    "Completed (10)",
-    "Processing (5)",
-    "Failed(10)",
-  ];
-
-  const payments: PaymentType[] = [
+  const allPayments: PaymentType[] = [
     {
       id: "#136558-19",
       date: "January 15, 2025",
@@ -57,6 +50,29 @@ const Payments: React.FC = () => {
       amount: "₹2,450.00",
       status: "Processing",
     },
+  ];
+
+  // Filter payments based on selected tab
+  const getFilteredPayments = (): PaymentType[] => {
+    if (selectedTab === "All (15)") {
+      return allPayments;
+    } else if (selectedTab === "Completed (10)") {
+      return allPayments.filter(payment => payment.status === "Completed");
+    } else if (selectedTab === "Processing (5)") {
+      return allPayments.filter(payment => payment.status === "Processing");
+    } else if (selectedTab === "Failed(10)") {
+      return allPayments.filter(payment => payment.status === "Failed");
+    }
+    return allPayments;
+  };
+
+  const filteredPayments = getFilteredPayments();
+
+  const tabs: string[] = [
+    "All (15)",
+    "Completed (10)",
+    "Processing (5)",
+    "Failed(10)",
   ];
 
   useEffect(() => {
@@ -100,6 +116,7 @@ const Payments: React.FC = () => {
       }
     });
   };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
@@ -108,61 +125,72 @@ const Payments: React.FC = () => {
         <TouchableOpacity>
           <GoBack />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Payment</Text>
+        <Text style={styles.headerTitle}>Earnings</Text>
       </View>
 
       {/* Tabs */}
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        style={styles.tabsContainer}
-      >
-        {tabs.map((tab) => (
-          <TouchableOpacity
-            key={tab}
-            style={[styles.tab, selectedTab === tab && styles.selectedTab]}
-            onPress={() => setSelectedTab(tab)}
-          >
-            <Text
+      <View style={styles.tabsWrapper}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={styles.tabsContainer}
+        >
+          {tabs.map((tab) => (
+            <TouchableOpacity
+              key={tab}
               style={[
-                styles.tabText,
-                selectedTab === tab && styles.selectedTabText,
+                styles.tab, 
+                selectedTab === tab && styles.selectedTab
               ]}
+              onPress={() => setSelectedTab(tab)}
             >
-              {tab}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
+              <Text
+                style={[
+                  styles.tabText,
+                  selectedTab === tab && styles.selectedTabText,
+                ]}
+              >
+                {tab}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      </View>
 
       {/* Payments List */}
       <ScrollView style={styles.paymentsList}>
-        {payments.map((payment, index) => (
-          <View key={index} style={styles.paymentCard}>
-            <View style={styles.paymentHeader}>
-              <Text style={styles.paymentId}>Order ID: {payment.id}</Text>
-              <Text
-                style={[
-                  styles.status,
-                  { color: getStatusColor(payment.status) },
-                ]}
-              >
-                {payment.status}
-              </Text>
+        {filteredPayments.length > 0 ? (
+          filteredPayments.map((payment, index) => (
+            <View key={index} style={styles.paymentCard}>
+              <View style={styles.paymentHeader}>
+                <Text style={styles.paymentId}>Order ID: {payment.id}</Text>
+                <Text
+                  style={[
+                    styles.status,
+                    { color: getStatusColor(payment.status) },
+                  ]}
+                >
+                  {payment.status}
+                </Text>
+              </View>
+              <View style={styles.paymentDetails}>
+                <Text style={styles.paymentDate}>Payout Date:</Text>
+                <Text style={styles.date}>{payment.date}</Text>
+              </View>
+              <View style={styles.paymentDetails}>
+                <Text style={styles.paymentAmount}>Amount:</Text>
+                <Text style={styles.amount}>{payment.amount}</Text>
+              </View>
+              <TouchableOpacity style={styles.viewDetailsButton} onPress={() => handleViewDetails(payment)}>
+                <Text style={styles.viewDetailsText}>View Details</Text>
+              </TouchableOpacity>
             </View>
-            <View style={styles.paymentDetails}>
-              <Text style={styles.paymentDate}>Payout Date:</Text>
-              <Text style={styles.date}>{payment.date}</Text>
-            </View>
-            <View style={styles.paymentDetails}>
-              <Text style={styles.paymentAmount}>Amount:</Text>
-              <Text style={styles.amount}>{payment.amount}</Text>
-            </View>
-            <TouchableOpacity style={styles.viewDetailsButton}  onPress={() => handleViewDetails(payment)}>
-              <Text style={styles.viewDetailsText}>View Details</Text>
-            </TouchableOpacity>
+          ))
+        ) : (
+          <View style={styles.noPaymentsContainer}>
+            <Text style={styles.noPaymentsText}>No payments found</Text>
           </View>
-        ))}
+        )}
       </ScrollView>
     </SafeAreaView>
   );
@@ -183,6 +211,9 @@ const styles = StyleSheet.create({
     marginLeft: 16,
     fontFamily: "Poppins-SemiBold",
   },
+  tabsWrapper: {
+    paddingBottom: 5, // Reduced spacing between tabs and payment list
+  },
   tabsContainer: {
     flexDirection: "row",
     paddingHorizontal: 16,
@@ -194,10 +225,12 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderWidth: 1,
     borderColor: "#666",
+    height: 40, // Fixed height for all tabs
+    justifyContent: "center", // Center text vertically
   },
   selectedTab: {
     backgroundColor: "#01615F",
-    borderRadius: 20,
+    borderColor: "#01615F",
   },
   tabText: {
     fontFamily: "Poppins-Medium",
@@ -207,7 +240,8 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
   },
   paymentsList: {
-    padding: 16,
+    paddingHorizontal: 16,
+    paddingTop: 5, // Reduced top padding to minimize space
   },
   paymentCard: {
     backgroundColor: "#FFFFFF",
@@ -269,6 +303,17 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: "Poppins-Medium",
   },
+  noPaymentsContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 30,
+  },
+  noPaymentsText: {
+    fontFamily: "Poppins-Medium",
+    fontSize: 16,
+    color: "#666666",
+  },
 });
 
-export default Payments;
+export default Payment;
+

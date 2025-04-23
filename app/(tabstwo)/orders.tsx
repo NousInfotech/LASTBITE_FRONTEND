@@ -1,427 +1,393 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
+  StyleSheet,
   View,
   Text,
-  TouchableOpacity,
-  Image,
   SafeAreaView,
+  TouchableOpacity,
+  FlatList,
   StatusBar,
-  StyleSheet,
   ScrollView,
-  Modal,
-  Dimensions,
-  LayoutChangeEvent,
 } from "react-native";
-import { useRouter } from "expo-router";
-import * as Font from "expo-font";
+import { Ionicons } from "@expo/vector-icons";
 import GoBack from "@/components/GoBack";
 import { RFPercentage } from "react-native-responsive-fontsize";
 
-interface FilterPosition {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-}
+export default function OrdersScreen() {
+  const [activeTab, setActiveTab] = useState("All");
 
-interface OrderType {
-  id: string;
-  time: string;
-  items: number;
-  amount: number;
-  status: string;
-}
-
-const Orders: React.FC = () => {
-  const router = useRouter();
-  const [fontsLoaded, setFontsLoaded] = useState<boolean>(false);
-  const [selectedTab, setSelectedTab] = useState<string>("All");
-  const [filterModalVisible, setFilterModalVisible] = useState<boolean>(false);
-  const [selectedFilter, setSelectedFilter] = useState<string>("All");
-  const [filterPosition, setFilterPosition] = useState<FilterPosition>({ x: 0, y: 0, width: 0, height: 0 });
-
-  const filters: string[] = ["Today", "Weekly", "Monthly", "Yearly", "Reset"];
-  const tabs: string[] = ["All", "Preparing", "Packing", "Hand Over", "Handed Over", "Delivered"];
-
-  const allOrders: OrderType[] = [
-    { id: "#136558-19", time: "05:16 PM", items: 2, amount: 500, status: "New" },
-    { id: "#136558-20", time: "05:45 PM", items: 3, amount: 750, status: "Packing" },
-    { id: "#136558-21", time: "06:00 PM", items: 1, amount: 250, status: "Delivered" },
+  const tabs = [
+    "All",
+    "Unconfirmed",
+    "Preparing",
+    "Packing",
+    "Hand Over",
+    "Picked",
+    "Delivered",
   ];
 
-  const onFilterIconLayout = (event: LayoutChangeEvent) => {
-    const { target } = event;
-    if (target) {
-      // Measure the position of the filter icon
-      target.measure((x, y, width, height, pageX, pageY) => {
-        setFilterPosition({
-          x: pageX,
-          y: pageY + height, // Position modal below the icon
-          width,
-          height
-        });
-      });
-    }
+  const orders = [
+    {
+      id: "#136558-19",
+      date: "05/19 PM",
+      items: 3,
+      total: 300,
+      status: "Packing",
+      additionalInfo: null,
+    },
+    {
+      id: "#136558-19",
+      date: "05/19 PM",
+      items: 3,
+      total: 300,
+      status: "Preparing",
+      additionalInfo: {
+        type: "time",
+        value: "15 mins",
+      },
+    },
+    {
+      id: "#136558-19",
+      date: "05/19 PM",
+      items: 3,
+      total: 300,
+      status: "Hand Over",
+      additionalInfo: {
+        type: "info",
+        value: "Delivery Partner Arrived",
+      },
+    },
+    {
+      id: "#136558-19",
+      date: "05/19 PM",
+      items: 3,
+      total: 300,
+      status: "Unconfirmed",
+      additionalInfo: {
+        type: "info",
+        value: "",
+      },
+    },
+    {
+      id: "#136558-19",
+      date: "05/19 PM",
+      items: 3,
+      total: 300,
+      status: "Picked",
+      additionalInfo: {
+        type: "info",
+        value: "Delivery Partner Arrived",
+      },
+    },
+    {
+      id: "#136558-19",
+      date: "05/19 PM",
+      items: 3,
+      total: 300,
+      status: "Delivered",
+      additionalInfo: {
+        type: "info",
+        value: "Delivery Partner Arrived",
+      },
+    },
+  ];
+
+  const filteredOrders =
+    activeTab === "All"
+      ? orders
+      : orders.filter((order) => order.status === activeTab);
+
+      const getStatusIcon = (status) => {
+        switch (status) {
+          case "Packing":
+            return (
+              <View style={[styles.statusIcon, styles.packingIcon]}>
+                <Text>📦</Text>
+              </View>
+            );
+          case "Preparing":
+            return (
+              <View style={[styles.statusIcon, styles.preparingIcon]}>
+                <Text>🔄</Text>
+              </View>
+            );
+          case "Hand Over":
+            return (
+              <View style={[styles.statusIcon, styles.handOverIcon]}>
+                <Text>🤝</Text>
+              </View>
+            );
+          case "Unconfirmed":
+            return (
+              <View style={[styles.statusIcon, styles.unconfirmedIcon]}>
+                <Text>❓</Text>
+              </View>
+            );
+          case "Picked":
+            return (
+              <View style={[styles.statusIcon, styles.pickedIcon]}>
+                <Text>🔍</Text>
+              </View>
+            );
+          case "Delivered":
+            return (
+              <View style={[styles.statusIcon, styles.deliveredIcon]}>
+                <Text>✅</Text>
+              </View>
+            );
+          default:
+            return null;
+        }
+      };
+
+
+
+  const renderOrderCard = ({ item }) => {
+    const isPacking = item.status === "Packing";
+    const isPreparing = item.status === "Preparing";
+    const isHandOver = item.status === "Hand Over";
+    const isPicked = item.status === "Picked";
+
+    return (
+      <View style={styles.orderCard}>
+        {getStatusIcon(item.status)}
+        <View style={styles.orderHeader}>
+          <Text style={styles.orderLabel}>{item.status}</Text>
+          {item.additionalInfo && (
+            <Text style={styles.preparingInfo}>
+              {item.additionalInfo.type === "time" ? "Preparation Time: " : ""}
+              {item.additionalInfo.value}
+            </Text>
+          )}
+        </View>
+        <View style={styles.orderDetails}>
+          <Text style={styles.orderId}>Order ID: {item.id}</Text>
+          <Text style={styles.orderAmount}>₹{item.total}</Text>
+        </View>
+        <Text style={styles.orderMeta}>
+          {item.date} | {item.items} items for ₹{item.total}.0
+        </Text>
+        <View style={styles.actionButtons}>
+          <TouchableOpacity style={styles.viewButton}>
+            <Text style={styles.viewButtonText}>View Order</Text>
+          </TouchableOpacity>
+
+          {isPacking && (
+            <TouchableOpacity style={styles.actionButton}>
+              <Text style={styles.actionButtonText}>Order Packed</Text>
+            </TouchableOpacity>
+          )}
+
+          {isPreparing && (
+            <TouchableOpacity style={styles.actionButton}>
+              <Text style={styles.actionButtonText}>Order Prepared</Text>
+            </TouchableOpacity>
+          )}
+
+          {isHandOver && (
+            <TouchableOpacity style={styles.actionButton}>
+              <Text style={styles.actionButtonText}>Hand Over</Text>
+            </TouchableOpacity>
+          )}
+
+          {isPicked && (
+            <TouchableOpacity style={styles.actionButton}>
+              <Text style={styles.actionButtonText}>Picked</Text>
+            </TouchableOpacity>
+          )}
+        </View>
+      </View>
+    );
   };
-  const filteredOrders = selectedTab === "All" ? allOrders : allOrders.filter(order => order.status === selectedTab);
-  
-  useEffect(() => {
-    async function loadFonts() {
-      await Font.loadAsync({
-        "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
-        "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
-        "Poppins-SemiBold": require("../../assets/fonts/Poppins-SemiBold.ttf"),
-      });
-      setFontsLoaded(true);
-    }
-
-    loadFonts();
-  }, []);
-
-  if (!fontsLoaded) {
-    return null;
-  }
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity>
-          <GoBack />
-        </TouchableOpacity>
+        <GoBack />
         <Text style={styles.headerTitle}>Orders</Text>
-         <TouchableOpacity 
-          style={styles.filterButton} 
-          onPress={() => setFilterModalVisible(true)}
-          onLayout={onFilterIconLayout}
-        >
-          <Image 
-            source={require("../../assets/images/Filter.png")} 
-            style={styles.filterIcon} 
-          />
+        <TouchableOpacity style={styles.filterButton}>
+          <Ionicons name="filter" size={24} color="black" />
         </TouchableOpacity>
       </View>
-      <Modal 
-        transparent={true} 
-        visible={filterModalVisible} 
-        animationType="none"
-        onRequestClose={() => setFilterModalVisible(false)}
-      >
-        <TouchableOpacity 
-          style={styles.modalOverlay} 
-          onPress={() => setFilterModalVisible(false)}
-        >
-          <View 
-            style={[
-              styles.modalContainer,
-              {
-                position: 'absolute',
-                top: filterPosition.y,
-                right: Dimensions.get('window').width - (filterPosition.x + filterPosition.width),
-              }
-            ]}
-          >
-            {filters.map((filter, index) => (
-              <TouchableOpacity 
-                key={index} 
-                style={[
-                  styles.filterOption,
-                  selectedFilter === filter && styles.selectedFilter
-                ]} 
-                onPress={() => {
-                  setSelectedFilter(filter);
-                  setFilterModalVisible(false);
-                }}
-              >
-                <Text style={[
-                  styles.filterText,
-                  selectedFilter === filter && styles.selectedFilterText
-                ]}>
-                  {filter}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-        </TouchableOpacity>
-      </Modal>
-      {/* Tabs */}
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.tabsContainer}>
-        {tabs.map((tab) => (
-          <TouchableOpacity
-            key={tab}
-            style={[styles.tab, selectedTab === tab && styles.selectedTab]}
-            onPress={() => setSelectedTab(tab)}
-          >
-            <Text style={[styles.tabText, selectedTab === tab && styles.selectedTabText]}>
-              {tab}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
 
-      {/* Orders List */}
-      <ScrollView style={styles.ordersList}>
-        {/* New Order */}
-        <View style={styles.orderCards}>
-                 {/* New Order */}
-                 <View style={styles.orderCard}>
-                   <View style={styles.orderHeader}>
-                     <View>
-                       <Text style={styles.orderId}>Order ID: #136558-19</Text>
-                       <Text style={styles.orderTime}>05:16 PM | 2 items for ₹500</Text>
-                     </View>
-                     <Text style={styles.orderAmount}>₹500</Text>
-                   </View>
-                   <View style={styles.buttonContainer}>
-                     <TouchableOpacity style={styles.viewButton}>
-                       <Text style={styles.viewButtonText}>View Order</Text>
-                     </TouchableOpacity>
-                     <TouchableOpacity style={styles.confirmButton}>
-                       <Text style={styles.confirmButtonText}>Confirm Order</Text>
-                     </TouchableOpacity>
-                   </View>
-                 </View>
-       
-                 {/* Delivered Order */}
-                 <View style={styles.orderCard}>
-                   <View style={styles.orderHeader}>
-                     <View>
-                     <View style={styles.statusRow}>
-                     <Text style={styles.status}>🚚 Order Delivered</Text>
-                   </View>
-                       <Text style={styles.orderId}>Order ID: #136558-19</Text>
-                       <Text style={styles.orderTime}>05:16 PM | 2 items for ₹500</Text>
-                     </View>
-                     <Text style={styles.orderAmount}>₹500</Text>
-                   </View>
-                 
-                   <TouchableOpacity style={styles.singleButton}>
-                     <Text style={styles.viewButtonText}>View Order</Text>
-                   </TouchableOpacity>
-                 </View>
-       
-                 {/* Packing Order */}
-                 <View style={styles.orderCard}>
-                   <View style={styles.orderHeader}>
-                     <View>
-                     <View style={styles.statusRow}>
-                     <Text style={styles.status}>📦 Packing</Text>
-                   </View>
-                       <Text style={styles.orderId}>Order ID: #136558-19</Text>
-                       <Text style={styles.orderTime}>05:16 PM | 2 items for ₹500</Text>
-                     </View>
-                     <Text style={styles.orderAmount}>₹500</Text>
-                   </View>
-                   <View style={styles.buttonContainer}>
-                     <TouchableOpacity style={styles.viewButton}>
-                       <Text style={styles.viewButtonText}>View Order</Text>
-                     </TouchableOpacity>
-                     <TouchableOpacity style={styles.actionButton}>
-                       <Text style={styles.confirmButtonText}>Order Packed</Text>
-                     </TouchableOpacity>
-                   </View>
-                 </View>
-       
-                 {/* Preparing Order */}
-                 <View style={styles.orderCard}>
-                   <View style={styles.orderHeader}>
-                     <View>
-                       <Text style={styles.orderId}>Order ID: #136558-19</Text>
-                       <Text style={styles.orderTime}>05:16 PM | 2 items for ₹500</Text>
-                     </View>
-                     <Text style={styles.orderAmount}>₹500</Text>
-                   </View>
-                   {/* <View style={styles.statusRow}>
-                     <Text style={styles.preparingStatus}>👨‍🍳 Preparing</Text>
-                     <Text style={styles.prepTime}>Preparation Time: 18 mins</Text>
-                   </View> */}
-                   <View style={styles.buttonContainer}>
-                     <TouchableOpacity style={styles.viewButton}>
-                       <Text style={styles.viewButtonText}>View Order</Text>
-                     </TouchableOpacity>
-                     <TouchableOpacity style={styles.actionButton}>
-                       <Text style={styles.confirmButtonText}>Order Prepared</Text>
-                     </TouchableOpacity>
-                   </View>
-                 </View>
-               </View>
-      </ScrollView>
+      <View style={styles.tabContainer}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.tabScrollContainer}
+          style={styles.tabContainer}
+        >
+          {tabs.map((tab) => (
+            <TouchableOpacity
+              key={tab}
+              style={[styles.tab, activeTab === tab && styles.activeTab]}
+              onPress={() => setActiveTab(tab)}
+            >
+              <Text
+                style={[
+                  styles.tabText,
+                  activeTab === tab && styles.activeTabText,
+                ]}
+              >
+                {tab}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      </View>
+
+      <FlatList
+        data={filteredOrders}
+        renderItem={renderOrderCard}
+        keyExtractor={(item, index) => index.toString()}
+        contentContainerStyle={styles.ordersList}
+      />
     </SafeAreaView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#f5f5f5",
   },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 16,
-    justifyContent: "space-between",
+header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    backgroundColor: '#fff',
   },
+  
   headerTitle: {
-    fontSize: RFPercentage(2),
-    marginLeft: 16,
-    fontWeight: "500",
-    fontFamily: "Poppins-SemiBold",
+    fontSize: 18,
+    fontWeight: '600',
+    marginTop: RFPercentage(2),
     flex: 1,
+    textAlign: 'left',
   },
   filterButton: {
     padding: 8,
+    marginTop: RFPercentage(2),
+    marginLeft: 'auto', 
   },
-  filterIcon: {
-    width: 24,
-    height: 24,
-  },
-  tabsContainer: {
+  tabContainer: {
     flexDirection: "row",
     paddingHorizontal: 16,
+    backgroundColor: "#fff",
+    borderBottomWidth: 1,
+    borderBottomColor: "#e0e0e0",
   },
   tab: {
-    paddingHorizontal: 18,
-    paddingVertical: 10,
-    marginRight: 8,
-    borderRadius: 20,
-    borderWidth:1,
-    borderColor:"#666",
-  },
-  selectedTab: {
-    backgroundColor: "#01615F",
-    borderRadius: 20,
+    paddingVertical: 12,
+    marginRight: 20,
   },
   tabText: {
-    fontFamily: "Poppins-Medium",
-    color: "#666666",
+    fontSize: 14,
+    color: "#9e9e9e",
   },
-  selectedTabText: {
-    color: "#FFFFFF",
+  activeTabText: {
+    color: "#fff",
+    fontWeight: "500",
+    borderWidth: 2,
+    borderColor: "#01615F",
+    backgroundColor: "#01615F",
+    borderRadius: 12,
+    paddingHorizontal: RFPercentage(3),
   },
   ordersList: {
     padding: 16,
   },
-  orderCards: {
-    gap: 16,
-  },
   orderCard: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#fff",
     borderRadius: 8,
     padding: 16,
-    borderWidth: 1,
-    borderColor: "#E5E5E5",
+    marginBottom: 16,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  statusIcon: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 4,
+  },
+  packingIcon: {
+    backgroundColor: "#FFF8E1",
+  },
+  preparingIcon: {
+    backgroundColor: "#E1F5FE",
+  },
+  handOverIcon: {
+    backgroundColor: "#E8F5E9",
   },
   orderHeader: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 12,
+    alignItems: "center",
+    marginBottom: 8,
   },
-  orderId: {
+  orderLabel: {
     fontSize: 14,
     fontWeight: "500",
-    color: "#000",
+    marginRight: 8,
   },
-  orderTime: {
-    fontSize: RFPercentage(2),
-    color: "#666666",
-    marginTop: 4,
+  preparingInfo: {
+    fontSize: 12,
+    color: "#757575",
+    marginLeft: "auto",
+  },
+  orderDetails: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 4,
+  },
+  orderId: {
+    fontSize: 15,
+    fontWeight: "600",
   },
   orderAmount: {
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: "600",
-    color: "#000",
   },
-  buttonContainer: {
+  orderMeta: {
+    fontSize: 13,
+    color: "#757575",
+    marginBottom: 12,
+  },
+  actionButtons: {
     flexDirection: "row",
-    gap: 12,
+    justifyContent: "space-between",
+    marginTop: 8,
   },
   viewButton: {
     flex: 1,
-    paddingVertical: 8,
-    borderRadius: 4,
     borderWidth: 1,
-    borderColor: "#01615F",
-    alignItems: "center",
-  },
-  confirmButton: {
-    flex: 1,
-    paddingVertical: 8,
+    borderColor: "#e0e0e0",
     borderRadius: 4,
-    backgroundColor: "#01615F",
-    alignItems: "center",
-  },
-  actionButton: {
-    flex: 1,
     paddingVertical: 8,
-    borderRadius: 4,
-    backgroundColor: "#01615F",
     alignItems: "center",
+    marginRight: 8,
   },
   viewButtonText: {
     color: "#01615F",
     fontSize: 14,
-    fontWeight: "500",
   },
-  confirmButtonText: {
-    color: "#FFFFFF",
-    fontSize: 14,
-    fontWeight: "500",
-  },
-  statusRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 12,
-  },
-  status: {
-    fontSize: 14,
-    fontWeight: "500",
-    color: "#01615F",
-  },
-
-  preparingStatus: {
-    fontSize: 14,
-    fontWeight: "500",
-    color: "#2196F3",
-  },
-  prepTime: {
-    fontSize: RFPercentage(2),
-    color: "#666666",
-  },
-  singleButton: {
-    paddingVertical: 8,
-    borderRadius: 4,
-    borderWidth: 1,
-    borderColor: "#01615F",
-    alignItems: "center",
-  },
-  modalOverlay: { 
+  actionButton: {
     flex: 1,
-    justifyContent: "center", 
-    alignItems: "center", 
-   },
-  modalContainer: { 
-    width: 120, 
-    backgroundColor: "#fff", 
-    borderRadius: 10, 
-    padding: 10, 
-    elevation: 5 
+    backgroundColor: "#01615F",
+    borderRadius: 4,
+    paddingVertical: 8,
+    alignItems: "center",
   },
-  filterOption: { 
-    paddingVertical: 5, 
-    paddingHorizontal: 5, 
+  actionButtonText: {
+    color: "#fff",
+    fontSize: 14,
+    fontWeight: "500",
   },
-  selectedFilter: {
-    backgroundColor: '#fff',
-  },
-  selectedFilterText: {
-    fontFamily: 'Poppins-Medium',
-  },
-  filterText: { 
-    fontSize: RFPercentage(2), 
-    fontFamily: "Poppins-Medium" 
-  }
 });
-
-export default Orders;

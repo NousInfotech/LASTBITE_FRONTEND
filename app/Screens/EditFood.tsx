@@ -2,33 +2,42 @@ import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
+  TextInput,
   TouchableOpacity,
-  Image,
   SafeAreaView,
   StatusBar,
   StyleSheet,
-  TextInput,
+  ScrollView,
   Switch,
+  Alert,
+  Image,
 } from "react-native";
-import { useRouter, useLocalSearchParams } from "expo-router";
-import GoBack from "@/components/GoBack";
-import * as Font from "expo-font";
 import { Picker } from "@react-native-picker/picker";
+import GoBack from "@/components/GoBack";
+import { useRouter, useLocalSearchParams } from "expo-router";
+import * as Font from "expo-font";
 import { RFPercentage } from "react-native-responsive-fontsize";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as ImagePicker from "expo-image-picker";
+
+const FOOD_ITEMS_STORAGE_KEY = "@food_items";
 
 const EditFood = () => {
   const router = useRouter();
-  const params = useLocalSearchParams();
+  const { itemId } = useLocalSearchParams();
   const [fontsLoaded, setFontsLoaded] = useState(false);
-
-  // Form state
-  const [name, setName] = useState(params.name || "");
-  const [category, setCategory] = useState(params.category || "Main Course");
-  const [price, setPrice] = useState(params.price || "");
-  const [available, setAvailable] = useState(
-    params.available === "true" || false
-  );
-
+  const [image, setImage] = useState(null);
+  const [category, setCategory] = useState("select");
+  const [stockStatus, setStockStatus] = useState(true);
+  
+  // Food item details
+  const [foodName, setFoodName] = useState("");
+  const [price, setPrice] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [mealTag, setMealTag] = useState("");
+  const [description, setDescription] = useState("");
+  const [loading, setLoading] = useState(true);
+  
   useEffect(() => {
     async function loadFonts() {
       await Font.loadAsync({
@@ -39,23 +48,146 @@ const EditFood = () => {
       setFontsLoaded(true);
     }
     loadFonts();
-  }, []);
+    
+    // Request permission for image library
+    (async () => {
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert('Permission needed', 'Sorry, we need camera roll permissions to upload images.');
+      }
+    })();
+    
+    // Load item data
+    loadItemData();
+  }, [itemId]);
 
-  if (!fontsLoaded) {
-    return null;
-  }
+  const loadItemData = async () => {
+    try {
+      const storedItems = await AsyncStorage.getItem(FOOD_ITEMS_STORAGE_KEY);
+      if (storedItems !== null) {
+        const items = JSON.parse(storedItems);
+        const item = items.find(item => item.id === itemId);
+        
+        if (item) {
+          setFoodName(item.name || "");
+          setPrice(item.price?.toString() || "");
+          setCategory(item.category || "select");
+          setQuantity(item.quantity || "");
+          setMealTag(item.mealTag || "");
+          setDescription(item.description || "");
+          setStockStatus(item.available);
+          if (item.image) {
+            setImage(item.image);
+          }
+        }
+      }
+      setLoading(false);
+    } catch (error) {
+      console.error("Failed to load item data", error);
+      Alert.alert("Error", "Failed to load item data. Please try again.");
+      setLoading(false);
+    }
+  };
 
-  const handleSave = () => {
-    // Handle save logic here
-    // You can make an API call or update local storage
+  // Function to pick an image from gallery
+  const pickImage = async () => {
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 0.8,
+        base64: true,
+      });
+      
+      if (!result.canceled) {
+        setImage(result.assets[0]);
+      }
+    } catch (error) {
+      console.error("Error picking image:", error);
+      Alert.alert("Error", "Failed to pick image");
+    }
+  };
+
+  // Function to handle updating the food item
+  const handleUpdateFood = async () => {
+    // Validate inputs
+    if (!foodName.trim()) {
+      Alert.alert("Error", "Please enter a food name");
+      return;
+    }
+
+    if (!price.trim() || isNaN(Number(price))) {
+      Alert.alert("Error", "Please enter a valid price");
+      return;
+    }
+
+    if (category === "select") {
+      Alert.alert("Error", "Please select a category");
+      return;
+    }
+
+    try {
+      // Retrieve existing food items
+      const storedItems = await AsyncStorage.getItem(FOOD_ITEMS_STORAGE_KEY);
+      if (storedItems === null) {
+        Alert.alert("Error", "No food items found");
+        return;
+      }
+      
+      let foodItems = JSON.parse(storedItems);
+      
+      // Find the item to update
+      const itemIndex = foodItems.findIndex(item => item.id === itemId);
+      if (itemIndex === -1) {
+        Alert.alert("Error", "Food item not found");
+        return;
+      }
+      
+      // Update the item
+      foodItems[itemIndex] = {
+        ...foodItems[itemIndex],
+        name: foodName,
+        price: Number(price),
+        available: stockStatus,
+        category: category,
+        quantity: quantity,
+        mealTag: mealTag,
+        description: description,
+        image: image ? {
+          uri: image.uri,
+          base64: image.base64
+        } : null,
+      };
+      
+      // Save updated list back to AsyncStorage
+      await AsyncStorage.setItem(FOOD_ITEMS_STORAGE_KEY, JSON.stringify(foodItems));
+      
+      // Show success message
+      Alert.alert("Success", "Food item updated successfully", [
+        {
+          text: "OK",
+          onPress: () => router.back() // Navigate back to Menu screen
+        }
+      ]);
+    } catch (error) {
+      console.error("Failed to update food item", error);
+      Alert.alert("Error", "Failed to update food item. Please try again.");
+    }
+  };
+
+  // Function to handle cancellation
+  const handleCancel = () => {
     router.back();
   };
+
+  if (!fontsLoaded || loading) {
+    return null;
+  }
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
-
-      {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()}>
           <GoBack />
@@ -63,199 +195,258 @@ const EditFood = () => {
         <Text style={styles.headerTitle}>Edit Food Items</Text>
       </View>
 
-      {/* Form Content */}
-      <View style={styles.content}>
-        {/* Image Placeholder */}
+      <ScrollView style={styles.scrollView}>
+        {/* Logo/Image Display */}
         <View style={styles.imageContainer}>
-          <View style={styles.imagePlaceholder}>
-            <Text style={styles.loremText}>Lorem ipsum</Text>
-          </View>
+          {image ? (
+            <Image
+              source={{ uri: image.uri }}
+              style={styles.imagePreview}
+            />
+          ) : (
+            <View style={styles.imagePlaceholder}>
+              <Text style={styles.placeholderText}>Lorem ipsum</Text>
+            </View>
+          )}
         </View>
 
         {/* Form Fields */}
         <View style={styles.formContainer}>
-          <View style={styles.inputContainer}>
+          <View style={styles.inputWrapper}>
             <Text style={styles.label}>Food Name</Text>
             <TextInput
+              placeholder="Chicken Biryani"
               style={styles.input}
-              value={name}
-              onChangeText={setName}
-              placeholder="Enter food name"
+              placeholderTextColor="#888"
+              value={foodName}
+              onChangeText={setFoodName}
             />
           </View>
 
-          <View style={styles.inputContainer}>
+          <View style={styles.inputWrapper}>
             <Text style={styles.label}>Category</Text>
-            <View style={styles.pickerContainer}>
+            <View style={styles.pickerWrapper}>
               <Picker
                 selectedValue={category}
                 onValueChange={(itemValue) => setCategory(itemValue)}
                 style={styles.picker}
               >
-                <Picker.Item label="Main Course" value="Main Course" />
-                <Picker.Item label="Appetizer" value="Appetizer" />
-                <Picker.Item label="Dessert" value="Dessert" />
+                <Picker.Item label="Select a category" value="select" />
+                <Picker.Item label="Main Course" value="main_course" />
+                <Picker.Item label="Starters" value="starters" />
+                <Picker.Item label="Side Dishes" value="side_dishes" />
+                <Picker.Item label="Beverages" value="beverages" />
+                <Picker.Item label="Desserts" value="desserts" />
               </Picker>
             </View>
           </View>
 
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Price</Text>
+          <View style={styles.inputWrapper}>
+            <Text style={styles.label}>Meal Tag</Text>
             <TextInput
+              placeholder="Non Veg"
               style={styles.input}
-              value={price}
-              onChangeText={setPrice}
-              keyboardType="numeric"
-              placeholder="Enter price"
+              placeholderTextColor="#888"
+              value={mealTag}
+              onChangeText={setMealTag}
             />
           </View>
 
-          <Text style={styles.label}>Stock Status</Text>
-          <View style={styles.stockStatusContainer}>
-            <Switch
-              value={available}
-              onValueChange={setAvailable}
-              trackColor={{ false: "#767577", true: "#006D5B" }}
-              thumbColor="#ffffff"
-              ios_backgroundColor="#767577"
+          <View style={styles.inputWrapper}>
+            <Text style={styles.label}>Quantity</Text>
+            <TextInput
+              placeholder="1 Kg (serves 3-4 people)"
+              style={styles.input}
+              placeholderTextColor="#888"
+              value={quantity}
+              onChangeText={setQuantity}
             />
-            <View style={{ flex: 1, alignItems: "flex-end" }}>
-              <Text
-                style={[
-                  styles.availableText,
-                  { color: available ? "#34C759" : "#FF3B30" }, // Green for Available, Red for Out of Stock
-                ]}
-              >
-                {available ? "Available" : "Out of Stock"}
+          </View>
+
+          <View style={styles.inputWrapper}>
+            <Text style={styles.label}>Price</Text>
+            <TextInput
+              placeholder="₹350"
+              style={styles.input}
+              placeholderTextColor="#888"
+              keyboardType="numeric"
+              value={price}
+              onChangeText={setPrice}
+            />
+          </View>
+
+          <View style={styles.inputWrapper}>
+            <Text style={styles.label}>Description</Text>
+            <TextInput
+              placeholder="..."
+              style={[styles.input, styles.descriptionInput]}
+              placeholderTextColor="#888"
+              multiline={true}
+              value={description}
+              onChangeText={setDescription}
+            />
+          </View>
+
+          <View style={styles.stockWrapper}>
+            <Text style={styles.label}>Stock Status</Text>
+            <View style={styles.switchContainer}>
+              <Switch
+                value={stockStatus}
+                onValueChange={() => setStockStatus(!stockStatus)}
+                trackColor={{ false: "#E5E5E5", true: "#01615F" }}
+                thumbColor={"#FFFFFF"}
+              />
+              <Text style={stockStatus ? styles.availableText : styles.unavailableText}>
+                {stockStatus ? "Available" : "Out of Stock"}
               </Text>
             </View>
           </View>
-        </View>
 
-        {/* Bottom Buttons */}
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={styles.cancelButton}
-            onPress={() => router.back()}
-          >
-            <Text style={styles.cancelButtonText}>Cancel</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-            <Text style={styles.saveButtonText}>Save</Text>
-          </TouchableOpacity>
+          {/* Button Group */}
+          <View style={styles.buttonGroup}>
+            <TouchableOpacity style={styles.cancelButton} onPress={handleCancel}>
+              <Text style={styles.cancelButtonText}>Cancel</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.saveButton} onPress={handleUpdateFood}>
+              <Text style={styles.saveButtonText}>Save</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
 
+export default EditFood;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#f9f9f9",
   },
   header: {
     flexDirection: "row",
     alignItems: "center",
-    padding: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: "#e0e0e0",
+    backgroundColor: "#fff",
   },
   headerTitle: {
-    fontSize: RFPercentage(2),
+    fontSize: 16,
     marginLeft: 16,
     fontFamily: "Poppins-SemiBold",
   },
-  content: {
+  scrollView: {
     flex: 1,
-    padding: 16,
   },
   imageContainer: {
     alignItems: "center",
-    marginBottom: 24,
+    paddingVertical: 20,
+  },
+  imagePreview: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
   },
   imagePlaceholder: {
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: "#F5F5F5",
+    backgroundColor: "#f0f0f0",
     justifyContent: "center",
     alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#ddd",
   },
-  loremText: {
-    fontFamily: "Poppins-Regular",
+  placeholderText: {
+    fontSize: 12,
     color: "#666",
+    textAlign: "center",
   },
   formContainer: {
-    flex: 1,
+    paddingHorizontal: 16,
+    paddingBottom: 20,
   },
-  inputContainer: {
-    marginBottom: 16,
+  inputWrapper: {
+    marginBottom: 14,
   },
   label: {
-    fontFamily: "Poppins-Medium",
-    marginBottom: 8,
-    color: "#333",
+    fontSize: 14,
+    color: "#666",
+    marginBottom: 6,
+    fontFamily: "Poppins-Regular",
   },
   input: {
+    height: 40,
     borderWidth: 1,
-    borderColor: "#E5E5E5",
-    borderRadius: 8,
-    padding: 12,
-    fontFamily: "Poppins-Regular",
+    borderColor: "#ddd",
+    borderRadius: 4,
+    paddingHorizontal: 12,
+    fontSize: 14,
+    backgroundColor: "#fff",
   },
-  pickerContainer: {
+  descriptionInput: {
+    height: 80,
+    textAlignVertical: "top",
+    paddingTop: 10,
+  },
+  pickerWrapper: {
     borderWidth: 1,
-    borderColor: "#E5E5E5",
-    borderRadius: 8,
-    overflow: "hidden",
+    borderColor: "#ddd",
+    borderRadius: 4,
+    backgroundColor: "#fff",
   },
   picker: {
-    height: 50,
+    height: RFPercentage(7),
   },
-  stockStatusContainer: {
+  stockWrapper: {
+    marginBottom: 20,
+  },
+  switchContainer: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between", // Ensures the switch and text are apart
-    paddingHorizontal: 8, // Adds spacing
-    borderRadius: 8,
-    marginBottom: 16,
   },
   availableText: {
+    marginLeft: 10,
+    color: "#01615F",
     fontFamily: "Poppins-Regular",
-    fontSize: 14,
   },
-
-  buttonContainer: {
+  unavailableText: {
+    marginLeft: 10,
+    color: "#FF0000",
+    fontFamily: "Poppins-Regular",
+  },
+  buttonGroup: {
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingHorizontal: 10,
-    paddingBottom: 10,
+    marginTop: 20,
   },
   cancelButton: {
     flex: 1,
-    marginRight: 8,
-    padding: 16,
-    borderRadius: 8,
+    height: 40,
     borderWidth: 1,
-    borderColor: "#E5E5E5",
+    borderColor: "#01615F",
+    borderRadius: 4,
+    justifyContent: "center",
     alignItems: "center",
+    marginRight: 10,
   },
   saveButton: {
     flex: 1,
-    marginLeft: 8,
-    padding: 16,
-    borderRadius: 8,
-    backgroundColor: "#006D5B",
+    height: 40,
+    backgroundColor: "#01615F",
+    borderRadius: 4,
+    justifyContent: "center",
     alignItems: "center",
   },
   cancelButtonText: {
+    color: "#01615F",
     fontFamily: "Poppins-Medium",
-    color: "#333",
   },
   saveButtonText: {
-    fontFamily: "Poppins-Medium",
     color: "#fff",
+    fontFamily: "Poppins-Medium",
   },
 });
-
-export default EditFood;
