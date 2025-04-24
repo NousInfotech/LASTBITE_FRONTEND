@@ -15,39 +15,59 @@ import { RFPercentage } from "react-native-responsive-fontsize";
 
 export default function OrdersScreen() {
   const [activeTab, setActiveTab] = useState("All");
-
+  
   const tabs = [
     "All",
     "Unconfirmed",
-    "Preparing",
-    "Packing",
+    "Order Prepared",
+    "Order Packed",
     "Hand Over",
     "Picked",
     "Delivered",
   ];
 
-  const orders = [
+  // Define the status sequence
+  const statusSequence = [
+    "Unconfirmed",
+    "Order Prepared",
+    "Order Packed",
+    "Hand Over", 
+    "Picked",
+    "Delivered"
+  ];
+
+  // Define button text for each status (showing the NEXT action)
+  const buttonTextMap = {
+    "Unconfirmed": "Order Prepared",
+    "Order Prepared": "Order Packed",
+    "Order Packed": "Hand Over",
+    "Hand Over": "Picked",
+    "Picked": "Delivered"
+  };
+  
+  // Initialize orders with current status
+  const [orders, setOrders] = useState([
     {
       id: "#136558-19",
       date: "05/19 PM",
       items: 3,
       total: 300,
-      status: "Packing",
+      status: "Order Packed",
       additionalInfo: null,
     },
     {
-      id: "#136558-19",
+      id: "#136558-20",
       date: "05/19 PM",
       items: 3,
       total: 300,
-      status: "Preparing",
+      status: "Order Prepared",
       additionalInfo: {
         type: "time",
         value: "15 mins",
       },
     },
     {
-      id: "#136558-19",
+      id: "#136558-21",
       date: "05/19 PM",
       items: 3,
       total: 300,
@@ -58,7 +78,7 @@ export default function OrdersScreen() {
       },
     },
     {
-      id: "#136558-19",
+      id: "#136558-22",
       date: "05/19 PM",
       items: 3,
       total: 300,
@@ -69,7 +89,7 @@ export default function OrdersScreen() {
       },
     },
     {
-      id: "#136558-19",
+      id: "#136558-23",
       date: "05/19 PM",
       items: 3,
       total: 300,
@@ -80,7 +100,7 @@ export default function OrdersScreen() {
       },
     },
     {
-      id: "#136558-19",
+      id: "#136558-24",
       date: "05/19 PM",
       items: 3,
       total: 300,
@@ -90,64 +110,77 @@ export default function OrdersScreen() {
         value: "Delivery Partner Arrived",
       },
     },
-  ];
+  ]);
 
   const filteredOrders =
     activeTab === "All"
       ? orders
       : orders.filter((order) => order.status === activeTab);
 
-      const getStatusIcon = (status) => {
-        switch (status) {
-          case "Packing":
-            return (
-              <View style={[styles.statusIcon, styles.packingIcon]}>
-                <Text>📦</Text>
-              </View>
-            );
-          case "Preparing":
-            return (
-              <View style={[styles.statusIcon, styles.preparingIcon]}>
-                <Text>🔄</Text>
-              </View>
-            );
-          case "Hand Over":
-            return (
-              <View style={[styles.statusIcon, styles.handOverIcon]}>
-                <Text>🤝</Text>
-              </View>
-            );
-          case "Unconfirmed":
-            return (
-              <View style={[styles.statusIcon, styles.unconfirmedIcon]}>
-                <Text>❓</Text>
-              </View>
-            );
-          case "Picked":
-            return (
-              <View style={[styles.statusIcon, styles.pickedIcon]}>
-                <Text>🔍</Text>
-              </View>
-            );
-          case "Delivered":
-            return (
-              <View style={[styles.statusIcon, styles.deliveredIcon]}>
-                <Text>✅</Text>
-              </View>
-            );
-          default:
-            return null;
-        }
-      };
+  // Function to handle status progression when button is clicked
+  const handleStatusChange = (orderIndex) => {
+    const updatedOrders = [...orders];
+    const currentOrder = updatedOrders[orderIndex];
+    
+    // Find current status in the sequence
+    const currentStatusIndex = statusSequence.indexOf(currentOrder.status);
+    
+    // Only proceed if not at the final stage (Delivered)
+    if (currentStatusIndex < statusSequence.length - 1) {
+      // Move to next status
+      currentOrder.status = statusSequence[currentStatusIndex + 1];
+      setOrders(updatedOrders);
+    }
+  };
 
+  const getStatusIcon = (status) => {
+    switch (status) {
+      case "Order Packed":
+        return (
+          <View style={[styles.statusIcon, styles.packingIcon]}>
+            <Text>📦</Text>
+          </View>
+        );
+      case "Order Prepared":
+        return (
+          <View style={[styles.statusIcon, styles.preparingIcon]}>
+            <Text>🔄</Text>
+          </View>
+        );
+      case "Hand Over":
+        return (
+          <View style={[styles.statusIcon, styles.handOverIcon]}>
+            <Text>🤝</Text>
+          </View>
+        );
+      case "Unconfirmed":
+        return (
+          <View style={[styles.statusIcon, styles.unconfirmedIcon]}>
+            <Text>❓</Text>
+          </View>
+        );
+      case "Picked":
+        return (
+          <View style={[styles.statusIcon, styles.pickedIcon]}>
+            <Text>🔍</Text>
+          </View>
+        );
+      case "Delivered":
+        return (
+          <View style={[styles.statusIcon, styles.deliveredIcon]}>
+            <Text>✅</Text>
+          </View>
+        );
+      default:
+        return null;
+    }
+  };
 
-
-  const renderOrderCard = ({ item }) => {
-    const isPacking = item.status === "Packing";
-    const isPreparing = item.status === "Preparing";
-    const isHandOver = item.status === "Hand Over";
-    const isPicked = item.status === "Picked";
-
+  const renderOrderCard = ({ item, index }) => {
+    // Determine if we need to show the action button
+    // We don't show the button for "Delivered" status as that's the final status
+    const isDelivered = item.status === "Delivered";
+    
     return (
       <View style={styles.orderCard}>
         {getStatusIcon(item.status)}
@@ -172,27 +205,14 @@ export default function OrdersScreen() {
             <Text style={styles.viewButtonText}>View Order</Text>
           </TouchableOpacity>
 
-          {isPacking && (
-            <TouchableOpacity style={styles.actionButton}>
-              <Text style={styles.actionButtonText}>Order Packed</Text>
-            </TouchableOpacity>
-          )}
-
-          {isPreparing && (
-            <TouchableOpacity style={styles.actionButton}>
-              <Text style={styles.actionButtonText}>Order Prepared</Text>
-            </TouchableOpacity>
-          )}
-
-          {isHandOver && (
-            <TouchableOpacity style={styles.actionButton}>
-              <Text style={styles.actionButtonText}>Hand Over</Text>
-            </TouchableOpacity>
-          )}
-
-          {isPicked && (
-            <TouchableOpacity style={styles.actionButton}>
-              <Text style={styles.actionButtonText}>Picked</Text>
+          {!isDelivered && (
+            <TouchableOpacity 
+              style={styles.actionButton}
+              onPress={() => handleStatusChange(index)}
+            >
+              <Text style={styles.actionButtonText}>
+                {buttonTextMap[item.status]}
+              </Text>
             </TouchableOpacity>
           )}
         </View>
@@ -252,14 +272,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#f5f5f5",
   },
-header: {
+  header: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 16,
     paddingVertical: 10,
     backgroundColor: '#fff',
   },
-  
   headerTitle: {
     fontSize: 18,
     fontWeight: '600',
@@ -325,6 +344,15 @@ header: {
     backgroundColor: "#E1F5FE",
   },
   handOverIcon: {
+    backgroundColor: "#E8F5E9",
+  },
+  unconfirmedIcon: {
+    backgroundColor: "#F3E5F5",
+  },
+  pickedIcon: {
+    backgroundColor: "#EDE7F6",
+  },
+  deliveredIcon: {
     backgroundColor: "#E8F5E9",
   },
   orderHeader: {
