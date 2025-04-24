@@ -14,7 +14,6 @@ import {
 import GoBack from "@/components/GoBack";
 import CustomCheckbox from "@/components/CustomCheckbox";
 import * as Font from "expo-font";
-import { router } from "expo-router";
 import { useCreateRestaurant } from "@/api/queryHooks";
 import * as ImagePicker from "expo-image-picker";
 import { RFPercentage } from "react-native-responsive-fontsize";
@@ -27,7 +26,7 @@ const RegisterRestaurant = () => {
   const [noGST, setNoGST] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("Category I");
   const [selectedFoodType, setSelectedFoodType] = useState("Veg Only");
-  const router = useRouter(); 
+  const router = useRouter();
   const [selectedCuisines, setSelectedCuisines] = useState([
     "Italian",
     "Chinese",
@@ -139,8 +138,8 @@ const RegisterRestaurant = () => {
   ];
 
   const restaurantHome = () => {
-    router.push('/(tabstwo)/home')
-  }
+    router.push("/(tabstwo)/home");
+  };
   const handleSubmit = async () => {
     const formattedForm = {
       ...form,
@@ -160,8 +159,8 @@ const RegisterRestaurant = () => {
   };
 
   const handleContinue = (): void => {
-    let requiredFields: string | integer | float [] = [];
-  
+    let requiredFields: string | number[] = [];
+
     if (activeStep === 1) {
       requiredFields = [
         "ownerName",
@@ -177,35 +176,37 @@ const RegisterRestaurant = () => {
         "closingTime",
       ];
     } else if (activeStep === 2) {
-      requiredFields = ["ownerPanNo", "bankIfscCode", "bankAccountNumber", "fssaiCertificateNo"];
+      requiredFields = [
+        "ownerPanNo",
+        "bankIfscCode",
+        "bankAccountNumber",
+        "fssaiCertificateNo",
+      ];
     } else if (activeStep === 3) {
       requiredFields = ["kindOfFood"];
     }
-  
+
     if (!form || typeof form !== "object") {
       Alert.alert("Error", "Form data is invalid");
       return;
     }
-  
+
     const isFormValid: boolean = requiredFields.every((field) => {
       const value = form[field as keyof typeof form];
       return typeof value === "string" && value.trim() !== "";
     });
-  
-  
+
     if (!isFormValid) {
       Alert.alert("Error", "Please fill all mandatory fields");
       return;
     }
-  
+
     if (activeStep < 4) {
       setActiveStep((prevStep: number) => prevStep + 1);
     } else {
       handleSubmit();
     }
   };
-  
-
 
   const handleSelectAll = () => {
     const allSelected = Object.values(form.workingDays).every(Boolean);
@@ -234,7 +235,7 @@ const RegisterRestaurant = () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      quality: 1, 
+      quality: 1,
     });
 
     if (!result.canceled) {
@@ -249,18 +250,20 @@ const RegisterRestaurant = () => {
     label: string,
     field: keyof typeof form,
     placeholder?: string,
-    required?: boolean // Optional parameter for required field
+    required?: boolean,
+    ...inputProps: TextInputProps[] // Use rest operator to catch additional props
   ) => (
     <View style={styles.inputContainer}>
       <Text style={styles.label}>
         {label} {required && <Text style={styles.required}>*</Text>}
       </Text>
       <TextInput
-        value={form[field]} // Ensure value matches form field
-        onChangeText={(text) => setForm((prev) => ({ ...prev, [field]: text }))} // Update state
-        placeholder={placeholder || `Enter ${label}`} // Default placeholder
+        value={form[field]}
+        onChangeText={(text) => setForm((prev) => ({ ...prev, [field]: text }))}
+        placeholder={placeholder || `Enter ${label}`}
         style={styles.input}
         placeholderTextColor="#A0A0A0"
+        {...Object.assign({}, ...inputProps)} // Spread the extra props into TextInput
       />
     </View>
   );
@@ -296,17 +299,25 @@ const RegisterRestaurant = () => {
                   "Owner's full name ",
                   "ownerName",
                   "Enter Full name",
-                  true
+                  true,
+                  {
+                    keyboardType: "default",
+                    maxlength: 200,
+                  }
                 )}
                 {renderInput(
                   "Restaurant Name",
                   "restaurantName",
                   "Enter Restaurant name",
-                  true
+                  true,
+                  {
+                    keyboardType: "default",
+                    maxlength: 200,
+                  }
                 )}
                 <Text style={styles.label}>
                   Profile Photo <Text style={styles.required}>*</Text>
-                </Text> 
+                </Text>
                 <View style={styles.inputContainer_A}>
                   <TouchableOpacity
                     style={styles.uploadButton}
@@ -329,7 +340,11 @@ const RegisterRestaurant = () => {
                       "Shop/Plot Number",
                       "shopNumber",
                       "Shop/PlotNo",
-                      true
+                      true,
+                      {
+                        keyboardType: "default",
+                        maxlength: 4,
+                      }
                     )}
                   </View>
                   <View style={styles.halfInputContainer}>
@@ -341,10 +356,17 @@ const RegisterRestaurant = () => {
                   "Building/Mall/Complex Name",
                   "complexName",
                   "Enter Building/Mall/Complex Name",
-                  true
+                  true,
+                  {
+                    keyboardType: "default",
+                    maxlength: 200,
+                  }
                 )}
 
-                {renderInput("Pincode", "pincode", "Enter Pincode", true)}
+                {renderInput("Pincode", "pincode", "Enter Pincode", true, {
+                  keyboardType: "number-pad",
+                  maxlength: 6,
+                })}
               </View>
             </View>
 
@@ -357,13 +379,21 @@ const RegisterRestaurant = () => {
                   "Email Address",
                   "emailAddress",
                   "Enter email address",
-                  true
+                  true,
+                  {
+                    keyboardType: "default",
+                    maxlength: 200,
+                  }
                 )}
                 {renderInput(
                   "Mobile Number",
                   "mobileNumber",
                   "Enter mobile number",
-                  true
+                  true,
+                  {
+                    keyboardType: "number-pad",
+                    maxlength: 10,
+                  }
                 )}
 
                 {/* WhatsApp Number Options */}
@@ -396,7 +426,16 @@ const RegisterRestaurant = () => {
                 </TouchableOpacity>
 
                 {!sameWhatsApp &&
-                  renderInput("WhatsApp Number", "whatsappNumber", "whatsapp")}
+                  renderInput(
+                    "WhatsApp Number",
+                    "whatsappNumber",
+                    "whatsapp",
+                    true,
+                    {
+                      keyboardType: "number-pad",
+                      maxlength: 200,
+                    }
+                  )}
               </View>
             </View>
 
@@ -459,10 +498,8 @@ const RegisterRestaurant = () => {
                 </View>
               </View>
             </View>
-
             <View style={styles.formCard}>
               <View style={styles.formSection}>
-                {/* <View style={styles.radioGroup}> */}
                 <TouchableOpacity
                   style={styles.radioOption}
                   onPress={() => setTimingMode("sameTime")}
@@ -491,15 +528,61 @@ const RegisterRestaurant = () => {
                   </Text>
                 </TouchableOpacity>
               </View>
-              {/* </View> */}
-              <View style={styles.row}>
-                <View style={styles.halfInputContainer}>
-                  {renderInput("Opening Time", "openingTime", "9:00 AM", true)}
+
+              {timingMode === "sameTime" ? (
+                <View style={styles.row}>
+                  <View style={styles.halfInputContainer}>
+                    {renderInput(
+                      "Opening Time",
+                      "openingTime",
+                      "9:00 AM",
+                      true
+                    )}
+                  </View>
+                  <View style={styles.halfInputContainer}>
+                    {renderInput(
+                      "Closing Time",
+                      "closingTime",
+                      "9:00 PM",
+                      true
+                    )}
+                  </View>
                 </View>
-                <View style={styles.halfInputContainer}>
-                  {renderInput("Closing Time", "closingTime", "9:00 PM", true)}
-                </View>
-              </View>
+              ) : (
+                <>
+                  {[
+                    "Monday",
+                    "Tuesday",
+                    "Wednesday",
+                    "Thursday",
+                    "Friday",
+                    "Saturday",
+                    "Sunday",
+                  ].map((day, index) => (
+                    <View key={index} style={styles.dayRow}>
+                      <Text style={styles.dayName}>{day}</Text>
+                      <View style={styles.row}>
+                        <View style={styles.halfInputContainer}>
+                          {renderInput(
+                            "Opening",
+                            `${day.toLowerCase()}OpeningTime`,
+                            "9:00 AM",
+                            true
+                          )}
+                        </View>
+                        <View style={styles.halfInputContainer}>
+                          {renderInput(
+                            "Closing",
+                            `${day.toLowerCase()}ClosingTime`,
+                            "9:00 PM",
+                            true
+                          )}
+                        </View>
+                      </View>
+                    </View>
+                  ))}
+                </>
+              )}
             </View>
           </>
         )}
@@ -534,11 +617,26 @@ const RegisterRestaurant = () => {
                 "Business/Owner PAN",
                 "ownerPanNo",
                 "Enter Business/Owner PAN",
-                true
+                true,
+                {
+                  keyboardType: "default",
+                  maxLength: 10, // PAN number length
+                  onChangeText: (text: string) => {
+                    // Validate PAN format: AAAAA9999A
+                    const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+                    if (panRegex.test(text.toUpperCase())) {
+                      setForm((prev) => ({
+                        ...prev,
+                        ownerPanNo: text.toUpperCase(),
+                      }));
+                    } else {
+                      // Optionally show a warning/error message
+                      console.log("Invalid PAN format");
+                    }
+                  },
+                }
               )}
-              {/* <Text style={styles.cardHolderText}>Card Holder: xoyyzz</Text> */}
-              {renderInput("GSTIN", "gstinNo", "Enter GSTIN", false)}
-
+              {!noGST && renderInput("GSTIN", "gstinNo", "Enter GSTIN", false)}
               <CustomCheckbox
                 label="I don’t have a GST Number"
                 checked={noGST}
@@ -553,13 +651,41 @@ const RegisterRestaurant = () => {
                 "Bank IFSC code",
                 "bankIfscCode",
                 "Enter IFSC Code",
-                true
+                true,
+                {
+                  keyboardType: "default",
+                  maxLength: 11,
+                  autoCapitalize: "characters", // Ensures all caps
+                  onChangeText: (text: string) => {
+                    const ifscRegex = /^[A-Z]{4}0[A-Z0-9]{6}$/;
+                    const upperText = text.toUpperCase();
+                    if (upperText.length <= 11) {
+                      setForm((prev) => ({ ...prev, bankIfscCode: upperText }));
+                    }
+                    if (!ifscRegex.test(upperText) && upperText.length === 11) {
+                      console.log("Invalid IFSC format");
+                    }
+                  }
+                }
               )}
               {renderInput(
                 "Bank Account number",
                 "bankAccountNumber",
                 "Enter account number",
-                true
+                true,
+                  {
+                    keyboardType: "numeric",
+                    maxLength: 18,
+                    onChangeText: (text: string) => {
+                      const accountRegex = /^[0-9]{9,18}$/;
+                      if (/^[0-9]*$/.test(text)) { // allow only digits
+                        setForm((prev) => ({ ...prev, bankAccountNumber: text }));
+                      }
+                      if (!accountRegex.test(text) && text.length >= 9) {
+                        console.log("Invalid account number");
+                      }
+                    }
+                }
               )}
             </View>
 
@@ -569,7 +695,20 @@ const RegisterRestaurant = () => {
                 "FSSAI certificate number",
                 "fssaiCertificateNo",
                 "Enter FSSAI certificate number",
-                true
+                true,
+                {
+                  keyboardType: "numeric",
+                  maxLength: 14,
+                  onChangeText: (text: string) => {
+                    const onlyDigits = /^[0-9]*$/;
+                    if (onlyDigits.test(text)) {
+                      setForm((prev) => ({ ...prev, fssaiCertificateNo: text }));
+                    }
+                    if (text.length === 14 && !/^[0-9]{14}$/.test(text)) {
+                      console.log("Invalid FSSAI certificate number");
+                    }
+                  }
+                }
               )}
 
               <Text style={styles.requirementsTitle}>Requirements:</Text>
@@ -736,14 +875,17 @@ const RegisterRestaurant = () => {
               </View>
             </View>
 
-            {/* <CustomCheckbox
+            <CustomCheckbox
               label="I have read & accept the Terms & Condition"
               checked={noGST}
               onPress={() => setNoGST(!noGST)}
-            /> */}
+            />
           </>
         )}
-        <TouchableOpacity style={styles.button} onPress={restaurantHome}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={activeStep < 4 ? handleContinue : restaurantHome}
+        >
           <Text style={styles.buttonText}>Continue</Text>
         </TouchableOpacity>
       </ScrollView>
