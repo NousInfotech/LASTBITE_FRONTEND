@@ -45,7 +45,6 @@ const RegisterRiders = () => {
       setActiveStep((prevStep: number) => prevStep + 1);
     } else {
       router.push("../initialscreens/VerifiedScreen");
-
     }
   };
 
@@ -77,7 +76,8 @@ const RegisterRiders = () => {
   const renderInput = (
     label: string,
     placeholder?: string,
-    required?: boolean
+    required?: boolean,
+    inputProps?: any // Accept additional props here
   ) => (
     <View style={styles.inputContainer}>
       <Text style={styles.label}>
@@ -87,6 +87,7 @@ const RegisterRiders = () => {
         placeholder={placeholder || `Enter ${label}`}
         style={styles.input}
         placeholderTextColor="#A0A0A0"
+        {...inputProps} // Spread the extra props here
       />
     </View>
   );
@@ -118,9 +119,21 @@ const RegisterRiders = () => {
             <View style={styles.formCard}>
               <View style={styles.formSection}>
                 <Text style={styles.sectionTitle}>Basic Details</Text>
-                {renderInput("Name", "Enter Full name", true)}
-                {renderInput("Email Address", "Enter email address", true)}
-                {renderInput("Mobile Number", "Enter mobile number", true)}
+                {renderInput("Name", "Enter Full name", true, "default", 100)}
+                {renderInput(
+                  "Email Address",
+                  "Enter email address",
+                  true,
+                  "email-address",
+                  200
+                )}
+                {renderInput(
+                  "Mobile Number",
+                  "Enter mobile number",
+                  true,
+                  "phone-pad",
+                  10
+                )}
                 <Text style={styles.label}>
                   Profile Photo <Text style={styles.required}>*</Text>
                 </Text>
@@ -144,15 +157,17 @@ const RegisterRiders = () => {
             <View style={styles.formCard}>
               <View style={styles.formSection}>
                 <Text style={styles.sectionTitle}>Address Details</Text>
-                {renderInput("Plot Number", "PlotNo", true)}
-                {renderInput("Address", "Address", true)}
+                {renderInput("Plot Number", "PlotNo", true, "default", 100)}
+                {renderInput("Address", "Address", true, "default", 100)}
                 {renderInput(
                   "Building/Mall/Complex Name",
                   "Enter Building/Mall/Complex Name",
-                  true
+                  true,
+                  "default",
+                  200
                 )}
 
-                {renderInput("Pincode", "Enter Pincode", true)}
+                {renderInput("Pincode", "Enter Pincode", true, "default", 6)}
               </View>
             </View>
           </>
@@ -175,10 +190,39 @@ const RegisterRiders = () => {
                   {form.profilePhoto ? "Profile chose" : "Choose a File"}
                 </Text>
               </View>
-              {renderInput("Bank IFSC code", "Enter IFSC Code", true)}
-              {renderInput("Bank Account number", "Enter account number", true)}
+              {renderInput("Bank IFSC code", "Enter IFSC Code", true, {
+                keyboardType: "default",
+                maxLength: 11,
+                autoCapitalize: "characters",
+                onChangeText: (text: string) => {
+                  const ifscRegex = /^[A-Z]{4}0[A-Z0-9]{6}$/;
+                  const upperText = text.toUpperCase();
+                  if (upperText.length <= 11) {
+                    setForm((prev) => ({ ...prev, bankIfscCode: upperText }));
+                  }
+                  if (!ifscRegex.test(upperText) && upperText.length === 11) {
+                    console.log("Invalid IFSC format");
+                  }
+                },
+              })}
+
+              {renderInput("Bank Account number", "Enter account number", true,
+                 {
+                  keyboardType: "numeric",
+                  maxLength: 18,
+                  onChangeText: (text: string) => {
+                    const accountRegex = /^[0-9]{9,18}$/;
+                    if (/^[0-9]*$/.test(text)) { // allow only digits
+                      setForm((prev) => ({ ...prev, bankAccountNumber: text }));
+                    }
+                    if (!accountRegex.test(text) && text.length >= 9) {
+                      console.log("Invalid account number");
+                    }
+                  }
+                }
+              )}
               <Text style={styles.label}>
-                Dreiving License <Text style={styles.required}>*</Text>
+                Driving License <Text style={styles.required}>*</Text>
               </Text>
               <View style={styles.inputContainer_A}>
                 <TouchableOpacity

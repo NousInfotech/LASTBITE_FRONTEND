@@ -7,6 +7,7 @@ import {
   Text,
   TouchableOpacity,
   Image,
+  Modal,
 } from "react-native";
 import LocationHeader from "@/components/LocationHeader";
 import SearchBarVoice from "@/components/SearchBarVoice";
@@ -16,6 +17,8 @@ import { RFPercentage } from "react-native-responsive-fontsize";
 
 const Home = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  
   useEffect(() => {
     async function loadFonts() {
       await Font.loadAsync({
@@ -29,10 +32,30 @@ const Home = () => {
     loadFonts();
   }, []);
 
+  const handleStartShift = () => {
+    setModalVisible(true);
+  };
+
+  const startVerification = () => {
+    setModalVisible(false);
+    router.push('/auth2/faceverification');
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+  };
+
   if (!fontsLoaded) {
     return null; // Optionally, show a loading screen or placeholder
   }
 
+  const handleMap = () => {
+    router.push('/(tabsthree)/map')
+  }
+
+  const handleViewDetails = () => {
+    router.push('/Screens/ViewDetailsRiders')
+  }
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
@@ -56,7 +79,7 @@ const Home = () => {
 
           <TouchableOpacity
             style={styles.startShiftButton}
-            //  onPress={()=>router.push('/auth2/faceverification')}
+            onPress={handleStartShift}
           >
             <Text style={styles.startShiftText}>Start Your Shift</Text>
           </TouchableOpacity>
@@ -113,19 +136,56 @@ const Home = () => {
             Time: 16 mins | Distance: 3.34 kms
           </Text>
           <View style={styles.orderActions}>
-            <TouchableOpacity style={styles.mapButton}>
-              {/* <Image 
-            source={require("../../assets/images/map.png")} 
-            style={styles.mapIcon} 
-          /> */}
+            <TouchableOpacity style={styles.mapButton} onPress={handleMap}>
               <Text style={styles.mapButtonText}>Map</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.detailsButton}>
+            <TouchableOpacity style={styles.detailsButton} onPress={handleViewDetails}>
               <Text style={styles.detailsButtonText}>View Details</Text>
             </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
+
+      {/* Face Verification Modal */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={closeModal}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>
+                Please complete face verification to start your delivery job.
+              </Text>
+              <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
+                <Text style={styles.closeButtonText}>×</Text>
+              </TouchableOpacity>
+            </View>
+            
+            <TouchableOpacity 
+              style={styles.verificationButton}
+              onPress={startVerification}
+            >
+              <Text style={styles.verificationButtonText}>Start Verification</Text>
+            </TouchableOpacity>
+            
+            <View style={styles.guideContainer}>
+              <Text style={styles.guideTitle}>Quick Guide for Face Verification</Text>
+              <View style={styles.guideItem}>
+                <Text style={styles.guideText}>• Stand in good lighting for clear detection.</Text>
+              </View>
+              <View style={styles.guideItem}>
+                <Text style={styles.guideText}>• Keep your face centered in the frame.</Text>
+              </View>
+              <View style={styles.guideItem}>
+                <Text style={styles.guideText}>• Make sure your head is clear and not covered.</Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -309,6 +369,102 @@ const styles = StyleSheet.create({
     fontSize: RFPercentage(2),
     fontFamily: "Poppins-SemiBold",
   },
+  
+  // Modal styles
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    width: "85%",
+    backgroundColor: "white",
+    borderRadius: 12,
+    padding: 20,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  modalHeader: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    marginBottom: 20,
+  },
+  modalTitle: {
+    fontSize: RFPercentage(2),
+    color: "#333333",
+    fontFamily: "Poppins-Medium",
+    flex: 1,
+    paddingRight: 10,
+  },
+  closeButton: {
+    padding: 5,
+  },
+  closeButtonText: {
+    fontSize: 24,
+    color: "#333333",
+    fontWeight: "bold",
+  },
+  verificationButton: {
+    backgroundColor: "#01615F",
+    borderRadius: 8,
+    paddingVertical: 12,
+    width: "100%",
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  verificationButtonText: {
+    color: "#FFFFFF",
+    fontSize: RFPercentage(2),
+    fontWeight: "600",
+  },
+  guideContainer: {
+    marginTop: 10,
+  },
+  guideTitle: {
+    fontSize: RFPercentage(2),
+    fontWeight: "600",
+    color: "#333333",
+    marginBottom: 12,
+  },
+  guideItem: {
+    marginBottom: 8,
+  },
+  guideText: {
+    fontSize: 14,
+    color: "#666666",
+    fontFamily: "Poppins-Regular",
+  },
 });
 
 export default Home;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

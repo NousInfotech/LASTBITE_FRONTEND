@@ -45,6 +45,7 @@
     "expo-constants": "~17.0.8",
     "expo-crypto": "~14.0.2",
     "expo-document-picker": "^13.0.2",
+    "expo-face-detector": "^13.0.2",
     "expo-file-system": "~18.0.12",
     "expo-firebase-recaptcha": "^2.3.1",
     "expo-font": "~13.0.4",

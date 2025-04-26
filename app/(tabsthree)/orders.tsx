@@ -37,6 +37,13 @@ const Orders: React.FC = () => {
     return null;
   }
 
+  const handleViewDetails =  () => {
+    router.push('/Screens/ViewDetailsRiders')
+  }
+
+  const handleMap = () => {
+    router.push('/(tabsthree)/map')
+  }
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
@@ -108,14 +115,10 @@ const Orders: React.FC = () => {
               Time: 16 mins | Distance: 3.34 kms
             </Text>
             <View style={styles.orderActions}>
-              <TouchableOpacity style={styles.mapButton}>
-                {/* <Image 
-                      source={require("../../assets/images/map.png")} 
-                      style={styles.mapIcon} 
-                    /> */}
+              <TouchableOpacity style={styles.mapButton} onPress={handleMap}>
                 <Text style={styles.mapButtonText}>Map</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.detailsButton}>
+              <TouchableOpacity style={styles.detailsButton} onPress={handleViewDetails}>
                 <Text style={styles.detailsButtonText}>View Details</Text>
               </TouchableOpacity>
             </View>
@@ -143,7 +146,7 @@ const Orders: React.FC = () => {
             Time: 16 mins | Distance: 3.34 kms
           </Text>
           <View style={styles.orderActions}>
-            <TouchableOpacity style={styles.detailsButton}>
+            <TouchableOpacity style={styles.detailsButton} onPress={handleViewDetails}>
               <Text style={styles.detailsButtonText}>View Details</Text>
             </TouchableOpacity>
           </View>
