@@ -50,13 +50,18 @@ const SelectRole = () => {
   };
 
   const handleGetStarted = () => {
+    // The key fix: Always include role parameter for all types of users
     if (activeOption === "User") {
-      router.push('/auth/NumberLogin/otpScreen');
+      router.push({
+        pathname: '/auth/NumberLogin/otpScreen',
+        params: { role: "User" }
+      });
     } else if (activeOption === "Rider") {
-      // router.push("/auth/NumberLogin/otpScreen");
-      router.push("/(tabsthree)/home")
+      router.push({
+        pathname: '/auth/NumberLogin/otpScreen',
+        params: { role: "Rider" }
+      });
     } else if (activeOption === "Restaurant") {
-      // Pass the role parameter to the NumberLogin screen
       router.push({
         pathname: '/auth/NumberLogin/otpScreen',
         params: { role: "Restaurant" }
@@ -70,7 +75,7 @@ const SelectRole = () => {
   };
   
   if (!fontsLoaded) {
-    return null; // Optionally, show a loading screen or placeholder while fonts are loading
+    return null; 
   }
 
   return (
