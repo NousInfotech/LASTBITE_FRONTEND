@@ -8,8 +8,8 @@ import { RFPercentage } from "react-native-responsive-fontsize";
 
 const SelectRole = () => {
   const [activeOption, setActiveOption] = useState<string>("User");
-  const [fadeAnim] = useState(new Animated.Value(1)); // For image transition
-  const [fontsLoaded, setFontsLoaded] = useState(false); // state for font loading
+  const [fadeAnim] = useState(new Animated.Value(1)); 
+  const [fontsLoaded, setFontsLoaded] = useState(false); 
   const options: string[] = ["User", "Restaurant", "Rider"];
 
   const images: Record<string, any> = {

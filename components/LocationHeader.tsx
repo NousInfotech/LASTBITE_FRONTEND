@@ -128,9 +128,7 @@ const LocationHeader = () => {
         >
           <Image
             style={styles.profileImage}
-            source={{
-              uri: userProfileImage || "https://via.placeholder.com/32",
-            }}
+            source={require('../assets/images/human.jpeg')}
           />
         </TouchableOpacity>
       </View>
