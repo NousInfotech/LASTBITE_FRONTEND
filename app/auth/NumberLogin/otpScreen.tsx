@@ -23,13 +23,13 @@ const PhoneNumberScreen = () => {
 
   console.log("Current role:", role); // Add this for debugging
 
-  const formatPhoneNumber = (number: string) => number.replace(/\D/g, "");
+  const formatPhoneNumber = (number) => number.replace(/\D/g, "");
   
-  const isValidIndianNumber = (number: string) => {
+  const isValidIndianNumber = (number) => {
     return /^[6-9]\d{9}$/.test(number);
   };
 
-  const handleMobileNumberChange = (text: string) => {
+  const handleMobileNumberChange = (text) => {
     const formattedText = text.replace(/\D/g, "").trim();
     setMobileNumber(formattedText);
   };
@@ -60,7 +60,7 @@ const PhoneNumberScreen = () => {
       } else {
         Alert.alert("Failed", "Couldn't send OTP.");
       }
-    } catch (err: any) {
+    } catch (err) {
       console.error("OTP Send Error:", err.response?.data || err.message);
       
       if (err.response?.status === 429) {
@@ -95,6 +95,17 @@ const PhoneNumberScreen = () => {
   const handleSkip = () => {
     const destination = getSkipDestination();
     console.log(`Skipping to: ${destination}`);
+    
+    // You can set a flag in AsyncStorage to indicate the user has skipped authentication
+    // This would be used by LocationHeader to determine whether to show the signup modal
+    try {
+      // This is just pseudo-code since we'd need to import AsyncStorage
+      // AsyncStorage.setItem('userAuthStatus', 'skipped');
+      console.log("User skipped authentication");
+    } catch (error) {
+      console.error("Error setting auth status:", error);
+    }
+    
     router.push(destination);
   };
 
@@ -177,3 +188,4 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
 });
+

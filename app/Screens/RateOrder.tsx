@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, TextInput, StatusBar, StyleSheet, FlatList,Image } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  StatusBar,
+  StyleSheet,
+  FlatList,
+  Image,
+} from "react-native";
 import GoBack from "@/components/GoBack";
 import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
@@ -16,22 +25,25 @@ type SectionState = {
 type RatingState = {
   mealRating: number;
   deliveryRating: number;
-  dishRatings: Record<string, number>; // Ratings for individual dishes
+  dishRatings: Record<string, number>;
 };
 
 const RateOrder = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
-  const [expanded, setExpanded] = useState({
+  const [expanded, setExpanded] = useState<SectionState>({
     mealRating: true,
     dishRating: false,
     detailedReview: false,
     deliveryRating: false,
   });
-  const [ratings, setRatings] = useState({
+  const [ratings, setRatings] = useState<RatingState>({
     mealRating: 0,
     deliveryRating: 0,
-    dishRatings: {}, // For storing ratings for individual dishes
+    dishRatings: {},
   });
+  const [dishFeedback, setDishFeedback] = useState<
+    Record<string, "like" | "dislike" | null>
+  >({});
   const [showThankYou, setShowThankYou] = useState(false);
 
   useEffect(() => {
@@ -56,13 +68,10 @@ const RateOrder = () => {
     setRatings((prev) => ({ ...prev, [section]: rating }));
   };
 
-  const handleDishRating = (dish: string, rating: number) => {
-    setRatings((prev) => ({
+  const handleDishFeedback = (dish: string, type: "like" | "dislike") => {
+    setDishFeedback((prev) => ({
       ...prev,
-      dishRatings: {
-        ...prev.dishRatings,
-        [dish]: rating,
-      },
+      [dish]: prev[dish] === type ? null : type,
     }));
   };
 
@@ -70,9 +79,10 @@ const RateOrder = () => {
     setShowThankYou(true);
     setTimeout(() => {
       setShowThankYou(false);
-      // Optionally reset ratings or navigate to another screen here
-    }, 10000); // Show the thank-you screen for 10 seconds
+    }, 10000);
   };
+
+  const dishes = ["Nawabi Biryani", "Tandoor"];
 
   if (showThankYou) {
     return (
@@ -83,7 +93,6 @@ const RateOrder = () => {
         >
           <Text style={styles.closeButtonText}>X</Text>
         </TouchableOpacity>
-
         <View style={styles.centerContent}>
           <Image
             source={require("../../assets/images/Star Struck.png")}
@@ -96,6 +105,7 @@ const RateOrder = () => {
       </SafeAreaView>
     );
   }
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
@@ -107,12 +117,20 @@ const RateOrder = () => {
       </View>
 
       {/* Meal Rating Section */}
-      <TouchableOpacity style={styles.sectionHeader} onPress={() => toggleSection("mealRating")}>
+      <TouchableOpacity
+        style={styles.sectionHeader}
+        onPress={() => toggleSection("mealRating")}
+      >
         <View style={styles.mealRatingSection}>
-          <Text style={[styles.sectionTitle, { color: "#01615F" }]}>Meal from Spice House</Text>
+          <Text style={[styles.sectionTitle, { color: "#01615F" }]}>
+            Meal from Spice House
+          </Text>
           <View style={styles.stars}>
             {[1, 2, 3, 4, 5].map((star) => (
-              <TouchableOpacity key={star} onPress={() => handleRating("mealRating", star)}>
+              <TouchableOpacity
+                key={star}
+                onPress={() => handleRating("mealRating", star)}
+              >
                 <Ionicons
                   name={star <= ratings.mealRating ? "star" : "star-outline"}
                   size={24}
@@ -126,52 +144,107 @@ const RateOrder = () => {
       </TouchableOpacity>
 
       {/* Dish Rating Section */}
-      <TouchableOpacity style={styles.sectionSubHeader} onPress={() => toggleSection("dishRating")}>
-  <Text style={styles.sectionTitle}>Rate Your Ordered Dishes</Text>
-  <Ionicons name={expanded.dishRating ? "chevron-up" : "chevron-down"} size={20} color="#444" />
-</TouchableOpacity>
-{expanded.dishRating && (
-  <View style={styles.sectionContent}>
-    <FlatList
-      data={["Nawabi Biryani", "Tandoor"]}
-      keyExtractor={(item, index) => index.toString()}
-      renderItem={({ item }) => (
-        <View style={styles.dishRow}>
-          <Text style={styles.dishName}>{item}</Text>
-          <View style={styles.dishIcons}>
-            <Ionicons name="thumbs-up-outline" size={20} color="#444" style={styles.icon} />
-            <Ionicons name="thumbs-down-outline" size={20} color="#444" style={styles.icon} />
-          </View>
+      <TouchableOpacity
+        style={styles.sectionSubHeader}
+        onPress={() => toggleSection("dishRating")}
+      >
+        <Text style={styles.sectionTitle}>Rate Your Ordered Dishes</Text>
+        <Ionicons
+          name={expanded.dishRating ? "chevron-up" : "chevron-down"}
+          size={20}
+          color="#444"
+        />
+      </TouchableOpacity>
+      {expanded.dishRating && (
+        <View style={styles.sectionContent}>
+          <FlatList
+            data={dishes}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item }) => (
+              <View style={styles.dishRow}>
+                <Text style={styles.dishName}>{item}</Text>
+                <View style={styles.dishIcons}>
+                  <TouchableOpacity
+                    onPress={() => handleDishFeedback(item, "like")}
+                  >
+                    <Ionicons
+                      name={
+                        dishFeedback[item] === "like"
+                          ? "thumbs-up"
+                          : "thumbs-up-outline"
+                      }
+                      size={20}
+                      color={dishFeedback[item] === "like" ? "green" : "#444"}
+                      style={styles.icon}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => handleDishFeedback(item, "dislike")}
+                  >
+                    <Ionicons
+                      name={
+                        dishFeedback[item] === "dislike"
+                          ? "thumbs-down"
+                          : "thumbs-down-outline"
+                      }
+                      size={20}
+                      color={dishFeedback[item] === "dislike" ? "red" : "#444"}
+                      style={styles.icon}
+                    />
+                  </TouchableOpacity>
+                </View>
+              </View>
+            )}
+          />
         </View>
       )}
-    />
-  </View>
-)}
-
 
       {/* Detailed Review Section */}
-      <TouchableOpacity style={styles.sectionSubHeader} onPress={() => toggleSection("detailedReview")}>
+      <TouchableOpacity
+        style={styles.sectionSubHeader}
+        onPress={() => toggleSection("detailedReview")}
+      >
         <Text style={styles.sectionTitle}>Add a Detailed Review</Text>
-        <Ionicons name={expanded.detailedReview ? "chevron-up" : "chevron-down"} size={20} color="#444" />
+        <Ionicons
+          name={expanded.detailedReview ? "chevron-up" : "chevron-down"}
+          size={20}
+          color="#444"
+        />
       </TouchableOpacity>
       {expanded.detailedReview && (
         <View style={styles.sectionContent}>
-          <TextInput style={styles.textInput} placeholder="Tell us about food you ordered here" multiline />
+          <TextInput
+            style={styles.textInput}
+            placeholder="Tell us about food you ordered here"
+            multiline
+          />
         </View>
       )}
 
       {/* Delivery Rating Section */}
-      <TouchableOpacity style={styles.sectionSubHeader} onPress={() => toggleSection("deliveryRating")}>
+      <TouchableOpacity
+        style={styles.sectionSubHeader}
+        onPress={() => toggleSection("deliveryRating")}
+      >
         <Text style={styles.sectionTitle}>Rate Your Delivery Partner</Text>
-        <Ionicons name={expanded.deliveryRating ? "chevron-up" : "chevron-down"} size={20} color="#444" />
+        <Ionicons
+          name={expanded.deliveryRating ? "chevron-up" : "chevron-down"}
+          size={20}
+          color="#444"
+        />
       </TouchableOpacity>
       {expanded.deliveryRating && (
         <View style={styles.sectionContent}>
           <View style={styles.stars}>
             {[1, 2, 3, 4, 5].map((star) => (
-              <TouchableOpacity key={star} onPress={() => handleRating("deliveryRating", star)}>
+              <TouchableOpacity
+                key={star}
+                onPress={() => handleRating("deliveryRating", star)}
+              >
                 <Ionicons
-                  name={star <= ratings.deliveryRating ? "star" : "star-outline"}
+                  name={
+                    star <= ratings.deliveryRating ? "star" : "star-outline"
+                  }
                   size={24}
                   color="#FFC107"
                   style={styles.starIcon}
@@ -182,7 +255,7 @@ const RateOrder = () => {
         </View>
       )}
 
-      <TouchableOpacity style={styles.submitButton}  onPress={handleSubmit}>
+      <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
         <Text style={styles.submitButtonText}>Submit</Text>
       </TouchableOpacity>
     </SafeAreaView>
@@ -192,33 +265,33 @@ const RateOrder = () => {
 export default RateOrder;
 
 const styles = StyleSheet.create({
- container: {
-   flex: 1,
-   backgroundColor: "#fff",
-   paddingBottom: 16,
- },
- header: {
-   flexDirection: "row",
-   alignItems: "center",
-   padding: 16,
-   borderBottomWidth: 1,
-   borderBottomColor: "#eee",
- },
- headerTitle: {
-   fontSize: 14,
-   marginLeft: 16,
-   fontWeight: "500",
-   fontFamily: "Poppins-SemiBold",
- },
- mealRatingSection: {
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    paddingBottom: 16,
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: "#eee",
+  },
+  headerTitle: {
+    fontSize: 14,
+    marginLeft: 16,
+    fontWeight: "500",
+    fontFamily: "Poppins-SemiBold",
+  },
+  mealRatingSection: {
     flexDirection: "column",
-    alignItems: "center", 
-    justifyContent: "center", 
+    alignItems: "center",
+    justifyContent: "center",
     paddingVertical: 16,
   },
   sectionHeader: {
     flexDirection: "row",
-    justifyContent: "center", // Center-aligns the section title horizontally
+    justifyContent: "center",
     alignItems: "center",
     padding: 16,
   },
@@ -229,103 +302,102 @@ const styles = StyleSheet.create({
     padding: 16,
     borderWidth: 1,
     borderColor: "#eee",
-    marginHorizontal:15,
-    borderRadius:10,
-    marginBottom:15,
+    marginHorizontal: 15,
+    borderRadius: 10,
+    marginBottom: 15,
   },
- sectionTitle: {
-   fontSize: RFPercentage(2),
-   fontWeight: "500",
-   fontFamily: "Poppins-SemiBold",
- },
- sectionContent: {
-   padding: 16,
-   marginHorizontal:15,
- },
- stars: {
-   flexDirection: "row",
- },
- starIcon: {
-   marginHorizontal: 4,
- },
- dishRow: {
-   flexDirection: "row",
-   justifyContent: "space-between",
-   alignItems: "center",
-   marginBottom: 8,
- },
- dishName: {
-   fontSize: 14,
-   fontFamily: "Poppins-Regular",
- },
- dishIcons: {
-   flexDirection: "row",
- },
- icon: {
-   marginHorizontal: 8,
- },
- textInput: {
-   height: 80,
-   borderColor: "#ddd",
-   borderWidth: 1,
-   borderRadius: 8,
-   padding: 8,
-   fontFamily: "Poppins-Regular",
- },
- submitButton: {
-   backgroundColor: "#01615F",
-   paddingVertical: 10,
-   borderRadius: 8,
-   marginHorizontal: 16,
-   marginTop: 16,
-   position: "absolute",
-   bottom: 16,
-   width: "90%",
-   alignSelf: "center",
- },
- submitButtonText: {
-   textAlign: "center",
-   color: "#fff",
-   fontSize: RFPercentage(2),
-   fontFamily: "Poppins-Medium",
- },
- thankYouContainer: {
-  flex: 1,
-  backgroundColor: "#01615F",
-  paddingHorizontal:20,
-},
-closeButton: {
-  position: "absolute",
-  top: 20,
-  left: 20,
-  zIndex: 1,
-  borderRadius: 16,
-  width: 32,
-  height: 32,
-  justifyContent: "center",
-  alignItems: "center",
-},
-closeButtonText: {
-  fontSize: RFPercentage(2.5),
-  color: "#FFF",
-  fontWeight: "bold",
-},
-centerContent: {
-  flex: 1,
-  justifyContent: "center",
-  alignItems: "center",
-},
-thankYouImage: {
-  width: 100,
-  height: 100,
-  resizeMode: "contain",
-},
-thankYouText: {
-  color: "#FFF",
-  fontSize: RFPercentage(2.5),
-  fontFamily: "Poppins-SemiBold",
-  marginTop: 16,
-  textAlign: "center",
-},
+  sectionTitle: {
+    fontSize: RFPercentage(2),
+    fontWeight: "500",
+    fontFamily: "Poppins-SemiBold",
+  },
+  sectionContent: {
+    padding: 16,
+    marginHorizontal: 15,
+  },
+  stars: {
+    flexDirection: "row",
+  },
+  starIcon: {
+    marginHorizontal: 4,
+  },
+  dishRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 8,
+  },
+  dishName: {
+    fontSize: 14,
+    fontFamily: "Poppins-Regular",
+  },
+  dishIcons: {
+    flexDirection: "row",
+  },
+  icon: {
+    marginHorizontal: 8,
+  },
+  textInput: {
+    height: 80,
+    borderColor: "#ddd",
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 8,
+    fontFamily: "Poppins-Regular",
+  },
+  submitButton: {
+    backgroundColor: "#01615F",
+    paddingVertical: 10,
+    borderRadius: 8,
+    marginHorizontal: 16,
+    marginTop: 16,
+    position: "absolute",
+    bottom: 16,
+    width: "90%",
+    alignSelf: "center",
+  },
+  submitButtonText: {
+    textAlign: "center",
+    color: "#fff",
+    fontSize: RFPercentage(2),
+    fontFamily: "Poppins-Medium",
+  },
+  thankYouContainer: {
+    flex: 1,
+    backgroundColor: "#01615F",
+    paddingHorizontal: 20,
+  },
+  closeButton: {
+    position: "absolute",
+    top: 20,
+    left: 20,
+    zIndex: 1,
+    borderRadius: 16,
+    width: 32,
+    height: 32,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  closeButtonText: {
+    fontSize: RFPercentage(2.5),
+    color: "#FFF",
+    fontWeight: "bold",
+  },
+  centerContent: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  thankYouImage: {
+    width: 100,
+    height: 100,
+    resizeMode: "contain",
+  },
+  thankYouText: {
+    color: "#FFF",
+    fontSize: RFPercentage(2.5),
+    fontFamily: "Poppins-SemiBold",
+    marginTop: 16,
+    textAlign: "center",
+  },
 });
-
