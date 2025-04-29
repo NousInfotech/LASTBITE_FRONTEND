@@ -57,7 +57,7 @@ const Home = () => {
   }
 
   const navigateToPayments = () => {
-    router.push('/(tabsthree)/earnings')
+    router.push('/(tabstwo)/payment')
   }
 
   return (

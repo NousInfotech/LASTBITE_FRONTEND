@@ -107,7 +107,7 @@ const Payment: React.FC = () => {
 
   const handleViewDetails = (payment: PaymentType) => {
     router.push({
-      pathname: "/Screens/PaymentDetails",
+      pathname: "/Screens/PaymentDetailsRestaurant",
       params: {
         id: payment.id,
         date: payment.date,
