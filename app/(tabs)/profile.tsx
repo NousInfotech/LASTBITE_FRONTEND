@@ -182,7 +182,7 @@ const ProfileScreen = () => {
             <TouchableOpacity style={styles.menuItem}>
               <View style={styles.iconBox}>
                 <Image
-                  source={require("../../assets/images/Transaction-1.png")} // Replace with correct path
+                  source={require("../../assets/images/Transaction-1.png")} 
                   style={styles.iconImage}
                 />
               </View>

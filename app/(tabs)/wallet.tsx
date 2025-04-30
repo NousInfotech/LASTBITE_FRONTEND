@@ -131,7 +131,7 @@ const Wallet = () => {
       <Text
         style={[
           styles.stepText,
-          isPersonalCompleted && { color: "#01615F" }, // Change text color
+          isPersonalCompleted && { color: "#01615F" }, 
         ]}
       >
         KYC with HDFC Bank

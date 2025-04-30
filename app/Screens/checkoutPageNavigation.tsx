@@ -1,8 +1,4 @@
-
-
-
-
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, ScrollView, Alert, TouchableOpacity } from 'react-native';
 import * as Font from 'expo-font';
 import { RFPercentage } from 'react-native-responsive-fontsize';
@@ -15,35 +11,76 @@ import BillDetails from '@/components/BillDetails';
 import ReviewNotice from '@/components/ReviewNotice';
 import AddressSelector from '@/components/AddressSelector';
 import AddMoreItems from '../../app/Screens/AddMoreItems';
-import { Link } from 'expo-router';
-import { useRouter } from 'expo-router';
+import { Link, useLocalSearchParams, useRouter } from 'expo-router';
+import { GROCERY_DATA } from '../../src/constants/groceryData'; // You'll need to create this file
 
 // Define the item type
 interface Item {
-  id: number;
+  id: string;
   name: string;
   quantity: number;
-  price: number;
-  image?: string;
+  price: string;
+  weight: string;
   category?: string;
+  image?: any;
 }
 
 // Define the props type for this screen
 interface CheckoutPageProps {
-  navigation: any; // Replace `any` with the proper type from `react-navigation` if needed
+  navigation?: any; // Replace `any` with the proper type from `react-navigation` if needed
 }
 
 const CheckoutPageNavigation: React.FC<CheckoutPageProps> = ({ navigation }) => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
-  const [items, setItems] = useState<Item[]>([
-    { id: 1, name: 'Burger', quantity: 2, price: 150 },
-    { id: 2, name: 'Fries', quantity: 1, price: 50 },
-    { id: 3, name: 'Coke', quantity: 3, price: 40 },
-  ]);
-
+  const [items, setItems] = useState<Item[]>([]);
+  const [cartItemsObj, setCartItemsObj] = useState<{[key: string]: number}>({});
+  
   const [selectedAddress, setSelectedAddress] = useState<string | null>(null);
   const [showAddressSelector, setShowAddressSelector] = useState(false);
   const [showAddMoreItemsModal, setShowAddMoreItemsModal] = useState(false);
+  
+  const router = useRouter();
+  const params = useLocalSearchParams();
+
+  useEffect(() => {
+    // Process cart items from URL params
+    if (params.cartItems) {
+      try {
+        const parsedCartItems = JSON.parse(decodeURIComponent(params.cartItems as string));
+        setCartItemsObj(parsedCartItems);
+        
+        // Convert cart items object to array with item details
+        const cartItemsArray = Object.entries(parsedCartItems).map(([itemId, quantity]) => {
+          const itemDetails = GROCERY_DATA.find(item => item.id === itemId);
+          if (!itemDetails) return null;
+          
+          return {
+            id: itemDetails.id,
+            name: itemDetails.name,
+            quantity: quantity as number,
+            price: itemDetails.price.replace('$', ''), // Remove $ symbol for calculations
+            weight: itemDetails.weight,
+            category: itemDetails.category,
+            image: itemDetails.image
+          };
+        }).filter(item => item !== null) as Item[];
+        
+        setItems(cartItemsArray);
+      } catch (error) {
+        console.error("Error parsing cart items:", error);
+        // Fallback to default items if there's an error
+        setItems([
+          { id: '1', name: 'Fresh Oranges', quantity: 1, price: '2.99', weight: '1 lb' },
+          { id: '2', name: 'Organic Broccoli', quantity: 1, price: '3.49', weight: '1 bunch' }
+        ]);
+      }
+    }
+  }, [params.cartItems]);
+
+  // Calculate the total amount
+  const totalAmount = useMemo(() => {
+    return items.reduce((sum, item) => sum + (parseFloat(item.price) * item.quantity), 0);
+  }, [items]);
 
   useEffect(() => {
     async function loadFonts() {
@@ -81,14 +118,22 @@ const CheckoutPageNavigation: React.FC<CheckoutPageProps> = ({ navigation }) => 
     setShowAddressSelector(false);
   };
 
-  // Calculate the total amount
-  const totalAmount = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-
-  const router = useRouter();
-
-  const navigateToRestaurantSelect = () => {
-    router.push('/Screens/DishesSearch');
-  }
+  // Navigate to ProductList with current cart items
+  const navigateToProductList = () => {
+    try {
+      // Pass existing cart items back to product list
+      const existingCartParam = encodeURIComponent(JSON.stringify(cartItemsObj));
+      
+      router.push({
+        pathname: '/Screens/ProductList',
+        params: { existingCart: existingCartParam }
+      });
+    } catch (error) {
+      console.error("Navigation error:", error);
+      // Fallback to simple navigation if there's an error
+      router.push('/Screens/ProductList');
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -104,30 +149,24 @@ const CheckoutPageNavigation: React.FC<CheckoutPageProps> = ({ navigation }) => 
           <View style={styles.itemsContainer}>
             <View style={styles.itemsHeader}>
               <Text style={styles.itemsTitle}>Items in your cart</Text>
-              {/* <TouchableOpacity 
-                style={styles.addMoreButton}
-                // onPress={() => navigation.navigate('AddMoreItems', { items, updateItems: setItems })}
-                onPress={navigateToRestaurantSelect}
-              >
+              <TouchableOpacity style={styles.addMoreButton} onPress={navigateToProductList}>
                 <Text style={styles.addMoreButtonText}>+ Add More</Text>
-              </TouchableOpacity> */}
-
-<Link href="/Screens/DishesSearch" asChild>
-  <TouchableOpacity style={styles.addMoreButton}>
-    <Text style={styles.addMoreButtonText}>+ Add More</Text>
-  </TouchableOpacity>
-</Link>
+              </TouchableOpacity>
             </View>
             
-            {items.map((item, index) => (
-              <View key={index} style={styles.itemCard}>
-                <View style={styles.itemDetails}>
-                  <Text style={styles.itemName}>{item.name}</Text>
-                  <Text style={styles.itemPrice}>${item.price.toFixed(2)} × {item.quantity}</Text>
+            {items.length > 0 ? (
+              items.map((item, index) => (
+                <View key={index} style={styles.itemCard}>
+                  <View style={styles.itemDetails}>
+                    <Text style={styles.itemName}>{item.name}</Text>
+                    <Text style={styles.itemPrice}>${item.price} × {item.quantity} ({item.weight})</Text>
+                  </View>
+                  <Text style={styles.itemTotal}>${(parseFloat(item.price) * item.quantity).toFixed(2)}</Text>
                 </View>
-                <Text style={styles.itemTotal}>${(item.price * item.quantity).toFixed(2)}</Text>
-              </View>
-            ))}
+              ))
+            ) : (
+              <Text style={styles.emptyCartText}>Your cart is empty</Text>
+            )}
             
             <View style={styles.subtotalContainer}>
               <Text style={styles.subtotalText}>Subtotal</Text>
@@ -262,6 +301,13 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-SemiBold',
     color: '#01615F',
   },
+  emptyCartText: {
+    textAlign: 'center',
+    padding: 16,
+    fontSize: RFPercentage(1.8),
+    color: '#666',
+    fontFamily: 'Poppins-Regular',
+  }
 });
 
 export default CheckoutPageNavigation;

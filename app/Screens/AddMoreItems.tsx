@@ -1,17 +1,478 @@
-import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
+// import React, { useState, useEffect } from 'react';
+// import {
+//   View,
+//   Text,
+//   Modal,
+//   StyleSheet,
+//   TouchableOpacity,
+//   ScrollView,
+//   Image,
+//   FlatList,
+//   SafeAreaView,
+//   TextInput
+// } from 'react-native';
+// import { Ionicons, Feather } from '@expo/vector-icons';
+// import { RFPercentage } from 'react-native-responsive-fontsize';
+// import * as Font from 'expo-font';
+
+// // Define the item type
+// interface Item {
+//   id: number;
+//   name: string;
+//   quantity: number;
+//   price: number;
+//   image?: string;
+//   category?: string;
+// }
+
+// interface AddMoreItemsModalProps {
+//   visible: boolean;
+//   onClose: () => void;
+//   currentItems: Item[];
+//   onUpdateItems: (updatedItems: Item[]) => void;
+//   onAddToCart: () => void;
+// }
+
+// const AddMoreItemsModal: React.FC<AddMoreItemsModalProps> = ({
+//   visible,
+//   onClose,
+//   currentItems,
+//   onUpdateItems,
+//   onAddToCart
+// }) => {
+//   const [searchQuery, setSearchQuery] = useState('');
+//   const [fontsLoaded, setFontsLoaded] = useState(false);
+//   const [localItems, setLocalItems] = useState<Item[]>(currentItems);
+  
+//   // Mock data for suggested items
+//   const suggestedItems: Item[] = [
+//     { id: 4, name: 'Pizza', quantity: 0, price: 180, category: 'Fast Food', image: 'https://via.placeholder.com/100' },
+//     { id: 5, name: 'Pasta', quantity: 0, price: 120, category: 'Italian', image: 'https://via.placeholder.com/100' },
+//     { id: 6, name: 'Sandwich', quantity: 0, price: 90, category: 'Snacks', image: 'https://via.placeholder.com/100' },
+//   ];
+
+//   useEffect(() => {
+//     async function loadFonts() {
+//       await Font.loadAsync({
+//         'Poppins-Regular': require('../../assets/fonts/Poppins-Regular.ttf'),
+//         'Poppins-Medium': require('../../assets/fonts/Poppins-Medium.ttf'),
+//         'Poppins-SemiBold': require('../../assets/fonts/Poppins-SemiBold.ttf'),
+//       });
+//       setFontsLoaded(true);
+//     }
+
+//     loadFonts();
+//     setLocalItems(currentItems);
+//   }, [currentItems, visible]);
+
+//   const updateItemQuantity = (id: number, change: number) => {
+//     const updatedItems = localItems.map(item => {
+//       if (item.id === id) {
+//         // Don't allow quantity to go below 0
+//         const newQuantity = Math.max(0, item.quantity + change);
+//         return { ...item, quantity: newQuantity };
+//       }
+//       return item;
+//     });
+//     setLocalItems(updatedItems);
+//   };
+
+//   const addNewItem = (item: Item) => {
+//     // Check if item already exists in localItems
+//     const existingItem = localItems.find(i => i.id === item.id);
+    
+//     if (existingItem) {
+//       // Update quantity if item exists
+//       updateItemQuantity(item.id, 1);
+//     } else {
+//       // Add new item with quantity 1
+//       setLocalItems([...localItems, { ...item, quantity: 1 }]);
+//     }
+//   };
+
+//   const getTotalItems = () => {
+//     return localItems.reduce((sum, item) => sum + item.quantity, 0);
+//   };
+
+//   const getTotalPrice = () => {
+//     return localItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+//   };
+
+//   const handleSave = () => {
+//     // Filter out items with quantity 0
+//     const validItems = localItems.filter(item => item.quantity > 0);
+//     onUpdateItems(validItems);
+//     onAddToCart();
+//     onClose();
+//   };
+
+//   const handleCancel = () => {
+//     setLocalItems(currentItems); // Reset to original items
+//     onClose();
+//   };
+
+//   // Filter items based on search query
+//   const filteredSuggestedItems = suggestedItems.filter(item => 
+//     item.name.toLowerCase().includes(searchQuery.toLowerCase())
+//   );
+
+//   if (!fontsLoaded) {
+//     return null;
+//   }
+
+//   return (
+//     <Modal
+//       visible={visible}
+//       animationType="slide"
+//       transparent={false}
+//     >
+//       <SafeAreaView style={styles.container}>
+//         {/* Header */}
+//         <View style={styles.header}>
+//           <TouchableOpacity onPress={handleCancel} style={styles.closeButton}>
+//             <Ionicons name="arrow-back" size={24} color="#333" />
+//           </TouchableOpacity>
+//           <Text style={styles.headerTitle}>Add More Items</Text>
+//           <View style={styles.placeholder} />
+//         </View>
+
+//         {/* Search Bar */}
+//         <View style={styles.searchContainer}>
+//           <Feather name="search" size={20} color="#999" style={styles.searchIcon} />
+//           <TextInput
+//             style={styles.searchInput}
+//             placeholder="Search for dishes..."
+//             value={searchQuery}
+//             onChangeText={setSearchQuery}
+//             placeholderTextColor="#999"
+//           />
+//         </View>
+
+//         <ScrollView style={styles.scrollView}>
+//           {/* Current Cart Section */}
+//           <View style={styles.sectionContainer}>
+//             <Text style={styles.sectionTitle}>Your Current Cart</Text>
+//             {localItems.length === 0 ? (
+//               <Text style={styles.emptyCartText}>Your cart is empty</Text>
+//             ) : (
+//               localItems.map((item) => (
+//                 <View key={item.id} style={styles.itemCard}>
+//                   <View style={styles.itemDetails}>
+//                     <Text style={styles.itemName}>{item.name}</Text>
+//                     <Text style={styles.itemPrice}>${item.price.toFixed(2)}</Text>
+//                   </View>
+//                   <View style={styles.quantityControl}>
+//                     <TouchableOpacity 
+//                       style={styles.quantityButton}
+//                       onPress={() => updateItemQuantity(item.id, -1)}
+//                     >
+//                       <Text style={styles.quantityButtonText}>-</Text>
+//                     </TouchableOpacity>
+//                     <Text style={styles.quantityText}>{item.quantity}</Text>
+//                     <TouchableOpacity 
+//                       style={styles.quantityButton}
+//                       onPress={() => updateItemQuantity(item.id, 1)}
+//                     >
+//                       <Text style={styles.quantityButtonText}>+</Text>
+//                     </TouchableOpacity>
+//                   </View>
+//                 </View>
+//               ))
+//             )}
+//           </View>
+
+//           {/* Suggested Items Section */}
+//           <View style={styles.sectionContainer}>
+//             <Text style={styles.sectionTitle}>Suggested Items</Text>
+//             {filteredSuggestedItems.length === 0 ? (
+//               <Text style={styles.noResultsText}>No items found for "{searchQuery}"</Text>
+//             ) : (
+//               filteredSuggestedItems.map((item) => {
+//                 const isInCart = localItems.some(i => i.id === item.id && i.quantity > 0);
+                
+//                 return (
+//                   <View key={item.id} style={styles.suggestedItemCard}>
+//                     {item.image && (
+//                       <Image source={{ uri: item.image }} style={styles.itemImage} />
+//                     )}
+//                     <View style={styles.itemDetails}>
+//                       <Text style={styles.itemName}>{item.name}</Text>
+//                       <Text style={styles.itemCategory}>{item.category}</Text>
+//                       <Text style={styles.itemPrice}>${item.price.toFixed(2)}</Text>
+//                     </View>
+//                     {isInCart ? (
+//                       <View style={styles.quantityControl}>
+//                         <TouchableOpacity 
+//                           style={styles.quantityButton}
+//                           onPress={() => updateItemQuantity(item.id, -1)}
+//                         >
+//                           <Text style={styles.quantityButtonText}>-</Text>
+//                         </TouchableOpacity>
+//                         <Text style={styles.quantityText}>
+//                           {localItems.find(i => i.id === item.id)?.quantity || 0}
+//                         </Text>
+//                         <TouchableOpacity 
+//                           style={styles.quantityButton}
+//                           onPress={() => updateItemQuantity(item.id, 1)}
+//                         >
+//                           <Text style={styles.quantityButtonText}>+</Text>
+//                         </TouchableOpacity>
+//                       </View>
+//                     ) : (
+//                       <TouchableOpacity 
+//                         style={styles.addButton}
+//                         onPress={() => addNewItem(item)}
+//                       >
+//                         <Text style={styles.addButtonText}>Add</Text>
+//                       </TouchableOpacity>
+//                     )}
+//                   </View>
+//                 );
+//               })
+//             )}
+//           </View>
+//         </ScrollView>
+
+//         {/* Bottom checkout bar */}
+//         <View style={styles.checkoutBar}>
+//           <View style={styles.totalContainer}>
+//             <Text style={styles.totalItems}>{getTotalItems()} items</Text>
+//             <Text style={styles.totalPrice}>${getTotalPrice().toFixed(2)}</Text>
+//           </View>
+//           <TouchableOpacity style={styles.checkoutButton} onPress={handleSave}>
+//             <Text style={styles.checkoutButtonText}>Add to Cart</Text>
+//           </TouchableOpacity>
+//         </View>
+//       </SafeAreaView>
+//     </Modal>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: '#fff',
+//   },
+//   header: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     justifyContent: 'space-between',
+//     paddingHorizontal: 16,
+//     paddingVertical: 12,
+//     borderBottomWidth: 1,
+//     borderBottomColor: '#eee',
+//   },
+//   closeButton: {
+//     padding: 4,
+//   },
+//   headerTitle: {
+//     fontSize: RFPercentage(2.2),
+//     fontFamily: 'Poppins-SemiBold',
+//     color: '#333',
+//   },
+//   placeholder: {
+//     width: 24,
+//   },
+//   searchContainer: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     backgroundColor: '#f5f5f5',
+//     borderRadius: 8,
+//     marginHorizontal: 16,
+//     marginVertical: 12,
+//     paddingHorizontal: 12,
+//     paddingVertical: 8,
+//   },
+//   searchIcon: {
+//     marginRight: 8,
+//   },
+//   searchInput: {
+//     flex: 1,
+//     fontFamily: 'Poppins-Regular',
+//     fontSize: RFPercentage(1.8),
+//     padding: 0,
+//   },
+//   scrollView: {
+//     flex: 1,
+//   },
+//   sectionContainer: {
+//     padding: 16,
+//     borderBottomWidth: 8,
+//     borderBottomColor: '#f5f5f5',
+//   },
+//   sectionTitle: {
+//     fontSize: RFPercentage(2),
+//     fontFamily: 'Poppins-SemiBold',
+//     color: '#333',
+//     marginBottom: 12,
+//   },
+//   emptyCartText: {
+//     fontFamily: 'Poppins-Regular',
+//     fontSize: RFPercentage(1.8),
+//     color: '#999',
+//     textAlign: 'center',
+//     paddingVertical: 16,
+//   },
+//   noResultsText: {
+//     fontFamily: 'Poppins-Regular',
+//     fontSize: RFPercentage(1.8),
+//     color: '#999',
+//     textAlign: 'center',
+//     paddingVertical: 16,
+//   },
+//   itemCard: {
+//     flexDirection: 'row',
+//     justifyContent: 'space-between',
+//     alignItems: 'center',
+//     paddingVertical: 12,
+//     borderBottomWidth: 1,
+//     borderBottomColor: '#f0f0f0',
+//   },
+//   suggestedItemCard: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     paddingVertical: 12,
+//     borderBottomWidth: 1,
+//     borderBottomColor: '#f0f0f0',
+//   },
+//   itemImage: {
+//     width: 50,
+//     height: 50,
+//     borderRadius: 6,
+//     marginRight: 10,
+//   },
+//   itemDetails: {
+//     flex: 1,
+//   },
+//   itemName: {
+//     fontFamily: 'Poppins-Medium',
+//     fontSize: RFPercentage(1.8),
+//     color: '#333',
+//   },
+//   itemCategory: {
+//     fontFamily: 'Poppins-Regular',
+//     fontSize: RFPercentage(1.6),
+//     color: '#888',
+//     marginTop: 2,
+//   },
+//   itemPrice: {
+//     fontFamily: 'Poppins-Medium',
+//     fontSize: RFPercentage(1.8),
+//     color: '#01615F',
+//     marginTop: 4,
+//   },
+//   quantityControl: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     borderWidth: 1,
+//     borderColor: '#01615F',
+//     borderRadius: 4,
+//     overflow: 'hidden',
+//   },
+//   quantityButton: {
+//     backgroundColor: '#01615F',
+//     paddingHorizontal: 8,
+//     paddingVertical: 4,
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//     width: 28,
+//     height: 28,
+//   },
+//   quantityButtonText: {
+//     color: 'white',
+//     fontSize: RFPercentage(1.6),
+//     fontFamily: 'Poppins-Medium',
+//   },
+//   quantityText: {
+//     paddingHorizontal: 12,
+//     fontSize: RFPercentage(1.8),
+//     fontFamily: 'Poppins-Medium',
+//     color: '#333',
+//   },
+//   addButton: {
+//     backgroundColor: '#01615F',
+//     paddingHorizontal: 16,
+//     paddingVertical: 6,
+//     borderRadius: 4,
+//   },
+//   addButtonText: {
+//     color: 'white',
+//     fontSize: RFPercentage(1.6),
+//     fontFamily: 'Poppins-Medium',
+//   },
+//   checkoutBar: {
+//     flexDirection: 'row',
+//     justifyContent: 'space-between',
+//     alignItems: 'center',
+//     padding: 16,
+//     borderTopWidth: 1,
+//     borderTopColor: '#eee',
+//     backgroundColor: 'white',
+//   },
+//   totalContainer: {
+//     flex: 1,
+//   },
+//   totalItems: {
+//     fontFamily: 'Poppins-Regular',
+//     fontSize: RFPercentage(1.6),
+//     color: '#666',
+//   },
+//   totalPrice: {
+//     fontFamily: 'Poppins-SemiBold',
+//     fontSize: RFPercentage(2),
+//     color: '#01615F',
+//   },
+//   checkoutButton: {
+//     backgroundColor: '#01615F',
+//     paddingHorizontal: 24,
+//     paddingVertical: 12,
+//     borderRadius: 6,
+//   },
+//   checkoutButtonText: {
+//     color: 'white',
+//     fontFamily: 'Poppins-Medium',
+//     fontSize: RFPercentage(1.8),
+//   },
+// });
+
+// export default AddMoreItemsModal;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Modified AddMoreItemsModal.tsx component
+import React, { useState, useEffect } from 'react';
+import { 
+  View, 
+  Text, 
+  Modal, 
+  TouchableOpacity, 
+  FlatList, 
+  StyleSheet, 
   Image,
-  ScrollView,
-  SafeAreaView,
-  TextInput,
+  TouchableWithoutFeedback
 } from 'react-native';
-import { useRouter, useLocalSearchParams } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 
+// Define the item type
 interface Item {
   id: number;
   name: string;
@@ -21,445 +482,191 @@ interface Item {
   category?: string;
 }
 
-interface AddMoreItemsProps {
-  route?: {
-    params: {
-      items: Item[];
-      updateItems: React.Dispatch<React.SetStateAction<Item[]>>;
-    }
-  };
-  items?: Item[];
-  setItems?: React.Dispatch<React.SetStateAction<Item[]>>;
+interface AddMoreItemsModalProps {
+  visible: boolean;
+  onClose: () => void;
+  currentItems: Item[];
+  onUpdateItems: (items: Item[]) => void;
+  onAddToCart: () => void;
+  restaurantId?: string;
 }
 
-interface MenuItem {
-  menuItemId: number;
-  name: string;
-  description: string;
-  price: number;
-  category: string;
-  restaurantId: string;
-  image: string;
-  isAvailable: boolean;
-}
-
-const mockMenuItems: MenuItem[] = [
-  {
-    menuItemId: 1,
-    name: 'Chicken Biryani',
-    description: 'Aromatic basmati rice cooked with tender chicken and spices.',
-    price: 12.99,
-    category: 'Biryani',
-    restaurantId: 'r1',
-    image: 'https://via.placeholder.com/150',
-    isAvailable: true,
-  },
-  {
-    menuItemId: 2,
-    name: 'Gulab Jamun',
-    description: 'Delicious deep-fried dumplings soaked in sugar syrup.',
-    price: 4.99,
-    category: 'Desserts',
-    restaurantId: 'r1',
-    image: 'https://via.placeholder.com/150',
-    isAvailable: true,
-  },
-  {
-    menuItemId: 3,
-    name: 'Paneer Tikka',
-    description: 'Soft paneer cubes marinated in spices and grilled to perfection.',
-    price: 9.99,
-    category: 'North Indian',
-    restaurantId: 'r1',
-    image: 'https://via.placeholder.com/150',
-    isAvailable: true,
-  },
-  {
-    menuItemId: 4,
-    name: 'Grilled Chicken',
-    description: 'Juicy chicken grilled with herbs and spices.',
-    price: 14.99,
-    category: 'Grill',
-    restaurantId: 'r2',
-    image: 'https://via.placeholder.com/150',
-    isAvailable: true,
-  },
-];
-
-const AddMoreItems: React.FC<AddMoreItemsProps> = (props) => {
+const AddMoreItemsModal: React.FC<AddMoreItemsModalProps> = ({
+  visible,
+  onClose,
+  currentItems,
+  onUpdateItems,
+  onAddToCart,
+  restaurantId
+}) => {
   const router = useRouter();
-  const { restaurantId, restaurantName } = useLocalSearchParams<{
-    restaurantId: string;
-    restaurantName: string;
-  }>();
   
-  // Handle both direct props and route params for maximum compatibility
-  let currentItems: Item[] = [];
-  let setCurrentItems: React.Dispatch<React.SetStateAction<Item[]>> | null = null;
-  
-  // Check if we have route params
-  if (props.route?.params) {
-    currentItems = props.route.params.items || [];
-    setCurrentItems = props.route.params.updateItems;
-  } 
-  // If not, use the direct props
-  else {
-    currentItems = props.items || [];
-    setCurrentItems = props.setItems || null;
-  }
-  
-  const [searchQuery, setSearchQuery] = useState('');
-  const [menuItems] = useState<MenuItem[]>(mockMenuItems);
-  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
-    new Set(['Biryani', 'Desserts', 'North Indian', 'Grill'])
-  );
-
-  const toggleCategory = (category: string) => {
-    setExpandedCategories((prev) => {
-      const newSet = new Set(prev);
-      newSet.has(category) ? newSet.delete(category) : newSet.add(category);
-      return newSet;
-    });
-  };
-
-  const handleAddItem = (menuItem: MenuItem) => {
-    if (!setCurrentItems) return;
+  const navigateToRestaurantSelect = () => {
+    // Serialize the current cart items to pass to the restaurant select screen
+    const cartItemsParam = JSON.stringify(currentItems);
     
-    const existingItemIndex = currentItems.findIndex((item) => item.id === menuItem.menuItemId);
-    if (existingItemIndex !== -1) {
-      const updatedItems = [...currentItems];
-      updatedItems[existingItemIndex].quantity += 1;
-      setCurrentItems(updatedItems);
-    } else {
-      const newItem: Item = {
-        id: menuItem.menuItemId,
-        name: menuItem.name,
-        price: menuItem.price,
-        quantity: 1,
-        image: menuItem.image,
-        category: menuItem.category,
-      };
-      setCurrentItems([...currentItems, newItem]);
-    }
-  };
-
-  const handleRemoveItem = (id: number) => {
-    if (!setCurrentItems) return;
-    
-    const index = currentItems.findIndex((item) => item.id === id);
-    if (index !== -1) {
-      const updated = [...currentItems];
-      if (updated[index].quantity > 1) {
-        updated[index].quantity -= 1;
-        setCurrentItems(updated);
-      } else {
-        setCurrentItems(updated.filter((item) => item.id !== id));
+    // Navigate to the restaurant select screen with the cart items
+    router.push({
+      pathname: '/Screens/DishesSearch',
+      params: { 
+        restaurantId: restaurantId || '',
+        cartItems: cartItemsParam
       }
-    }
+    });
+    
+    // Close the modal after navigation
+    onClose();
   };
-
-  const getItemQuantity = (menuItemId: number): number => {
-    const found = currentItems.find((item) => item.id === menuItemId);
-    return found ? found.quantity : 0;
-  };
-
-  const filteredMenuItems = searchQuery
-    ? menuItems.filter((item) => {
-        const searchableText = `${item.name} ${item.category} ${item.description}`.toLowerCase();
-        return searchableText.includes(searchQuery.toLowerCase());
-      })
-    : menuItems;
-
-  // Added search input field
-  const renderSearchBar = () => (
-    <View style={styles.searchContainer}>
-      <TextInput
-        style={styles.searchInput}
-        placeholder="Search for items..."
-        value={searchQuery}
-        onChangeText={setSearchQuery}
-      />
-    </View>
-  );
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <Text style={styles.headerTitle}>Add More Items</Text>
-        
-        {renderSearchBar()}
-
-        {Array.from(new Set(filteredMenuItems.map((item) => item.category))).map((category) => (
-          <View key={category}>
-            <TouchableOpacity
-              onPress={() => toggleCategory(category)}
-              style={styles.categoryChip}
-            >
-              <Text style={styles.categoryText}>{category}</Text>
-              <Text>{expandedCategories.has(category) ? '-' : '+'}</Text>
-            </TouchableOpacity>
-
-            {expandedCategories.has(category) &&
-              filteredMenuItems
-                .filter((item) => item.category === category)
-                .map((menuItem) => (
-                  <View key={menuItem.menuItemId} style={styles.menuCard}>
-                    <Image source={{ uri: menuItem.image }} style={styles.menuImage} />
-                    <View style={styles.menuDetails}>
-                      <Text style={styles.menuName}>{menuItem.name}</Text>
-                      <Text style={styles.menuPrice}>${menuItem.price.toFixed(2)}</Text>
+    <Modal
+      visible={visible}
+      transparent={true}
+      animationType="slide"
+      onRequestClose={onClose}
+    >
+      <TouchableWithoutFeedback onPress={onClose}>
+        <View style={styles.modalOverlay}>
+          <TouchableWithoutFeedback>
+            <View style={styles.modalContent}>
+              <View style={styles.modalHeader}>
+                <Text style={styles.modalTitle}>Your Cart</Text>
+                <TouchableOpacity onPress={onClose}>
+                  <Text style={styles.closeButton}>✕</Text>
+                </TouchableOpacity>
+              </View>
+              
+              {currentItems.length > 0 ? (
+                <FlatList
+                  data={currentItems}
+                  keyExtractor={(item) => item.id.toString()}
+                  renderItem={({ item }) => (
+                    <View style={styles.itemContainer}>
+                      <View style={styles.itemDetails}>
+                        <Text style={styles.itemName}>{item.name}</Text>
+                        <Text style={styles.itemPrice}>${item.price.toFixed(2)} × {item.quantity}</Text>
+                      </View>
+                      <Text style={styles.itemTotal}>${(item.price * item.quantity).toFixed(2)}</Text>
                     </View>
-                    <View style={styles.addButtonContainer}>
-                      {getItemQuantity(menuItem.menuItemId) === 0 ? (
-                        <TouchableOpacity
-                          style={styles.addButton}
-                          onPress={() => handleAddItem(menuItem)}
-                        >
-                          <Text style={styles.addButtonText}>Add</Text>
-                        </TouchableOpacity>
-                      ) : (
-                        <View style={styles.counterContainer}>
-                          <TouchableOpacity
-                            style={styles.minusButton}
-                            onPress={() => handleRemoveItem(menuItem.menuItemId)}
-                          >
-                            <Text style={styles.addButtonText}>-</Text>
-                          </TouchableOpacity>
-                          <Text style={styles.counterText}>
-                            {getItemQuantity(menuItem.menuItemId)}
-                          </Text>
-                          <TouchableOpacity
-                            style={styles.plusButton}
-                            onPress={() => handleAddItem(menuItem)}
-                          >
-                            <Text style={styles.addButtonText}>+</Text>
-                          </TouchableOpacity>
-                        </View>
-                      )}
-                    </View>
-                  </View>
-                ))}
-          </View>
-        ))}
-      </ScrollView>
-      
-      {/* Optional: Add a bottom bar for Done/Back button */}
-      <View style={styles.bottomBar}>
-        <TouchableOpacity 
-          style={styles.doneButton}
-          onPress={() => router.back()}
-        >
-          <Text style={styles.doneButtonText}>Done</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+                  )}
+                  style={styles.itemsList}
+                />
+              ) : (
+                <Text style={styles.emptyCartText}>Your cart is empty</Text>
+              )}
+              
+              <TouchableOpacity
+                style={styles.addMoreButton}
+                onPress={navigateToRestaurantSelect}
+              >
+                <Text style={styles.addMoreButtonText}>Add More Items</Text>
+              </TouchableOpacity>
+              
+              <TouchableOpacity
+                style={styles.continueButton}
+                onPress={onClose}
+              >
+                <Text style={styles.continueButtonText}>Continue with current items</Text>
+              </TouchableOpacity>
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
+      </TouchableWithoutFeedback>
+    </Modal>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  modalOverlay: {
     flex: 1,
-    backgroundColor: '#fff',
-  },
-  header: {
-    flexDirection: 'row',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
     alignItems: 'center',
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
   },
-  headerTitle: {
-    fontSize: RFPercentage(2.2),
-    fontFamily: 'Poppins-SemiBold',
-    marginLeft: 12,
-    marginVertical: 16,
-    paddingHorizontal: 20,
-  },
-  scrollContainer: {
-    flexGrow: 1,
-    paddingBottom: 100,
-  },
-  searchContainer: {
-    paddingHorizontal: 20,
-    paddingBottom: 12,
-  },
-  searchInput: {
-    height: 40,
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    backgroundColor: '#f9f9f9',
-    fontFamily: 'Poppins-Regular',
-  },
-  sectionTitle: {
-    fontSize: RFPercentage(2),
-    fontFamily: 'Poppins-SemiBold',
-    marginHorizontal: 20,
-    marginTop: 16,
-    marginBottom: 8,
-  },
-  emptyCartContainer: {
+  modalContent: {
+    width: '90%',
+    backgroundColor: 'white',
+    borderRadius: 10,
     padding: 20,
+    maxHeight: '80%',
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
+    marginBottom: 15,
+  },
+  modalTitle: {
+    fontSize: RFPercentage(2.4),
+    fontFamily: 'Poppins-SemiBold',
+    color: '#01615F',
+  },
+  closeButton: {
+    fontSize: RFPercentage(2.4),
+    color: '#777',
+  },
+  itemsList: {
+    marginBottom: 15,
+  },
+  itemContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f0f0f0',
+  },
+  itemDetails: {
+    flex: 1,
+  },
+  itemName: {
+    fontSize: RFPercentage(1.8),
+    fontFamily: 'Poppins-Medium',
+    color: '#333',
+  },
+  itemPrice: {
+    fontSize: RFPercentage(1.6),
+    fontFamily: 'Poppins-Regular',
+    color: '#666',
+    marginTop: 2,
+  },
+  itemTotal: {
+    fontSize: RFPercentage(1.8),
+    fontFamily: 'Poppins-SemiBold',
+    color: '#01615F',
   },
   emptyCartText: {
     fontSize: RFPercentage(1.8),
-    fontFamily: 'Poppins-Medium',
-    color: '#666',
-  },
-  cartItemsContainer: {
-    marginBottom: 16,
-  },
-  cartItemCard: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 12,
-    marginHorizontal: 20,
-    marginVertical: 4,
-    backgroundColor: '#f8f8f8',
-    borderRadius: 8,
-  },
-  cartItemDetails: {
-    flex: 1,
-  },
-  cartItemName: {
-    fontSize: RFPercentage(1.8),
-    fontFamily: 'Poppins-Medium',
-    color: '#333',
-  },
-  cartItemPrice: {
-    fontSize: RFPercentage(1.6),
     fontFamily: 'Poppins-Regular',
-    color: '#666',
-  },
-  separator: {
-    height: 1,
-    backgroundColor: '#eee',
-    marginHorizontal: 20,
-    marginVertical: 16,
-  },
-  categoryChip: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginHorizontal: 20,
-    marginVertical: 8,
-    padding: 12,
-    borderRadius: 8,
-    backgroundColor: '#fff',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  categoryText: {
-    fontSize: RFPercentage(1.8),
-    color: '#333',
-    fontFamily: 'Poppins-Medium',
-  },
-  menuCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderRadius: 8,
-    marginHorizontal: 20,
-    marginVertical: 4,
-    padding: 10,
-    backgroundColor: '#EFFFF4',
-  },
-  menuImage: {
-    width: 60,
-    height: 60,
-    borderRadius: 8,
-    marginRight: 10,
-  },
-  menuDetails: {
-    flex: 1,
-  },
-  menuName: {
-    fontSize: RFPercentage(1.8),
-    color: '#333',
-    fontFamily: 'Poppins-SemiBold',
-  },
-  menuCategory: {
-    fontSize: RFPercentage(1.3),
     color: '#777',
-    marginVertical: 2,
-    fontFamily: 'Poppins-Regular',
+    textAlign: 'center',
+    paddingVertical: 20,
   },
-  menuPrice: {
+  addMoreButton: {
+    backgroundColor: '#01615F',
+    borderRadius: 6,
+    paddingVertical: 12,
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  addMoreButtonText: {
+    color: 'white',
     fontSize: RFPercentage(1.8),
-    color: '#01615F',
     fontFamily: 'Poppins-Medium',
   },
-  addButtonContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  counterContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  minusButton: {
-    paddingVertical: 2,
-    paddingHorizontal: 8,
-    backgroundColor: '#01615F',
-    borderRadius: 4,
-    height: 24,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  plusButton: {
-    paddingVertical: 2,
-    paddingHorizontal: 8,
-    backgroundColor: '#01615F',
-    borderRadius: 4,
-    height: 24,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  counterText: {
-    fontSize: RFPercentage(1.6),
-    marginHorizontal: 10,
-    color: 'black',
-    fontFamily: 'Poppins-Regular',
-  },
-  addButton: {
-    backgroundColor: '#01615F',
-    borderRadius: 4,
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  addButtonText: {
-    color: '#fff',
-    fontSize: RFPercentage(1.4),
-    fontFamily: 'Poppins-Regular',
-  },
-  bottomBar: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    padding: 16,
+  continueButton: {
     backgroundColor: '#fff',
-    borderTopWidth: 1,
-    borderTopColor: '#eee',
+    borderWidth: 1,
+    borderColor: '#01615F',
+    borderRadius: 6,
+    paddingVertical: 12,
     alignItems: 'center',
   },
-  doneButton: {
-    backgroundColor: '#01615F',
-    paddingVertical: 12,
-    paddingHorizontal: 48,
-    borderRadius: 8,
-  },
-  doneButtonText: {
-    color: '#fff',
+  continueButtonText: {
+    color: '#01615F',
     fontSize: RFPercentage(1.8),
     fontFamily: 'Poppins-Medium',
   },
 });
 
-export default AddMoreItems;
+export default AddMoreItemsModal;
