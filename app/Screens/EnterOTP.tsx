@@ -69,7 +69,7 @@ const EnterOtp = () => {
 const handleVerify = () => {
   const panStatus = true; // Assuming PAN is completed
   router.push({
-    pathname: "/initialscreens/welcomescreen",
+    pathname: "/Screens/PersonalDetails",
     params: { panStatus: String(panStatus) }, // Convert boolean to string
   });
 };

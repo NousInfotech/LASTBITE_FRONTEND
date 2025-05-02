@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -7,13 +7,13 @@ import {
   Modal,
   StatusBar,
   StyleSheet,
-  findNodeHandle,
+  Alert,
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import GoBack from "@/components/GoBack";
 import { DeleteConfirmationModal, MoreOptionsMenu } from "@/components/Options";
-import { useRouter } from "expo-router";
-import ShareModal from "@/components/ShareModal"; // Update the path accordingly
+import { useRouter, useLocalSearchParams } from "expo-router";
+import ShareModal from "@/components/ShareModal";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { RFPercentage } from "react-native-responsive-fontsize";
 
@@ -26,20 +26,21 @@ interface Address {
 
 const AddressManagementScreen: React.FC = () => {
   const router = useRouter();
+  const params = useLocalSearchParams();
+  
   const [searchText, setSearchText] = useState<string>("");
   const [moreOptionsVisible, setMoreOptionsVisible] = useState<boolean>(false);
   const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
   const [deleteConfirmationVisible, setDeleteConfirmationVisible] =
     useState<boolean>(false);
-  const [editMode, setEditMode] = useState<boolean>(false);
-  const [editedAddress, setEditedAddress] = useState<string>("");
   const [shareModalVisible, setShareModalVisible] = useState<boolean>(false);
   const [menuPosition, setMenuPosition] = useState<{ x: number; y: number }>({
     x: 0,
     y: 0,
   });
-
-  let savedAddresses: Address[] = [
+  
+  // State for addresses
+  const [savedAddresses, setSavedAddresses] = useState<Address[]>([
     {
       id: 1,
       type: "Home",
@@ -52,16 +53,68 @@ const AddressManagementScreen: React.FC = () => {
       address: "Green Valley Apartments, Lakeview Street",
       icon: "work",
     },
-  ];
+  ]);
 
-  const recentSearches: Address[] = [
+  const [recentSearches, setRecentSearches] = useState<Address[]>([
     {
       id: 3,
       type: "Green Valley",
       address: "Green Valley Apartments, Lakeview Street",
       icon: "history",
     },
-  ];
+  ]);
+
+  // Effect to handle address updates from navigation params
+  useEffect(() => {
+    if (params && params.editedAddress) {
+      try {
+        // Parse the edited address data
+        const addressData = JSON.parse(params.editedAddress as string);
+        
+        // Update the appropriate address list
+        if (addressData.id) {
+          // Update saved addresses
+          setSavedAddresses(prev => 
+            prev.map(addr => 
+              addr.id === parseInt(addressData.id) 
+              ? {
+                  ...addr,
+                  type: addressData.type || addr.type,
+                  address: addressData.formattedAddress,
+                  icon: getIconForType(addressData.type)
+                } 
+              : addr
+            )
+          );
+          
+          // Also update recent searches if the ID matches
+          setRecentSearches(prev => 
+            prev.map(addr => 
+              addr.id === parseInt(addressData.id) 
+              ? {
+                  ...addr,
+                  type: addressData.type || addr.type,
+                  address: addressData.formattedAddress,
+                  icon: addr.icon
+                } 
+              : addr
+            )
+          );
+        }
+      } catch (e) {
+        console.error('Error parsing edited address:', e);
+      }
+    }
+  }, [params]);
+  
+  // Helper function to get the icon based on address type
+  const getIconForType = (type: string): string => {
+    switch (type) {
+      case 'Home': return 'home';
+      case 'Work': return 'work';
+      default: return 'location-on';
+    }
+  };
 
   const handleUseCurrentLocation = () => {
     router.push({
@@ -88,25 +141,37 @@ const AddressManagementScreen: React.FC = () => {
 
   const handleEdit = () => {
     if (selectedAddress) {
+      // Parse the address to extract components (this is a simplistic approach)
+      const addressParts = selectedAddress.address.split(", ");
+      
+      // Map address parts to fields - this is a best-effort approach
+      // In a real app, you should store the address components separately
+      let building = addressParts[0] || "";
+      let street = addressParts[1] || "";
+      let town = addressParts[2] || "";
+      let city = addressParts[3] || "";
+      let state = addressParts[4] || "";
+      let country = addressParts[5] || "";
+      let pincode = addressParts[6] || "";
+      
       router.push({
-        // pathname: "/initialscreens/AddressEditScreen",  
-        pathname: "/Screens/AddressInput",
+        pathname: "/UserDetails/MapView", // Update this path as needed
         params: {
-          building: "Building A",
-          street: "Main Street",
-          town: "Downtown",
-          city: "Metropolis",
-          state: "Stateville",
-          country: "Countryland",
-          pincode: "123456",
+          id: selectedAddress.id.toString(),
+          type: selectedAddress.type,
+          building: building,
+          street: street,
+          town: town,
+          city: city,
+          state: state,
+          country: country,
+          pincode: pincode,
+          isEditing: "true", // Flag to indicate edit mode
         },
       });
       setMoreOptionsVisible(false);
     }
   };
-  
-  
-  
 
   const handleDelete = () => {
     setDeleteConfirmationVisible(true);
@@ -117,7 +182,6 @@ const AddressManagementScreen: React.FC = () => {
     setShareModalVisible(true);
     setMoreOptionsVisible(false);
   };
-  
 
   const handleDeleteCancel = () => {
     setDeleteConfirmationVisible(false);
@@ -125,24 +189,22 @@ const AddressManagementScreen: React.FC = () => {
 
   const handleConfirmDelete = () => {
     if (selectedAddress) {
-      savedAddresses = savedAddresses.filter(
-        (address) => address.id !== selectedAddress.id
-      );
+      // Check if the address is in saved addresses
+      if (savedAddresses.some(addr => addr.id === selectedAddress.id)) {
+        setSavedAddresses(prev => 
+          prev.filter(address => address.id !== selectedAddress.id)
+        );
+      } 
+      // Check if the address is in recent searches
+      else if (recentSearches.some(addr => addr.id === selectedAddress.id)) {
+        setRecentSearches(prev => 
+          prev.filter(address => address.id !== selectedAddress.id)
+        );
+      }
+      
       setDeleteConfirmationVisible(false);
       setSelectedAddress(null);
-    }
-  };
-
-  const handleSaveEdit = () => {
-    if (selectedAddress) {
-      const updatedAddresses = savedAddresses.map((address) =>
-        address.id === selectedAddress.id
-          ? { ...address, address: editedAddress }
-          : address
-      );
-      savedAddresses = updatedAddresses;
-      setEditMode(false);
-      setSelectedAddress(null);
+      Alert.alert("Success", "Address deleted successfully");
     }
   };
 
@@ -217,13 +279,21 @@ const AddressManagementScreen: React.FC = () => {
       {/* Saved Addresses */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>SAVED ADDRESSES</Text>
-        {savedAddresses.map((address) => renderAddressItem(address))}
+        {savedAddresses.length > 0 ? (
+          savedAddresses.map((address) => renderAddressItem(address))
+        ) : (
+          <Text style={styles.emptyText}>No saved addresses found</Text>
+        )}
       </View>
 
       {/* Recent Searches */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>RECENT SEARCHES</Text>
-        {recentSearches.map((address) => renderAddressItem(address))}
+        {recentSearches.length > 0 ? (
+          recentSearches.map((address) => renderAddressItem(address))
+        ) : (
+          <Text style={styles.emptyText}>No recent searches</Text>
+        )}
       </View>
 
       {/* More Options Menu */}
@@ -244,16 +314,16 @@ const AddressManagementScreen: React.FC = () => {
         onDelete={handleConfirmDelete}
       />
 
-<ShareModal
-  visible={shareModalVisible}
-  onClose={() => setShareModalVisible(false)}
-  address={selectedAddress?.address || ""}
-/>
+      {/* Share Modal */}
+      <ShareModal
+        visible={shareModalVisible}
+        onClose={() => setShareModalVisible(false)}
+        address={selectedAddress?.address || ""}
+      />
 
     </SafeAreaView>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
@@ -269,8 +339,9 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: RFPercentage(2),
-    marginLeft: 16,
+    marginTop: RFPercentage(2),
     fontWeight: "500",
+    fontFamily: "Poppins-SemiBold",
   },
   searchContainer: {
     flexDirection: "row",
@@ -330,21 +401,12 @@ const styles = StyleSheet.create({
     color: "#666",
     marginTop: 4,
   },
-  menu: {
-    position: "absolute",
-    top: 50,
-    right: 16,
-    backgroundColor: "#fff",
-    borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 8,
-    padding: 8,
-    zIndex: 10,
-  },
-  menuOption: {
-    padding: 8,
-    fontSize: RFPercentage(2),
-    color: "#333",
+  emptyText: {
+    fontSize: 14,
+    color: "#666",
+    fontStyle: "italic",
+    textAlign: "center",
+    padding: 16,
   },
 });
 

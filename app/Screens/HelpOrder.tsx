@@ -288,9 +288,8 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   headerTitle: {
-    fontSize: RFPercentage(2),
-    marginLeft: 16,
-    fontWeight: "500",
+    fontSize: RFPercentage(2.5),
+    marginTop: RFPercentage(2),
     fontFamily: "Poppins-SemiBold",
   },
   form: {

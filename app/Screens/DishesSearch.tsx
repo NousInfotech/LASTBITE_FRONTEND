@@ -17,12 +17,16 @@ import SearchBarVoice from "@/components/SearchBarVoice";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { RFPercentage } from "react-native-responsive-fontsize";
 import ProductDetailsModal from "@/components/ProductDetailsModal";
+
 // Define the types for the query params
 interface DishesSearchParams {
   id: string | undefined;
   name: string | undefined;
   type: string | undefined;
+  existingCart: string | undefined;
+  fromCheckout: string | undefined;
 }
+
 interface Restaurant {
   restaurantId: string;
   name: string;
@@ -36,10 +40,12 @@ interface Restaurant {
   isActive: boolean;
   details?: string;
 }
+
 interface CheckoutPopupProps {
   totalItems: number;
   onCheckout: () => void;
 }
+
 interface MenuItem {
   menuItemId: number;
   name: string;
@@ -159,17 +165,56 @@ const CheckoutPopup: React.FC<CheckoutPopupProps> = ({
 };
 
 const DishesSearch: React.FC = () => {
-  const { id, name, type } = useLocalSearchParams<DishesSearchParams>();
+  const { id, name, type, existingCart, fromCheckout } = useLocalSearchParams<DishesSearchParams>();
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [cartCounts, setCartCounts] = useState<Record<number, number>>({});
   const router = useRouter();
   const [searchText, setSearchText] = useState("");
+  const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [isFromCheckout, setIsFromCheckout] = useState(false);
+
+  // Parse existing cart if available
+  useEffect(() => {
+    if (existingCart) {
+      try {
+        const parsedCart = JSON.parse(existingCart);
+        if (Array.isArray(parsedCart)) {
+          const newCartCounts: Record<number, number> = {};
+          
+          parsedCart.forEach(item => {
+            // Check if menuItemId exists, otherwise try to find by name
+            if (item.menuItemId) {
+              newCartCounts[item.menuItemId] = item.quantity;
+            } else if (item.name) {
+              // Try to find the menu item by name
+              const menuItem = mockMenu.find(mi => 
+                mi.name.toLowerCase() === item.name?.toLowerCase()
+              );
+              if (menuItem) {
+                newCartCounts[menuItem.menuItemId] = item.quantity;
+              }
+            }
+          });
+          
+          setCartCounts(newCartCounts);
+        }
+      } catch (error) {
+        console.error("Error parsing existing cart:", error);
+      }
+    }
+    
+    // Check if coming from checkout
+    if (fromCheckout === "true") {
+      setIsFromCheckout(true);
+    }
+  }, [existingCart, fromCheckout]);
+
+  // Calculate total items in cart
   const totalItemsInCart = Object.values(cartCounts).reduce(
     (sum, count) => sum + count,
     0
   );
-  const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
-  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     const loadFonts = async () => {
@@ -219,9 +264,11 @@ const DishesSearch: React.FC = () => {
           (item) => item.menuItemId === parseInt(menuItemId)
         );
         return {
+          menuItemId: parseInt(menuItemId),
           name: menuItem?.name,
           quantity,
           price: menuItem?.price,
+          category: menuItem?.category,
         };
       });
 
@@ -469,7 +516,9 @@ const styles = StyleSheet.create({
     borderBottomColor: "#eee",
   },
   headerTitle: {
-    fontSize: 14,
+    fontSize: RFPercentage(2.5),
+    marginTop: RFPercentage(2),
+    fontWeight: "500",
     fontFamily: "Poppins-SemiBold",
   },
   headerLocation: {

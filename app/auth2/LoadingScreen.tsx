@@ -2,8 +2,16 @@ import React, { useEffect, useRef } from 'react';
 import { StyleSheet, View, Text, Animated, Easing } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { RFPercentage } from 'react-native-responsive-fontsize';
+import { router, useLocalSearchParams } from 'expo-router';
 
-export default function LoadingScreen() {
+interface Params {
+  photoUri?: string;
+}
+
+const LoadingScreen: React.FC = () => {
+  // Get photo URI from navigation params
+  const params = useLocalSearchParams<Params>();
+  
   // Create animated values for each dot
   const dot1Animation = useRef(new Animated.Value(0)).current;
   const dot2Animation = useRef(new Animated.Value(0)).current;
@@ -11,10 +19,22 @@ export default function LoadingScreen() {
   const dot4Animation = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
+    // Start the animation as soon as the component mounts
     startAnimation();
+    
+    // Navigate to verified screen after 3 seconds
+    const timer = setTimeout(() => {
+      router.replace({
+        pathname: '/auth2/verifiedscreen',
+        params: { photoUri: params.photoUri }
+      });
+    }, 3000);
+    
+    // Clear the timer on unmount
+    return () => clearTimeout(timer);
   }, []);
 
-  const startAnimation = () => {
+  const startAnimation = (): void => {
     // Reset all animations
     dot1Animation.setValue(0);
     dot2Animation.setValue(0);
@@ -141,7 +161,7 @@ export default function LoadingScreen() {
       <Text style={styles.loadingText}>Loading for Verification...</Text>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -178,3 +198,5 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
 });
+
+export default LoadingScreen;

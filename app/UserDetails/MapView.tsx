@@ -160,9 +160,10 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   headerTitle: {
-    fontSize: RFPercentage(2),
+    fontSize: RFPercentage(2.5),
+    marginTop: RFPercentage(2),
+    fontWeight: "500",
     fontFamily: "Poppins-SemiBold",
-    marginLeft: 8,
   },
   searchContainer: {
     position: "absolute",

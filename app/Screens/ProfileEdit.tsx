@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -9,6 +9,7 @@ import {
   StyleSheet,
   Image,
   Alert,
+  Modal,
 } from "react-native";
 import GoBack from "@/components/GoBack";
 import CustomCheckbox from "@/components/CustomCheckbox";
@@ -28,6 +29,7 @@ const RegisterRestaurant = () => {
     "Italian",
     "Chinese",
   ]);
+  const [showImageOptions, setShowImageOptions] = useState(false);
   const [form, setForm] = useState({
     ownerName: "",
     restaurantName: "",
@@ -50,6 +52,15 @@ const RegisterRestaurant = () => {
     },
     openingTime: "",
     closingTime: "",
+    daywiseTiming: {
+      Monday: { openingTime: "", closingTime: "" },
+      Tuesday: { openingTime: "", closingTime: "" },
+      Wednesday: { openingTime: "", closingTime: "" },
+      Thursday: { openingTime: "", closingTime: "" },
+      Friday: { openingTime: "", closingTime: "" },
+      Saturday: { openingTime: "", closingTime: "" },
+      Sunday: { openingTime: "", closingTime: "" },
+    },
     category: selectedCategory,
     ownerPanNo: "",
     gstinNo: "",
@@ -63,9 +74,8 @@ const RegisterRestaurant = () => {
 
   const mutation = useCreateRestaurant();
   const [sameWhatsApp, setSameWhatsApp] = useState(true);
-  const [timingMode, setTimingMode] = useState<"sameTime" | "daywise">(
-    "sameTime"
-  );
+  const [timingMode, setTimingMode] = useState("sameTime");
+
   useEffect(() => {
     async function loadFonts() {
       await Font.loadAsync({
@@ -83,12 +93,22 @@ const RegisterRestaurant = () => {
   }
 
   const handleSubmit = async () => {
+    // Prepare the form data based on timing mode
     const formattedForm = {
       ...form,
       workingDays: Object.entries(form.workingDays)
         .filter(([_, isSelected]) => isSelected)
         .map(([day]) => day),
     };
+
+    // If daywise timing is selected, use that data
+    if (timingMode === "daywise") {
+      delete formattedForm.openingTime;
+      delete formattedForm.closingTime;
+    } else {
+      // If same time for all days, remove the daywise timings
+      delete formattedForm.daywiseTiming;
+    }
 
     mutation.mutate(formattedForm, {
       onSuccess: (response) => {
@@ -100,8 +120,8 @@ const RegisterRestaurant = () => {
     });
   };
 
-  const handleContinue = (): void => {
-    let requiredFields: string[] = [];
+  const handleContinue = () => {
+    let requiredFields = [];
     if (activeStep === 1) {
       requiredFields = [
         "ownerName",
@@ -113,45 +133,122 @@ const RegisterRestaurant = () => {
         "pincode",
         "emailAddress",
         "mobileNumber",
-        "openingTime",
-        "closingTime",
       ];
+      
+      // Check timing fields based on selected mode
+      if (timingMode === "sameTime") {
+        requiredFields.push("openingTime", "closingTime");
+      }
     } else if (activeStep === 2) {
-      requiredFields = ["ownerPanNo", "bankIfscCode", "bankAccountNumber", "fssaiCertificateNo"];
+      requiredFields = [
+        "ownerPanNo",
+        "bankIfscCode",
+        "bankAccountNumber",
+        "fssaiCertificateNo",
+      ];
     } else if (activeStep === 3) {
       requiredFields = ["kindOfFood"];
     }
+    
     if (!form || typeof form !== "object") {
       Alert.alert("Error", "Form data is invalid");
       return;
     }
-    const isFormValid: boolean = requiredFields.every((field) => {
-      const value = form[field as keyof typeof form];
+    
+    // Basic field validation
+    const isFormValid = requiredFields.every((field) => {
+      const value = form[field];
       return typeof value === "string" && value.trim() !== "";
     });
-    if (!isFormValid) {
+    
+    // Additional validation for daywise timing
+    let isDaywiseTimingValid = true;
+    if (timingMode === "daywise") {
+      isDaywiseTimingValid = Object.keys(form.workingDays)
+        .filter(day => form.workingDays[day])
+        .every(day => {
+          return (
+            form.daywiseTiming[day].openingTime.trim() !== "" && 
+            form.daywiseTiming[day].closingTime.trim() !== ""
+          );
+        });
+    }
+    
+    if (!isFormValid || (timingMode === "daywise" && !isDaywiseTimingValid)) {
       Alert.alert("Error", "Please fill all mandatory fields");
       return;
     }
-  
+
     if (activeStep < 4) {
-      setActiveStep((prevStep: number) => prevStep + 1);
+      setActiveStep((prevStep) => prevStep + 1);
     } else {
       handleSubmit();
     }
   };
-  
+
   const handleSelectAll = () => {
     const allSelected = Object.values(form.workingDays).every(Boolean);
 
     setForm((prev) => ({
       ...prev,
       workingDays: Object.fromEntries(
-        (
-          Object.keys(prev.workingDays) as (keyof typeof prev.workingDays)[]
-        ).map((day) => [day, !allSelected])
-      ) as typeof prev.workingDays, 
+        Object.keys(prev.workingDays).map((day) => [day, !allSelected])
+      ),
     }));
+  };
+
+  // Image picker functions
+  const handleChooseFromGallery = async () => {
+    setShowImageOptions(false);
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (status !== "granted") {
+      Alert.alert(
+        "Permission Required",
+        "You need to grant permission to access the gallery."
+      );
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setForm((prev) => ({
+        ...prev,
+        profilePhoto: result.assets[0].uri,
+      }));
+    }
+  };
+
+  const handleTakePicture = async () => {
+    setShowImageOptions(false);
+    const { status } = await ImagePicker.requestCameraPermissionsAsync();
+
+    if (status !== "granted") {
+      Alert.alert(
+        "Permission Required",
+        "You need to grant permission to access the camera."
+      );
+      return;
+    }
+
+    const result = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setForm((prev) => ({
+        ...prev,
+        profilePhoto: result.assets[0].uri,
+      }));
+    }
   };
 
   const handleChooseFile = async () => {
@@ -167,35 +264,79 @@ const RegisterRestaurant = () => {
 
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true, 
-      quality: 1, 
+      allowsEditing: true,
+      quality: 1,
     });
 
     if (!result.canceled) {
       setForm((prev) => ({
         ...prev,
-        profilePhoto: result.assets[0].uri, 
+        profilePhoto: result.assets[0].uri,
       }));
     }
   };
 
-  const renderInput = (
-    label: string,
-    field: keyof typeof form,
-    placeholder?: string,
-    required?: boolean 
-  ) => (
+  const renderInput = (label, field, placeholder, required) => (
     <View style={styles.inputContainer}>
       <Text style={styles.label}>
         {label} {required && <Text style={styles.required}>*</Text>}
       </Text>
       <TextInput
-        value={form[field]} 
-        onChangeText={(text) => setForm((prev) => ({ ...prev, [field]: text }))} // Update state
-        placeholder={placeholder || `Enter ${label}`} 
+        value={form[field]}
+        onChangeText={(text) => setForm((prev) => ({ ...prev, [field]: text }))}
+        placeholder={placeholder || `Enter ${label}`}
         style={styles.input}
         placeholderTextColor="#A0A0A0"
       />
+    </View>
+  );
+
+  const renderDaywiseTimingInput = (day) => (
+    <View style={styles.daywiseTimingRow} key={day}>
+      <Text style={styles.dayLabel}>{day}</Text>
+      <View style={styles.daywiseTimingInputs}>
+        <View style={styles.timeInputContainer}>
+          <TextInput
+            value={form.daywiseTiming[day].openingTime}
+            onChangeText={(text) =>
+              setForm((prev) => ({
+                ...prev,
+                daywiseTiming: {
+                  ...prev.daywiseTiming,
+                  [day]: {
+                    ...prev.daywiseTiming[day],
+                    openingTime: text,
+                  },
+                },
+              }))
+            }
+            placeholder="9:00 AM"
+            style={styles.timeInput}
+            placeholderTextColor="#A0A0A0"
+          />
+        </View>
+        <Text style={styles.toText}>to</Text>
+        <View style={styles.timeInputContainer}>
+          <TextInput
+            value={form.daywiseTiming[day].closingTime}
+            onChangeText={(text) =>
+              setForm((prev) => ({
+                ...prev,
+                daywiseTiming: {
+                  ...prev.daywiseTiming,
+                  [day]: {
+                    ...prev.daywiseTiming[day],
+                    closingTime: text,
+                  },
+                },
+              }))
+            }
+            placeholder="9:00 PM"
+            style={styles.timeInput}
+            placeholderTextColor="#A0A0A0"
+          />
+        </View>
+      </View>
     </View>
   );
 
@@ -209,248 +350,296 @@ const RegisterRestaurant = () => {
       </View>
       <View style={styles.profileCard}>
         <View style={styles.profileImageContainer}>
-          <View style={styles.profileImagePlaceholder} />
-          <TouchableOpacity style={styles.addButton}>
+          {form.profilePhoto ? (
+            <Image
+              source={{ uri: form.profilePhoto }}
+              style={styles.profileImage}
+            />
+          ) : (
+            <View style={styles.profileImagePlaceholder} />
+          )}
+          <TouchableOpacity
+            style={styles.addButton}
+            onPress={() => setShowImageOptions(true)}
+          >
             <Entypo name="camera" size={13} color="#fff" />
           </TouchableOpacity>
         </View>
-        <Text style={styles.profileName}>Lorem Ipsum</Text>
+        <Text style={styles.profileName}>
+          {form.restaurantName || "Restaurant Name"}
+        </Text>
       </View>
+
+      {/* Image Options Modal */}
+      <Modal
+        visible={showImageOptions}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => setShowImageOptions(false)}
+      >
+        <TouchableOpacity
+          style={styles.modalOverlay}
+          activeOpacity={1}
+          onPress={() => setShowImageOptions(false)}
+        >
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Choose Profile Picture</Text>
+
+            <TouchableOpacity
+              style={styles.modalOption}
+              onPress={handleChooseFromGallery}
+            >
+              <Entypo name="image" size={24} color="#01615F" />
+              <Text style={styles.modalOptionText}>Upload from Gallery</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.modalOption}
+              onPress={handleTakePicture}
+            >
+              <Entypo name="camera" size={24} color="#01615F" />
+              <Text style={styles.modalOptionText}>Take a Picture</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.cancelModalButton}
+              onPress={() => setShowImageOptions(false)}
+            >
+              <Text style={styles.cancelModalText}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </TouchableOpacity>
+      </Modal>
+
       <ScrollView style={styles.scrollView}>
-            <View style={styles.formCard}>
-              <View style={styles.formSection}>
-                <Text style={styles.sectionTitle}>Basic Details</Text>
+        <View style={styles.formCard}>
+          <View style={styles.formSection}>
+            <Text style={styles.sectionTitle}>Basic Details</Text>
+            {renderInput(
+              "Owner's full name ",
+              "ownerName",
+              "Enter Full name",
+              true
+            )}
+            {renderInput(
+              "Restaurant Name",
+              "restaurantName",
+              "Enter Restaurant name",
+              true
+            )}
+            <Text style={styles.label}>
+              Profile Photo <Text style={styles.required}>*</Text>
+            </Text>
+            <View style={styles.inputContainer_A}>
+              <TouchableOpacity
+                style={styles.uploadButton}
+                onPress={handleChooseFile}
+              >
+                <Text style={styles.uploadButtonText}>Upload File</Text>
+              </TouchableOpacity>
+              <Text style={styles.fileName}>
+                {form.profilePhoto ? "Profile chose" : "Choose a File"}
+              </Text>
+            </View>
+            <Text style={styles.sectionTitle}>Add restaurant location</Text>
+            <Text style={styles.sectionSubtitle}>
+              Provide exact details for quick food delivery.
+            </Text>
+            <View style={styles.row}>
+              <View style={styles.halfInputContainer}>
                 {renderInput(
-                  "Owner's full name ",
-                  "ownerName",
-                  "Enter Full name",
+                  "Shop/Plot Number",
+                  "shopNumber",
+                  "Shop/PlotNo",
                   true
                 )}
-                {renderInput(
-                  "Restaurant Name",
-                  "restaurantName",
-                  "Enter Restaurant name",
-                  true
-                )}
-                <Text style={styles.label}>
-                  Profile Photo <Text style={styles.required}>*</Text>
-                </Text> 
-                <View style={styles.inputContainer_A}>
-                  <TouchableOpacity
-                    style={styles.uploadButton}
-                    onPress={handleChooseFile}
-                  >
-                    <Text style={styles.uploadButtonText}>Upload File</Text>
-                  </TouchableOpacity>
-                  <Text style={styles.fileName}>
-                    {form.profilePhoto ? "Profile chose" : "Choose a File"}
-                  </Text>
-                </View>
-                <Text style={styles.sectionTitle}>Add restaurant location</Text>
-                <Text style={styles.sectionSubtitle}>
-                  Provide exact details for quick food delivery.
-                </Text>
-                <View style={styles.row}>
-                  <View style={styles.halfInputContainer}>
-                    {renderInput(
-                      "Shop/Plot Number",
-                      "shopNumber",
-                      "Shop/PlotNo",
-                      true
-                    )}
-                  </View>
-                  <View style={styles.halfInputContainer}>
-                    {renderInput("Address", "address", "Floor no", true)}
-                  </View>
-                </View>
-                {renderInput(
-                  "Building/Mall/Complex Name",
-                  "complexName",
-                  "Enter Building/Mall/Complex Name",
-                  true
-                )}
-
-                {renderInput("Pincode", "pincode", "Enter Pincode", true)}
+              </View>
+              <View style={styles.halfInputContainer}>
+                {renderInput("Address", "address", "Floor no", true)}
               </View>
             </View>
-            <View style={styles.formCard}>
-              <View style={styles.formSection}>
-                <Text style={styles.sectionTitle}>Owner Contact Details</Text>
+            {renderInput(
+              "Building/Mall/Complex Name",
+              "complexName",
+              "Enter Building/Mall/Complex Name",
+              true
+            )}
 
-                {renderInput(
-                  "Email Address",
-                  "emailAddress",
-                  "Enter email address",
-                  true
-                )}
-                {renderInput(
-                  "Mobile Number",
-                  "mobileNumber",
-                  "Enter mobile number",
-                  true
-                )}
+            {renderInput("Pincode", "pincode", "Enter Pincode", true)}
+          </View>
+        </View>
+        {/* Rest of the form remains the same */}
+        <View style={styles.formCard}>
+          <View style={styles.formSection}>
+            <Text style={styles.sectionTitle}>Owner Contact Details</Text>
 
-                {/* WhatsApp Number Options */}
-                <Text style={styles.radioGroupTitle}>
-                  WhatsApp Number Options
-                </Text>
+            {renderInput(
+              "Email Address",
+              "emailAddress",
+              "Enter email address",
+              true
+            )}
+            {renderInput(
+              "Mobile Number",
+              "mobileNumber",
+              "Enter mobile number",
+              true
+            )}
 
-                <TouchableOpacity
-                  style={styles.radioOption}
-                  onPress={() => setSameWhatsApp(true)}
-                >
-                  <View style={styles.radioCircle}>
-                    {sameWhatsApp && <View style={styles.radioFill} />}
-                  </View>
-                  <Text style={styles.radioText}>
-                    My WhatsApp number is the same as above
-                  </Text>
-                </TouchableOpacity>
+            {/* WhatsApp Number Options */}
+            <Text style={styles.radioGroupTitle}>WhatsApp Number Options</Text>
 
-                <TouchableOpacity
-                  style={styles.radioOption}
-                  onPress={() => setSameWhatsApp(false)}
-                >
-                  <View style={styles.radioCircle}>
-                    {!sameWhatsApp && <View style={styles.radioFill} />}
-                  </View>
-                  <Text style={styles.radioText}>
-                    I have a different WhatsApp number
-                  </Text>
-                </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.radioOption}
+              onPress={() => setSameWhatsApp(true)}
+            >
+              <View style={styles.radioCircle}>
+                {sameWhatsApp && <View style={styles.radioFill} />}
+              </View>
+              <Text style={styles.radioText}>
+                My WhatsApp number is the same as above
+              </Text>
+            </TouchableOpacity>
 
-                {!sameWhatsApp &&
-                  renderInput("WhatsApp Number", "whatsappNumber", "whatsapp")}
+            <TouchableOpacity
+              style={styles.radioOption}
+              onPress={() => setSameWhatsApp(false)}
+            >
+              <View style={styles.radioCircle}>
+                {!sameWhatsApp && <View style={styles.radioFill} />}
+              </View>
+              <Text style={styles.radioText}>
+                I have a different WhatsApp number
+              </Text>
+            </TouchableOpacity>
+
+            {!sameWhatsApp &&
+              renderInput("WhatsApp Number", "whatsappNumber", "whatsapp")}
+          </View>
+        </View>
+        <View style={styles.formCard}>
+          <View style={styles.formSection}>
+            <View style={styles.workingDaysHeader}>
+              <Text style={styles.sectionTitle}>
+                Working Days <Text style={{ color: "red" }}>*</Text>
+              </Text>
+              <TouchableOpacity onPress={handleSelectAll}>
+                <Text style={styles.selectAllText}>Select All</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.checkboxGrid}>
+              <View style={styles.checkboxColumn}>
+                {["Monday", "Tuesday", "Wednesday", "Thursday"].map((day) => (
+                  <CustomCheckbox
+                    key={day}
+                    label={day}
+                    checked={form.workingDays[day]}
+                    onPress={() =>
+                      setForm((prev) => ({
+                        ...prev,
+                        workingDays: {
+                          ...prev.workingDays,
+                          [day]: !prev.workingDays[day],
+                        },
+                      }))
+                    }
+                  />
+                ))}
+              </View>
+              <View style={styles.checkboxColumn}>
+                {["Friday", "Saturday", "Sunday"].map((day) => (
+                  <CustomCheckbox
+                    key={day}
+                    label={day}
+                    checked={form.workingDays[day]}
+                    onPress={() =>
+                      setForm((prev) => ({
+                        ...prev,
+                        workingDays: {
+                          ...prev.workingDays,
+                          [day]: !prev.workingDays[day],
+                        },
+                      }))
+                    }
+                  />
+                ))}
               </View>
             </View>
-            <View style={styles.formCard}>
-              <View style={styles.formSection}>
-                <View style={styles.workingDaysHeader}>
-                  <Text style={styles.sectionTitle}>
-                    Working Days <Text style={{ color: "red" }}>*</Text>
-                  </Text>
-                  <TouchableOpacity onPress={handleSelectAll}>
-                    <Text style={styles.selectAllText}>Select All</Text>
-                  </TouchableOpacity>
-                </View>
-                <View style={styles.checkboxGrid}>
-                  <View style={styles.checkboxColumn}>
-                    {(
-                      ["Monday", "Tuesday", "Wednesday", "Thursday"] as Array<
-                        keyof typeof form.workingDays
-                      >
-                    ).map((day) => (
-                      <CustomCheckbox
-                        key={day}
-                        label={day}
-                        checked={form.workingDays[day]}
-                        onPress={() =>
-                          setForm((prev) => ({
-                            ...prev,
-                            workingDays: {
-                              ...prev.workingDays,
-                              [day]: !prev.workingDays[day],
-                            },
-                          }))
-                        }
-                      />
-                    ))}
-                  </View>
-                  <View style={styles.checkboxColumn}>
-                    {(
-                      ["Friday", "Saturday", "Sunday"] as Array<
-                        keyof typeof form.workingDays
-                      >
-                    ).map((day) => (
-                      <CustomCheckbox
-                        key={day}
-                        label={day}
-                        checked={form.workingDays[day]}
-                        onPress={() =>
-                          setForm((prev) => ({
-                            ...prev,
-                            workingDays: {
-                              ...prev.workingDays,
-                              [day]: !prev.workingDays[day],
-                            },
-                          }))
-                        }
-                      />
-                    ))}
-                  </View>
-                </View>
+          </View>
+        </View>
+        <View style={styles.formCard}>
+          <View style={styles.formSection}>
+            <Text style={styles.sectionTitle}>Restaurant Timings</Text>
+            <TouchableOpacity
+              style={styles.radioOption}
+              onPress={() => setTimingMode("sameTime")}
+            >
+              <View style={styles.radioCircle}>
+                {timingMode === "sameTime" && <View style={styles.radioFill} />}
+              </View>
+              <Text style={styles.radioText}>
+                I open and close my restaurant at the same time
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.radioOption}
+              onPress={() => setTimingMode("daywise")}
+            >
+              <View style={styles.radioCircle}>
+                {timingMode === "daywise" && <View style={styles.radioFill} />}
+              </View>
+              <Text style={styles.radioText}>
+                I've separate daywise timings.
+              </Text>
+            </TouchableOpacity>
+          </View>
+          
+          {timingMode === "sameTime" ? (
+            <View style={styles.row}>
+              <View style={styles.halfInputContainer}>
+                {renderInput("Opening Time", "openingTime", "9:00 AM", true)}
+              </View>
+              <View style={styles.halfInputContainer}>
+                {renderInput("Closing Time", "closingTime", "9:00 PM", true)}
               </View>
             </View>
-            <View style={styles.formCard}>
-              <View style={styles.formSection}>
-                {/* <View style={styles.radioGroup}> */}
-                <TouchableOpacity
-                  style={styles.radioOption}
-                  onPress={() => setTimingMode("sameTime")}
-                >
-                  <View style={styles.radioCircle}>
-                    {timingMode === "sameTime" && (
-                      <View style={styles.radioFill} />
-                    )}
-                  </View>
-                  <Text style={styles.radioText}>
-                    I open and close my restaurant at the same time
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.radioOption}
-                  onPress={() => setTimingMode("daywise")}
-                >
-                  <View style={styles.radioCircle}>
-                    {timingMode === "daywise" && (
-                      <View style={styles.radioFill} />
-                    )}
-                  </View>
-                  <Text style={styles.radioText}>
-                    I've separate daywise timings.
-                  </Text>
-                </TouchableOpacity>
-              </View>
-              {/* </View> */}
-              <View style={styles.row}>
-                <View style={styles.halfInputContainer}>
-                  {renderInput("Opening Time", "openingTime", "9:00 AM", true)}
-                </View>
-                <View style={styles.halfInputContainer}>
-                  {renderInput("Closing Time", "closingTime", "9:00 PM", true)}
-                </View>
-              </View>
+          ) : (
+            <View style={styles.daywiseTimingsContainer}>
+              {Object.keys(form.workingDays)
+                .filter(day => form.workingDays[day])
+                .map(day => renderDaywiseTimingInput(day))}
             </View>
-            <View style={styles.buttonContainer}>
-  <TouchableOpacity style={styles.cancelButton}>
-    <Text style={styles.cancelButtonText}>Cancel</Text>
-  </TouchableOpacity>
-  <TouchableOpacity style={styles.saveButton} >
-    <Text style={styles.saveButtonText}>Save</Text>
-  </TouchableOpacity>
-</View>
-
+          )}
+        </View>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.cancelButton}>
+            <Text style={styles.cancelButtonText}>Cancel</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.saveButton} onPress={handleSubmit}>
+            <Text style={styles.saveButtonText}>Save</Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#fff",
-      },
-      header: {
-        flexDirection: "row",
-        alignItems: "center",
-        padding: 16,
-      },
-      headerTitle: {
-        fontSize: RFPercentage(2),
-        marginLeft: 16,
-        fontWeight: "500",
-        fontFamily: "Poppins-SemiBold",
-      },
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 16,
+  },
+  headerTitle: {
+    fontWeight: "500",
+    fontSize: RFPercentage(2.5),
+    marginTop: RFPercentage(2),
+    fontFamily: "Poppins-SemiBold",
+  },
   scrollView: {
     flex: 1,
   },
@@ -467,6 +656,11 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     backgroundColor: "#E0E0E0",
   },
+  profileImage: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+  },
   addButton: {
     position: "absolute",
     right: 0,
@@ -482,6 +676,49 @@ const styles = StyleSheet.create({
     fontSize: RFPercentage(2),
     fontFamily: "Poppins-Medium",
     marginTop: 8,
+  },
+  // Modal styles
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContent: {
+    width: "80%",
+    backgroundColor: "white",
+    borderRadius: 12,
+    padding: 20,
+    alignItems: "center",
+  },
+  modalTitle: {
+    fontSize: RFPercentage(2.2),
+    fontFamily: "Poppins-SemiBold",
+    marginBottom: 20,
+  },
+  modalOption: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 12,
+    width: "100%",
+  },
+  modalOptionText: {
+    marginLeft: 15,
+    fontSize: RFPercentage(1.8),
+    fontFamily: "Poppins-Medium",
+  },
+  cancelModalButton: {
+    marginTop: 20,
+    paddingVertical: 10,
+    width: "100%",
+    alignItems: "center",
+    borderTopWidth: 1,
+    borderTopColor: "#E5E5E5",
+  },
+  cancelModalText: {
+    color: "#01615F",
+    fontSize: RFPercentage(1.8),
+    fontFamily: "Poppins-Medium",
   },
   content: {
     paddingHorizontal: 16,
@@ -517,13 +754,12 @@ const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between", 
+    justifyContent: "space-between",
   },
-
   image: {
-    width: 20, 
+    width: 20,
     height: 20,
-    marginLeft: 8, 
+    marginLeft: 8,
   },
   sectionSubtitle: {
     fontSize: RFPercentage(2),
@@ -652,7 +888,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     padding: 16,
   },
-  
   cancelButton: {
     backgroundColor: "#FFFFFF",
     borderWidth: 1,
@@ -664,13 +899,11 @@ const styles = StyleSheet.create({
     flex: 1,
     marginRight: 8,
   },
-  
   cancelButtonText: {
     color: "#01615F",
     fontSize: RFPercentage(2),
     fontFamily: "Poppins-Medium",
   },
-  
   saveButton: {
     backgroundColor: "#01615F",
     height: 48,
@@ -680,13 +913,11 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 8,
   },
-  
   saveButtonText: {
     color: "#FFFFFF",
     fontSize: RFPercentage(2),
     fontFamily: "Poppins-Medium",
   },
-  
   workingDaysHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -707,7 +938,51 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: RFPercentage(1.3),
   },
-  
+  // New styles for daywise timing
+  daywiseTimingsContainer: {
+    marginTop: 8,
+  },
+  daywiseTimingRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 12,
+    paddingHorizontal: 5,
+  },
+  dayLabel: {
+    width: 90,
+    fontSize: 14,
+    fontFamily: "Poppins-Medium",
+    color: "#333",
+  },
+  daywiseTimingInputs: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  timeInputContainer: {
+    flex: 1,
+  },
+  timeInput: {
+    height: 48,
+    borderWidth: 1,
+    borderColor: "#E5E5E5",
+    borderRadius: 8,
+    paddingHorizontal: 16,
+    fontSize: 14,
+    fontFamily: "Poppins-Regular",
+    backgroundColor: "#FFFFFF",
+  },
+  toText: {
+    marginHorizontal: 10,
+    fontSize: 14,
+    fontFamily: "Poppins-Regular",
+    color: "#333",
+  },
+
+
+
+ 
+ 
 });
 
 export default RegisterRestaurant;

@@ -20,9 +20,10 @@ const Home = () => {
   const [prepTime, setPrepTime] = useState(15);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
+  const orderNumber = "136558-19";
 
   const handleViewOrder = () => {
-    router.push('/Screens/ViewOrder');
+    router.push("/Screens/ViewOrder");
   };
 
   const handleConfirmOrder = (orderId) => {
@@ -43,31 +44,33 @@ const Home = () => {
   };
 
   const confirmPreparationTime = () => {
-    console.log(`Order ${selectedOrderId} confirmed with preparation time: ${prepTime} minutes`);
+    console.log(
+      `Order ${selectedOrderId} confirmed with preparation time: ${prepTime} minutes`
+    );
     setModalVisible(false);
-    router.push('/Screens/ViewOrder')
+    router.push("/Screens/ViewOrder");
   };
 
   const navigateToOrdersToday = () => {
-    router.push('/Screens/OrdersToday')
-  }
+    router.push("/Screens/OrdersToday");
+  };
 
   const navigateToAvgRating = () => {
-    router.push('/Screens/RatingReview')
-  }
+    router.push("/Screens/RatingReview");
+  };
 
   const navigateToPayments = () => {
-    router.push('/(tabstwo)/payment')
-  }
+    router.push("/(tabstwo)/payment");
+  };
 
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
       <LocationHeader />
-      <SearchBarVoice 
-        onInputPress={() => {}} 
-        redirectTargets={["Dishes", "Restaurants"]} 
-        placeholder="Search...." 
+      <SearchBarVoice
+        onInputPress={() => {}}
+        redirectTargets={["Dishes", "Restaurants"]}
+        placeholder="Search...."
       />
       <ScrollView
         contentContainerStyle={styles.scrollContent}
@@ -76,14 +79,20 @@ const Home = () => {
         <View style={styles.cardContainer}>
           <TouchableOpacity onPress={navigateToOrdersToday} style={styles.card}>
             <View style={styles.imageContainer}>
-              <Image source={require("../../assets/images/order-1.png")} style={styles.icon} />
+              <Image
+                source={require("../../assets/images/order-1.png")}
+                style={styles.icon}
+              />
             </View>
             <Text style={styles.label}>Orders Today</Text>
             <Text style={styles.value}>20</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.card} onPress={navigateToAvgRating}>
             <View style={styles.imageContainer}>
-              <Image source={require("../../assets/images/Star.png")} style={styles.icon} />
+              <Image
+                source={require("../../assets/images/Star.png")}
+                style={styles.icon}
+              />
             </View>
             <Text style={styles.label}>Average Rating</Text>
             <Text style={styles.value}>₹500</Text>
@@ -92,7 +101,10 @@ const Home = () => {
         <View style={styles.singleCardContainer}>
           <TouchableOpacity style={styles.card} onPress={navigateToPayments}>
             <View style={styles.imageContainer}>
-              <Image source={require("../../assets/images/cash.png")} style={styles.icon} />
+              <Image
+                source={require("../../assets/images/cash.png")}
+                style={styles.icon}
+              />
             </View>
             <Text style={styles.label}>Pending Payments</Text>
             <Text style={styles.value}>2</Text>
@@ -112,16 +124,24 @@ const Home = () => {
           <View style={styles.orderCard}>
             <View style={styles.orderHeader}>
               <View>
-                <Text style={styles.orderId}>Order ID: #136558-19</Text>
-                <Text style={styles.orderTime}>05:16 PM | 2 items for ₹500</Text>
+                <Text style={styles.orderId}>
+                  Order ID:{" "}
+                  <Text style={styles.orderNumber}>#{orderNumber}</Text>
+                </Text>
+                <Text style={styles.orderTime}>
+                  05:16 PM | 2 items for ₹500
+                </Text>
               </View>
               <Text style={styles.orderAmount}>₹500</Text>
             </View>
             <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.viewButton} onPress={handleViewOrder}>
+              <TouchableOpacity
+                style={styles.viewButton}
+                onPress={handleViewOrder}
+              >
                 <Text style={styles.viewButtonText}>View Order</Text>
               </TouchableOpacity>
-              <TouchableOpacity 
+              <TouchableOpacity
                 style={styles.confirmButton}
                 onPress={() => handleConfirmOrder("#136558-19")}
               >
@@ -137,13 +157,21 @@ const Home = () => {
                 <View style={styles.statusRow}>
                   <Text style={styles.status}>🚚 Order Delivered</Text>
                 </View>
-                <Text style={styles.orderId}>Order ID: #136558-19</Text>
-                <Text style={styles.orderTime}>05:16 PM | 2 items for ₹500</Text>
+                <Text style={styles.orderId}>
+                  Order ID:{" "}
+                  <Text style={styles.orderNumber}>#{orderNumber}</Text>
+                </Text>
+                <Text style={styles.orderTime}>
+                  05:16 PM | 2 items for ₹500
+                </Text>
               </View>
               <Text style={styles.orderAmount}>₹500</Text>
             </View>
-          
-            <TouchableOpacity style={styles.singleButton} onPress={handleViewOrder}>
+
+            <TouchableOpacity
+              style={styles.singleButton}
+              onPress={handleViewOrder}
+            >
               <Text style={styles.viewButtonText}>View Order</Text>
             </TouchableOpacity>
           </View>
@@ -155,13 +183,21 @@ const Home = () => {
                 <View style={styles.statusRow}>
                   <Text style={styles.status}>📦 Packing</Text>
                 </View>
-                <Text style={styles.orderId}>Order ID: #136558-19</Text>
-                <Text style={styles.orderTime}>05:16 PM | 2 items for ₹500</Text>
+                <Text style={styles.orderId}>
+                  Order ID:{" "}
+                  <Text style={styles.orderNumber}>#{orderNumber}</Text>
+                </Text>
+                <Text style={styles.orderTime}>
+                  05:16 PM | 2 items for ₹500
+                </Text>
               </View>
               <Text style={styles.orderAmount}>₹500</Text>
             </View>
             <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.viewButton} onPress={handleViewOrder}>
+              <TouchableOpacity
+                style={styles.viewButton}
+                onPress={handleViewOrder}
+              >
                 <Text style={styles.viewButtonText}>View Order</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.actionButton}>
@@ -174,13 +210,21 @@ const Home = () => {
           <View style={styles.orderCard}>
             <View style={styles.orderHeader}>
               <View>
-                <Text style={styles.orderId}>Order ID: #136558-19</Text>
-                <Text style={styles.orderTime}>05:16 PM | 2 items for ₹500</Text>
+              <Text style={styles.orderId}>
+                  Order ID:{" "}
+                  <Text style={styles.orderNumber}>#{orderNumber}</Text>
+                </Text>
+                <Text style={styles.orderTime}>
+                  05:16 PM | 2 items for ₹500
+                </Text>
               </View>
               <Text style={styles.orderAmount}>₹500</Text>
             </View>
             <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.viewButton} onPress={handleViewOrder}>
+              <TouchableOpacity
+                style={styles.viewButton}
+                onPress={handleViewOrder}
+              >
                 <Text style={styles.viewButtonText}>View Order</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.actionButton}>
@@ -200,29 +244,31 @@ const Home = () => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalTitle}>How long will this take to prepare?</Text>
-            
+            <Text style={styles.modalTitle}>
+              How long will this take to prepare?
+            </Text>
+
             <View style={styles.timeSelector}>
-              <TouchableOpacity 
-                style={styles.timeButton} 
+              <TouchableOpacity
+                style={styles.timeButton}
                 onPress={decrementPrepTime}
               >
                 <Text style={styles.timeButtonText}>-</Text>
               </TouchableOpacity>
-              
+
               <View style={styles.timeDisplay}>
                 <Text style={styles.timeText}>{prepTime} MINS</Text>
               </View>
-              
-              <TouchableOpacity 
-                style={styles.timeButton} 
+
+              <TouchableOpacity
+                style={styles.timeButton}
                 onPress={incrementPrepTime}
               >
                 <Text style={styles.timeButtonText}>+</Text>
               </TouchableOpacity>
             </View>
-            
-            <TouchableOpacity 
+
+            <TouchableOpacity
               style={styles.doneButton}
               onPress={confirmPreparationTime}
             >
@@ -263,7 +309,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#01615F",
     borderRadius: 12,
     padding: 16,
-    width: "48%", 
+    width: "48%",
     alignItems: "center",
   },
   imageContainer: {
@@ -319,8 +365,12 @@ const styles = StyleSheet.create({
   },
   orderId: {
     fontSize: 14,
-    fontWeight: "500",
+    fontWeight: "700",
     color: "#000",
+  },
+  orderNumber: {
+    color: "#01615F",
+    fontWeight: "700",
   },
   orderTime: {
     fontSize: RFPercentage(2),
@@ -376,7 +426,7 @@ const styles = StyleSheet.create({
   },
   status: {
     fontSize: 14,
-    fontWeight: "500",
+    fontWeight: "700",
     color: "#01615F",
   },
   preparingStatus: {
@@ -395,7 +445,7 @@ const styles = StyleSheet.create({
     borderColor: "#01615F",
     alignItems: "center",
   },
-  
+
   // Modal styles
   centeredView: {
     flex: 1,

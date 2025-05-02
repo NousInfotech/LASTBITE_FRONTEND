@@ -16,6 +16,7 @@ import * as Font from "expo-font";
 import { router } from "expo-router";
 import { useCreateRestaurant } from "@/api/queryHooks";
 import * as ImagePicker from "expo-image-picker";
+import * as DocumentPicker from "expo-document-picker";
 import { RFPercentage } from "react-native-responsive-fontsize";
 
 const RegisterRestaurant = () => {
@@ -59,6 +60,7 @@ const RegisterRestaurant = () => {
     kindOfFood: selectedFoodType,
     cuisines: selectedCuisines,
     packingCharges: 0,
+    menuFile: null,
   });
 
   const mutation = useCreateRestaurant();
@@ -85,9 +87,9 @@ const RegisterRestaurant = () => {
   const toggleCuisine = (cuisine) => {
     setSelectedCuisines((prev) => {
       const updatedCuisines = prev.includes(cuisine)
-        ? prev.filter((item) => item !== cuisine) 
-        : [...prev, cuisine]; 
-      setForm((formPrev) => ({ ...formPrev, cuisines: updatedCuisines })); 
+        ? prev.filter((item) => item !== cuisine)
+        : [...prev, cuisine];
+      setForm((formPrev) => ({ ...formPrev, cuisines: updatedCuisines }));
       return updatedCuisines;
     });
   };
@@ -118,6 +120,7 @@ const RegisterRestaurant = () => {
 
     mutation.mutate(formattedForm, {
       onSuccess: (response) => {
+        Alert.alert("Success", "Restaurant menu setup successfully!");
         router.push("/(tabstwo)/home");
       },
       onError: (error) => {
@@ -128,7 +131,7 @@ const RegisterRestaurant = () => {
 
   const handleContinue = (): void => {
     let requiredFields: string[] = [];
-  
+
     if (activeStep === 1) {
       requiredFields = [
         "ownerName",
@@ -144,35 +147,89 @@ const RegisterRestaurant = () => {
         "closingTime",
       ];
     } else if (activeStep === 2) {
-      requiredFields = ["ownerPanNo", "bankIfscCode", "bankAccountNumber", "fssaiCertificateNo"];
+      requiredFields = [
+        "ownerPanNo",
+        "bankIfscCode",
+        "bankAccountNumber",
+        "fssaiCertificateNo",
+      ];
     } else if (activeStep === 3) {
       requiredFields = ["kindOfFood"];
     }
-  
+
     if (!form || typeof form !== "object") {
       Alert.alert("Error", "Form data is invalid");
       return;
     }
-  
+
     const isFormValid: boolean = requiredFields.every((field) => {
       const value = form[field as keyof typeof form];
       return typeof value === "string" && value.trim() !== "";
     });
-  
-  
+
     if (!isFormValid) {
       Alert.alert("Error", "Please fill all mandatory fields");
       return;
     }
-  
+
     if (activeStep < 4) {
       setActiveStep((prevStep: number) => prevStep + 1);
     } else {
       handleSubmit();
     }
   };
-  
+
   const handleChooseFile = async () => {
+    try {
+      // Using DocumentPicker for various file types
+      const result = await DocumentPicker.getDocumentAsync({
+        type: [
+          "image/jpeg",
+          "image/png",
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // docx
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // xlsx
+          "application/pdf",
+        ],
+        copyToCacheDirectory: true,
+      });
+
+      if (
+        result.canceled === false &&
+        result.assets &&
+        result.assets.length > 0
+      ) {
+        const asset = result.assets[0];
+
+        // Check file size (25MB limit)
+        const fileSizeInMB = asset.size / (1024 * 1024);
+        if (fileSizeInMB > 25) {
+          Alert.alert("File Too Large", "Please select a file under 25MB");
+          return;
+        }
+
+        // Set the file name to display
+        setChosenFile(asset.name);
+
+        // Store the file details in the form
+        setForm((prev) => ({
+          ...prev,
+          menuFile: {
+            uri: asset.uri,
+            name: asset.name,
+            type: asset.mimeType,
+            size: asset.size,
+          },
+        }));
+
+        Alert.alert("Success", "Menu file uploaded successfully!");
+      }
+    } catch (error) {
+      console.error("Error picking document:", error);
+      Alert.alert("Error", "Failed to upload file. Please try again.");
+    }
+  };
+
+  const handleChooseImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
     if (status !== "granted") {
@@ -184,14 +241,14 @@ const RegisterRestaurant = () => {
     }
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true, 
-      quality: 1, 
+      allowsEditing: true,
+      quality: 1,
     });
 
     if (!result.canceled) {
       setForm((prev) => ({
         ...prev,
-        profilePhoto: result.assets[0].uri, 
+        profilePhoto: result.assets[0].uri,
       }));
     }
   };
@@ -200,14 +257,14 @@ const RegisterRestaurant = () => {
     label: string,
     field: keyof typeof form,
     placeholder?: string,
-    required?: boolean 
+    required?: boolean
   ) => (
     <View style={styles.inputContainer}>
       <Text style={styles.label}>
         {label} {required && <Text style={styles.required}>*</Text>}
       </Text>
       <TextInput
-        value={form[field]} 
+        value={form[field]}
         onChangeText={(text) => setForm((prev) => ({ ...prev, [field]: text }))} // Update state
         placeholder={placeholder || `Enter ${label}`} // Default placeholder
         style={styles.input}
@@ -215,6 +272,42 @@ const RegisterRestaurant = () => {
       />
     </View>
   );
+
+  const handleSave = () => {
+    // Validate required fields
+    if (!form.category) {
+      Alert.alert("Error", "Please enter a category name");
+      return;
+    }
+
+    if (!selectedFoodType) {
+      Alert.alert("Error", "Please select the kind of food");
+      return;
+    }
+
+    if (selectedCuisines.length === 0) {
+      Alert.alert("Error", "Please select at least one cuisine");
+      return;
+    }
+
+    if (selectedOption === null) {
+      Alert.alert("Error", "Please select packaging charges option");
+      return;
+    }
+
+    // If validation passes, save the data
+    setForm((prev) => ({
+      ...prev,
+      packingCharges:
+        selectedOption === "Zero"
+          ? 0
+          : selectedOption === "Fixed (Order Level Packing)"
+          ? 20
+          : 5,
+    }));
+
+    handleSubmit();
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -225,167 +318,169 @@ const RegisterRestaurant = () => {
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Menu SetUp</Text>
         </View>
-        
-          <>
-            <View style={styles.formCard}>
-              <Text style={styles.sectionTitle}>Upload your menu</Text>
-              <View style={styles.inputContainer_A}>
+
+        <>
+          <View style={styles.formCard}>
+            <Text style={styles.sectionTitle}>Upload your menu</Text>
+            <View style={styles.inputContainer_A}>
+              <TouchableOpacity
+                style={styles.uploadButton}
+                onPress={handleChooseFile}
+              >
+                <Text style={styles.uploadButtonText}>Upload File</Text>
+              </TouchableOpacity>
+              <Text style={styles.fileName}>
+                {chosenFile ? chosenFile : "Choose a File"}
+              </Text>
+            </View>
+
+            <Text style={styles.requirementsTitle}>Requirements:</Text>
+            <View style={styles.requirementsList}>
+              <Text style={styles.bulletPoint}>
+                • Upload clear menu card photos or as a word/excel file.
+              </Text>
+              <Text style={styles.bulletPoint}>
+                • Item names and prices should be readable.
+              </Text>
+              <Text style={styles.bulletPoint}>
+                • Menu should be in English only.
+              </Text>
+              <Text style={styles.bulletPoint}>
+                • Every item should have a price mentioned against it.
+              </Text>
+              <Text style={styles.bulletPoint}>
+                • Max file size: 25 MB (.jpg, .png, .docx, .xlsx, .pdf).
+              </Text>
+            </View>
+
+            <Text style={styles.sectionTitle}>Add Category</Text>
+            <Text style={styles.sectionSubtitle}>
+              Add a category to classify your products.
+            </Text>
+
+            {renderInput("Category", "category", "Enter category", true)}
+          </View>
+
+          <View style={styles.formCard}>
+            <Text style={styles.sectionTitle}>
+              What kind of food is on your menu?{" "}
+            </Text>
+            <View style={styles.radioGroupNew}>
+              {foodTypes.map((type) => (
                 <TouchableOpacity
-                  style={styles.uploadButton}
-                  // onPress={handleChooseFile}
+                  key={type}
+                  style={styles.radioButton}
+                  onPress={() => {
+                    setSelectedFoodType(type);
+                    setForm((prev) => ({ ...prev, kindOfFood: type }));
+                  }}
                 >
-                  <Text style={styles.uploadButtonText}>Upload File</Text>
+                  <View style={styles.radioCircle}>
+                    {selectedFoodType === type && (
+                      <View style={styles.radioFill} />
+                    )}
+                  </View>
+                  <Text style={styles.radioText}>{type}</Text>
                 </TouchableOpacity>
-                <Text style={styles.fileName}>
-                  {chosenFile ? chosenFile : "Choose a File"}
-                </Text>
-              </View>
-
-              <Text style={styles.requirementsTitle}>Requirements:</Text>
-              <View style={styles.requirementsList}>
-                <Text style={styles.bulletPoint}>
-                  • Upload clear menu card photos or as a word/excel file.
-                </Text>
-                <Text style={styles.bulletPoint}>
-                  • Item names and prices should be readable.
-                </Text>
-                <Text style={styles.bulletPoint}>
-                  • Menu should be in English only.
-                </Text>
-                <Text style={styles.bulletPoint}>
-                  • Every item should have a price mentioned against it.
-                </Text>
-                <Text style={styles.bulletPoint}>
-                  • Max file size: 25 MB (.jpg, .png, .docx, .xlsx, .pdf).
-                </Text>
-              </View>
-
-              <Text style={styles.sectionTitle}>Add Category</Text>
-              <Text style={styles.sectionSubtitle}>
-                Add a category to classify your products.
-              </Text>
-
-              {renderInput("Category", "category", "Enter category", true)}
+              ))}
             </View>
+          </View>
 
-            <View style={styles.formCard}>
-              <Text style={styles.sectionTitle}>
-                What kind of food is on your menu?{" "}
-              </Text>
-              <View style={styles.radioGroupNew}>
-                {foodTypes.map((type) => (
-                  <TouchableOpacity
-                    key={type}
-                    style={styles.radioButton}
-                    onPress={() => {
-                      setSelectedFoodType(type);
-                      setForm((prev) => ({ ...prev, kindOfFood: type }));
-                    }}
-                  >
-                    <View style={styles.radioCircle}>
-                      {selectedFoodType === type && (
-                        <View style={styles.radioFill} />
-                      )}
-                    </View>
-                    <Text style={styles.radioText}>{type}</Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
-            </View>
-
-            {/* Cuisine Selection */}
-            <View style={styles.formCard}>
-              <Text style={styles.sectionTitle}>
-                Add cuisines <Text style={styles.required}>*</Text>
-              </Text>
-              <View style={styles.chipContainer}>
-                {cuisines.map((cuisine) => (
-                  <TouchableOpacity
-                    key={cuisine}
+          {/* Cuisine Selection */}
+          <View style={styles.formCard}>
+            <Text style={styles.sectionTitle}>
+              Add cuisines <Text style={styles.required}>*</Text>
+            </Text>
+            <View style={styles.chipContainer}>
+              {cuisines.map((cuisine) => (
+                <TouchableOpacity
+                  key={cuisine}
+                  style={[
+                    styles.chip,
+                    selectedCuisines.includes(cuisine) && styles.selectedChip,
+                  ]}
+                  onPress={() => toggleCuisine(cuisine)}
+                >
+                  <Text
                     style={[
-                      styles.chip,
-                      selectedCuisines.includes(cuisine) && styles.selectedChip,
+                      styles.chipText,
+                      selectedCuisines.includes(cuisine) &&
+                        styles.selectedChipText,
                     ]}
-                    onPress={() => toggleCuisine(cuisine)}
                   >
-                    <Text
-                      style={[
-                        styles.chipText,
-                        selectedCuisines.includes(cuisine) &&
-                          styles.selectedChipText,
-                      ]}
-                    >
-                      {cuisine} {selectedCuisines.includes(cuisine) && "✕"}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
+                    {cuisine} {selectedCuisines.includes(cuisine) && "✕"}
+                  </Text>
+                </TouchableOpacity>
+              ))}
             </View>
+          </View>
 
-            <View style={styles.formCard}>
-              <Text style={styles.sectionTitle}>
-                Packaging Charges <Text style={styles.required}>*</Text>
-              </Text>
-              <Text style={styles.sectionSubtitle}>
-                Not applicable on Indian Breads, MRP Items, Packaged Beverages
-                (Soft drinks, Water Bottle)
-              </Text>
+          <View style={styles.formCard}>
+            <Text style={styles.sectionTitle}>
+              Packaging Charges <Text style={styles.required}>*</Text>
+            </Text>
+            <Text style={styles.sectionSubtitle}>
+              Not applicable on Indian Breads, MRP Items, Packaged Beverages
+              (Soft drinks, Water Bottle)
+            </Text>
 
-              {/* Options */}
-              <View style={styles.optionsContainer}>
-                {options.map((option) => (
-                  <TouchableOpacity
-                    key={option}
+            {/* Options */}
+            <View style={styles.optionsContainer}>
+              {options.map((option) => (
+                <TouchableOpacity
+                  key={option}
+                  style={[
+                    styles.optionButton,
+                    selectedOption === option && styles.selectedOption,
+                  ]}
+                  onPress={() => setSelectedOption(option)}
+                >
+                  <Text
                     style={[
-                      styles.optionButton,
-                      selectedOption === option && styles.selectedOption,
+                      styles.optionText,
+                      selectedOption === option && styles.selectedOptionText,
                     ]}
-                    onPress={() => setSelectedOption(option)}
                   >
-                    <Text
-                      style={[
-                        styles.optionText,
-                        selectedOption === option && styles.selectedOptionText,
-                      ]}
-                    >
-                      {option}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
+                    {option}
+                  </Text>
+                </TouchableOpacity>
+              ))}
             </View>
-          </>
-       
-          <View style={styles.buttonContainer}>
-  <TouchableOpacity style={styles.cancelButton}>
-    <Text style={styles.cancelButtonText}>Cancel</Text>
-  </TouchableOpacity>
-  <TouchableOpacity style={styles.saveButton}>
-    <Text style={styles.saveButtonText}>Save</Text>
-  </TouchableOpacity>
-</View>
+          </View>
+        </>
 
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={styles.cancelButton}
+            onPress={() => router.back()}
+          >
+            <Text style={styles.cancelButtonText}>Cancel</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+            <Text style={styles.saveButtonText}>Save</Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#fff",
-      },
-      header: {
-        flexDirection: "row",
-        alignItems: "center",
-        padding: 16,
-      },
-      headerTitle: {
-        fontSize: RFPercentage(2),
-        marginLeft: 16,
-        fontWeight: "500",
-        fontFamily: "Poppins-SemiBold",
-      },
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 16,
+  },
+  headerTitle: {
+    fontWeight: "500",
+    fontSize: RFPercentage(2.5),
+    marginTop: RFPercentage(2),
+    fontFamily: "Poppins-SemiBold",
+  },
   scrollView: {
     flex: 1,
   },
@@ -393,7 +488,7 @@ const styles = StyleSheet.create({
   backButton: {
     marginBottom: 8,
   },
-  
+
   formCard: {
     backgroundColor: "#FFFFFF",
     margin: 16,
@@ -426,13 +521,13 @@ const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between", 
+    justifyContent: "space-between",
   },
 
   image: {
     width: 20,
     height: 20,
-    marginLeft: 8, 
+    marginLeft: 8,
   },
   sectionSubtitle: {
     fontSize: RFPercentage(2),
@@ -561,7 +656,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     padding: 16,
   },
-  
+
   cancelButton: {
     backgroundColor: "#FFFFFF",
     borderWidth: 1,
@@ -573,13 +668,13 @@ const styles = StyleSheet.create({
     flex: 1,
     marginRight: 8,
   },
-  
+
   cancelButtonText: {
     color: "#01615F",
     fontSize: RFPercentage(2),
     fontFamily: "Poppins-Medium",
   },
-  
+
   saveButton: {
     backgroundColor: "#01615F",
     height: 48,
@@ -589,13 +684,13 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 8,
   },
-  
+
   saveButtonText: {
     color: "#FFFFFF",
     fontSize: RFPercentage(2),
     fontFamily: "Poppins-Medium",
   },
-  
+
   workingDaysHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -618,7 +713,7 @@ const styles = StyleSheet.create({
   },
   categoryHeader: {
     flexDirection: "row",
-    justifyContent: "space-between", 
+    justifyContent: "space-between",
     alignItems: "center",
   },
   categoryButton: {

@@ -12,6 +12,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import GoBack from "@/components/GoBack";
 import { RFPercentage } from "react-native-responsive-fontsize";
+import { useRouter } from "expo-router";
 
 export default function OrdersScreen() {
   const [activeTab, setActiveTab] = useState("All");
@@ -176,11 +177,21 @@ export default function OrdersScreen() {
     }
   };
 
+  const router = useRouter();
+
+  const handleViewOrder = () => {
+    router.push('/Screens/ViewOrder');
+  };
+
+
   const renderOrderCard = ({ item, index }) => {
     // Determine if we need to show the action button
     // We don't show the button for "Delivered" status as that's the final status
     const isDelivered = item.status === "Delivered";
     
+
+    
+  
     return (
       <View style={styles.orderCard}>
         {getStatusIcon(item.status)}
@@ -201,7 +212,7 @@ export default function OrdersScreen() {
           {item.date} | {item.items} items for ₹{item.total}.0
         </Text>
         <View style={styles.actionButtons}>
-          <TouchableOpacity style={styles.viewButton}>
+          <TouchableOpacity style={styles.viewButton} onPress={handleViewOrder}>
             <Text style={styles.viewButtonText}>View Order</Text>
           </TouchableOpacity>
 

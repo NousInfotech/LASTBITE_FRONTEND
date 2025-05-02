@@ -89,6 +89,13 @@ const RegisterRestaurant = () => {
     loadFonts();
   }, []);
 
+  // Add effect to clear GSTIN when noGST is checked
+  useEffect(() => {
+    if (noGST) {
+      setForm(prev => ({ ...prev, gstinNo: "" }));
+    }
+  }, [noGST]);
+
   if (!fontsLoaded) {
     return null;
   }
@@ -146,6 +153,10 @@ const RegisterRestaurant = () => {
       ];
     } else if (activeStep === 2) {
       requiredFields = ["ownerPanNo", "bankIfscCode", "bankAccountNumber", "fssaiCertificateNo"];
+      // Don't require GSTIN if noGST is checked
+      if (!noGST) {
+        requiredFields.push("gstinNo");
+      }
     } else if (activeStep === 3) {
       requiredFields = ["kindOfFood"];
     }
@@ -236,10 +247,12 @@ const RegisterRestaurant = () => {
                 true
               )}
               {/* <Text style={styles.cardHolderText}>Card Holder: xoyyzz</Text> */}
-              {renderInput("GSTIN", "gstinNo", "Enter GSTIN", false)}
+              
+              {/* Only show GSTIN input if noGST is false */}
+              {!noGST && renderInput("GSTIN", "gstinNo", "Enter GSTIN", false)}
 
               <CustomCheckbox
-                label="I don’t have a GST Number"
+                label="I don't have a GST Number"
                 checked={noGST}
                 onPress={() => setNoGST(!noGST)}
               />
@@ -313,7 +326,7 @@ const RegisterRestaurant = () => {
             >
               <Text style={styles.closeButtonText}>✕</Text>
             </TouchableOpacity>
-            ``
+            
             <Text style={styles.modalTitle}>Select your outlet type</Text>
             {/* Category Options */}
             {categories.map((category, index) => (
@@ -352,8 +365,8 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   headerTitle: {
-    fontSize: RFPercentage(2),
-    marginLeft: 16,
+    fontSize: RFPercentage(2.5),
+    marginTop: RFPercentage(2),
     fontWeight: "500",
     fontFamily: "Poppins-SemiBold",
   },

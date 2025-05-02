@@ -286,8 +286,8 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: RFPercentage(2.5),
-    marginLeft: 16,
-    fontWeight: "600",
+    marginTop: RFPercentage(2),
+    fontWeight: "500",
     fontFamily: "Poppins-SemiBold",
   },
   Content: {

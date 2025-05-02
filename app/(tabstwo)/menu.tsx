@@ -415,7 +415,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   headerTitle: {
-    fontSize: RFPercentage(2),
+    fontSize: RFPercentage(2.5),
+    marginTop: RFPercentage(2),
     fontWeight: "500",
     fontFamily: "Poppins-SemiBold",
     flex: 1,

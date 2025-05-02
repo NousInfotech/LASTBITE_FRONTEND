@@ -8,16 +8,21 @@ import {
   StyleSheet,
   ScrollView,
   Image,
+  Modal,
+  Alert,
 } from "react-native";
 import GoBack from "@/components/GoBack";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
 import { AntDesign, Entypo } from "@expo/vector-icons";
 import { RFPercentage } from "react-native-responsive-fontsize";
+import * as ImagePicker from "expo-image-picker";
 
 const ProfileScreen = () => {
   const router = useRouter();
   const [fontsLoaded, setFontsLoaded] = useState(false);
+  const [profileImage, setProfileImage] = useState(null);
+  const [showOptions, setShowOptions] = useState(false);
 
   useEffect(() => {
     async function loadFonts() {
@@ -31,6 +36,52 @@ const ProfileScreen = () => {
 
     loadFonts();
   }, []);
+
+  const pickImage = async () => {
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 0.7,
+      });
+
+      if (!result.canceled) {
+        setProfileImage(result.assets[0].uri);
+      }
+    } catch (error) {
+      console.log("Error picking image:", error);
+      Alert.alert("Error", "Failed to pick image from gallery");
+    }
+    setShowOptions(false);
+  };
+
+  const takePicture = async () => {
+    try {
+      const { status } = await ImagePicker.requestCameraPermissionsAsync();
+      if (status !== "granted") {
+        Alert.alert(
+          "Camera Permission",
+          "Please grant camera permission to take pictures"
+        );
+        return;
+      }
+      
+      const result = await ImagePicker.launchCameraAsync({
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 0.7,
+      });
+      
+      if (!result.canceled) {
+        setProfileImage(result.assets[0].uri);
+      }
+    } catch (error) {
+      console.log("Error taking picture:", error);
+      Alert.alert("Error", "Failed to capture image");
+    }
+    setShowOptions(false);
+  };
 
   if (!fontsLoaded) {
     return null;
@@ -47,36 +98,89 @@ const ProfileScreen = () => {
       </View>
       <View style={styles.profileCard}>
         <View style={styles.profileImageContainer}>
-          <View style={styles.profileImagePlaceholder} />
-          <TouchableOpacity style={styles.addButton}>
+          {profileImage ? (
+            <Image source={{ uri: profileImage }} style={styles.profileImage} />
+          ) : (
+            <View style={styles.profileImagePlaceholder} />
+          )}
+          <TouchableOpacity
+            style={styles.addButton}
+            onPress={() => setShowOptions(true)}
+          >
             <Entypo name="camera" size={13} color="#fff" />
           </TouchableOpacity>
         </View>
         <Text style={styles.profileName}>Lorem Ipsum</Text>
       </View>
       <ScrollView style={styles.content}>
-        <TouchableOpacity style={styles.sectionBox} onPress={() => router.push("/Screens/ProfileEdit")}
+        <TouchableOpacity
+          style={styles.sectionBox}
+          onPress={() => router.push("/Screens/ProfileEdit")}
         >
           <Text style={styles.sectionTitle}>Restaurant Information</Text>
           <AntDesign name="right" size={16} color="#757575" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.sectionBox} onPress={() => router.push("/Screens/RestaurantDocuments")}>
+        <TouchableOpacity
+          style={styles.sectionBox}
+          onPress={() => router.push("/Screens/RestaurantDocuments")}
+        >
           <Text style={styles.sectionTitle}>Restaurant Documents</Text>
           <AntDesign name="right" size={16} color="#757575" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.sectionBox} onPress={() => router.push("/Screens/MenuSetUp")}>
+        <TouchableOpacity
+          style={styles.sectionBox}
+          onPress={() => router.push("/Screens/MenuSetUp")}
+        >
           <Text style={styles.sectionTitle}>Menu Set-up</Text>
           <AntDesign name="right" size={16} color="#757575" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.sectionBox} onPress={() => router.push("/Screens/PartnerContract")}>
+        <TouchableOpacity
+          style={styles.sectionBox}
+          onPress={() => router.push("/Screens/PartnerContract")}
+        >
           <Text style={styles.sectionTitle}>Partner Contract</Text>
           <AntDesign name="right" size={16} color="#757575" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.sectionBox} onPress={() => router.push("/Screens/RatingReview")}>
+        <TouchableOpacity
+          style={styles.sectionBox}
+          onPress={() => router.push("/Screens/RatingReview")}
+        >
           <Text style={styles.sectionTitle}>Reviews and Ratings</Text>
           <AntDesign name="right" size={16} color="#757575" />
         </TouchableOpacity>
       </ScrollView>
+
+      {/* Image Picker Options Modal */}
+      <Modal
+        transparent={true}
+        visible={showOptions}
+        animationType="slide"
+        onRequestClose={() => setShowOptions(false)}
+      >
+        <TouchableOpacity
+          style={styles.modalOverlay}
+          activeOpacity={1}
+          onPress={() => setShowOptions(false)}
+        >
+          <View style={styles.optionsContainer}>
+            <Text style={styles.optionsTitle}>Select Restaurant Logo</Text>
+            <TouchableOpacity style={styles.optionButton} onPress={pickImage}>
+              <Entypo name="images" size={22} color="#01615F" />
+              <Text style={styles.optionText}>Upload from Gallery</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.optionButton} onPress={takePicture}>
+              <Entypo name="camera" size={22} color="#01615F" />
+              <Text style={styles.optionText}>Take a Picture</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.optionButton, styles.cancelButton]}
+              onPress={() => setShowOptions(false)}
+            >
+              <Text style={styles.cancelText}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </TouchableOpacity>
+      </Modal>
     </SafeAreaView>
   );
 };
@@ -92,9 +196,9 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   headerTitle: {
-    fontSize: RFPercentage(2),
-    marginLeft: 16,
-    fontWeight: "500",
+    fontWeight: '500',
+    fontSize: RFPercentage(2.5),
+    marginTop: RFPercentage(2),
     fontFamily: "Poppins-SemiBold",
   },
   profileCard: {
@@ -109,6 +213,11 @@ const styles = StyleSheet.create({
     height: 80,
     borderRadius: 40,
     backgroundColor: "#E0E0E0",
+  },
+  profileImage: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
   },
   addButton: {
     position: "absolute",
@@ -148,6 +257,49 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: RFPercentage(2),
     fontFamily: "Poppins-Medium",
+  },
+  
+  // Modal styles
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    justifyContent: "flex-end",
+  },
+  optionsContainer: {
+    backgroundColor: "#fff",
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+    padding: 20,
+  },
+  optionsTitle: {
+    fontSize: RFPercentage(2.2),
+    fontFamily: "Poppins-SemiBold",
+    textAlign: "center",
+    marginBottom: 20,
+  },
+  optionButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ECECEC",
+  },
+  optionText: {
+    fontSize: RFPercentage(2),
+    fontFamily: "Poppins-Medium",
+    marginLeft: 15,
+    color: "#333",
+  },
+  cancelButton: {
+    justifyContent: "center",
+    borderBottomWidth: 0,
+    marginTop: 10,
+  },
+  cancelText: {
+    fontSize: RFPercentage(2),
+    fontFamily: "Poppins-Medium",
+    color: "#FF5858",
+    textAlign: "center",
   },
 });
 

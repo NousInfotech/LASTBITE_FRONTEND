@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   StyleSheet,
   View,
@@ -8,6 +8,8 @@ import {
   FlatList,
   StatusBar,
   ScrollView,
+  Modal,
+  TouchableWithoutFeedback,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import GoBack from "@/components/GoBack";
@@ -15,6 +17,8 @@ import { RFPercentage } from "react-native-responsive-fontsize";
 
 export default function OrdersScreen() {
   const [activeTab, setActiveTab] = useState("All");
+  const [filterDropdownVisible, setFilterDropdownVisible] = useState(false);
+  const [activeFilter, setActiveFilter] = useState("All Time");
   
   const tabs = [
     "All",
@@ -24,6 +28,14 @@ export default function OrdersScreen() {
     "Hand Over",
     "Picked",
     "Delivered",
+  ];
+
+  const filterOptions = [
+    "Today",
+    "Weekly",
+    "Monthly",
+    "Yearly",
+    "Reset"
   ];
 
   // Define the status sequence
@@ -49,7 +61,8 @@ export default function OrdersScreen() {
   const [orders, setOrders] = useState([
     {
       id: "#136558-19",
-      date: "05/19 PM",
+      time: "05:19 PM",
+      date: "30/04/2024",
       items: 3,
       total: 300,
       status: "Order Packed",
@@ -57,7 +70,8 @@ export default function OrdersScreen() {
     },
     {
       id: "#136558-20",
-      date: "05/19 PM",
+      time: "05:19 PM",
+      date: "30/04/2025",
       items: 3,
       total: 300,
       status: "Order Prepared",
@@ -68,7 +82,8 @@ export default function OrdersScreen() {
     },
     {
       id: "#136558-21",
-      date: "05/19 PM",
+      time: "05:19 PM",
+      date: "30/04/2025",
       items: 3,
       total: 300,
       status: "Hand Over",
@@ -79,7 +94,8 @@ export default function OrdersScreen() {
     },
     {
       id: "#136558-22",
-      date: "05/19 PM",
+      time: "05:19 PM",
+      date: "30/04/2025",
       items: 3,
       total: 300,
       status: "Unconfirmed",
@@ -90,7 +106,8 @@ export default function OrdersScreen() {
     },
     {
       id: "#136558-23",
-      date: "05/19 PM",
+      time: "05:19 PM",
+      date: "01/05/2025",
       items: 3,
       total: 300,
       status: "Picked",
@@ -101,7 +118,8 @@ export default function OrdersScreen() {
     },
     {
       id: "#136558-24",
-      date: "05/19 PM",
+      time: "05:19 PM",
+      date: "07/01/2025",
       items: 3,
       total: 300,
       status: "Delivered",
@@ -112,6 +130,76 @@ export default function OrdersScreen() {
     },
   ]);
 
+  // Store the original unfiltered orders
+  const [originalOrders] = useState([...orders]);
+
+  // Function to filter orders by date
+  const filterOrdersByDate = (filterType) => {
+    const currentDate = new Date();
+    const today = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+    let filteredOrders = [];
+
+    switch (filterType) {
+      case "Today":
+        // Filter for today's orders
+        filteredOrders = originalOrders.filter(order => {
+          const [day, month, year] = order.date.split('/');
+          const orderDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+          return orderDate.getDate() === today.getDate() && 
+                 orderDate.getMonth() === today.getMonth() && 
+                 orderDate.getFullYear() === today.getFullYear();
+        });
+        setActiveFilter("Today");
+        break;
+      case "Weekly":
+        // Filter for orders from the past week
+        const oneWeekAgo = new Date(today);
+        oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+        
+        filteredOrders = originalOrders.filter(order => {
+          const [day, month, year] = order.date.split('/');
+          const orderDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+          return orderDate >= oneWeekAgo && orderDate <= currentDate;
+        });
+        setActiveFilter("Weekly");
+        break;
+      case "Monthly":
+        // Filter for orders from the current month
+        const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+        
+        filteredOrders = originalOrders.filter(order => {
+          const [day, month, year] = order.date.split('/');
+          const orderDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+          return orderDate >= firstDayOfMonth && orderDate <= currentDate;
+        });
+        setActiveFilter("Monthly");
+        break;
+      case "Yearly":
+        // Filter for orders from the current year
+        const firstDayOfYear = new Date(currentDate.getFullYear(), 0, 1);
+        
+        filteredOrders = originalOrders.filter(order => {
+          const [day, month, year] = order.date.split('/');
+          const orderDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+          return orderDate >= firstDayOfYear && orderDate <= currentDate;
+        });
+        setActiveFilter("Yearly");
+        break;
+      case "Reset":
+        // Reset to all orders
+        filteredOrders = [...originalOrders];
+        setActiveFilter("All Time");
+        break;
+      default:
+        filteredOrders = [...originalOrders];
+        break;
+    }
+
+    setOrders(filteredOrders);
+    setFilterDropdownVisible(false);
+  };
+
+  // Apply status filter after date filter
   const filteredOrders =
     activeTab === "All"
       ? orders
@@ -176,6 +264,10 @@ export default function OrdersScreen() {
     }
   };
 
+  const handleViewOrder = () => {
+    router.push('/Screens/ViewOrder');
+  };
+
   const renderOrderCard = ({ item, index }) => {
     // Determine if we need to show the action button
     // We don't show the button for "Delivered" status as that's the final status
@@ -198,10 +290,10 @@ export default function OrdersScreen() {
           <Text style={styles.orderAmount}>₹{item.total}</Text>
         </View>
         <Text style={styles.orderMeta}>
-          {item.date} | {item.items} items for ₹{item.total}.0
+          {item.date}|{item.time} | {item.items} items for ₹{item.total}.0
         </Text>
         <View style={styles.actionButtons}>
-          <TouchableOpacity style={styles.viewButton}>
+          <TouchableOpacity style={styles.viewButton} onPress={handleViewOrder}>
             <Text style={styles.viewButtonText}>View Order</Text>
           </TouchableOpacity>
 
@@ -220,15 +312,57 @@ export default function OrdersScreen() {
     );
   };
 
+  // Render filter dropdown
+  const renderFilterDropdown = () => {
+    return (
+      <Modal
+        transparent={true}
+        visible={filterDropdownVisible}
+        animationType="fade"
+        onRequestClose={() => setFilterDropdownVisible(false)}
+      >
+        <TouchableWithoutFeedback onPress={() => setFilterDropdownVisible(false)}>
+          <View style={styles.modalOverlay}>
+            <TouchableWithoutFeedback>
+              <View style={styles.filterDropdown}>
+                <Text style={styles.filterHeading}>Filter by Time</Text>
+                {filterOptions.map((option) => (
+                  <TouchableOpacity
+                    key={option}
+                    style={styles.filterOption}
+                    onPress={() => filterOrdersByDate(option)}
+                  >
+                    <Text style={[
+                      styles.filterOptionText,
+                      (option === "Reset" && activeFilter === "All Time") || option === activeFilter ? styles.activeFilterText : null
+                    ]}>
+                      {option}
+                    </Text>
+                    {((option === "Reset" && activeFilter === "All Time") || option === activeFilter) && (
+                      <Ionicons name="checkmark" size={18} color="#01615F" />
+                    )}
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
+    );
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
       <View style={styles.header}>
         <GoBack />
         <Text style={styles.headerTitle}>Orders</Text>
-        <TouchableOpacity style={styles.filterButton}>
-          <Ionicons name="filter" size={24} color="black" />
-        </TouchableOpacity>
+        <View style={styles.filterContainer}>
+          <Text style={styles.filterLabel}>{activeFilter}</Text>
+          <TouchableOpacity style={styles.filterButton} onPress={() => setFilterDropdownVisible(true)}>
+            <Ionicons name="filter" size={24} color="black" />
+          </TouchableOpacity>
+        </View>
       </View>
 
       <View style={styles.tabContainer}>
@@ -257,11 +391,18 @@ export default function OrdersScreen() {
         </ScrollView>
       </View>
 
+      {renderFilterDropdown()}
+
       <FlatList
         data={filteredOrders}
         renderItem={renderOrderCard}
         keyExtractor={(item, index) => index.toString()}
         contentContainerStyle={styles.ordersList}
+        ListEmptyComponent={() => (
+          <View style={styles.emptyContainer}>
+            <Text style={styles.emptyText}>No orders found for the selected filter.</Text>
+          </View>
+        )}
       />
     </SafeAreaView>
   );
@@ -280,16 +421,25 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   headerTitle: {
-    fontSize: 18,
-    fontWeight: '600',
+    fontWeight: '500',
+    fontSize: RFPercentage(2.5),
     marginTop: RFPercentage(2),
+    fontFamily: "Poppins-SemiBold",
     flex: 1,
     textAlign: 'left',
   },
+  filterContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: RFPercentage(2),
+  },
+  filterLabel: {
+    fontSize: 12,
+    color: '#757575',
+    marginRight: 8,
+  },
   filterButton: {
     padding: 8,
-    marginTop: RFPercentage(2),
-    marginLeft: 'auto', 
   },
   tabContainer: {
     flexDirection: "row",
@@ -417,5 +567,57 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 14,
     fontWeight: "500",
+  },
+  // Filter dropdown styles
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "flex-start",
+    alignItems: "flex-end",
+  },
+  filterDropdown: {
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    width: 200,
+    marginTop: 90,
+    marginRight: 16,
+    padding: 12,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  filterHeading: {
+    fontSize: 16,
+    fontWeight: "600",
+    marginBottom: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: "#e0e0e0",
+    paddingBottom: 8,
+  },
+  filterOption: {
+    paddingVertical: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  filterOptionText: {
+    fontSize: 14,
+    color: "#333",
+  },
+  activeFilterText: {
+    color: "#01615F",
+    fontWeight: "500",
+  },
+  emptyContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 20,
+  },
+  emptyText: {
+    fontSize: 16,
+    color: "#757575",
+    textAlign: "center",
   },
 });

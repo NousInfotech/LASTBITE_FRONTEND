@@ -278,9 +278,8 @@ const styles = StyleSheet.create({
     borderBottomColor: "#eee",
   },
   headerTitle: {
-    fontSize: 14,
-    marginLeft: 16,
-    fontWeight: "500",
+    fontSize: RFPercentage(2.5),
+    marginTop: RFPercentage(2),
     fontFamily: "Poppins-SemiBold",
   },
   mealRatingSection: {

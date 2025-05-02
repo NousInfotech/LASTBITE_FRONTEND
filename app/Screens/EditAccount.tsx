@@ -7,33 +7,40 @@ import {
   SafeAreaView,
   StatusBar,
   StyleSheet,
+  Alert,
 } from "react-native";
 import GoBack from "@/components/GoBack";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
 import { RFPercentage } from "react-native-responsive-fontsize";
+import { useUserData, updateUserData, UserData } from "../UserDetails/UserDataStore";
 
-const EditAccount = () => {
+const EditAccount: React.FC = () => {
   const router = useRouter();
-  const [fontsLoaded, setFontsLoaded] = useState(false);
+  const [fontsLoaded, setFontsLoaded] = useState<boolean>(false);
+  const userData = useUserData();
 
-  // Initial values
-  const initialName = "John Daron";
-  const initialEmail = "";
-  const initialPhone = "John Daron A";
+  // State for form fields
+  const [name, setName] = useState<string>(userData.name || "John Daron");
+  const [email, setEmail] = useState<string>(userData.email || "");
+  const [phone, setPhone] = useState<string>(userData.phone || "+91 91234 65891");
 
-  const [name, setName] = useState(initialName);
-  const [email, setEmail] = useState(initialEmail);
-  const [phone, setPhone] = useState(initialPhone);
-
-  const [isEditingName, setIsEditingName] = useState(false);
-  const [isEditingEmail, setIsEditingEmail] = useState(false);
-  const [isEditingPhone, setIsEditingPhone] = useState(false);
+  // Editing states
+  const [isEditingName, setIsEditingName] = useState<boolean>(false);
+  const [isEditingEmail, setIsEditingEmail] = useState<boolean>(false);
+  const [isEditingPhone, setIsEditingPhone] = useState<boolean>(false);
   
-  const [isChanged, setIsChanged] = useState(false); // Track changes
+  const [isChanged, setIsChanged] = useState<boolean>(false);
+
+  // Update local state when userData changes
+  useEffect(() => {
+    setName(userData.name || "John Daron");
+    setEmail(userData.email || "");
+    setPhone(userData.phone || "+91 91234 65891");
+  }, [userData]);
 
   useEffect(() => {
-    async function loadFonts() {
+    async function loadFonts(): Promise<void> {
       await Font.loadAsync({
         "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
         "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
@@ -46,31 +53,56 @@ const EditAccount = () => {
   
     // Track changes in input fields
     setIsChanged(
-      name !== initialName || email !== initialEmail || phone !== initialPhone
+      name !== userData.name || 
+      email !== userData.email || 
+      phone !== userData.phone
     );
   
-  }, [name, email, phone]);
-  
+  }, [name, email, phone, userData]);
 
-  const handleEdit = (field: any) => {
+  const handleEdit = (field: keyof UserData): void => {
     if (field === "name") setIsEditingName(true);
     if (field === "email") setIsEditingEmail(true);
     if (field === "phone") setIsEditingPhone(true);
   };
 
-  const handleCancel = (field :any) => {
+  const handleCancel = (field: keyof UserData): void => {
     if (field === "name") {
       setIsEditingName(false);
-      setName(initialName);
+      setName(userData.name);
     } else if (field === "email") {
       setIsEditingEmail(false);
-      setEmail(initialEmail);
+      setEmail(userData.email);
     } else if (field === "phone") {
       setIsEditingPhone(false);
-      setPhone(initialPhone);
+      setPhone(userData.phone);
     }
-    setIsChanged(false);
   };
+
+  const handleUpdate = (field: keyof UserData): void => {
+    let value: string = "";
+    
+    if (field === "name") {
+      value = name;
+      setIsEditingName(false);
+    } else if (field === "email") {
+      value = email;
+      setIsEditingEmail(false);
+    } else if (field === "phone") {
+      value = phone;
+      setIsEditingPhone(false);
+    }
+    
+    // Update the store
+    updateUserData(field, value);
+    
+    // Show success message
+    Alert.alert("Success", `Your ${field} has been updated successfully.`);
+  };
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -78,7 +110,7 @@ const EditAccount = () => {
 
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => router.back()}>
           <GoBack />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Edit Account</Text>
@@ -114,6 +146,7 @@ const EditAccount = () => {
                   { backgroundColor: isChanged ? "#01615F" : "#F2F2F2" },
                 ]}
                 disabled={!isChanged}
+                onPress={() => handleUpdate("name")}
               >
                 <Text style={styles.buttonTextUpdate}>Update</Text>
               </TouchableOpacity>
@@ -150,6 +183,7 @@ const EditAccount = () => {
                   { backgroundColor: isChanged ? "#01615F" : "#F2F2F2" },
                 ]}
                 disabled={!isChanged}
+                onPress={() => handleUpdate("email")}
               >
                 <Text style={styles.buttonTextUpdate}>Update</Text>
               </TouchableOpacity>
@@ -185,6 +219,7 @@ const EditAccount = () => {
                   { backgroundColor: isChanged ? "#01615F" : "#F2F2F2" },
                 ]}
                 disabled={!isChanged}
+                onPress={() => handleUpdate("phone")}
               >
                 <Text style={styles.buttonTextUpdate}>Update</Text>
               </TouchableOpacity>
@@ -239,6 +274,7 @@ const styles = StyleSheet.create({
   input: {
     fontSize: RFPercentage(2),
     fontFamily: "Poppins-Regular",
+    flex: 1,
   },
   editText: {
     fontSize: RFPercentage(2),

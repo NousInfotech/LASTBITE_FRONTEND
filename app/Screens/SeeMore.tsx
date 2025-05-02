@@ -1,23 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, TextInput, FlatList, TouchableOpacity, SafeAreaView, StatusBar } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function FriendInviteScreen() {
   const [searchQuery, setSearchQuery] = useState('');
-  // Initialize friends with invited status
-  const [friends, setFriends] = useState(
-    Array(12).fill().map((_, index) => ({
-      id: index.toString(),
-      name: 'Oliver Harris',
-      phone: '(0382739542)',
-      invited: false
-    }))
-  );
+  const [filteredFriends, setFilteredFriends] = useState([]);
+  
+  // Initialize friends with invited status - 12 unique names
+  const [friends, setFriends] = useState([
+    { id: '0', name: 'Oliver Harris', phone: '(038-273-1001)', invited: false },
+    { id: '1', name: 'Niharika Patel', phone: '(038-273-2002)', invited: false },
+    { id: '2', name: 'Miguel Rodriguez', phone: '(038-273-3003)', invited: false },
+    { id: '3', name: 'Sarah Johnson', phone: '(038-273-4004)', invited: false },
+    { id: '4', name: 'Wei Chen', phone: '(038-273-5005)', invited: false },
+    { id: '5', name: 'Amara Okafor', phone: '(038-273-6006)', invited: false },
+    { id: '6', name: 'James Wilson', phone: '(038-273-7007)', invited: false },
+    { id: '7', name: 'Sophia Kim', phone: '(038-273-8008)', invited: false },
+    { id: '8', name: 'Raj Sharma', phone: '(038-273-9009)', invited: false },
+    { id: '9', name: 'Emma Thompson', phone: '(038-273-1010)', invited: false },
+    { id: '10', name: 'Aiden Nguyen', phone: '(038-273-1111)', invited: false },
+    { id: '11', name: 'Isabella Garcia', phone: '(038-273-1212)', invited: false },
+  ]);
+
+  // Filter friends based on search query
+  useEffect(() => {
+    if (searchQuery.trim() === '') {
+      setFilteredFriends(friends);
+    } else {
+      const lowercasedQuery = searchQuery.toLowerCase();
+      const results = friends.filter(friend => 
+        friend.name.toLowerCase().includes(lowercasedQuery) || 
+        friend.phone.includes(searchQuery)
+      );
+      setFilteredFriends(results);
+    }
+  }, [searchQuery, friends]);
 
   const handleInvite = (id) => {
     setFriends(friends.map(friend => 
       friend.id === id ? { ...friend, invited: !friend.invited } : friend
     ));
+  };
+
+  const handleClearSearch = () => {
+    setSearchQuery('');
   };
 
   const renderFriendItem = ({ item }) => (
@@ -58,15 +84,26 @@ export default function FriendInviteScreen() {
           value={searchQuery}
           onChangeText={setSearchQuery}
           placeholderTextColor="#999"
+          autoCapitalize="none"
         />
+        {searchQuery.length > 0 && (
+          <TouchableOpacity onPress={handleClearSearch}>
+            <Ionicons name="close-circle" size={20} color="#999" />
+          </TouchableOpacity>
+        )}
       </View>
       
       {/* Friends List */}
       <FlatList
-        data={friends}
+        data={filteredFriends}
         renderItem={renderFriendItem}
         keyExtractor={item => item.id}
         contentContainerStyle={styles.listContainer}
+        ListEmptyComponent={
+          <View style={styles.emptyContainer}>
+            <Text style={styles.emptyText}>No friends found matching "{searchQuery}"</Text>
+          </View>
+        }
       />
     </SafeAreaView>
   );
@@ -106,12 +143,13 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     flex: 1,
-    height: 24,
+    height: 40,
     fontSize: 16,
     color: '#333',
   },
   listContainer: {
     paddingHorizontal: 16,
+    flexGrow: 1,
   },
   friendItem: {
     flexDirection: 'row',
@@ -148,5 +186,16 @@ const styles = StyleSheet.create({
     color: '#01615F',
     fontWeight: '700',
     fontSize: 14,
+  },
+  emptyContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 40,
+  },
+  emptyText: {
+    fontSize: 16,
+    color: '#888',
+    textAlign: 'center',
   },
 });

@@ -235,7 +235,10 @@ const styles = StyleSheet.create({
     borderBottomColor: "#EEE",
   },
   headerTitleContainer: { marginLeft: 16 },
-  headerTitle: { fontSize: 16, fontWeight: "bold" },
+  headerTitle: { fontWeight: '500',
+    fontSize: RFPercentage(2),
+    marginTop: RFPercentage(2),
+    fontFamily: "Poppins-SemiBold", },
   orderNumber: { color: "#01615F" },
   subTitle: { fontSize: 12, color: "#666", marginTop: 2 },
   content: {

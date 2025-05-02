@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import ShareModal from "@/components/ShareModal";
 import {
   View,
   Text,
@@ -13,10 +14,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import GoBack from "@/components/GoBack";
 import { Ionicons, AntDesign, Feather } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 export default function ReferEarn() {
   const router = useRouter();
   const [expanded, setExpanded] = useState(null);
+  const [showShareModal, setShowShareModal] = useState(false);
 
   const faqs = [
     {
@@ -165,24 +168,29 @@ export default function ReferEarn() {
 
           <View style={styles.shareLinkRow}>
             <Text style={styles.shareLinkText}>Share link in a group</Text>
-            <TouchableOpacity style={styles.shareButton}>
+            {/* <TouchableOpacity style={styles.shareButton}>
               <Feather name="share-2" size={18} color="#01615F" />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
+            <TouchableOpacity style={styles.shareButton} onPress={() => setShowShareModal(true)}>
+  <Feather name="share-2" size={18} color="#01615F" />
+</TouchableOpacity>
+<ShareModal
+  visible={showShareModal}
+  onClose={() => setShowShareModal(false)}
+  address="https://lastbites.com/referral?code=YOURCODE"
+/>
             <Image
               source={require("../../assets/images/coins.png")}
               style={styles.coinsImage}
             />
           </View>
-
+</View>
+<View style={styles.subContainer}>
           {/* Search Input */}
           <View style={styles.searchContainer}>
             <Ionicons name="search" size={18} color="#757575" />
             <TouchableOpacity onPress={navigateToSeeMore}>
-            <TextInput
-              style={styles.searchInput}
-              placeholder="Find your friends"
-              placeholderTextColor="#757575"
-            />
+            <Text style={styles.placeholderText}>Find your friends</Text>
             </TouchableOpacity>
           </View>
 
@@ -206,7 +214,7 @@ export default function ReferEarn() {
             keyExtractor={(item) => item.id}
             scrollEnabled={false}
           />
-        </View>
+      </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -229,8 +237,9 @@ const styles = StyleSheet.create({
     marginRight: 12,
   },
   headerTitle: {
-    fontSize: 15,
-    fontWeight: "500",
+    fontSize: 18,
+    marginTop: RFPercentage(1.5),
+    fontWeight: "700",
   },
   referralCard: {
     backgroundColor: "#01615F",
@@ -278,6 +287,13 @@ const styles = StyleSheet.create({
   },
   rewardsSection: {
     paddingHorizontal: 16,
+    borderColor: "gray",
+    borderWidth: 1,
+    borderRadius:8,
+    margin: 20,
+  },
+  subContainer: {
+    paddingHorizontal: 18,
   },
   rewardsText: {
     fontSize: 14,
@@ -308,18 +324,23 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#F5F5F5",
+    backgroundColor: "#fff",
+    borderColor: "#000",
+    borderWidth: 1,
     borderRadius: 8,
     paddingHorizontal: 12,
     paddingVertical: 10,
     marginBottom: 16,
   },
-  searchInput: {
-    flex: 1,
-    marginLeft: 8,
-    fontSize: 14,
-    color: "#757575",
+
+
+  placeholderText: {
+    color: '#757575',
+    fontSize: 16,  
+    fontStyle: 'normal', 
+    opacity: 0.6,  
   },
+
   contactItem: {
     flexDirection: "row",
     alignItems: "center",
@@ -333,7 +354,7 @@ const styles = StyleSheet.create({
   },
   contactName: {
     fontSize: 14,
-    fontWeight: "500",
+    fontWeight: "700",
   },
   contactPhone: {
     fontSize: 12,
@@ -371,7 +392,7 @@ const styles = StyleSheet.create({
   },
   faqTitle: {
     fontSize: 16,
-    fontWeight: "500",
+    fontWeight: "700",
     marginTop: 16,
     marginBottom: 8,
   },
@@ -387,6 +408,7 @@ const styles = StyleSheet.create({
   },
   faqQuestionText: {
     fontSize: 14,
+    fontWeight: "700",
     flex: 1,
     paddingRight: 8,
     color: "#333",

@@ -8,16 +8,24 @@ import {
   TouchableOpacity,
   Image,
   Modal,
+  Alert,
 } from "react-native";
 import LocationHeader from "@/components/LocationHeader";
 import SearchBarVoice from "@/components/SearchBarVoice";
 import * as Font from "expo-font";
 import { router } from "expo-router";
 import { RFPercentage } from "react-native-responsive-fontsize";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Home = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [stopTimerModal, setStopTimerModal] = useState(false);
+  const [shiftActive, setShiftActive] = useState(false);
+  const [earnings, setEarnings] = useState(0);
+  const [shiftTime, setShiftTime] = useState("--:-- --");
+  const [timerInterval, setTimerInterval] = useState(null);
+  const [elapsedTime, setElapsedTime] = useState(0);
   
   useEffect(() => {
     async function loadFonts() {
@@ -30,19 +38,150 @@ const Home = () => {
     }
 
     loadFonts();
+    checkShiftStatus();
   }, []);
 
-  const handleStartShift = () => {
-    setModalVisible(true);
+  // Check if shift is active when component loads
+  const checkShiftStatus = async () => {
+    try {
+      const active = await AsyncStorage.getItem('shiftActive');
+      if (active === 'true') {
+        const startTime = await AsyncStorage.getItem('shiftStartTime');
+        const currentEarnings = await AsyncStorage.getItem('currentEarnings');
+        
+        if (startTime) {
+          const start = new Date(startTime);
+          const now = new Date();
+          const elapsed = Math.floor((now - start) / 1000); // elapsed seconds
+          
+          setShiftActive(true);
+          setEarnings(parseInt(currentEarnings || '0'));
+          setElapsedTime(elapsed);
+          
+          // Format shift time
+          const formattedTime = formatTime(start);
+          setShiftTime(formattedTime);
+          
+          // Start timer
+          startEarningsTimer(elapsed);
+        }
+      }
+    } catch (error) {
+      console.error('Error checking shift status:', error);
+    }
   };
 
-  const startVerification = () => {
+  // Format time to HH:MM AM/PM
+  const formatTime = (date) => {
+    let hours = date.getHours();
+    const minutes = date.getMinutes();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    const strMinutes = minutes < 10 ? '0' + minutes : minutes;
+    
+    return hours + ':' + strMinutes + ' ' + ampm;
+  };
+
+  // Start the earnings timer
+  const startEarningsTimer = (initialElapsed = 0) => {
+    // Clear any existing interval
+    if (timerInterval) {
+      clearInterval(timerInterval);
+    }
+
+    // Set initial elapsed time
+    setElapsedTime(initialElapsed);
+    
+    // Start a new interval
+    const interval = setInterval(async () => {
+      setElapsedTime(prev => {
+        const newElapsed = prev + 1;
+        
+        // Check if 15 minutes have passed (900 seconds)
+        if (newElapsed % 900 === 0) {
+          // Add ₹10 to earnings
+          setEarnings(prevEarnings => {
+            const newEarnings = prevEarnings + 10;
+            // Save to AsyncStorage
+            AsyncStorage.setItem('currentEarnings', newEarnings.toString());
+            return newEarnings;
+          });
+        }
+        
+        return newElapsed;
+      });
+    }, 1000);
+    
+    setTimerInterval(interval);
+  };
+
+  // Stop the shift and timer
+  const stopShift = async () => {
+    // Clear the interval
+    if (timerInterval) {
+      clearInterval(timerInterval);
+      setTimerInterval(null);
+    }
+    
+    // Reset shift status
+    setShiftActive(false);
+    setShiftTime("--:-- --");
+    
+    // Clear AsyncStorage
+    await AsyncStorage.removeItem('shiftActive');
+    await AsyncStorage.removeItem('shiftStartTime');
+    await AsyncStorage.removeItem('currentEarnings');
+    
+    // Show confirmation
+    Alert.alert(
+      "Shift Ended",
+      `Your shift has ended. Total earnings: ₹${earnings}`,
+      [{ text: "OK" }]
+    );
+    
+    // Reset earnings for next shift
+    setEarnings(0);
+    setElapsedTime(0);
+    setStopTimerModal(false);
+  };
+
+  // Format elapsed time for display
+  const formatElapsedTime = (seconds) => {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const remainingSeconds = seconds % 60;
+    
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+  };
+
+  const handleStartShift = () => {
+    if (shiftActive) {
+      // If shift is active, show stop timer modal
+      setStopTimerModal(true);
+    } else {
+      // Otherwise show face verification modal
+      setModalVisible(true);
+    }
+  };
+
+  // const startVerification = () => {
+  //   setModalVisible(false);
+  //   router.push('/auth2/faceverification');
+  // };
+
+  const startVerification = (): void => {
     setModalVisible(false);
-    router.push('/auth2/faceverification');
+    router.push('/auth2/CameraScreen');
   };
 
   const closeModal = () => {
     setModalVisible(false);
+  };
+
+  const closeStopTimerModal = () => {
+    setStopTimerModal(false);
   };
 
   if (!fontsLoaded) {
@@ -56,6 +195,7 @@ const Home = () => {
   const handleViewDetails = () => {
     router.push('/Screens/ViewDetailsRiders')
   }
+  
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
@@ -72,19 +212,31 @@ const Home = () => {
       >
         {/* Shift Starting Section */}
         <View style={styles.shiftContainer}>
-          <Text style={styles.rupeeSign}>₹0</Text>
-          <Text style={styles.shiftText}>
-            Begin your work shift with just a click!
-          </Text>
+          <Text style={styles.rupeeSign}>₹{earnings}</Text>
+          {!shiftActive ? (
+            <Text style={styles.shiftText}>
+              Begin your work shift with just a click!
+            </Text>
+          ) : (
+            <Text style={styles.shiftText}>
+              Your shift is active! Tap timer to end shift.
+            </Text>
+          )}
 
           <TouchableOpacity
             style={styles.startShiftButton}
             onPress={handleStartShift}
           >
-            <Text style={styles.startShiftText}>Start Your Shift</Text>
+            {!shiftActive ? (
+              <Text style={styles.startShiftText}>Start Your Shift</Text>
+            ) : (
+              <Text style={styles.startShiftText}>{formatElapsedTime(elapsedTime)}</Text>
+            )}
           </TouchableOpacity>
 
-          <Text style={styles.shiftedAtText}>SHIFTED AT: --:-- --</Text>
+          <Text style={styles.shiftedAtText}>
+            SHIFTED AT: {shiftTime}
+          </Text>
         </View>
 
         {/* Quick Links Section */}
@@ -103,10 +255,10 @@ const Home = () => {
 
           <View style={styles.quickLinkCard}>
             <View style={styles.iconCircle}>
-              <Image
-                // source={require("../../assets/images/Star.png")}
+              {/* <Image
+                source={require("../../assets/images/Star.png")}
                 style={styles.linkIcon}
-              />
+              /> */}
             </View>
             <Text style={styles.linkTitle}>Average Rating</Text>
             <Text style={styles.linkValue}>4.5</Text>
@@ -183,6 +335,48 @@ const Home = () => {
                 <Text style={styles.guideText}>• Make sure your head is clear and not covered.</Text>
               </View>
             </View>
+          </View>
+        </View>
+      </Modal>
+
+      {/* Stop Timer Modal */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={stopTimerModal}
+        onRequestClose={closeStopTimerModal}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>
+                Do you want to end your current shift?
+              </Text>
+              <TouchableOpacity style={styles.closeButton} onPress={closeStopTimerModal}>
+                <Text style={styles.closeButtonText}>×</Text>
+              </TouchableOpacity>
+            </View>
+            
+            <Text style={styles.shiftStats}>
+              Total time: {formatElapsedTime(elapsedTime)}
+            </Text>
+            <Text style={styles.shiftStats}>
+              Total earnings: ₹{earnings}
+            </Text>
+            
+            <TouchableOpacity 
+              style={styles.stopShiftButton}
+              onPress={stopShift}
+            >
+              <Text style={styles.verificationButtonText}>Stop Shift</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity 
+              style={styles.cancelButton}
+              onPress={closeStopTimerModal}
+            >
+              <Text style={styles.cancelButtonText}>Continue Shift</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </Modal>
@@ -445,26 +639,3 @@ const styles = StyleSheet.create({
 });
 
 export default Home;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

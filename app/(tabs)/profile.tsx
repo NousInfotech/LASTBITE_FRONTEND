@@ -7,6 +7,7 @@ import {
   StyleSheet,
   ScrollView,
   Image,
+  ImageSourcePropType,
 } from "react-native";
 import GoBack from "@/components/GoBack";
 import { useRouter } from "expo-router";
@@ -14,15 +15,19 @@ import * as Font from "expo-font";
 import { AntDesign } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { RFPercentage } from "react-native-responsive-fontsize";
+import { useUserData } from "../UserDetails/UserDataStore";
 
-const ProfileScreen = () => {
+const ProfileScreen: React.FC = () => {
   const router = useRouter();
-  const [fontsLoaded, setFontsLoaded] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [isNewExpanded, setIsNewExpanded] = useState(false);
+  const [fontsLoaded, setFontsLoaded] = useState<boolean>(false);
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
+  const [isNewExpanded, setIsNewExpanded] = useState<boolean>(false);
+  
+  // Get user data from store
+  const userData = useUserData();
 
   useEffect(() => {
-    async function loadFonts() {
+    async function loadFonts(): Promise<void> {
       await Font.loadAsync({
         "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
         "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
@@ -38,12 +43,11 @@ const ProfileScreen = () => {
     return null;
   }
 
-
-  const handleMoney = () => {
+  const handleMoney = (): void => {
     router.push('/Screens/MoneyGifts')  
   } 
 
-  const handleReferEarn = () => {
+  const handleReferEarn = (): void => {
     router.push('/Screens/ReferEarn')  
   }
 
@@ -64,8 +68,9 @@ const ProfileScreen = () => {
       <ScrollView style={styles.content}>
         <View style={styles.profileInfo}>
           <View>
-            <Text style={styles.userName}>John Daron</Text>
-            <Text style={styles.userPhone}>+91 91234 65891</Text>
+            <Text style={styles.userName}>{userData.name}</Text>
+            <Text style={styles.userPhone}>{userData.phone}</Text>
+            {userData.email && <Text style={styles.userEmail}>{userData.email}</Text>}
           </View>
           <TouchableOpacity onPress={() => router.push("/Screens/EditAccount")}>
             <Text style={styles.editProfile}>Edit Profile &gt;</Text>
@@ -170,7 +175,7 @@ const ProfileScreen = () => {
             </Text>
           </View>
           <AntDesign
-            name={isExpanded ? "up" : "down"}
+            name={isNewExpanded ? "up" : "down"}
             size={16}
             color="#757575"
           />
@@ -182,7 +187,7 @@ const ProfileScreen = () => {
             <TouchableOpacity style={styles.menuItem}>
               <View style={styles.iconBox}>
                 <Image
-                  source={require("../../assets/images/Transaction-1.png")} 
+                  source={require("../../assets/images/Transaction-1.png") as ImageSourcePropType} 
                   style={styles.iconImage}
                 />
               </View>
@@ -193,7 +198,7 @@ const ProfileScreen = () => {
             <TouchableOpacity style={styles.menuItem}>
               <View style={styles.iconBox}>
                 <Image
-                  source={require("../../assets/images/MasterCard.png")} // Replace with correct path
+                  source={require("../../assets/images/MasterCard.png") as ImageSourcePropType}
                   style={styles.iconImage}
                 />
               </View>
@@ -223,7 +228,6 @@ const ProfileScreen = () => {
           <AntDesign name="right" size={16} color="#757575" />
         </TouchableOpacity>
 
-
         <TouchableOpacity
           style={styles.menuBox}
           onPress={() => router.push("/Screens/LogOut")}
@@ -235,6 +239,27 @@ const ProfileScreen = () => {
     </SafeAreaView>
   );
 };
+
+interface Styles {
+  container: object;
+  header: object;
+  helpButton: object;
+  helpText: object;
+  content: object;
+  profileInfo: object;
+  userName: object;
+  userPhone: object;
+  userEmail: object;
+  editProfile: object;
+  menuBox: object;
+  menuTitle: object;
+  menuSubtitle: object;
+  dropdownMenu: object;
+  menuItem: object;
+  menuItemText: object;
+  iconBox: object;
+  iconImage: object;
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -252,6 +277,7 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     paddingHorizontal: 14,
     borderRadius: 8,
+    marginTop: RFPercentage(2),
   },
   helpText: {
     color: "#01615F",
@@ -275,6 +301,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#757575",
     fontFamily: "Poppins-Regular",
+  },
+  userEmail: {
+    fontSize: 14,
+    color: "#757575",
+    fontFamily: "Poppins-Regular",
+    marginTop: 2,
   },
   editProfile: {
     color: "#01615F",
@@ -309,7 +341,7 @@ const styles = StyleSheet.create({
   },
   dropdownMenu: {
     backgroundColor: "#FFF",
-    borderBottomLeftRadius: 8, // Fix for border radius
+    borderBottomLeftRadius: 8,
     borderBottomRightRadius: 8,
     paddingVertical: 8,
     paddingHorizontal: 16,

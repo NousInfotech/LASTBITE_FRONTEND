@@ -60,7 +60,7 @@ const Wallet = () => {
       <StatusBar barStyle="dark-content" />
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity style={{paddingTop: 'RFPercentage(5)'}}>
+        <TouchableOpacity style={{ paddingTop: RFPercentage(1) }}>
           <GoBack />
         </TouchableOpacity>
       </View>

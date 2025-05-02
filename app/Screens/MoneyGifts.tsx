@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import { router } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
+import { RFPercentage } from 'react-native-responsive-fontsize';
 
 export default function MoneyGifts() {
   // Handle the back button press
@@ -108,8 +109,10 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   headerTitle: {
-    fontSize: 18,
-    fontWeight: '600',
+    fontSize: RFPercentage(2.5),
+    marginTop: RFPercentage(1.5),
+    fontWeight: "500",
+    fontFamily: "Poppins-SemiBold",
   },
   balanceCard: {
     borderRadius: 12,
