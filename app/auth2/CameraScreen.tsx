@@ -7,7 +7,7 @@ import * as ImageManipulator from 'expo-image-manipulator';
 
 const CameraScreen: React.FC = () => {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
-  const [type, setType] = useState(CameraType.front);
+  const [type, setType] = useState<CameraType>(CameraType.front);
   const cameraRef = useRef<Camera | null>(null);
 
   useEffect(() => {
@@ -21,18 +21,16 @@ const CameraScreen: React.FC = () => {
     if (cameraRef.current) {
       try {
         const photo = await cameraRef.current.takePictureAsync();
-        
-        // Compress the image to reduce size
+
         const manipResult = await ImageManipulator.manipulateAsync(
           photo.uri,
           [{ resize: { width: 800 } }],
           { compress: 0.7, format: ImageManipulator.SaveFormat.JPEG }
         );
-        
-        // Navigate to loading screen with photo URI
+
         router.push({
           pathname: '/auth2/loadingscreen',
-          params: { photoUri: manipResult.uri }
+          params: { photoUri: manipResult.uri },
         });
       } catch (error) {
         console.error('Error taking picture:', error);
@@ -43,7 +41,7 @@ const CameraScreen: React.FC = () => {
   if (hasPermission === null) {
     return <View style={styles.container}><Text>Requesting camera permission...</Text></View>;
   }
-  
+
   if (hasPermission === false) {
     return <View style={styles.container}><Text>No access to camera</Text></View>;
   }
@@ -51,39 +49,36 @@ const CameraScreen: React.FC = () => {
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
-      <Camera 
-        style={styles.camera} 
+      <Camera
+        style={styles.camera}
         type={type}
         ref={cameraRef}
       >
         <View style={styles.overlay}>
           <View style={styles.faceFrame} />
         </View>
-        
+
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={styles.flipButton}
             onPress={() => {
-              setType(
-                type === CameraType.front
-                  ? CameraType.back
-                  : CameraType.front
-              );
-            }}>
+              setType(type === CameraType.front ? CameraType.back : CameraType.front);
+            }}
+          >
             <Text style={styles.flipText}>Flip</Text>
           </TouchableOpacity>
-          
-          <TouchableOpacity 
+
+          <TouchableOpacity
             style={styles.captureButton}
             onPress={takePicture}
           >
             <View style={styles.captureInner} />
           </TouchableOpacity>
-          
+
           <View style={styles.emptySpace} />
         </View>
       </Camera>
-      
+
       <View style={styles.header}>
         <Text style={styles.headerText}>Face Verification</Text>
         <Text style={styles.subHeaderText}>Position your face within the frame</Text>
@@ -171,7 +166,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
   emptySpace: {
-    width: 50, // This creates balance with the flip button
+    width: 50,
   },
 });
 

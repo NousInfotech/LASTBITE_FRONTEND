@@ -61,7 +61,6 @@
         "origin": false
       },
       "API_URL": "http://localhost:5000",
-
       "eas": {
         "projectId": "18b848eb-7784-4e1d-a3b1-c27541338b13"
       }

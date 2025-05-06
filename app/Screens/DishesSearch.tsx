@@ -346,7 +346,7 @@ const DishesSearch: React.FC = () => {
 
     const navigateToAddMoreItems = () => {
       router.push({
-        pathname: "./AddMoreItems",
+        pathname: "/Screens/RestaurantSelect",
         params: {
           restaurantId,
           restaurantName: restaurant.name,

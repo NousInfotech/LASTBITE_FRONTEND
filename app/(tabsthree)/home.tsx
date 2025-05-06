@@ -166,11 +166,6 @@ const Home = () => {
     }
   };
 
-  // const startVerification = () => {
-  //   setModalVisible(false);
-  //   router.push('/auth2/faceverification');
-  // };
-
   const startVerification = (): void => {
     setModalVisible(false);
     router.push('/auth2/CameraScreen');
