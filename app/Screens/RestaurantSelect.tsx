@@ -13,7 +13,8 @@ import { Feather, MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome } from '@expo/vector-icons';
 import CreateWishlistPopup from "@/components/CreateWishlistPopup";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { mockRestaurants, mockMenu } from "@/mock/RestaurantSelect";
+// import { mockRestaurants, mockMenu } from "@/mock/RestaurantSelect";
+import { mockRestaurants, mockMenu } from "@/mock/restaurants.json"
 interface Restaurant {
   restaurantId: string;
   name: string;

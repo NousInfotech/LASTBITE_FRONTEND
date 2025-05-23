@@ -1,4 +1,3 @@
-// E:/Last_Bites_Clone/LASTBITE_FRONTEND/mock/RestaurantSelect.ts
 
 export interface Restaurant {
   restaurantId: string;
