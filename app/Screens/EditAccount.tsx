@@ -13,7 +13,7 @@ import GoBack from "@/components/GoBack";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
 import { RFPercentage } from "react-native-responsive-fontsize";
-import { useUserData, updateUserData, UserData } from "../UserDetails/UserDataStore";
+import { useUserData, updateUserData, UserData } from "@/utils/UserDataStore";
 
 const EditAccount: React.FC = () => {
   const router = useRouter();

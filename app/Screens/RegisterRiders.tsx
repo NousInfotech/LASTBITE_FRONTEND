@@ -22,6 +22,17 @@ const RegisterRiders = () => {
   const [activeStep, setActiveStep] = useState(1);
   const [form, setForm] = useState({
     profilePhoto: "",
+    name: "",
+    email: "",
+    mobile: "",
+    plotNumber: "",
+    address: "",
+    building: "",
+    pincode: "",
+    bankIfscCode: "",
+    bankAccountNumber: "",
+    aadharCard: "",
+    drivingLicense: "",
   });
 
   useEffect(() => {
@@ -48,7 +59,7 @@ const RegisterRiders = () => {
     }
   };
 
-  const handleChooseFile = async () => {
+  const handleChooseFile = async (fieldName: string) => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
     if (status !== "granted") {
@@ -68,7 +79,7 @@ const RegisterRiders = () => {
     if (!result.canceled) {
       setForm((prev) => ({
         ...prev,
-        profilePhoto: result.assets[0].uri,
+        [fieldName]: result.assets[0].uri,
       }));
     }
   };
@@ -77,7 +88,7 @@ const RegisterRiders = () => {
     label: string,
     placeholder?: string,
     required?: boolean,
-    inputProps?: any // Accept additional props here
+    inputProps?: any
   ) => (
     <View style={styles.inputContainer}>
       <Text style={styles.label}>
@@ -87,8 +98,31 @@ const RegisterRiders = () => {
         placeholder={placeholder || `Enter ${label}`}
         style={styles.input}
         placeholderTextColor="#A0A0A0"
-        {...inputProps} // Spread the extra props here
+        {...inputProps}
       />
+    </View>
+  );
+
+  const renderFileUpload = (
+    label: string,
+    fieldName: string,
+    required?: boolean
+  ) => (
+    <View>
+      <Text style={styles.label}>
+        {label} {required && <Text style={styles.required}>*</Text>}
+      </Text>
+      <View style={styles.inputContainer_A}>
+        <TouchableOpacity
+          style={styles.uploadButton}
+          onPress={() => handleChooseFile(fieldName)}
+        >
+          <Text style={styles.uploadButtonText}>Upload File</Text>
+        </TouchableOpacity>
+        <Text style={styles.fileName}>
+          {form[fieldName as keyof typeof form] ? "File chosen" : "Choose a File"}
+        </Text>
+      </View>
     </View>
   );
 
@@ -119,35 +153,27 @@ const RegisterRiders = () => {
             <View style={styles.formCard}>
               <View style={styles.formSection}>
                 <Text style={styles.sectionTitle}>Basic Details</Text>
-                {renderInput("Name", "Enter Full name", true, "default", 100)}
-                {renderInput(
-                  "Email Address",
-                  "Enter email address",
-                  true,
-                  "email-address",
-                  200
-                )}
-                {renderInput(
-                  "Mobile Number",
-                  "Enter mobile number",
-                  true,
-                  "phone-pad",
-                  10
-                )}
-                <Text style={styles.label}>
-                  Profile Photo <Text style={styles.required}>*</Text>
-                </Text>
-                <View style={styles.inputContainer_A}>
-                  <TouchableOpacity
-                    style={styles.uploadButton}
-                    onPress={handleChooseFile}
-                  >
-                    <Text style={styles.uploadButtonText}>Upload File</Text>
-                  </TouchableOpacity>
-                  <Text style={styles.fileName}>
-                    {form.profilePhoto ? "Profile chose" : "Choose a File"}
-                  </Text>
-                </View>
+                {renderInput("Name", "Enter Full name", true, {
+                  maxLength: 100,
+                  onChangeText: (text: string) => {
+                    setForm((prev) => ({ ...prev, name: text }));
+                  }
+                })}
+                {renderInput("Email Address", "Enter email address", true, {
+                  keyboardType: "email-address",
+                  maxLength: 200,
+                  onChangeText: (text: string) => {
+                    setForm((prev) => ({ ...prev, email: text }));
+                  }
+                })}
+                {renderInput("Mobile Number", "Enter mobile number", true, {
+                  keyboardType: "phone-pad",
+                  maxLength: 10,
+                  onChangeText: (text: string) => {
+                    setForm((prev) => ({ ...prev, mobile: text }));
+                  }
+                })}
+                {renderFileUpload("Profile Photo", "profilePhoto", true)}
               </View>
             </View>
           </>
@@ -157,17 +183,31 @@ const RegisterRiders = () => {
             <View style={styles.formCard}>
               <View style={styles.formSection}>
                 <Text style={styles.sectionTitle}>Address Details</Text>
-                {renderInput("Plot Number", "PlotNo", true, "default", 100)}
-                {renderInput("Address", "Address", true, "default", 100)}
-                {renderInput(
-                  "Building/Mall/Complex Name",
-                  "Enter Building/Mall/Complex Name",
-                  true,
-                  "default",
-                  200
-                )}
-
-                {renderInput("Pincode", "Enter Pincode", true, "default", 6)}
+                {renderInput("Plot Number", "PlotNo", true, {
+                  maxLength: 100,
+                  onChangeText: (text: string) => {
+                    setForm((prev) => ({ ...prev, plotNumber: text }));
+                  }
+                })}
+                {renderInput("Address", "Address", true, {
+                  maxLength: 200,
+                  onChangeText: (text: string) => {
+                    setForm((prev) => ({ ...prev, address: text }));
+                  }
+                })}
+                {renderInput("Building/Mall/Complex Name", "Enter Building/Mall/Complex Name", true, {
+                  maxLength: 200,
+                  onChangeText: (text: string) => {
+                    setForm((prev) => ({ ...prev, building: text }));
+                  }
+                })}
+                {renderInput("Pincode", "Enter Pincode", true, {
+                  keyboardType: "numeric",
+                  maxLength: 6,
+                  onChangeText: (text: string) => {
+                    setForm((prev) => ({ ...prev, pincode: text }));
+                  }
+                })}
               </View>
             </View>
           </>
@@ -176,20 +216,8 @@ const RegisterRiders = () => {
           <>
             <View style={styles.formCard}>
               <Text style={styles.sectionTitle}>Documentations</Text>
-              <Text style={styles.label}>
-                Aadhar Card <Text style={styles.required}>*</Text>
-              </Text>
-              <View style={styles.inputContainer_A}>
-                <TouchableOpacity
-                  style={styles.uploadButton}
-                  onPress={handleChooseFile}
-                >
-                  <Text style={styles.uploadButtonText}>Upload File</Text>
-                </TouchableOpacity>
-                <Text style={styles.fileName}>
-                  {form.profilePhoto ? "Profile chose" : "Choose a File"}
-                </Text>
-              </View>
+              {renderFileUpload("Aadhar Card", "aadharCard", true)}
+              
               {renderInput("Bank IFSC code", "Enter IFSC Code", true, {
                 keyboardType: "default",
                 maxLength: 11,
@@ -206,35 +234,21 @@ const RegisterRiders = () => {
                 },
               })}
 
-              {renderInput("Bank Account number", "Enter account number", true,
-                 {
-                  keyboardType: "numeric",
-                  maxLength: 18,
-                  onChangeText: (text: string) => {
-                    const accountRegex = /^[0-9]{9,18}$/;
-                    if (/^[0-9]*$/.test(text)) { // allow only digits
-                      setForm((prev) => ({ ...prev, bankAccountNumber: text }));
-                    }
-                    if (!accountRegex.test(text) && text.length >= 9) {
-                      console.log("Invalid account number");
-                    }
+              {renderInput("Bank Account number", "Enter account number", true, {
+                keyboardType: "numeric",
+                maxLength: 18,
+                onChangeText: (text: string) => {
+                  const accountRegex = /^[0-9]{9,18}$/;
+                  if (/^[0-9]*$/.test(text)) {
+                    setForm((prev) => ({ ...prev, bankAccountNumber: text }));
+                  }
+                  if (!accountRegex.test(text) && text.length >= 9) {
+                    console.log("Invalid account number");
                   }
                 }
-              )}
-              <Text style={styles.label}>
-                Driving License <Text style={styles.required}>*</Text>
-              </Text>
-              <View style={styles.inputContainer_A}>
-                <TouchableOpacity
-                  style={styles.uploadButton}
-                  onPress={handleChooseFile}
-                >
-                  <Text style={styles.uploadButtonText}>Upload File</Text>
-                </TouchableOpacity>
-                <Text style={styles.fileName}>
-                  {form.profilePhoto ? "Profile chose" : "Choose a File"}
-                </Text>
-              </View>
+              })}
+              
+              {renderFileUpload("Driving License", "drivingLicense", true)}
             </View>
           </>
         )}
@@ -393,7 +407,6 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins-Regular",
     backgroundColor: "#FFFFFF",
   },
-
   button: {
     backgroundColor: "#01615F",
     height: 48,

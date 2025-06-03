@@ -1,20 +1,26 @@
 import React from 'react';
 import { View } from 'react-native';
-import { useRoute } from '@react-navigation/native';
-import AddMoreItems from '../app/Screens/AddMoreItems'
+import { useRoute, RouteProp } from '@react-navigation/native';
+import AddMoreItems from '../app/Screens/AddMoreItems';
 
-// This is a wrapper component that will be used as the screen in navigation
+// Define the route params type
+type AddMoreItemsParams = {
+  items: any[]; // Replace 'any' with the correct item type
+  updateItems: (newItems: any[]) => void;
+};
+
 const AddMoreItemsScreen = () => {
-  const route = useRoute();
-  const params = route.params || { items: [], updateItems: () => {} };
+  // Provide type for route params
+  const route = useRoute<RouteProp<Record<string, AddMoreItemsParams>, string>>();
+
+  const params = route.params ?? { items: [], updateItems: () => {} };
   const { items = [], updateItems = () => {} } = params;
-  
+
   return (
     <View style={{ flex: 1 }}>
-      <AddMoreItems 
-        items={items} 
-        setItems={(newItems) => {
-          // Call the update function passed through navigation
+      <AddMoreItems
+        items={items}
+        setItems={(newItems: any[]) => {
           updateItems(newItems);
         }}
       />
@@ -23,4 +29,3 @@ const AddMoreItemsScreen = () => {
 };
 
 export default AddMoreItemsScreen;
-

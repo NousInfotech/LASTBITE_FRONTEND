@@ -84,7 +84,7 @@ const BillingScreen = () => {
   }, [cart]);
   const navigateToAddMoreItems = () => {
     router.push({
-      pathname: "./AddMoreItems",
+      pathname: "/Screens/AddMoreItems",
       params: {
         restaurantId: restaurantId || "default-id",
         restaurantName: restaurantName || "default-name",
@@ -590,7 +590,7 @@ const styles = StyleSheet.create({
   optionImage: {
     width: 30,
     height: 30,
-    resizeMode: "contain",
+    resizeMode:'contain',
     marginBottom: 8,
   },
   optionLabel: {

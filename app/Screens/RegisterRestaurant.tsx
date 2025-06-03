@@ -10,6 +10,7 @@ import {
   Modal,
   Image,
   Alert,
+  TextInputProps,
 } from "react-native";
 import GoBack from "@/components/GoBack";
 import CustomCheckbox from "@/components/CustomCheckbox";
@@ -21,7 +22,7 @@ import { useRouter } from "expo-router";
 
 const RegisterRestaurant = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
-  const [chosenFile, setChosenFile] = useState(null);
+ const [chosenFile, setChosenFile] = useState<string | null>(null);
   const [activeStep, setActiveStep] = useState(1);
   const [noGST, setNoGST] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("Category I");
@@ -72,7 +73,7 @@ const RegisterRestaurant = () => {
   );
   const [modalVisible, setModalVisible] = useState(false);
 
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
   const options = [
     "Zero",
@@ -92,8 +93,7 @@ const RegisterRestaurant = () => {
     "Thai",
     "Middle Eastern",
   ];
-
-  const toggleCuisine = (cuisine) => {
+const toggleCuisine = (cuisine: string) => {
     setSelectedCuisines((prev) => {
       const updatedCuisines = prev.includes(cuisine)
         ? prev.filter((item) => item !== cuisine) // Remove if already selected
@@ -159,31 +159,32 @@ const RegisterRestaurant = () => {
   };
 
   const handleContinue = (): void => {
-    let requiredFields: string | number[] = [];
+   let requiredFields: (keyof typeof form)[] = [];
 
     if (activeStep === 1) {
-      requiredFields = [
-        "ownerName",
-        "restaurantName",
-        "profilePhoto",
-        "shopNumber",
-        "address",
-        "complexName",
-        "pincode",
-        "emailAddress",
-        "mobileNumber",
-        "openingTime",
-        "closingTime",
-      ];
+    requiredFields = [
+  "ownerName",
+  "restaurantName", 
+  "profilePhoto",
+  "shopNumber",
+  "address",
+  "complexName",
+  "pincode",
+  "emailAddress",
+  "mobileNumber",
+  "openingTime",
+  "closingTime",
+] as (keyof typeof form)[];
+
     } else if (activeStep === 2) {
-      requiredFields = [
-        "ownerPanNo",
-        "bankIfscCode",
-        "bankAccountNumber",
-        "fssaiCertificateNo",
-      ];
+     requiredFields = [
+  "ownerPanNo",
+  "bankIfscCode", 
+  "bankAccountNumber",
+  "fssaiCertificateNo",
+] as (keyof typeof form)[];
     } else if (activeStep === 3) {
-      requiredFields = ["kindOfFood"];
+     requiredFields = ["kindOfFood"] as (keyof typeof form)[];
     }
 
     if (!form || typeof form !== "object") {
@@ -191,10 +192,10 @@ const RegisterRestaurant = () => {
       return;
     }
 
-    const isFormValid: boolean = requiredFields.every((field) => {
-      const value = form[field as keyof typeof form];
-      return typeof value === "string" && value.trim() !== "";
-    });
+   const isFormValid: boolean = (requiredFields as (keyof typeof form)[]).every((field: keyof typeof form) => {
+  const value = form[field];
+  return typeof value === "string" && value.trim() !== "";
+});
 
     if (!isFormValid) {
       Alert.alert("Error", "Please fill all mandatory fields");
@@ -302,7 +303,7 @@ const RegisterRestaurant = () => {
                   true,
                   {
                     keyboardType: "default",
-                    maxlength: 200,
+                    maxLength: 200,
                   }
                 )}
                 {renderInput(
@@ -312,7 +313,7 @@ const RegisterRestaurant = () => {
                   true,
                   {
                     keyboardType: "default",
-                    maxlength: 200,
+                    maxLength: 200,
                   }
                 )}
                 <Text style={styles.label}>
@@ -343,7 +344,7 @@ const RegisterRestaurant = () => {
                       true,
                       {
                         keyboardType: "default",
-                        maxlength: 4,
+                        maxLength: 4,
                       }
                     )}
                   </View>
@@ -359,13 +360,13 @@ const RegisterRestaurant = () => {
                   true,
                   {
                     keyboardType: "default",
-                    maxlength: 200,
+                    maxLength: 200,
                   }
                 )}
 
                 {renderInput("Pincode", "pincode", "Enter Pincode", true, {
                   keyboardType: "number-pad",
-                  maxlength: 6,
+                  maxLength: 6,
                 })}
               </View>
             </View>
@@ -382,7 +383,7 @@ const RegisterRestaurant = () => {
                   true,
                   {
                     keyboardType: "default",
-                    maxlength: 200,
+                    maxLength: 200,
                   }
                 )}
                 {renderInput(
@@ -392,7 +393,7 @@ const RegisterRestaurant = () => {
                   true,
                   {
                     keyboardType: "number-pad",
-                    maxlength: 10,
+                    maxLength: 10,
                   }
                 )}
 
@@ -433,7 +434,7 @@ const RegisterRestaurant = () => {
                     true,
                     {
                       keyboardType: "number-pad",
-                      maxlength: 200,
+                      maxLength: 200,
                     }
                   )}
               </View>
@@ -563,20 +564,21 @@ const RegisterRestaurant = () => {
                       <Text style={styles.dayName}>{day}</Text>
                       <View style={styles.row}>
                         <View style={styles.halfInputContainer}>
-                          {renderInput(
-                            "Opening",
-                            `${day.toLowerCase()}OpeningTime`,
-                            "9:00 AM",
-                            true
-                          )}
+                         {renderInput(
+  "Opening",
+  `${day.toLowerCase()}OpeningTime` as keyof typeof form,
+  "9:00 AM",
+  true
+)}
                         </View>
                         <View style={styles.halfInputContainer}>
-                          {renderInput(
-                            "Closing",
-                            `${day.toLowerCase()}ClosingTime`,
-                            "9:00 PM",
-                            true
-                          )}
+                          
+{renderInput(
+  "Closing", 
+  `${day.toLowerCase()}ClosingTime` as keyof typeof form,
+  "9:00 PM",
+  true
+)}
                         </View>
                       </View>
                     </View>
@@ -1318,6 +1320,20 @@ const styles = StyleSheet.create({
   selectedOptionText: {
     color: "#fff",
   },
+  dayRow: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  marginBottom: 12,
+  paddingVertical: 8,
+},
+dayName: {
+  fontSize: 14,
+  fontFamily: "Poppins-Medium",
+  color: "#333",
+  width: 80,
+},
+
 });
 
 export default RegisterRestaurant;

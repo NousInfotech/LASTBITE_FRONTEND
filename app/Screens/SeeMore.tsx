@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, TextInput, FlatList, TouchableOpacity, SafeAreaView, StatusBar } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+type Friend = {
+  id: string;
+  name: string;
+  phone: string;
+  invited: boolean;
+};
 
 export default function FriendInviteScreen() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [filteredFriends, setFilteredFriends] = useState([]);
+const [filteredFriends, setFilteredFriends] = useState<Friend[]>([]);
   
   // Initialize friends with invited status - 12 unique names
-  const [friends, setFriends] = useState([
+const [friends, setFriends] = useState<Friend[]>([
     { id: '0', name: 'Oliver Harris', phone: '(038-273-1001)', invited: false },
     { id: '1', name: 'Niharika Patel', phone: '(038-273-2002)', invited: false },
     { id: '2', name: 'Miguel Rodriguez', phone: '(038-273-3003)', invited: false },
@@ -36,17 +42,18 @@ export default function FriendInviteScreen() {
     }
   }, [searchQuery, friends]);
 
-  const handleInvite = (id) => {
-    setFriends(friends.map(friend => 
-      friend.id === id ? { ...friend, invited: !friend.invited } : friend
-    ));
-  };
+ const handleInvite = (id: string) => {
+  setFriends(friends.map(friend =>
+    friend.id === id ? { ...friend, invited: !friend.invited } : friend
+  ));
+};
+
 
   const handleClearSearch = () => {
     setSearchQuery('');
   };
 
-  const renderFriendItem = ({ item }) => (
+const renderFriendItem = ({ item }: { item: Friend }) => (
     <View style={styles.friendItem}>
       <View style={styles.friendInfo}>
         <Text style={styles.friendName}>{item.name}</Text>
@@ -198,4 +205,9 @@ const styles = StyleSheet.create({
     color: '#888',
     textAlign: 'center',
   },
+  reinviteButton: {
+  backgroundColor: '#e6f2f2', // or any color to differentiate
+  borderRadius: 4,
+}
+
 });

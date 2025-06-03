@@ -1,24 +1,23 @@
+// app/_layout.tsx or app/layout.tsx (your RootLayout)
+
 import { Stack } from "expo-router";
 import { useFonts } from "expo-font";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import '../global.css';
 import { LogBox } from 'react-native';
 
-// Hide all warnings in the UI, but keep them in the terminal
 LogBox.ignoreAllLogs();
 
-// Create a client
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: 2,
-      staleTime: 1000 * 60 * 5, // 5 minutes
+      staleTime: 1000 * 60 * 5,
     },
   },
 });
 
 export default function RootLayout() {
-  // Load fonts asynchronously using useFonts hook
   const [fontsLoaded] = useFonts({
     'outfit': require('../assets/fonts/Itim-Regular.ttf'),
     'poppins-regular': require('../assets/fonts/Poppins-Regular.ttf'),
@@ -27,14 +26,12 @@ export default function RootLayout() {
     'poppins-semibold': require('../assets/fonts/Poppins-SemiBold.ttf'),
   });
 
-  // Ensure fonts are loaded before rendering
-  if (!fontsLoaded) {
-    return null; // You can display a loading screen or spinner here
-  }
+  if (!fontsLoaded) return null;
 
   return (
     <QueryClientProvider client={queryClient}>
       <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="index" /> 
         <Stack.Screen name="(tabs)" />
       </Stack>
     </QueryClientProvider>

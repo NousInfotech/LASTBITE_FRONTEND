@@ -67,7 +67,7 @@ const RegisterRestaurant = () => {
   const [modalVisible, setModalVisible] = useState(false);
 
 
-  const toggleCuisine = (cuisine) => {
+  const toggleCuisine = (cuisine : string) => {
     setSelectedCuisines((prev) => {
       const updatedCuisines = prev.includes(cuisine)
         ? prev.filter((item) => item !== cuisine) 
@@ -195,12 +195,13 @@ const RegisterRestaurant = () => {
         {label} {required && <Text style={styles.required}>*</Text>}
       </Text>
       <TextInput
-        value={form[field]} // Ensure value matches form field
-        onChangeText={(text) => setForm((prev) => ({ ...prev, [field]: text }))} // Update state
-        placeholder={placeholder || `Enter ${label}`} // Default placeholder
-        style={styles.input}
-        placeholderTextColor="#A0A0A0"
-      />
+  value={String(form[field] ?? "")} 
+  onChangeText={(text) => setForm((prev) => ({ ...prev, [field]: text }))}
+  placeholder={placeholder || `Enter ${label}`}
+  style={styles.input}
+  placeholderTextColor="#A0A0A0"
+/>
+
     </View>
   );
 

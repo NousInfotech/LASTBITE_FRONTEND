@@ -1,0 +1,5 @@
+{
+  "typescript.preferences.exclude": [
+    "**/node_modules/**"
+  ]
+}

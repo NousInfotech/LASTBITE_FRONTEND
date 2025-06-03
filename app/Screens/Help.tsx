@@ -340,7 +340,7 @@ const styles = StyleSheet.create({
   transactionImage: {
     width: 30, // Adjust size as needed
     height: 30,
-    resizeMode: "contain",
+    resizeMode:'contain',
   },
 
   orderContainer: {
@@ -473,7 +473,7 @@ const styles = StyleSheet.create({
   tickImage: {
     width: 18, // Adjust size as needed
     height: 18,
-    resizeMode: "contain",
+    resizeMode:'contain',
   },
 
   paymentMethod: {
@@ -575,7 +575,7 @@ const styles = StyleSheet.create({
   thumbImage: {
     width: 20,
     height: 20,
-    resizeMode: "contain",
+    resizeMode:'contain'
   },
   yesButton: {
     paddingVertical: 8,

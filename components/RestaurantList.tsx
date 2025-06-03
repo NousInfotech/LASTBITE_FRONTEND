@@ -66,9 +66,13 @@ const RestaurantList = () => {
     setFilteredRestaurants(filteredRestaurants.filter(r => r.restaurantId !== id));
   };
 
-  const handlePress = (restaurantId: string) => {
-    router.push(`/restaurant/${restaurantId}`);
-  };
+const handlePress = (restaurantId: string) => {
+   router.push({
+                  pathname: "/Screens/RestaurantSelect",
+                  params: {restaurantId },
+                })
+};
+
 
   useEffect(() => {
     loadRestaurants();

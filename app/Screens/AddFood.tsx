@@ -410,9 +410,6 @@
 
 
 
-
-
-
 import React, { useState, useEffect } from "react";
 import {
   View,
@@ -440,7 +437,10 @@ const FOOD_ITEMS_STORAGE_KEY = "@food_items";
 const AddFood = () => {
   const router = useRouter();
   const [fontsLoaded, setFontsLoaded] = useState(false);
-  const [image, setImage] = useState(null);
+  
+  // Fix: Properly type the image state to allow ImagePickerAsset or null
+  const [image, setImage] = useState<ImagePicker.ImagePickerAsset | null>(null);
+  
   const [category, setCategory] = useState("select");
   const [stockStatus, setStockStatus] = useState(true);
   

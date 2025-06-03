@@ -14,7 +14,7 @@ import { Image } from "react-native";
 import GoBack from "@/components/GoBack";
 import { RFPercentage } from "react-native-responsive-fontsize";
 
-export default function OrderSummaryScreen({ navigation }) {
+export default function OrderSummaryScreen() {
   const orderNumber = "136558-19";
   const items = [
     {

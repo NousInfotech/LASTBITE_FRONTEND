@@ -24,7 +24,8 @@ const Home = () => {
   const [shiftActive, setShiftActive] = useState(false);
   const [earnings, setEarnings] = useState(0);
   const [shiftTime, setShiftTime] = useState("--:-- --");
-  const [timerInterval, setTimerInterval] = useState(null);
+ const [timerInterval, setTimerInterval] = useState<number | null>(null);
+
   const [elapsedTime, setElapsedTime] = useState(0);
   
   useEffect(() => {
@@ -52,7 +53,7 @@ const Home = () => {
         if (startTime) {
           const start = new Date(startTime);
           const now = new Date();
-          const elapsed = Math.floor((now - start) / 1000); // elapsed seconds
+          const elapsed = Math.floor((now.getTime() - start.getTime()) / 1000); // elapsed seconds
           
           setShiftActive(true);
           setEarnings(parseInt(currentEarnings || '0'));
@@ -72,7 +73,7 @@ const Home = () => {
   };
 
   // Format time to HH:MM AM/PM
-  const formatTime = (date) => {
+  const formatTime = (date: Date) => {
     let hours = date.getHours();
     const minutes = date.getMinutes();
     const ampm = hours >= 12 ? 'PM' : 'AM';
@@ -148,7 +149,7 @@ const Home = () => {
   };
 
   // Format elapsed time for display
-  const formatElapsedTime = (seconds) => {
+  const formatElapsedTime = (seconds: number) => {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     const remainingSeconds = seconds % 60;
@@ -630,6 +631,37 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#666666",
     fontFamily: "Poppins-Regular",
+  },
+  // New styles for the stop timer modal
+  shiftStats: {
+    fontSize: 16,
+    color: "#333333",
+    textAlign: "center",
+    marginBottom: 10,
+    fontFamily: "Poppins-Medium",
+  },
+  stopShiftButton: {
+    backgroundColor: "#DC3545",
+    borderRadius: 8,
+    paddingVertical: 12,
+    width: "100%",
+    alignItems: "center",
+    marginBottom: 12,
+    marginTop: 20,
+  },
+  cancelButton: {
+    backgroundColor: "transparent",
+    borderWidth: 1,
+    borderColor: "#01615F",
+    borderRadius: 8,
+    paddingVertical: 12,
+    width: "100%",
+    alignItems: "center",
+  },
+  cancelButtonText: {
+    color: "#01615F",
+    fontSize: RFPercentage(2),
+    fontWeight: "600",
   },
 });
 

@@ -21,7 +21,8 @@ import * as ImagePicker from "expo-image-picker";
 const ProfileScreen = () => {
   const router = useRouter();
   const [fontsLoaded, setFontsLoaded] = useState(false);
-  const [profileImage, setProfileImage] = useState(null);
+const [profileImage, setProfileImage] = useState<string | null>(null);
+
   const [showOptions, setShowOptions] = useState(false);
 
   useEffect(() => {

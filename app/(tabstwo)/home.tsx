@@ -19,17 +19,18 @@ const Home = () => {
   const router = useRouter();
   const [prepTime, setPrepTime] = useState(15);
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedOrderId, setSelectedOrderId] = useState(null);
+ const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
+
   const orderNumber = "136558-19";
 
   const handleViewOrder = () => {
     router.push("/Screens/ViewOrder");
   };
 
-  const handleConfirmOrder = (orderId) => {
-    setSelectedOrderId(orderId);
-    setModalVisible(true);
-  };
+ const handleConfirmOrder = (orderId: string) => {
+  setSelectedOrderId(orderId);
+  setModalVisible(true);
+};
 
   const decrementPrepTime = () => {
     if (prepTime > 5) {

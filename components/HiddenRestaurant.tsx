@@ -15,23 +15,38 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import FeedbackReceived from "./FeedbackReceived";
 import { RFPercentage } from "react-native-responsive-fontsize";
 
-const HiddenRestaurant = ({ restaurant, onClose, onUndo }) => {
-  const [feedbackVisible, setFeedbackVisible] = useState(false);
-  const [feedbackText, setFeedbackText] = useState("");
-  const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
-  const [mainModalVisible, setMainModalVisible] = useState(true);
+// ✅ 1. Define prop types
+interface HiddenRestaurantProps {
+  restaurant: {
+    id: string;
+    name: string;
+  };
+  onClose: () => void;
+  onUndo: (id: string) => void;
+}
+
+// ✅ 2. Use prop types in component definition
+const HiddenRestaurant: React.FC<HiddenRestaurantProps> = ({
+  restaurant,
+  onClose,
+  onUndo,
+}) => {
+  const [feedbackVisible, setFeedbackVisible] = useState<boolean>(false);
+  const [feedbackText, setFeedbackText] = useState<string>("");
+  const [feedbackSubmitted, setFeedbackSubmitted] = useState<boolean>(false);
+  const [mainModalVisible, setMainModalVisible] = useState<boolean>(true);
 
   const handleTellMore = () => {
-    setMainModalVisible(false); // Hide the main modal
-    setFeedbackVisible(true); // Show the feedback modal
+    setMainModalVisible(false);
+    setFeedbackVisible(true);
   };
 
   const handleClose = () => {
     if (feedbackVisible) {
       setFeedbackVisible(false);
-      setMainModalVisible(true); // Return to the main modal if feedback modal is closed
+      setMainModalVisible(true);
     } else {
-      onClose(); // Close the entire component
+      onClose();
     }
   };
 
@@ -45,86 +60,88 @@ const HiddenRestaurant = ({ restaurant, onClose, onUndo }) => {
   };
 
   const handleUndo = () => {
-    onUndo(restaurant.id); // Call the onUndo function to remove restaurant from hidden list
-    onClose(); // Close the modal
+    onUndo(restaurant.id);
+    onClose();
   };
 
   if (feedbackSubmitted) {
     return (
       <FeedbackReceived
         message="Thank you for your feedback!"
-        onClose={handleClose} // Pass the onClose handler
+        onClose={handleClose}
       />
     );
   }
+
   return (
     <>
-    {mainModalVisible && (
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.title}>We have hidden Spice Haven</Text>
-          <TouchableOpacity onPress={onClose}>
-            <X stroke="#666" width={24} height={24} />
-          </TouchableOpacity>
-        </View>
-
-        <Text style={styles.description}>
-          You can unhide it from your Account section. Tell us more about your
-          decision and help us recommend you better.
-        </Text>
-
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.undoButton} onPress={handleUndo}>
-            <FontAwesome name="undo" size={24} color="#097969" />
-            <Text style={styles.undoText}>Undo</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.tellMoreButton}
-            onPress={handleTellMore}
-            accessible={true}
-            accessibilityLabel="Provide additional feedback"
-          >
-            <Text style={styles.tellMoreText}>Tell Us More</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    )}
-
-    {feedbackVisible && (
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.feedbackWrapper}
-      >
-        <View style={styles.feedbackContainer}>
-          <View style={styles.feedbackHeader}>
-            <Text style={styles.feedbackTitle}>We'd love your feedback</Text>
-            <TouchableOpacity onPress={handleClose}>
+      {mainModalVisible && (
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <Text style={styles.title}>We have hidden {restaurant.name}</Text>
+            <TouchableOpacity onPress={onClose}>
               <X stroke="#666" width={24} height={24} />
             </TouchableOpacity>
           </View>
-          <TextInput
-            style={styles.feedbackInput}
-            placeholder="Please tell us more about your decision..."
-            placeholderTextColor="#aaa"
-            multiline
-            numberOfLines={4}
-            value={feedbackText}
-            onChangeText={setFeedbackText}
-          />
-          <TouchableOpacity
-            style={styles.submitButton}
-            onPress={handleSubmitFeedback}
-          >
-            <Text style={styles.submitText}>Submit</Text>
-          </TouchableOpacity>
+
+          <Text style={styles.description}>
+            You can unhide it from your Account section. Tell us more about
+            your decision and help us recommend you better.
+          </Text>
+
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity style={styles.undoButton} onPress={handleUndo}>
+              <FontAwesome name="undo" size={24} color="#097969" />
+              <Text style={styles.undoText}>Undo</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.tellMoreButton}
+              onPress={handleTellMore}
+              accessible={true}
+              accessibilityLabel="Provide additional feedback"
+            >
+              <Text style={styles.tellMoreText}>Tell Us More</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </KeyboardAvoidingView>
-    )}
-  </>
-);
+      )}
+
+      {feedbackVisible && (
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={styles.feedbackWrapper}
+        >
+          <View style={styles.feedbackContainer}>
+            <View style={styles.feedbackHeader}>
+              <Text style={styles.feedbackTitle}>We'd love your feedback</Text>
+              <TouchableOpacity onPress={handleClose}>
+                <X stroke="#666" width={24} height={24} />
+              </TouchableOpacity>
+            </View>
+            <TextInput
+              style={styles.feedbackInput}
+              placeholder="Please tell us more about your decision..."
+              placeholderTextColor="#aaa"
+              multiline
+              numberOfLines={4}
+              value={feedbackText}
+              onChangeText={setFeedbackText}
+            />
+            <TouchableOpacity
+              style={styles.submitButton}
+              onPress={handleSubmitFeedback}
+            >
+              <Text style={styles.submitText}>Submit</Text>
+            </TouchableOpacity>
+          </View>
+        </KeyboardAvoidingView>
+      )}
+    </>
+  );
 };
-const { width, height } = Dimensions.get("window");
+
+const { width } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
   container: {

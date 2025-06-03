@@ -4,6 +4,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import CustomButton from "@/components/CustomButton";
 import axios from "axios";
 import Constants from 'expo-constants';
+import GoBack from "@/components/GoBack";
 
 const EnterOtp = () => {
   // const apiUrl = Constants.expoConfig.extra.API_URL;
@@ -38,6 +39,7 @@ const EnterOtp = () => {
 
   return (
     <View style={styles.container}>
+    <GoBack/>
       <Text style={styles.title}>Enter OTP</Text>
       <TextInput
         style={styles.input}

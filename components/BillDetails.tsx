@@ -13,7 +13,7 @@ interface BillDetailsProps {
   total: number;
 }
 
-const BillDetails: React.FC<BillDetailsProps> = () => {
+const BillDetails: React.FC<BillDetailsProps> = ({ items, total }) => {
   const billItems: BillItem[] = [
     { label: 'Item Total', amount: 70},
     { label: 'Delivery Fee | 11.0 kms', amount: 79.00 },
@@ -29,18 +29,18 @@ const BillDetails: React.FC<BillDetailsProps> = () => {
   const totalAmount = billItems.reduce((sum, item) => sum + item.amount, 0);
 
   return (
-    <View style={styles.container}>
+<View style={styles.container}>
       <Text style={styles.title}>Bill Details</Text>
       <View style={styles.billContainer}>
-        {billItems.map((item, index) => (
-          <View 
-            key={index} 
+        {items.map((item, index) => (
+          <View
+            key={index}
             style={[
               styles.billRow,
               item.note && styles.noteRow
             ]}
           >
-            <Text 
+            <Text
               style={[
                 styles.label,
                 item.note && styles.noteText
@@ -55,10 +55,10 @@ const BillDetails: React.FC<BillDetailsProps> = () => {
             )}
           </View>
         ))}
-        
+
         <View style={styles.totalRow}>
           <Text style={styles.totalLabel}>To Pay</Text>
-          <Text style={styles.totalAmount}>₹{totalAmount.toFixed(2)}</Text>
+          <Text style={styles.totalAmount}>₹{total.toFixed(2)}</Text>
         </View>
       </View>
     </View>

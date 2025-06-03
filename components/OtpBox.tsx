@@ -2,38 +2,48 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import { OtpInput } from "react-native-otp-entry";
 
+// Define the props the component will accept
 interface OtpInputProps {
-  otp: string; // Store the OTP as a string instead of an array
-  handleOtpChange: (otp: string) => void; // Callback function to update OTP state
+  handleOtpChange: (otp: string) => void; // Callback to update the OTP state in the parent
 }
 
-const OtpBox: React.FC<OtpInputProps> = ({ otp, handleOtpChange }) => {
-  // Function to handle OTP input changes
+// Functional component
+const OtpBox: React.FC<OtpInputProps> = ({ handleOtpChange }) => {
+  // Handle OTP input changes when user types
   const handleOtpInput = (newOtp: string) => {
-    handleOtpChange(newOtp); // Update OTP state with the entered OTP string
+    handleOtpChange(newOtp); // Call parent function to update OTP
   };
 
   return (
     <View style={styles.otpContainer}>
       <OtpInput
-        value={otp} // Pass the OTP value as a string
-        onChangeOtp={handleOtpInput} // Handle OTP input changes
-        style={styles.otpEntry} // Custom styles for OTP input field
-        autoFocus={true} // Optional: Auto-focus on the first input
+        numberOfDigits={6} // You can change to 4, 6, etc.
+        focusColor="#006A6A" // Optional: focus color on active digit
+        onTextChange={handleOtpInput} // Called when OTP input changes
+        autoFocus // Automatically focus input
+        theme={{
+          pinCodeContainerStyle: styles.otpEntry, // Styling for each OTP box
+        }}
       />
     </View>
   );
 };
 
+// Styles for the component
 const styles = StyleSheet.create({
   otpContainer: {
     flexDirection: "row",
-    justifyContent: "center", // Center the OTP boxes
+    justifyContent: "center",
     marginBottom: 32,
   },
   otpEntry: {
-    width: "80%", // Adjust the width of OTP input (you can modify this)
-    justifyContent: "space-between", // Space between the OTP fields
+    borderBottomWidth: 2,
+    borderColor: "#ccc",
+    width: 40,
+    height: 50,
+    marginHorizontal: 6,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

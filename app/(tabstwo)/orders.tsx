@@ -12,13 +12,32 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router"; // Added missing import
 import GoBack from "@/components/GoBack";
 import { RFPercentage } from "react-native-responsive-fontsize";
 
+// Define types for better type safety
+interface Order {
+  id: string;
+  time: string;
+  date: string;
+  items: number;
+  total: number;
+  status: OrderStatus;
+  additionalInfo: {
+    type: string;
+    value: string;
+  } | null;
+}
+
+type OrderStatus = "Unconfirmed" | "Order Prepared" | "Order Packed" | "Hand Over" | "Picked" | "Delivered";
+type FilterType = "Today" | "Weekly" | "Monthly" | "Yearly" | "Reset";
+
 export default function OrdersScreen() {
-  const [activeTab, setActiveTab] = useState("All");
-  const [filterDropdownVisible, setFilterDropdownVisible] = useState(false);
-  const [activeFilter, setActiveFilter] = useState("All Time");
+  const router = useRouter(); // Initialize router
+  const [activeTab, setActiveTab] = useState<string>("All");
+  const [filterDropdownVisible, setFilterDropdownVisible] = useState<boolean>(false);
+  const [activeFilter, setActiveFilter] = useState<string>("All Time");
   
   const tabs = [
     "All",
@@ -30,7 +49,7 @@ export default function OrdersScreen() {
     "Delivered",
   ];
 
-  const filterOptions = [
+  const filterOptions: FilterType[] = [
     "Today",
     "Weekly",
     "Monthly",
@@ -39,7 +58,7 @@ export default function OrdersScreen() {
   ];
 
   // Define the status sequence
-  const statusSequence = [
+  const statusSequence: OrderStatus[] = [
     "Unconfirmed",
     "Order Prepared",
     "Order Packed",
@@ -49,16 +68,17 @@ export default function OrdersScreen() {
   ];
 
   // Define button text for each status (showing the NEXT action)
-  const buttonTextMap = {
+  const buttonTextMap: Record<OrderStatus, string> = {
     "Unconfirmed": "Order Prepared",
     "Order Prepared": "Order Packed",
     "Order Packed": "Hand Over",
     "Hand Over": "Picked",
-    "Picked": "Delivered"
+    "Picked": "Delivered",
+    "Delivered": "Delivered" // This won't be used as delivered orders don't show button
   };
   
   // Initialize orders with current status
-  const [orders, setOrders] = useState([
+  const [orders, setOrders] = useState<Order[]>([
     {
       id: "#136558-19",
       time: "05:19 PM",
@@ -131,13 +151,13 @@ export default function OrdersScreen() {
   ]);
 
   // Store the original unfiltered orders
-  const [originalOrders] = useState([...orders]);
+  const [originalOrders] = useState<Order[]>([...orders]);
 
   // Function to filter orders by date
-  const filterOrdersByDate = (filterType) => {
+  const filterOrdersByDate = (filterType: FilterType) => {
     const currentDate = new Date();
     const today = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
-    let filteredOrders = [];
+    let filteredOrders: Order[] = [];
 
     switch (filterType) {
       case "Today":
@@ -206,7 +226,7 @@ export default function OrdersScreen() {
       : orders.filter((order) => order.status === activeTab);
 
   // Function to handle status progression when button is clicked
-  const handleStatusChange = (orderIndex) => {
+  const handleStatusChange = (orderIndex: number) => {
     const updatedOrders = [...orders];
     const currentOrder = updatedOrders[orderIndex];
     
@@ -221,7 +241,7 @@ export default function OrdersScreen() {
     }
   };
 
-  const getStatusIcon = (status) => {
+  const getStatusIcon = (status: OrderStatus) => {
     switch (status) {
       case "Order Packed":
         return (
@@ -268,7 +288,7 @@ export default function OrdersScreen() {
     router.push('/Screens/ViewOrder');
   };
 
-  const renderOrderCard = ({ item, index }) => {
+  const renderOrderCard = ({ item, index }: { item: Order; index: number }) => {
     // Determine if we need to show the action button
     // We don't show the button for "Delivered" status as that's the final status
     const isDelivered = item.status === "Delivered";
@@ -369,8 +389,8 @@ export default function OrdersScreen() {
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.tabScrollContainer}
-          style={styles.tabContainer}
+          contentContainerStyle={styles.tabContainer}
+          style={styles.tabScrollView}
         >
           {tabs.map((tab) => (
             <TouchableOpacity
@@ -448,6 +468,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#e0e0e0",
   },
+  tabScrollView: {
+    flexDirection: "row",
+  },
   tab: {
     paddingVertical: 12,
     marginRight: 20,
@@ -455,6 +478,9 @@ const styles = StyleSheet.create({
   tabText: {
     fontSize: 14,
     color: "#9e9e9e",
+  },
+  activeTab: {
+    // Style for active tab container if needed
   },
   activeTabText: {
     color: "#fff",

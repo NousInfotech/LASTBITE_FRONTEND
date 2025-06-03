@@ -272,7 +272,7 @@ const styles = StyleSheet.create({
   walletIcon: {
     width: 40,
     height: 40,
-    resizeMode: "contain",
+   resizeMode:'contain',
     marginLeft: 16,
   },
   input: {

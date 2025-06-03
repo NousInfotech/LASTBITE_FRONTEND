@@ -15,7 +15,7 @@ import * as Font from "expo-font";
 import { AntDesign } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { RFPercentage } from "react-native-responsive-fontsize";
-import { useUserData } from "../UserDetails/UserDataStore";
+import { useUserData } from "@/utils/UserDataStore";
 
 const ProfileScreen: React.FC = () => {
   const router = useRouter();
@@ -262,7 +262,7 @@ interface Styles {
 }
 
 const styles = StyleSheet.create({
-  container: {
+container: {
     flex: 1,
     backgroundColor: "#fff",
   },
@@ -324,53 +324,50 @@ const styles = StyleSheet.create({
     padding: 14,
     marginBottom: 16,
     shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05,
-    shadowRadius: 4,
-    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 3,
     elevation: 2,
   },
   menuTitle: {
-    fontSize: RFPercentage(2),
+    fontSize: 15,
     fontFamily: "Poppins-Medium",
+    color: "#000",
   },
   menuSubtitle: {
-    fontSize: RFPercentage(2),
-    color: "#757575",
+    fontSize: 12,
     fontFamily: "Poppins-Regular",
+    color: "#757575",
     marginTop: 2,
   },
   dropdownMenu: {
-    backgroundColor: "#FFF",
-    borderBottomLeftRadius: 8,
-    borderBottomRightRadius: 8,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderWidth: 1,
-    borderColor: "#ECECEC",
     marginBottom: 16,
-    marginTop: -20,
+    paddingLeft: 4,
   },
   menuItem: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingVertical: 8,
+    backgroundColor: "#F9F9F9",
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    borderRadius: 8,
+    marginBottom: 10,
   },
   menuItemText: {
-    fontSize: 14,
-    fontFamily: "Poppins-Medium",
     flex: 1,
-    marginLeft: 8,
+    fontFamily: "Poppins-Regular",
+    fontSize: 14,
+    marginLeft: 10,
+    color: "#000",
   },
   iconBox: {
-    width: 32,
-    height: 32,
-    borderRadius: 4,
-    backgroundColor: "#FFF",
-    borderWidth: 1,
-    borderColor: "#ccc",
-    alignItems: "center",
+    width: 28,
+    height: 28,
     justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#E9F5F3",
+    borderRadius: 14,
   },
   iconImage: {
     width: 20,

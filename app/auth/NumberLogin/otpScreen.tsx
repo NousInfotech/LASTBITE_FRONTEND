@@ -23,16 +23,12 @@ const PhoneNumberScreen = () => {
 
   console.log("Current role:", role); // Add this for debugging
 
-  const formatPhoneNumber = (number) => number.replace(/\D/g, "");
-  
-  const isValidIndianNumber = (number) => {
-    return /^[6-9]\d{9}$/.test(number);
-  };
-
-  const handleMobileNumberChange = (text) => {
-    const formattedText = text.replace(/\D/g, "").trim();
-    setMobileNumber(formattedText);
-  };
+ const formatPhoneNumber = (number: string): string => number.replace(/\D/g, "");
+const isValidIndianNumber = (number: string): boolean => /^[6-9]\d{9}$/.test(number);
+const handleMobileNumberChange = (text: string): void => {
+  const formattedText = text.replace(/\D/g, "").trim();
+  setMobileNumber(formattedText);
+};
 
   const sendVerification = async () => {
     const formattedNumber = formatPhoneNumber(mobileNumber);
@@ -60,20 +56,16 @@ const PhoneNumberScreen = () => {
       } else {
         Alert.alert("Failed", "Couldn't send OTP.");
       }
-    } catch (err) {
-      console.error("OTP Send Error:", err.response?.data || err.message);
-      
-      if (err.response?.status === 429) {
-        Alert.alert("Too Many Attempts", "Please try again after some time.");
-      } else if (err.response?.status === 400) {
-        Alert.alert("Invalid Number", "The phone number format is not valid.");
-      } else {
-        Alert.alert(
-          "Error",
-          err?.response?.data?.message || "Failed to send OTP. Please try again."
-        );
-      }
-    } finally {
+   } catch (err: any) {
+  console.error("OTP Send Error:", err.response?.data || err.message);
+  if (err.response?.status === 429) {
+    Alert.alert("Too Many Attempts", "Please try again after some time.");
+  } else if (err.response?.status === 400) {
+    Alert.alert("Invalid Number", "The phone number format is not valid.");
+  } else {
+    Alert.alert("Error", err?.response?.data?.message || "Failed to send OTP. Please try again.");
+  }
+}finally {
       setIsLoading(false);
     }
   };
@@ -88,7 +80,7 @@ const PhoneNumberScreen = () => {
       return "/(tabsthree)/home";
     } else {
       // Default for "User" and any other role
-      return "/(tabs)/home";
+      return "/initialscreens/onboarding";
     }
   };
 
@@ -117,6 +109,10 @@ const PhoneNumberScreen = () => {
           skip: getSkipDestination(),
         }}
       />
+      <Text style={{ fontSize: 14, color: "#555", marginBottom: 10 }}>
+  In production, click 'Skip' to continue without phone verification.
+</Text>
+
 
       <Text style={styles.title}>Phone Verification</Text>
 
@@ -139,13 +135,13 @@ const PhoneNumberScreen = () => {
         backgroundColor={mobileNumber.length === 10 && isValidIndianNumber(mobileNumber) ? "#01615F" : "#ccc"}
       />
 
-      <CustomButton
+      {/* <CustomButton
         title="Skip"
         onPress={handleSkip}
         backgroundColor="#EEEEEE"
         textColor="#333333"
         style={styles.skipButton}
-      />
+      /> */}
 
       {isLoading && <ActivityIndicator size="small" color="#01615F" />}
     </View>

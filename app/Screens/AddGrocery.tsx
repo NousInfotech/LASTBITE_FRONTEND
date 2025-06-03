@@ -414,6 +414,8 @@
 
 
 import React, { useState, useEffect } from "react";
+import { ImagePickerAsset } from "expo-image-picker";
+
 import {
   View,
   Text,
@@ -440,7 +442,7 @@ const GROCERY_ITEMS_STORAGE_KEY = "@grocery_items";
 const AddGrocery = () => {
   const router = useRouter();
   const [fontsLoaded, setFontsLoaded] = useState(false);
-  const [image, setImage] = useState(null);
+ const [image, setImage] = useState<ImagePickerAsset | null>(null);
   const [category, setCategory] = useState("select");
   const [stockStatus, setStockStatus] = useState(true);
   

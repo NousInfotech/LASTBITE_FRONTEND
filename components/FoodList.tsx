@@ -3,6 +3,7 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import FilterModal from "./FilterModal";
 import { RFPercentage } from "react-native-responsive-fontsize";
+
 import { 
   addToHiddenRestaurants, 
   removeFromHiddenRestaurants, 
@@ -21,7 +22,7 @@ interface RestaurantCardProps {
   onPress?: (restaurantId: string) => void;
   hideOption?: boolean;
   refreshList?: () => void;
-  isGrayscale?: boolean;
+  isUnavailable?: boolean; // Changed from isGrayscale to isUnavailable
 }
 
 const RestaurantCard: React.FC<RestaurantCardProps> = ({
@@ -32,7 +33,7 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({
   onPress,
   hideOption = true,
   refreshList,
-  isGrayscale = false
+  isUnavailable = false // Changed from isGrayscale to isUnavailable
 }) => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -87,15 +88,30 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({
 
   return (
     <TouchableOpacity onPress={() => onPress?.(restaurant.restaurantId)}>
-      <View style={styles.card}>
-        <Image
-          source={{ uri: restaurant.coverImage }}
-          style={[
-            styles.image,
-            isGrayscale && styles.grayscaleImage
-          ]}
-          resizeMode="cover"
-        />
+      <View style={[
+        styles.card,
+        isUnavailable && styles.unavailableCard
+      ]}>
+        <View style={styles.imageContainer}>
+          <Image
+            source={{ uri: restaurant.coverImage }}
+            style={[
+              styles.image,
+              isUnavailable && styles.unavailableImage
+            ]}
+            resizeMode="cover"
+          />
+          
+          {/* Overlay for unavailable state */}
+          {isUnavailable && (
+            <View style={styles.unavailableOverlay}>
+              <View style={styles.unavailableBadge}>
+                <MaterialIcons name="schedule" size={20} color="white" />
+                <Text style={styles.unavailableText}>Currently Unavailable</Text>
+              </View>
+            </View>
+          )}
+        </View>
 
         <TouchableOpacity
           style={styles.menuButtonLeft}
@@ -131,16 +147,39 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({
           </View>
         )}
 
-        <View style={styles.infoContainer}>
+        <View style={[
+          styles.infoContainer,
+          isUnavailable && styles.unavailableInfoContainer
+        ]}>
           <View style={styles.mainInfo}>
-            <Text style={styles.title}>{restaurant.name}</Text>
+            <Text style={[
+              styles.title,
+              isUnavailable && styles.unavailableTitle
+            ]}>
+              {restaurant.name}
+            </Text>
             <View style={styles.ratingContainer}>
               <MaterialIcons name="star" size={20} color="#FFD700" />
-              <Text style={styles.rating}>{restaurant.ratingAverage}</Text>
-              <Text style={styles.ratingCount}>({restaurant.ratingCount})</Text>
+              <Text style={[
+                styles.rating,
+                isUnavailable && styles.unavailableText
+              ]}>
+                {restaurant.ratingAverage}
+              </Text>
+              <Text style={[
+                styles.ratingCount,
+                isUnavailable && styles.unavailableText
+              ]}>
+                ({restaurant.ratingCount})
+              </Text>
             </View>
           </View>
-          <Text style={styles.subtitle}>{restaurant.details}</Text>
+          <Text style={[
+            styles.subtitle,
+            isUnavailable && styles.unavailableSubtitle
+          ]}>
+            {restaurant.details}
+          </Text>
         </View>
 
         <FilterModal
@@ -183,14 +222,48 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
+  unavailableCard: {
+    opacity: 0.7,
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+  },
+  imageContainer: {
+    position: 'relative',
+  },
   image: {
     width: "100%",
     height: 180,
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
   },
-  grayscaleImage: {
-    filter: "grayscale(100%)",
+  unavailableImage: {
+    opacity: 0.5,
+  },
+  unavailableOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
+  },
+  unavailableBadge: {
+    backgroundColor: '#FF6B6B',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  unavailableText: {
+    color: 'white',
+    fontSize: 12,
+    fontWeight: '600',
+    marginLeft: 4,
   },
   menuButtonLeft: {
     position: "absolute",
@@ -237,6 +310,9 @@ const styles = StyleSheet.create({
   infoContainer: {
     padding: 16,
   },
+  unavailableInfoContainer: {
+    backgroundColor: '#F8F8F8',
+  },
   mainInfo: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -244,6 +320,9 @@ const styles = StyleSheet.create({
   title: {
     fontSize: RFPercentage(2.5),
     fontWeight: "bold",
+  },
+  unavailableTitle: {
+    color: '#999',
   },
   ratingContainer: {
     flexDirection: "row",
@@ -257,6 +336,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#666",
     marginTop: 4,
+  },
+  unavailableSubtitle: {
+    color: '#999',
   },
   ratingCount: {
     fontSize: 14,

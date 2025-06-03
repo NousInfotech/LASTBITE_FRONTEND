@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   View,
   Text,
@@ -6,38 +6,49 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
-import { X } from "react-native-feather"; // For the X icon
-import * as Font from "expo-font"; // Correct way to load fonts
-import AppLoading from "expo-app-loading"; // To handle font loading splash
+import { X } from "react-native-feather";
+import * as Font from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
 import Octicons from "@expo/vector-icons/Octicons";
-import FilterModal from "./FilterModal"; // Ensure this file/component exists and is correctly implemented
-import { RFPercentage } from "react-native-responsive-fontsize";
+import FilterModal from "./FilterModal";
+
+// Keep the splash screen visible while loading fonts
+SplashScreen.preventAutoHideAsync();
 
 const FilterButtons = () => {
-  const [filters, setFilters] = useState([
-    "Filter by",
-    "Pure Veg",
-    "Non Veg",
-  ]);
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+  const [filters, setFilters] = useState(["Filter by", "Pure Veg", "Non Veg"]);
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const [fontsLoaded, setFontsLoaded] = useState(false);
+  // Load fonts and hide splash screen
+  useEffect(() => {
+    const prepareResources = async () => {
+      try {
+        await Font.loadAsync({
+          "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
+          "Poppins-Medium": require("../assets/fonts/Poppins-Medium.ttf"),
+        });
+      } catch (e) {
+        console.warn("Error loading fonts:", e);
+      } finally {
+        setFontsLoaded(true);
+        await SplashScreen.hideAsync();
+      }
+    };
 
-  const loadFonts = async () => {
-    await Font.loadAsync({
-      "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
-      "Poppins-Medium": require("../assets/fonts/Poppins-Medium.ttf"),
-    });
-    setFontsLoaded(true);
-  };
-
-  React.useEffect(() => {
-    loadFonts();
+    prepareResources();
   }, []);
 
+  // Callback to tell React Native when layout is done (to hide splash screen)
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return null; // Keep splash screen shown until fonts are ready
   }
 
   const toggleActiveFilter = (filter: string) => {
@@ -52,8 +63,16 @@ const FilterButtons = () => {
     setActiveFilters((prevFilters) => prevFilters.filter((f) => f !== filter));
   };
 
+  const handleApply = (selectedOption: string | string[]) => {
+    if (Array.isArray(selectedOption)) {
+      console.log("Multiple selected:", selectedOption);
+    } else {
+      console.log("Single selected:", selectedOption);
+    }
+  };
+
   return (
-    <View>
+    <View onLayout={onLayoutRootView}>
       <Text style={styles.title}>Where to Eat Next</Text>
       <ScrollView horizontal contentContainerStyle={styles.filterContainer}>
         {filters.map((filter, index) => (
@@ -62,11 +81,11 @@ const FilterButtons = () => {
             style={[
               styles.filterButton,
               activeFilters.includes(filter) && styles.activeFilter,
-              index === 0 && styles.firstButtonWithMargin, // Add left margin to the first button
+              index === 0 && styles.firstButtonWithMargin,
             ]}
             onPress={() => {
               if (filter === "Filter by") {
-                setIsModalVisible(true); // Open modal
+                setIsModalVisible(true);
               } else {
                 toggleActiveFilter(filter);
               }
@@ -100,10 +119,12 @@ const FilterButtons = () => {
           </TouchableOpacity>
         ))}
       </ScrollView>
+
       {isModalVisible && (
         <FilterModal
           visible={isModalVisible}
           onClose={() => setIsModalVisible(false)}
+          onApply={handleApply}
           title="Filter"
           filterOptions={[
             "Relevance",
@@ -127,7 +148,7 @@ const FilterButtons = () => {
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: RFPercentage(2),
+    fontSize: 16,
     fontFamily: "Poppins-Medium",
     marginBottom: 10,
     paddingHorizontal: 16,
@@ -147,7 +168,7 @@ const styles = StyleSheet.create({
     borderColor: "#e0e0e0",
   },
   firstButtonWithMargin: {
-    marginLeft: 16, // Add default left margin to the first button
+    marginLeft: 16,
   },
   activeFilter: {
     backgroundColor: "#01615F",

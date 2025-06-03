@@ -10,12 +10,12 @@ const Onboarding = () => {
   const [activeOption, setActiveOption] = useState<string>("Food");
   const [fadeAnim] = useState(new Animated.Value(1)); 
   const [fontsLoaded, setFontsLoaded] = useState(false);
-  const options: string[] = ["Food", "Instamart", "Dineout"];
+  const options: string[] = ["Food", "Supermart"];
 
   const images: Record<string, any> = {
     Food: require("../../assets/images/Food.gif"),
     Instamart: require("../../assets/images/supermart.gif"),
-    Dineout: require("../../assets/images/OrderTracking.gif"),
+    // Dineout: require("../../assets/images/OrderTracking.gif"),
   };
 
   useEffect(() => {

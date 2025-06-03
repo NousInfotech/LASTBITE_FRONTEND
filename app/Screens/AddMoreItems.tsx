@@ -25,8 +25,8 @@ interface Item {
 interface AddMoreItemsModalProps {
   visible: boolean;
   onClose: () => void;
-  currentItems: Item[];
-  onUpdateItems: (items: Item[]) => void;
+  currentItems: Item[];               // NOT 'items'
+  onUpdateItems: (items: Item[]) => void;  // NOT 'setItems'
   onAddToCart: () => void;
   restaurantId?: string;
 }

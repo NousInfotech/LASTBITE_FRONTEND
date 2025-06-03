@@ -18,9 +18,15 @@ interface Restaurant {
   coverImage?: string;
   rating?: number;
   ratingAverage?: number;
+  ratingCount?: number;
   deliveryTime?: string;
   location?: string;
   details?: string;
+  categories?: string[];
+  menu?: any[];
+  isActive?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 interface RestaurantCardProps {
@@ -72,8 +78,27 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({
         await removeFromFavoriteRestaurants(restaurantId);
         setIsFavorite(false);
       } else {
-        // Add to favorites
-        await addToFavoriteRestaurants(restaurant);
+        // Add to favorites - create a complete restaurant object
+        const completeRestaurant = {
+          id: restaurant.id,
+          restaurantId: restaurant.restaurantId,
+          name: restaurant.name,
+          image: restaurant.image || restaurant.coverImage || "",
+          coverImage: restaurant.coverImage || restaurant.image || "",
+          rating: restaurant.rating || restaurant.ratingAverage || 0,
+          ratingAverage: restaurant.ratingAverage || restaurant.rating || 0,
+          ratingCount: restaurant.ratingCount || 0,
+          deliveryTime: restaurant.deliveryTime || "",
+          location: restaurant.location || restaurant.details || "",
+          details: restaurant.details || restaurant.location || "",
+          categories: restaurant.categories || [],
+          menu: restaurant.menu || [],
+          isActive: restaurant.isActive !== undefined ? restaurant.isActive : true,
+          createdAt: restaurant.createdAt || new Date().toISOString(),
+          updatedAt: restaurant.updatedAt || new Date().toISOString(),
+        };
+        
+        await addToFavoriteRestaurants(completeRestaurant);
         setIsFavorite(true);
         if (!isFavoritesScreen) {
           setToastVisible?.(true);

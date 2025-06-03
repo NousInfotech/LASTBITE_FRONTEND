@@ -20,7 +20,7 @@ import { RFPercentage } from "react-native-responsive-fontsize";
 import { 
   getFavoriteRestaurants, 
   Restaurant, 
-  removeFromFavorites 
+ removeFromFavoriteRestaurants
 } from "@/utils/RestaurantStorage";
 import { useFocusEffect } from "expo-router";
 
@@ -48,7 +48,7 @@ const Favourites = () => {
   const handleFavorite = async (id: string) => {
     try {
       // Remove from AsyncStorage
-      await removeFromFavorites(id);
+      await removeFromFavoriteRestaurants(id);
       
       // Update the local state
       setFavoriteRestaurants(prev => prev.filter(item => item.restaurantId !== id));
@@ -146,7 +146,10 @@ const Favourites = () => {
                 setToastVisible={setToastVisible}
                 onPress={(id) => {
                   // Navigate to restaurant details
-                  router.push(`/restaurant/${id}`);
+                  router.push({
+  pathname: "/Screens/RestaurantSelect",
+  params: { restaurantId: id }
+});
                 }}
               />
             )}
@@ -195,7 +198,7 @@ const styles = StyleSheet.create({
   mainImage: {
     width: 300,
     height: 300,
-    resizeMode: "contain",
+   resizeMode:'contain'
   },
   Title: {
     fontSize: RFPercentage(2),

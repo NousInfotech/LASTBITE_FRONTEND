@@ -358,6 +358,6 @@ const styles = StyleSheet.create({
     width: 16, // Adjust as per your design
     height: 16, // Ensure height matches the font size for alignment
     marginRight: 4, // Add spacing between the image and the text
-    resizeMode: "contain",
+    resizeMode:'contain'
   },
 });

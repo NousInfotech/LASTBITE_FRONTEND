@@ -14,8 +14,23 @@ import {
 import { Ionicons } from '@expo/vector-icons'; // Import Ionicons from Expo vector icons
 import GoBack from "@/components/GoBack";
 import { RFPercentage } from "react-native-responsive-fontsize";
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+type RootStackParamList = {
+  OrderSummary: undefined;
+  // Add other screens here
+};
 
-export default function OrderSummaryScreen({ navigation }) {
+type OrderSummaryScreenNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'OrderSummary'
+>;
+
+type Props = {
+  navigation: OrderSummaryScreenNavigationProp;
+};
+
+export default function OrderSummaryScreen({ navigation }: Props) {
+
   const orderNumber = "136558-19";
   const items = [
     {
@@ -723,5 +738,11 @@ const styles = StyleSheet.create({
       fontSize: 14,
       fontWeight: "bold",
       color: "#333333",
-    }
+    },
+     footer: {
+    padding: 16,
+    backgroundColor: '#f2f2f2',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });

@@ -61,9 +61,13 @@ const HiddenRestaurant = () => {
     }
   };
 
-  const handlePress = (restaurantId: string) => {
-    router.push(`/restaurant/${restaurantId}`);
-  };
+ const handlePress = (restaurantId: string) => {
+  router.push({
+    pathname: '/Screens/RestaurantSelect',
+    params: { restaurantId },
+  });
+};
+
 
   useEffect(() => {
     fetchHiddenRestaurants();
@@ -177,7 +181,7 @@ const styles = StyleSheet.create({
   mainImage: {
     width: 300,
     height: 300,
-    resizeMode: "contain",
+   resizeMode:'contain'
   },
   Title: {
     fontSize: RFPercentage(2.5),

@@ -390,7 +390,7 @@ const styles = StyleSheet.create({
   thankYouImage: {
     width: 100,
     height: 100,
-    resizeMode: "contain",
+   resizeMode:'contain',
   },
   thankYouText: {
     color: "#FFF",

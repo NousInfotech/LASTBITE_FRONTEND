@@ -9,6 +9,7 @@ import {
   Image,
   ScrollView,
   FlatList,
+  ListRenderItem,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import GoBack from "@/components/GoBack";
@@ -16,12 +17,26 @@ import { Ionicons, AntDesign, Feather } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { RFPercentage } from "react-native-responsive-fontsize";
 
+// Type definitions
+interface Contact {
+  id: string;
+  name: string;
+  phone: string;
+  invited: boolean;
+}
+
+interface FAQ {
+  id: string;
+  question: string;
+  answer: string;
+}
+
 export default function ReferEarn() {
   const router = useRouter();
-  const [expanded, setExpanded] = useState(null);
+  const [expanded, setExpanded] = useState<string | null>(null);
   const [showShareModal, setShowShareModal] = useState(false);
 
-  const faqs = [
+  const faqs: FAQ[] = [
     {
       id: "1",
       question: "Where will I receive my cashback & how can I use it?",
@@ -50,11 +65,11 @@ export default function ReferEarn() {
     },
   ];
 
-  const toggleFaq = (id) => {
+  const toggleFaq = (id: string) => {
     setExpanded((prev) => (prev === id ? null : id));
   };
 
-  const handleInviteToggle = (id) => {
+  const handleInviteToggle = (id: string) => {
     setContacts((prevContacts) =>
       prevContacts.map((contact) =>
         contact.id === id
@@ -64,13 +79,13 @@ export default function ReferEarn() {
     );
   };
 
-  const [contacts, setContacts] = useState([
+  const [contacts, setContacts] = useState<Contact[]>([
     { id: "1", name: "Oliver Harris", phone: "9382754321", invited: false },
     { id: "2", name: "Sarah Jones", phone: "9234567890", invited: false },
     { id: "3", name: "Emily White", phone: "9876543210", invited: false },
   ]);
   
-  const handleInvite = (id) => {
+  const handleInvite = (id: string) => {
     setContacts((prevContacts) =>
       prevContacts.map((contact) =>
         contact.id === id ? { ...contact, invited: true } : contact
@@ -78,7 +93,7 @@ export default function ReferEarn() {
     );
   };
   
-  const renderContact = ({ item }) => (
+  const renderContact: ListRenderItem<Contact> = ({ item }) => (
     <View style={styles.contactItem}>
       <View style={styles.contactInfo}>
         <Text style={styles.contactName}>{item.name}</Text>
@@ -104,7 +119,7 @@ export default function ReferEarn() {
     router.push('/Screens/SeeMore')
   }
 
-  const renderFaq = ({ item }) => (
+  const renderFaq: ListRenderItem<FAQ> = ({ item }) => (
     <TouchableOpacity style={styles.faqItem} onPress={() => toggleFaq(item.id)}>
       <View style={styles.faqQuestion}>
         <Text style={styles.faqQuestionText}>{item.question}</Text>
@@ -158,6 +173,7 @@ export default function ReferEarn() {
           <Image
             source={require("../../assets/images/refer.png")}
             style={styles.deliveryImage}
+            resizeMode="cover"
           />
         </View>
 
@@ -168,29 +184,28 @@ export default function ReferEarn() {
 
           <View style={styles.shareLinkRow}>
             <Text style={styles.shareLinkText}>Share link in a group</Text>
-            {/* <TouchableOpacity style={styles.shareButton}>
-              <Feather name="share-2" size={18} color="#01615F" />
-            </TouchableOpacity> */}
             <TouchableOpacity style={styles.shareButton} onPress={() => setShowShareModal(true)}>
-  <Feather name="share-2" size={18} color="#01615F" />
-</TouchableOpacity>
-<ShareModal
-  visible={showShareModal}
-  onClose={() => setShowShareModal(false)}
-  address="https://lastbites.com/referral?code=YOURCODE"
-/>
+              <Feather name="share-2" size={18} color="#01615F" />
+            </TouchableOpacity>
+            <ShareModal
+              visible={showShareModal}
+              onClose={() => setShowShareModal(false)}
+              address="https://lastbites.com/referral?code=YOURCODE"
+            />
             <Image
               source={require("../../assets/images/coins.png")}
               style={styles.coinsImage}
+              resizeMode="cover"
             />
           </View>
-</View>
-<View style={styles.subContainer}>
+        </View>
+        
+        <View style={styles.subContainer}>
           {/* Search Input */}
           <View style={styles.searchContainer}>
             <Ionicons name="search" size={18} color="#757575" />
             <TouchableOpacity onPress={navigateToSeeMore}>
-            <Text style={styles.placeholderText}>Find your friends</Text>
+              <Text style={styles.placeholderText}>Find your friends</Text>
             </TouchableOpacity>
           </View>
 
@@ -214,7 +229,7 @@ export default function ReferEarn() {
             keyExtractor={(item) => item.id}
             scrollEnabled={false}
           />
-      </View>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -283,13 +298,12 @@ const styles = StyleSheet.create({
     bottom: 16,
     width: 80,
     height: 80,
-    resizeMode: "contain",
   },
   rewardsSection: {
     paddingHorizontal: 16,
     borderColor: "gray",
     borderWidth: 1,
-    borderRadius:8,
+    borderRadius: 8,
     margin: 20,
   },
   subContainer: {
@@ -319,7 +333,6 @@ const styles = StyleSheet.create({
     right: 0,
     width: 50,
     height: 50,
-    resizeMode: "contain",
   },
   searchContainer: {
     flexDirection: "row",
@@ -332,15 +345,12 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     marginBottom: 16,
   },
-
-
   placeholderText: {
     color: '#757575',
     fontSize: 16,  
     fontStyle: 'normal', 
     opacity: 0.6,  
   },
-
   contactItem: {
     flexDirection: "row",
     alignItems: "center",
@@ -382,12 +392,11 @@ const styles = StyleSheet.create({
   },
   seeMoreButton: {
     paddingVertical: 12,
-    // alignItems: "center",
   },
   seeMoreText: {
     color: "#000",
     fontSize: 14,
-    fontWeight: 700,
+    fontWeight: "700",
     textDecorationLine: "underline",
   },
   faqTitle: {

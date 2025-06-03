@@ -268,7 +268,7 @@ const Home = () => {
                   params: { restaurantId: restaurant.restaurantId },
                 })
               }
-              isGrayscale={restaurant.categories[0] === "" && restaurant.menu[0] === "m0"}
+              isUnavailable={restaurant.categories[0] === "" && restaurant.menu[0] === "m0"}
             />
           ))}
       </ScrollView>
@@ -288,7 +288,10 @@ const Home = () => {
         <View style={styles.modalCentered}>
           {hiddenPopup && (
             <HiddenRestaurant
-              restaurant={hiddenPopup}
+              restaurant={{
+                id: hiddenPopup.restaurantId,
+                name: hiddenPopup.name,
+              }}
               onClose={() => setHiddenPopup(null)}
               onUndo={handleUndo}
             />

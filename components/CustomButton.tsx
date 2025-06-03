@@ -1,13 +1,19 @@
 import React from "react";
-import { TouchableOpacity, Text, StyleSheet } from "react-native";
-import { RFPercentage} from "react-native-responsive-fontsize";
-
+import {
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  StyleProp,
+  ViewStyle,
+} from "react-native";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 interface CustomButtonProps {
   title: string;
   onPress: () => void;
   isDisabled?: boolean;
   backgroundColor?: string;
+  buttonStyle?: StyleProp<ViewStyle>; // <-- Fix: define this
 }
 
 const CustomButton: React.FC<CustomButtonProps> = ({
@@ -15,6 +21,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   onPress,
   isDisabled,
   backgroundColor,
+  buttonStyle, // <-- Fix: destructure here
 }) => {
   return (
     <TouchableOpacity
@@ -23,6 +30,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
         {
           backgroundColor: backgroundColor || (isDisabled ? "#ccc" : "#01615F"),
         },
+        buttonStyle, // <-- Fix: apply user-passed style
       ]}
       onPress={onPress}
       disabled={isDisabled}
