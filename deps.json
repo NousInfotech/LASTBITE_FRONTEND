@@ -11434,53 +11434,6 @@
         }
       }
     },
-    "react-native-image-filter-kit": {
-      "version": "0.8.0",
-      "resolved": "https://registry.npmjs.org/react-native-image-filter-kit/-/react-native-image-filter-kit-0.8.0.tgz",
-      "overridden": false,
-      "dependencies": {
-        "@babel/runtime": {
-          "version": "7.27.4"
-        },
-        "concat-color-matrices": {
-          "version": "1.0.0"
-        },
-        "lodash.pick": {
-          "version": "4.4.0",
-          "resolved": "https://registry.npmjs.org/lodash.pick/-/lodash.pick-4.4.0.tgz",
-          "overridden": false
-        },
-        "react-is": {
-          "version": "17.0.2",
-          "resolved": "https://registry.npmjs.org/react-is/-/react-is-17.0.2.tgz",
-          "overridden": false
-        },
-        "react-native": {
-          "version": "0.79.2"
-        },
-        "react": {
-          "version": "18.3.1"
-        },
-        "rgba-to-rgb": {
-          "version": "1.0.2",
-          "resolved": "https://registry.npmjs.org/rgba-to-rgb/-/rgba-to-rgb-1.0.2.tgz",
-          "overridden": false,
-          "dependencies": {
-            "invariant": {
-              "version": "2.2.4"
-            }
-          }
-        },
-        "rn-color-matrices": {
-          "version": "4.1.0"
-        },
-        "ts-tiny-invariant": {
-          "version": "0.0.3",
-          "resolved": "https://registry.npmjs.org/ts-tiny-invariant/-/ts-tiny-invariant-0.0.3.tgz",
-          "overridden": false
-        }
-      }
-    },
     "react-native-image-picker": {
       "version": "8.2.1",
       "resolved": "https://registry.npmjs.org/react-native-image-picker/-/react-native-image-picker-8.2.1.tgz",
@@ -12210,16 +12163,7 @@
         }
       }
     },
-    "react-native-voice": {
-      "version": "0.3.0",
-      "resolved": "https://registry.npmjs.org/react-native-voice/-/react-native-voice-0.3.0.tgz",
-      "overridden": false,
-      "dependencies": {
-        "react-native": {
-          "version": "0.79.2"
-        }
-      }
-    },
+   
     "react-native-web": {
       "version": "0.20.0",
       "resolved": "https://registry.npmjs.org/react-native-web/-/react-native-web-0.20.0.tgz",
