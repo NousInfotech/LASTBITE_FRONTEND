@@ -64,8 +64,9 @@
       },
       "API_URL": "http://localhost:5000",
       "eas": {
-        "projectId": "18b848eb-7784-4e1d-a3b1-c27541338b13"
+        "projectId": "e52e919e-574b-4b85-808f-2109e2289556"
       }
-    }
+    },
+    "owner": "lastbite"
   }
 }
