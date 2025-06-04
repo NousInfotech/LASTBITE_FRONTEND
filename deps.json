@@ -11329,19 +11329,7 @@
         }
       }
     },
-    "react-native-fast-image": {
-      "version": "8.6.3",
-      "resolved": "https://registry.npmjs.org/react-native-fast-image/-/react-native-fast-image-8.6.3.tgz",
-      "overridden": false,
-      "dependencies": {
-        "react-native": {
-          "version": "0.79.2"
-        },
-        "react": {
-          "version": "18.3.1"
-        }
-      }
-    },
+ 
     "react-native-feather": {
       "version": "1.1.2",
       "resolved": "https://registry.npmjs.org/react-native-feather/-/react-native-feather-1.1.2.tgz",
