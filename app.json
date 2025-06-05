@@ -34,27 +34,20 @@
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
-    "plugins": [
-      "expo-router",
-      [
-        "expo-splash-screen",
-        {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
-        }
-      ],
-      "expo-font",
-      "expo-speech-recognition",
-      [
-        "expo-camera",
-        {
-          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera."
-        }
-      ],
-      "expo-web-browser"
-    ],
+ "plugins": [
+  "expo-router",
+  ["expo-splash-screen", { "image": "./assets/images/splash-icon.png", "imageWidth": 200, "resizeMode": "contain", "backgroundColor": "#ffffff" }],
+  "expo-font",
+  "expo-speech-recognition",
+  ["expo-camera", { "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera." }],
+  "expo-web-browser",
+
+  "@react-native-async-storage/async-storage",
+  "@react-native-community/netinfo",
+  "react-native-svg",
+  "react-native-image-picker"
+],
+
     "experiments": {
       "typedRoutes": true
     },
