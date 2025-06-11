@@ -39,3 +39,8 @@ app-example
 
 *.log
 
+
+# Expo
+.expo
+dist/
+web-build/
