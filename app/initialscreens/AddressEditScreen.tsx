@@ -46,10 +46,10 @@ const AddressEditScreen: React.FC = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Edit Address</Text>
+      <Text allowFontScaling={false}  style={styles.title}>Edit Address</Text>
 
       {/* Building No and Name */}
-      <TextInput
+     <TextInput allowFontScaling={false} 
         style={styles.input}
         value={editedAddress.building}
         onChangeText={(value) => handleInputChange("building", value)}
@@ -57,7 +57,7 @@ const AddressEditScreen: React.FC = () => {
       />
 
       {/* Street */}
-      <TextInput
+     <TextInput allowFontScaling={false} 
         style={styles.input}
         value={editedAddress.street}
         onChangeText={(value) => handleInputChange("street", value)}
@@ -65,7 +65,7 @@ const AddressEditScreen: React.FC = () => {
       />
 
       {/* Town */}
-      <TextInput
+     <TextInput allowFontScaling={false} 
         style={styles.input}
         value={editedAddress.town}
         onChangeText={(value) => handleInputChange("town", value)}
@@ -73,7 +73,7 @@ const AddressEditScreen: React.FC = () => {
       />
 
       {/* City */}
-      <TextInput
+     <TextInput allowFontScaling={false} 
         style={styles.input}
         value={editedAddress.city}
         onChangeText={(value) => handleInputChange("city", value)}
@@ -81,7 +81,7 @@ const AddressEditScreen: React.FC = () => {
       />
 
       {/* State */}
-      <TextInput
+     <TextInput allowFontScaling={false} 
         style={styles.input}
         value={editedAddress.state}
         onChangeText={(value) => handleInputChange("state", value)}
@@ -89,7 +89,7 @@ const AddressEditScreen: React.FC = () => {
       />
 
       {/* Country */}
-      <TextInput
+     <TextInput allowFontScaling={false} 
         style={styles.input}
         value={editedAddress.country}
         onChangeText={(value) => handleInputChange("country", value)}
@@ -97,7 +97,7 @@ const AddressEditScreen: React.FC = () => {
       />
 
       {/* Pincode */}
-      <TextInput
+     <TextInput allowFontScaling={false} 
         style={styles.input}
         value={editedAddress.pincode}
         onChangeText={(value) => handleInputChange("pincode", value)}
@@ -107,10 +107,10 @@ const AddressEditScreen: React.FC = () => {
 
       <View style={styles.actions}>
         <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-          <Text style={styles.buttonText}>Save</Text>
+          <Text allowFontScaling={false}  style={styles.buttonText}>Save</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.cancelButton} onPress={() => router.back()}>
-          <Text style={styles.buttonText}>Cancel</Text>
+          <Text allowFontScaling={false}  style={styles.buttonText}>Cancel</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>

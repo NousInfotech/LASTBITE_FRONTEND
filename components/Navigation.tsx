@@ -58,7 +58,7 @@ const Navigation: React.FC<NavigationProps> = ({
   };
 
   if (!fontsLoaded) {
-    return <Text>Loading...</Text>;
+    return <Text allowFontScaling={false} >Loading...</Text>;
   }
 
   return (
@@ -76,13 +76,13 @@ const Navigation: React.FC<NavigationProps> = ({
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.skipButton} onPress={handleSkip}>
-          <Text style={styles.skipText}>Skip</Text>
+          <Text allowFontScaling={false}  style={styles.skipText}>Skip</Text>
         </TouchableOpacity>
       </View>
 
       {/* Main Content */}
       <View style={styles.contentContainer}>
-        <Text style={styles.contentText}>{content}</Text>
+        <Text allowFontScaling={false}  style={styles.contentText}>{content}</Text>
       </View>
     </View>
   );

@@ -3,7 +3,7 @@ import { TextInput, StyleSheet } from "react-native";
 
 const AddressForm = ({ value, onChange, placeholder }: any) => {
   return (
-    <TextInput
+   <TextInput allowFontScaling={false} 
       style={styles.input}
       placeholder={placeholder}
       value={value}

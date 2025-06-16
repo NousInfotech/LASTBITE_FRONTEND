@@ -17,8 +17,8 @@ const FeedbackReceived: React.FC<FeedbackReceivedProps> = ({ onClose }) => {
         </View>
 
         <View style={styles.textContainer}>
-          <Text style={styles.title}>Feedback Received</Text>
-          <Text style={styles.description}>
+          <Text allowFontScaling={false}  style={styles.title}>Feedback Received</Text>
+          <Text allowFontScaling={false}  style={styles.description}>
             Thank you! This will help us personalise your recommendations
             better!
           </Text>

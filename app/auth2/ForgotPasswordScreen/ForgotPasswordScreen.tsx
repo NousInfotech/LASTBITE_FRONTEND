@@ -48,7 +48,7 @@ const ForgotPasswordScreen = () => {
   };
 
   if (!fontsLoaded) {
-    return <Text>Loading...</Text>; // Ensure the font is loaded before rendering
+    return <Text allowFontScaling={false} >Loading...</Text>; // Ensure the font is loaded before rendering
   }
 
   return (
@@ -59,15 +59,15 @@ const ForgotPasswordScreen = () => {
         <GoBack />
       </View>
       <View style={styles.content}>
-        <Text style={[styles.title, { fontFamily: "Poppins_600SemiBold" }]}>
+        <Text allowFontScaling={false}  style={[styles.title, { fontFamily: "Poppins_600SemiBold" }]}>
           Forget your password
         </Text>
-        <Text style={[styles.subtitle, { fontFamily: "Poppins_400Regular" }]}>
+        <Text allowFontScaling={false}  style={[styles.subtitle, { fontFamily: "Poppins_400Regular" }]}>
           Enter your email to send the reset code to it
         </Text>
 
         <View style={styles.inputContainer}>
-          <Text style={[styles.label, { fontFamily: "Poppins_400Regular" }]}>
+          <Text allowFontScaling={false}  style={[styles.label, { fontFamily: "Poppins_400Regular" }]}>
             Email*
           </Text>
           <FormInput
@@ -87,13 +87,13 @@ const ForgotPasswordScreen = () => {
         />
 
         {/* <View style={styles.resendContainer}>
-          <Text
+          <Text allowFontScaling={false} 
             style={[styles.resendText, { fontFamily: "Poppins_600SemiBold" }]}
           >
             Don't received the code?
           </Text>
           <TouchableOpacity onPress={handleResendCode}>
-            <Text
+            <Text allowFontScaling={false} 
               style={[styles.resendLink, { fontFamily: "Poppins_600SemiBold" }]}
             >
               Resend Code

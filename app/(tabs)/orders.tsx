@@ -87,39 +87,39 @@ const Orders: React.FC = () => {
   const renderOrder = (order: Order | PastOrder, isPast: boolean = false) => (
     <View style={styles.orderCard} key={order.orderTime}>
       <View style={styles.row}>
-        <Text style={styles.restaurantName}>{order.restaurant}</Text>
+        <Text allowFontScaling={false}  style={styles.restaurantName}>{order.restaurant}</Text>
         {isPast && "status" in order && order.status === "Delivered" && (
-          <Text style={styles.orderStatus}>{order.status}</Text>
+          <Text allowFontScaling={false}  style={styles.orderStatus}>{order.status}</Text>
         )}
       </View>
-      <Text style={styles.orderDetails}>{order.location}</Text>
-      <Text style={styles.orderDetails}>Price: {order.price}</Text>
+      <Text allowFontScaling={false}  style={styles.orderDetails}>{order.location}</Text>
+      <Text allowFontScaling={false}  style={styles.orderDetails}>Price: {order.price}</Text>
       {isPast && <View style={styles.horizontalLine} />}
-      <Text style={styles.orderItem}>{order.item}</Text>
-      <Text style={styles.orderTime}>Order placed: {order.orderTime}</Text>
+      <Text allowFontScaling={false}  style={styles.orderItem}>{order.item}</Text>
+      <Text allowFontScaling={false}  style={styles.orderTime}>Order placed: {order.orderTime}</Text>
       <View style={styles.orderActions}>
         {isPast && "rating" in order ? (
           <View style={styles.ratedOrderContainer}>
             <TouchableOpacity style={styles.fullWidthButton}
              onPress={() => router.push("/Screens/BillingScreen")}
              >
-              <Text style={styles.actionText}>Reorder</Text>
+              <Text allowFontScaling={false}  style={styles.actionText}>Reorder</Text>
             </TouchableOpacity>
             <View style={styles.ratingsRow}>
               <View style={styles.ratingGroup}>
-                <Text style={styles.ratingLabel}>You rating for Delivery</Text>
+                <Text allowFontScaling={false}  style={styles.ratingLabel}>You rating for Delivery</Text>
                 <View style={styles.ratingValue}>
-                  <Text style={styles.ratingNumber}>{order.rating}</Text>
-                  <Text style={styles.starIcon}> ⭐ </Text>
-                  <Text style={styles.feedbackText}>| {order.feedback}</Text>
+                  <Text allowFontScaling={false}  style={styles.ratingNumber}>{order.rating}</Text>
+                  <Text allowFontScaling={false}  style={styles.starIcon}> ⭐ </Text>
+                  <Text allowFontScaling={false}  style={styles.feedbackText}>| {order.feedback}</Text>
                 </View>
               </View>
               <View style={[styles.ratingGroup, styles.secondRatingGroup]}>
-                <Text style={styles.ratingLabel}>You Food Rating</Text>
+                <Text allowFontScaling={false}  style={styles.ratingLabel}>You Food Rating</Text>
                 <View style={styles.ratingValue}>
-                  <Text style={styles.ratingNumber}>{order.ratingDel}</Text>
-                  <Text style={styles.starIcon}> ⭐ </Text>
-                  <Text style={styles.feedbackText}> | {order.feedbackDel}</Text>
+                  <Text allowFontScaling={false}  style={styles.ratingNumber}>{order.ratingDel}</Text>
+                  <Text allowFontScaling={false}  style={styles.starIcon}> ⭐ </Text>
+                  <Text allowFontScaling={false}  style={styles.feedbackText}> | {order.feedbackDel}</Text>
                 </View>
               </View>
             </View>
@@ -132,13 +132,13 @@ const Orders: React.FC = () => {
                   style={styles.actionButton}
                   onPress={() => router.push("/Screens/BillingScreen")}
                 >
-                  <Text style={styles.actionText}>Reorder</Text>
+                  <Text allowFontScaling={false}  style={styles.actionText}>Reorder</Text>
                 </TouchableOpacity>
                 <TouchableOpacity 
                   style={[styles.actionButton, styles.rateButton]}
                   onPress={() => router.push("/Screens/RateOrder")}
                 >
-                  <Text style={styles.mainText}>Rate Order</Text>
+                  <Text allowFontScaling={false}  style={styles.mainText}>Rate Order</Text>
                 </TouchableOpacity>
               </>
             ) : (
@@ -147,10 +147,10 @@ const Orders: React.FC = () => {
                   style={styles.actionButton}
                   onPress={() => router.push("/Screens/HelpOrder")}
                 >
-                  <Text style={styles.actionText}>Help</Text>
+                  <Text allowFontScaling={false}  style={styles.actionText}>Help</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.actionButton, styles.trackButton]} onPress={handleTrackOrder}>
-                  <Text style={styles.mainText}>Track Order</Text>
+                  <Text allowFontScaling={false}  style={styles.mainText}>Track Order</Text>
                 </TouchableOpacity>
               </>
             )}
@@ -167,13 +167,13 @@ const Orders: React.FC = () => {
         <TouchableOpacity>
           <GoBack />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Orders</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Orders</Text>
       </View>
       <ScrollView style={styles.content}>
-        <Text style={styles.sectionTitle}>Active Order</Text>
+        <Text allowFontScaling={false}  style={styles.sectionTitle}>Active Order</Text>
         {renderOrder(activeOrder)}
 
-        <Text style={styles.sectionTitle}>Past Orders</Text>
+        <Text allowFontScaling={false}  style={styles.sectionTitle}>Past Orders</Text>
         {pastOrders.map((order) => renderOrder(order, true))}
       </ScrollView>
     </SafeAreaView>

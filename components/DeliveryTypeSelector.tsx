@@ -66,8 +66,8 @@ const DeliveryTypeSelector = () => {
           >
             <View style={styles.cardHeader}>
               <View>
-                <Text style={styles.cardTitle}>{data.title}</Text>
-                <Text style={styles.cardTime}>{data.time}</Text>
+                <Text allowFontScaling={false}  style={styles.cardTitle}>{data.title}</Text>
+                <Text allowFontScaling={false}  style={styles.cardTime}>{data.time}</Text>
               </View>
               {selectedType === type && (
                 <View style={styles.checkIcon}>
@@ -79,14 +79,14 @@ const DeliveryTypeSelector = () => {
             <View>
               {data.features.map((feature, index) => (
                 <View style={styles.featureItem} key={index}>
-                  <Text style={styles.bullet}>•</Text>
-                  <Text style={styles.featureText}>{feature}</Text>
+                  <Text allowFontScaling={false}  style={styles.bullet}>•</Text>
+                  <Text allowFontScaling={false}  style={styles.featureText}>{feature}</Text>
                 </View>
               ))}
               {data.eco && (
                 <View style={styles.ecoContainer}>
                   <MaterialIcons name="eco" size={16} color="#01615F" />
-                  <Text style={styles.ecoText}>{data.eco}</Text>
+                  <Text allowFontScaling={false}  style={styles.ecoText}>{data.eco}</Text>
                 </View>
               )}
             </View>

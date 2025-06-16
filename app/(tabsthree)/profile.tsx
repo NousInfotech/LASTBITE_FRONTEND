@@ -99,7 +99,7 @@ const [profileImage, setProfileImage] = useState<string | null>(null);
         <TouchableOpacity>
           <GoBack />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Profile</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Profile</Text>
       </View>
       <View style={styles.profileCard}>
         <View style={styles.profileImageContainer}>
@@ -115,35 +115,35 @@ const [profileImage, setProfileImage] = useState<string | null>(null);
             <Entypo name="camera" size={13} color="#fff" />
           </TouchableOpacity>
         </View>
-        <Text style={styles.profileName}>Lorem Ipsum</Text>
+        <Text allowFontScaling={false}  style={styles.profileName}>Lorem Ipsum</Text>
       </View>
       <ScrollView style={styles.content}>
         <TouchableOpacity
           style={styles.sectionBox}
           onPress={() => router.push("/Screens/RidersDetails")}
         >
-          <Text style={styles.sectionTitle}>Basic Details</Text>
+          <Text allowFontScaling={false}  style={styles.sectionTitle}>Basic Details</Text>
           <AntDesign name="right" size={16} color="#757575" />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.sectionBox}
           onPress={() => router.push("/Screens/RidersAddress")}
         >
-          <Text style={styles.sectionTitle}>Address</Text>
+          <Text allowFontScaling={false}  style={styles.sectionTitle}>Address</Text>
           <AntDesign name="right" size={16} color="#757575" />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.sectionBox}
           onPress={() => router.push("/Screens/RidersDocument")}
         >
-          <Text style={styles.sectionTitle}>Documentations</Text>
+          <Text allowFontScaling={false}  style={styles.sectionTitle}>Documentations</Text>
           <AntDesign name="right" size={16} color="#757575" />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.sectionBox}
           onPress={() => router.push("/Screens/RatingReview")}
         >
-          <Text style={styles.sectionTitle}>Reviews and Ratings</Text>
+          <Text allowFontScaling={false}  style={styles.sectionTitle}>Reviews and Ratings</Text>
           <AntDesign name="right" size={16} color="#757575" />
         </TouchableOpacity>
       </ScrollView>
@@ -161,26 +161,26 @@ const [profileImage, setProfileImage] = useState<string | null>(null);
           onPress={() => setShowOptions(false)}
         >
           <View style={styles.optionsContainer}>
-            <Text style={styles.optionsTitle}>Select Profile Picture</Text>
+            <Text allowFontScaling={false}  style={styles.optionsTitle}>Select Profile Picture</Text>
             <TouchableOpacity
               style={styles.optionButton}
               onPress={pickImage}
             >
               <Entypo name="images" size={22} color="#01615F" />
-              <Text style={styles.optionText}>Upload from Gallery</Text>
+              <Text allowFontScaling={false}  style={styles.optionText}>Upload from Gallery</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.optionButton}
               onPress={requestCameraPermission}
             >
               <Entypo name="camera" size={22} color="#01615F" />
-              <Text style={styles.optionText}>Take a Picture</Text>
+              <Text allowFontScaling={false}  style={styles.optionText}>Take a Picture</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[styles.optionButton, styles.cancelButton]}
               onPress={() => setShowOptions(false)}
             >
-              <Text style={styles.cancelText}>Cancel</Text>
+              <Text allowFontScaling={false}  style={styles.cancelText}>Cancel</Text>
             </TouchableOpacity>
           </View>
         </TouchableOpacity>

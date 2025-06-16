@@ -16,7 +16,7 @@ const TagSelector = ({ tags, selectedTag, onSelect }: any) => {
             size={16}
             color={selectedTag === tag.id ? "#006A6A" : "#666"}
           />
-          <Text
+          <Text allowFontScaling={false} 
             style={[
               styles.tagText,
               selectedTag === tag.id && styles.selectedTagText,

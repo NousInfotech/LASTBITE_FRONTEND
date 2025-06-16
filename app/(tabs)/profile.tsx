@@ -62,18 +62,18 @@ const ProfileScreen: React.FC = () => {
           style={styles.helpButton}
           onPress={() => router.push("/Screens/Help")}
         >
-          <Text style={styles.helpText}>Help</Text>
+          <Text allowFontScaling={false}  style={styles.helpText}>Help</Text>
         </TouchableOpacity>
       </View>
       <ScrollView style={styles.content}>
         <View style={styles.profileInfo}>
           <View>
-            <Text style={styles.userName}>{userData.name}</Text>
-            <Text style={styles.userPhone}>{userData.phone}</Text>
-            {userData.email && <Text style={styles.userEmail}>{userData.email}</Text>}
+            <Text allowFontScaling={false}  style={styles.userName}>{userData.name}</Text>
+            <Text allowFontScaling={false}  style={styles.userPhone}>{userData.phone}</Text>
+            {userData.email && <Text allowFontScaling={false}  style={styles.userEmail}>{userData.email}</Text>}
           </View>
           <TouchableOpacity onPress={() => router.push("/Screens/EditAccount")}>
-            <Text style={styles.editProfile}>Edit Profile &gt;</Text>
+            <Text allowFontScaling={false}  style={styles.editProfile}>Edit Profile &gt;</Text>
           </TouchableOpacity>
         </View>
 
@@ -82,8 +82,8 @@ const ProfileScreen: React.FC = () => {
           onPress={() => router.push("/Screens/CreditCard")}
         >
           <View>
-            <Text style={styles.menuTitle}>HDFC Bank Credit Card</Text>
-            <Text style={styles.menuSubtitle}>
+            <Text allowFontScaling={false}  style={styles.menuTitle}>HDFC Bank Credit Card</Text>
+            <Text allowFontScaling={false}  style={styles.menuSubtitle}>
               Apply for the card and start earning cashbacks
             </Text>
           </View>
@@ -97,8 +97,8 @@ const ProfileScreen: React.FC = () => {
             onPress={() => setIsExpanded(!isExpanded)}
           >
             <View>
-              <Text style={styles.menuTitle}>My Account</Text>
-              <Text style={styles.menuSubtitle}>
+              <Text allowFontScaling={false}  style={styles.menuTitle}>My Account</Text>
+              <Text allowFontScaling={false}  style={styles.menuSubtitle}>
                 Favourites, Hidden restaurants & settings
               </Text>
             </View>
@@ -119,7 +119,7 @@ const ProfileScreen: React.FC = () => {
                 <View style={styles.iconBox}>
                   <AntDesign name="hearto" size={16} color="#000" />
                 </View>
-                <Text style={styles.menuItemText}>Favorites</Text>
+                <Text allowFontScaling={false}  style={styles.menuItemText}>Favorites</Text>
                 <AntDesign name="right" size={16} color="#757575" />
               </TouchableOpacity>
               <TouchableOpacity
@@ -129,14 +129,14 @@ const ProfileScreen: React.FC = () => {
                 <View style={styles.iconBox}>
                   <AntDesign name="home" size={16} color="#000" />
                 </View>
-                <Text style={styles.menuItemText}>Hidden Restaurants</Text>
+                <Text allowFontScaling={false}  style={styles.menuItemText}>Hidden Restaurants</Text>
                 <AntDesign name="right" size={16} color="#757575" />
               </TouchableOpacity>
               <TouchableOpacity style={styles.menuItem} onPress={() => router.push("/Screens/Settings")}>
                 <View style={styles.iconBox}>
                   <AntDesign name="setting" size={16} color="#000" />
                 </View>
-                <Text style={styles.menuItemText}>Settings</Text>
+                <Text allowFontScaling={false}  style={styles.menuItemText}>Settings</Text>
                 <AntDesign name="right" size={16} color="#757575" />
               </TouchableOpacity>
             </View>
@@ -145,8 +145,8 @@ const ProfileScreen: React.FC = () => {
 
         <TouchableOpacity style={styles.menuBox} onPress={() => router.push("/Screens/WishList")}>
           <View>
-            <Text style={styles.menuTitle}>My Wishlist</Text>
-            <Text style={styles.menuSubtitle}>View all your saved lists</Text>
+            <Text allowFontScaling={false}  style={styles.menuTitle}>My Wishlist</Text>
+            <Text allowFontScaling={false}  style={styles.menuSubtitle}>View all your saved lists</Text>
           </View>
           <AntDesign name="right" size={16} color="#757575" />
         </TouchableOpacity>
@@ -156,8 +156,8 @@ const ProfileScreen: React.FC = () => {
           onPress={() => router.push("/initialscreens/AddressManagementScreen")}
         >
           <View>
-            <Text style={styles.menuTitle}>Addresses</Text>
-            <Text style={styles.menuSubtitle}>
+            <Text allowFontScaling={false}  style={styles.menuTitle}>Addresses</Text>
+            <Text allowFontScaling={false}  style={styles.menuSubtitle}>
               Share, Edit & Add new address
             </Text>
           </View>
@@ -169,8 +169,8 @@ const ProfileScreen: React.FC = () => {
           onPress={() => setIsNewExpanded(!isNewExpanded)}
         >
           <View>
-            <Text style={styles.menuTitle}>Payments & Refunds</Text>
-            <Text style={styles.menuSubtitle}>
+            <Text allowFontScaling={false}  style={styles.menuTitle}>Payments & Refunds</Text>
+            <Text allowFontScaling={false}  style={styles.menuSubtitle}>
               Refund status & Payment modes
             </Text>
           </View>
@@ -191,7 +191,7 @@ const ProfileScreen: React.FC = () => {
                   style={styles.iconImage}
                 />
               </View>
-              <Text style={styles.menuItemText}>Refund Status</Text>
+              <Text allowFontScaling={false}  style={styles.menuItemText}>Refund Status</Text>
               <AntDesign name="right" size={16} color="#757575" />
             </TouchableOpacity>
 
@@ -202,7 +202,7 @@ const ProfileScreen: React.FC = () => {
                   style={styles.iconImage}
                 />
               </View>
-              <Text style={styles.menuItemText}>Payment Modes</Text>
+              <Text allowFontScaling={false}  style={styles.menuItemText}>Payment Modes</Text>
               <AntDesign name="right" size={16} color="#757575" />
             </TouchableOpacity>
           </View>
@@ -210,8 +210,8 @@ const ProfileScreen: React.FC = () => {
 
         <TouchableOpacity style={styles.menuBox} onPress={handleMoney}>
           <View>
-            <Text style={styles.menuTitle}>Money & Gift cards</Text>
-            <Text style={styles.menuSubtitle}>
+            <Text allowFontScaling={false}  style={styles.menuTitle}>Money & Gift cards</Text>
+            <Text allowFontScaling={false}  style={styles.menuSubtitle}>
               Account balance, Gift cards & Transaction History
             </Text>
           </View>
@@ -220,8 +220,8 @@ const ProfileScreen: React.FC = () => {
 
         <TouchableOpacity style={styles.menuBox} onPress={handleReferEarn}>
           <View>
-            <Text style={styles.menuTitle}>Refer & Earn Program</Text>
-            <Text style={styles.menuSubtitle}>
+            <Text allowFontScaling={false}  style={styles.menuTitle}>Refer & Earn Program</Text>
+            <Text allowFontScaling={false}  style={styles.menuSubtitle}>
               Refer friends & earn upto ₹15 cashback
             </Text>
           </View>
@@ -232,7 +232,7 @@ const ProfileScreen: React.FC = () => {
           style={styles.menuBox}
           onPress={() => router.push("/Screens/LogOut")}
         >
-          <Text style={styles.menuTitle}>Logout Options</Text>
+          <Text allowFontScaling={false}  style={styles.menuTitle}>Logout Options</Text>
           <AntDesign name="right" size={16} color="#757575" />
         </TouchableOpacity>
       </ScrollView>

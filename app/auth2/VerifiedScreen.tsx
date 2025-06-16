@@ -65,11 +65,11 @@ const VerifiedScreen: React.FC = () => {
             }
           ]}
         >
-          <Text style={styles.checkmark}>✓</Text>
+          <Text allowFontScaling={false}  style={styles.checkmark}>✓</Text>
         </Animated.View>
         
-        <Text style={styles.verifiedText}>Verified!</Text>
-        <Text style={styles.messageText}>Your shift has been started.</Text>
+        <Text allowFontScaling={false}  style={styles.verifiedText}>Verified!</Text>
+        <Text allowFontScaling={false}  style={styles.messageText}>Your shift has been started.</Text>
       </View>
     </View>
   );

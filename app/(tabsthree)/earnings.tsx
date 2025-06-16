@@ -125,7 +125,7 @@ const Payments: React.FC = () => {
         <TouchableOpacity>
           <GoBack />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Earnings</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Earnings</Text>
       </View>
 
       {/* Tabs */}
@@ -144,7 +144,7 @@ const Payments: React.FC = () => {
               ]}
               onPress={() => setSelectedTab(tab)}
             >
-              <Text
+              <Text allowFontScaling={false} 
                 style={[
                   styles.tabText,
                   selectedTab === tab && styles.selectedTabText,
@@ -163,8 +163,8 @@ const Payments: React.FC = () => {
           filteredPayments.map((payment, index) => (
             <View key={index} style={styles.paymentCard}>
               <View style={styles.paymentHeader}>
-                <Text style={styles.paymentId}>Order ID: {payment.id}</Text>
-                <Text
+                <Text allowFontScaling={false}  style={styles.paymentId}>Order ID: {payment.id}</Text>
+                <Text allowFontScaling={false} 
                   style={[
                     styles.status,
                     { color: getStatusColor(payment.status) },
@@ -174,21 +174,21 @@ const Payments: React.FC = () => {
                 </Text>
               </View>
               <View style={styles.paymentDetails}>
-                <Text style={styles.paymentDate}>Payout Date:</Text>
-                <Text style={styles.date}>{payment.date}</Text>
+                <Text allowFontScaling={false}  style={styles.paymentDate}>Payout Date:</Text>
+                <Text allowFontScaling={false}  style={styles.date}>{payment.date}</Text>
               </View>
               <View style={styles.paymentDetails}>
-                <Text style={styles.paymentAmount}>Amount:</Text>
-                <Text style={styles.amount}>{payment.amount}</Text>
+                <Text allowFontScaling={false}  style={styles.paymentAmount}>Amount:</Text>
+                <Text allowFontScaling={false}  style={styles.amount}>{payment.amount}</Text>
               </View>
               <TouchableOpacity style={styles.viewDetailsButton} onPress={() => handleViewDetails(payment)}>
-                <Text style={styles.viewDetailsText}>View Details</Text>
+                <Text allowFontScaling={false}  style={styles.viewDetailsText}>View Details</Text>
               </TouchableOpacity>
             </View>
           ))
         ) : (
           <View style={styles.noPaymentsContainer}>
-            <Text style={styles.noPaymentsText}>No payments found</Text>
+            <Text allowFontScaling={false}  style={styles.noPaymentsText}>No payments found</Text>
           </View>
         )}
       </ScrollView>

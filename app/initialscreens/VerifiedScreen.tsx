@@ -50,14 +50,14 @@ const Verifiedscreen = () => {
               <View style={[styles.dot, { backgroundColor: '#57ADFF' }]} />
               <View style={[styles.dot, { backgroundColor: '#FF9F57' }]} />
             </View>
-            <Text style={styles.loadingText}>Loading for Verification...</Text>
+            <Text allowFontScaling={false}  style={styles.loadingText}>Loading for Verification...</Text>
           </View>
         ) : (
           <View style={styles.verifiedContainer}>
             <View style={styles.checkCircle}>
               <View style={styles.checkmark} />
             </View>
-            <Text style={styles.verifiedText}>Verified!</Text>
+            <Text allowFontScaling={false}  style={styles.verifiedText}>Verified!</Text>
           </View>
         )}
       </View>

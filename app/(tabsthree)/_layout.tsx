@@ -28,7 +28,7 @@ export default function TabLayout() {
         },
         tabBarLabel: ({ focused, color }) => (
           <View style={[styles.labelContainer, focused && styles.activeTabUnderline]}>
-            <Text
+            <Text allowFontScaling={false} 
               style={[styles.tabLabel, { color }]}
               numberOfLines={1} 
               ellipsizeMode="tail" 

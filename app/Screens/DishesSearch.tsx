@@ -156,7 +156,7 @@ const CheckoutPopup: React.FC<CheckoutPopupProps> = ({
   return (
     <View style={styles.popupContainer}>
       <TouchableOpacity style={styles.checkoutButton} onPress={onCheckout}>
-        <Text style={styles.checkoutText}>
+        <Text allowFontScaling={false}  style={styles.checkoutText}>
           {`Checkout ${totalItems} item${totalItems > 1 ? "s" : ""}`}
         </Text>
       </TouchableOpacity>
@@ -357,19 +357,19 @@ const DishesSearch: React.FC = () => {
     return (
       <View style={styles.restaurantSection} key={restaurantId}>
         <View style={styles.restaurantHeader}>
-          <Text style={styles.restaurantName}>{restaurant.name}</Text>
+          <Text allowFontScaling={false}  style={styles.restaurantName}>{restaurant.name}</Text>
           <TouchableOpacity onPress={navigateToAddMoreItems}>
             <Ionicons name="arrow-forward-outline" size={18} color="gray" />
           </TouchableOpacity>
         </View>
 
         <View style={styles.restaurantSubContainer}>
-          <Text style={styles.restaurantSub}>{restaurant.ratingAverage}</Text>
+          <Text allowFontScaling={false}  style={styles.restaurantSub}>{restaurant.ratingAverage}</Text>
           <Image
             source={require("./../../assets/images/Star.png")}
             style={styles.starIcon}
           />
-          <Text style={styles.headerLocation}>{restaurant?.location}</Text>
+          <Text allowFontScaling={false}  style={styles.headerLocation}>{restaurant?.location}</Text>
         </View>
 
         <ScrollView
@@ -380,15 +380,15 @@ const DishesSearch: React.FC = () => {
           {menuItems.map((item) => (
             <View style={styles.menuCard} key={item.menuItemId}>
               <View style={styles.leftSection}>
-                <Text style={styles.menuName}>{item.name}</Text>
-                <Text style={styles.menuCategory}>{item.category}</Text>
-                <Text style={styles.menuPrice}>${item.price.toFixed(2)}</Text>
+                <Text allowFontScaling={false}  style={styles.menuName}>{item.name}</Text>
+                <Text allowFontScaling={false}  style={styles.menuCategory}>{item.category}</Text>
+                <Text allowFontScaling={false}  style={styles.menuPrice}>${item.price.toFixed(2)}</Text>
 
                 <TouchableOpacity
                   style={styles.viewDetailsButton}
                   onPress={() => handleViewDetails(item)}
                 >
-                  <Text style={styles.viewDetailsText}>View Details</Text>
+                  <Text allowFontScaling={false}  style={styles.viewDetailsText}>View Details</Text>
                 </TouchableOpacity>
               </View>
 
@@ -406,16 +406,16 @@ const DishesSearch: React.FC = () => {
                         style={styles.minusButton}
                         onPress={() => handleRemoveFromCart(item)}
                       >
-                        <Text style={styles.ButtonText}>-</Text>
+                        <Text allowFontScaling={false}  style={styles.ButtonText}>-</Text>
                       </TouchableOpacity>
-                      <Text style={styles.counterText}>
+                      <Text allowFontScaling={false}  style={styles.counterText}>
                         {cartCounts[item.menuItemId]}
                       </Text>
                       <TouchableOpacity
                         style={styles.plusButton}
                         onPress={() => handleAddToCart(item)}
                       >
-                        <Text style={styles.ButtonText}>+</Text>
+                        <Text allowFontScaling={false}  style={styles.ButtonText}>+</Text>
                       </TouchableOpacity>
                     </View>
                   ) : (
@@ -423,7 +423,7 @@ const DishesSearch: React.FC = () => {
                       style={styles.addButton}
                       onPress={() => handleAddToCart(item)}
                     >
-                      <Text style={styles.addButtonText}>Add</Text>
+                      <Text allowFontScaling={false}  style={styles.addButtonText}>Add</Text>
                     </TouchableOpacity>
                   )}
                 </View>
@@ -436,7 +436,7 @@ const DishesSearch: React.FC = () => {
   };
 
   if (!fontsLoaded) {
-    return <Text>Loading Fonts...</Text>;
+    return <Text allowFontScaling={false} >Loading Fonts...</Text>;
   }
 
   const groupedMenu = filterMenuItems(searchText || (name as string) || "");
@@ -449,7 +449,7 @@ const DishesSearch: React.FC = () => {
         <TouchableOpacity>
           <GoBack />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Search for dishes & Restaurant</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Search for dishes & Restaurant</Text>
       </View>
 
       <SearchBarVoice
@@ -461,10 +461,10 @@ const DishesSearch: React.FC = () => {
 
       {!hasResults ? (
         <View style={styles.noResultsContainer}>
-          <Text style={styles.noResultsText}>
+          <Text allowFontScaling={false}  style={styles.noResultsText}>
             The searched dish is not available at any restaurant
           </Text>
-          <Text style={styles.noResultsSubText}>
+          <Text allowFontScaling={false}  style={styles.noResultsSubText}>
             Try searching for a different dish
           </Text>
         </View>

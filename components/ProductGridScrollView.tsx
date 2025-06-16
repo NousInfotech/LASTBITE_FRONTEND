@@ -54,13 +54,13 @@ const ProductGridScrollView: React.FC<ProductGridProps> = ({ categories }) => {
       <View style={styles.imageContainer}>
         <Image source={item.image} style={styles.productImage} />
       </View>
-      <Text style={styles.productName}>{item.name}</Text>
+      <Text allowFontScaling={false}  style={styles.productName}>{item.name}</Text>
     </TouchableOpacity>
   );
 
   const renderCategory = (category: Category) => (
     <View key={category.title} style={styles.categoryContainer}>
-      <Text style={styles.categoryTitle}>{category.title}</Text>
+      <Text allowFontScaling={false}  style={styles.categoryTitle}>{category.title}</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         <View style={styles.productsRow}>
           {category.items.map((item) => renderProductItem(item))}

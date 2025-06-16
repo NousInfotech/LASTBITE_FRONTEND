@@ -42,7 +42,7 @@ const PayOnCash = () => {
         <TouchableOpacity>
           <GoBack />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Pay On Delievery</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Pay On Delievery</Text>
       </View>
       <View style={styles.paymentContainer}>
         <TouchableOpacity
@@ -53,8 +53,8 @@ const PayOnCash = () => {
             style={styles.aImage}
           />
           <View style={styles.paymentDetails}>
-            <Text style={styles.paymentText}>Pay On Delievery (Cash/UPI)</Text>
-            <Text style={styles.subText}>Pay Cash or ask for QR code</Text>
+            <Text allowFontScaling={false}  style={styles.paymentText}>Pay On Delievery (Cash/UPI)</Text>
+            <Text allowFontScaling={false}  style={styles.subText}>Pay Cash or ask for QR code</Text>
           </View>
           <View
             style={[

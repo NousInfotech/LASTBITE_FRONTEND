@@ -27,7 +27,7 @@ export default function DeliveryLocationScreen() {
         {pickedOrders.map((location, index) => (
           <Marker key={index} coordinate={location}>
             <View style={styles.labelContainer}>
-              <Text style={styles.labelText}>Picked Orders</Text>
+              <Text allowFontScaling={false}  style={styles.labelText}>Picked Orders</Text>
             </View>
             <Icon name="map-marker" size={30} color="#0aad55" />
           </Marker>
@@ -36,7 +36,7 @@ export default function DeliveryLocationScreen() {
         {/* Your Location Marker */}
         <Marker coordinate={yourLocation}>
           <View style={styles.labelContainerBlue}>
-            <Text style={styles.labelText}>Your Location</Text>
+            <Text allowFontScaling={false}  style={styles.labelText}>Your Location</Text>
           </View>
           <View style={styles.locationIconContainer}>
             <Icon name="crosshairs-gps" size={24} color="#007bff" />

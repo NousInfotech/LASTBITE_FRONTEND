@@ -91,15 +91,15 @@ const handleVerify = () => {
 
         {/* OTP Content */}
         <View style={styles.content}>
-          <Text style={styles.title}>Enter OTP</Text>
-          <Text style={styles.subText}>
-            Sent to <Text style={styles.phoneNumber}>+91 {phoneNumber}</Text>
+          <Text allowFontScaling={false}  style={styles.title}>Enter OTP</Text>
+          <Text allowFontScaling={false}  style={styles.subText}>
+            Sent to <Text allowFontScaling={false}  style={styles.phoneNumber}>+91 {phoneNumber}</Text>
           </Text>
 
           {/* OTP Input Fields */}
           <View style={styles.otpContainer}>
             {otp.map((digit, index) => (
-              <TextInput
+             <TextInput allowFontScaling={false} 
                 key={index}
                 ref={(ref) => (inputs.current[index] = ref)}
                 style={styles.otpInput}
@@ -112,12 +112,12 @@ const handleVerify = () => {
           </View>
 
           {/* Timer */}
-          <Text style={styles.timer}>
+          <Text allowFontScaling={false}  style={styles.timer}>
             Don't receive the code?{" "}
             {timer > 0 ? (
-              <Text style={styles.timerText}>Retry in 00:{timer < 10 ? `0${timer}` : timer}</Text>
+              <Text allowFontScaling={false}  style={styles.timerText}>Retry in 00:{timer < 10 ? `0${timer}` : timer}</Text>
             ) : (
-              <Text style={styles.retryText} onPress={() => setTimer(30)}>
+              <Text allowFontScaling={false}  style={styles.retryText} onPress={() => setTimer(30)}>
                 Retry
               </Text>
             )}
@@ -134,7 +134,7 @@ const handleVerify = () => {
             disabled={!otp.every((digit) => digit)}
             onPress={handleVerify} 
           >
-            <Text style={styles.buttonText}>Verify</Text>
+            <Text allowFontScaling={false}  style={styles.buttonText}>Verify</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>

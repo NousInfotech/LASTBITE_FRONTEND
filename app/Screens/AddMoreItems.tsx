@@ -70,9 +70,9 @@ const AddMoreItemsModal: React.FC<AddMoreItemsModalProps> = ({
           <TouchableWithoutFeedback>
             <View style={styles.modalContent}>
               <View style={styles.modalHeader}>
-                <Text style={styles.modalTitle}>Your Cart</Text>
+                <Text allowFontScaling={false}  style={styles.modalTitle}>Your Cart</Text>
                 <TouchableOpacity onPress={onClose}>
-                  <Text style={styles.closeButton}>✕</Text>
+                  <Text allowFontScaling={false}  style={styles.closeButton}>✕</Text>
                 </TouchableOpacity>
               </View>
               
@@ -83,30 +83,30 @@ const AddMoreItemsModal: React.FC<AddMoreItemsModalProps> = ({
                   renderItem={({ item }) => (
                     <View style={styles.itemContainer}>
                       <View style={styles.itemDetails}>
-                        <Text style={styles.itemName}>{item.name}</Text>
-                        <Text style={styles.itemPrice}>${item.price.toFixed(2)} × {item.quantity}</Text>
+                        <Text allowFontScaling={false}  style={styles.itemName}>{item.name}</Text>
+                        <Text allowFontScaling={false}  style={styles.itemPrice}>${item.price.toFixed(2)} × {item.quantity}</Text>
                       </View>
-                      <Text style={styles.itemTotal}>${(item.price * item.quantity).toFixed(2)}</Text>
+                      <Text allowFontScaling={false}  style={styles.itemTotal}>${(item.price * item.quantity).toFixed(2)}</Text>
                     </View>
                   )}
                   style={styles.itemsList}
                 />
               ) : (
-                <Text style={styles.emptyCartText}>Your cart is empty</Text>
+                <Text allowFontScaling={false}  style={styles.emptyCartText}>Your cart is empty</Text>
               )}
               
               <TouchableOpacity
                 style={styles.addMoreButton}
                 onPress={navigateToRestaurantSelect}
               >
-                <Text style={styles.addMoreButtonText}>Add More Items</Text>
+                <Text allowFontScaling={false}  style={styles.addMoreButtonText}>Add More Items</Text>
               </TouchableOpacity>
               
               <TouchableOpacity
                 style={styles.continueButton}
                 onPress={onClose}
               >
-                <Text style={styles.continueButtonText}>Continue with current items</Text>
+                <Text allowFontScaling={false}  style={styles.continueButtonText}>Continue with current items</Text>
               </TouchableOpacity>
             </View>
           </TouchableWithoutFeedback>

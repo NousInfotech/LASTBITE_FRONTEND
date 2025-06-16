@@ -42,25 +42,25 @@ const MealCustomizer = () => {
         <View>
           <Image source={item.image} style={styles.productImage} />
           <View style={styles.plusIcon}>
-            <Text style={styles.plusText}>+</Text>
+            <Text allowFontScaling={false}  style={styles.plusText}>+</Text>
             {/* Replace with your icon library's component if necessary */}
           </View>
         </View>
         <View style={styles.secondContainer}>
-          <Text style={styles.productName}>{item.name}</Text>
-          <Text style={styles.price}>₹{item.price}</Text>
+          <Text allowFontScaling={false}  style={styles.productName}>{item.name}</Text>
+          <Text allowFontScaling={false}  style={styles.price}>₹{item.price}</Text>
         </View>
       </View>
     );
   };
 
   if (!fontsLoaded) {
-    return <Text>Loading...</Text>; // Optionally, show a loading screen or placeholder
+    return <Text allowFontScaling={false} >Loading...</Text>; // Optionally, show a loading screen or placeholder
   }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>COMPLETE TOUR MEAL</Text>
+      <Text allowFontScaling={false}  style={styles.title}>COMPLETE TOUR MEAL</Text>
       <FlatList
         data={items}
         renderItem={renderItem}

@@ -107,7 +107,7 @@ const Favourites = () => {
         <TouchableOpacity onPress={() => router.back()}>
           <GoBack />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Favorites</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Favorites</Text>
       </View>
 
       {loading ? (
@@ -122,8 +122,8 @@ const Favourites = () => {
               source={require("../../assets/images/Fav.png")}
               style={styles.mainImage}
             />
-            <Text style={styles.Title}>Tasty Wishlist</Text>
-            <Text style={styles.subText}>
+            <Text allowFontScaling={false}  style={styles.Title}>Tasty Wishlist</Text>
+            <Text allowFontScaling={false}  style={styles.subText}>
               Hunt down your favorite dining spots and feast on flavors you can't
               resist.
             </Text>

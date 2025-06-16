@@ -36,14 +36,14 @@ const DeliveryTypeOption: React.FC<DeliveryTypeOptionProps> = ({
     >
       {/* Circle with tick when selected */}
       <View style={[styles.tickIndicator, isSelected && styles.selectedTickIndicator]}>
-        {isSelected && <Text style={styles.tick}>✔</Text>}
+        {isSelected && <Text allowFontScaling={false}  style={styles.tick}>✔</Text>}
       </View>
       <View style={styles.contentContainer}>
-        <Text style={styles.optionTitle}>{type}</Text>
-        <Text style={styles.optionTime}>{time}</Text>
+        <Text allowFontScaling={false}  style={styles.optionTitle}>{type}</Text>
+        <Text allowFontScaling={false}  style={styles.optionTime}>{time}</Text>
         <View style={styles.descriptionContainer}>
           {description.map((desc, index) => (
-            <Text key={index} style={styles.optionDescription}>
+            <Text allowFontScaling={false}  key={index} style={styles.optionDescription}>
               • {desc}
             </Text>
           ))}
@@ -51,7 +51,7 @@ const DeliveryTypeOption: React.FC<DeliveryTypeOptionProps> = ({
         {ecoInfo && (
           <>
             <View style={styles.divider} />
-            <Text style={styles.ecoInfo}>{ecoInfo}</Text>
+            <Text allowFontScaling={false}  style={styles.ecoInfo}>{ecoInfo}</Text>
           </>
         )}
       </View>

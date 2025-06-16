@@ -50,8 +50,8 @@ const PaymentScreen = () => {
           <GoBack />
         </TouchableOpacity>
         <View style={styles.titleContainer}>
-          <Text style={styles.headerTitle}>Payment Options</Text>
-          <Text style={styles.subTitle}>1 item | Total : $ 26</Text>
+          <Text allowFontScaling={false}  style={styles.headerTitle}>Payment Options</Text>
+          <Text allowFontScaling={false}  style={styles.subTitle}>1 item | Total : $ 26</Text>
         </View>
       </View>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -63,13 +63,13 @@ const PaymentScreen = () => {
             <View style={styles.circle} />
           </View>
           <View style={styles.infoContainer}>
-            <Text style={styles.lineText}>
-              <Text style={styles.mainText}>Gourmet Delights </Text>
-              <Text style={styles.subText}>| Delivery in 50-55 mins</Text>
+            <Text allowFontScaling={false}  style={styles.lineText}>
+              <Text allowFontScaling={false}  style={styles.mainText}>Gourmet Delights </Text>
+              <Text allowFontScaling={false}  style={styles.subText}>| Delivery in 50-55 mins</Text>
             </Text>
-            <Text style={styles.lineText}>
-              <Text style={styles.mainText}>Address </Text>
-              <Text style={styles.subText}>
+            <Text allowFontScaling={false}  style={styles.lineText}>
+              <Text allowFontScaling={false}  style={styles.mainText}>Address </Text>
+              <Text allowFontScaling={false}  style={styles.subText}>
                 | 1234 Foodie Street, Flavor Town, CA
               </Text>
             </Text>
@@ -81,7 +81,7 @@ const PaymentScreen = () => {
             source={require("../../assets/images/Discount.png")}
             style={styles.offerImage}
           />
-          <Text style={styles.offerText}>
+          <Text allowFontScaling={false}  style={styles.offerText}>
             Save up to $19 more with payment offers
           </Text>
           <View style={styles.chevronContainer}>
@@ -90,7 +90,7 @@ const PaymentScreen = () => {
         </View>
 
         <View style={styles.paymentContainer}>
-          <Text style={styles.paymentHeader}>Pay by any UPI App</Text>
+          <Text allowFontScaling={false}  style={styles.paymentHeader}>Pay by any UPI App</Text>
           <View style={styles.divider} />
 
           <TouchableOpacity
@@ -102,7 +102,7 @@ const PaymentScreen = () => {
               style={styles.aImage}
             />
             <View style={styles.paymentDetails}>
-              <Text style={styles.paymentText}>Google Pay</Text>
+              <Text allowFontScaling={false}  style={styles.paymentText}>Google Pay</Text>
             </View>
             <View
               style={[
@@ -121,7 +121,7 @@ const PaymentScreen = () => {
               style={styles.aImage}
             />
             <View style={styles.paymentDetails}>
-              <Text style={styles.paymentText}>Amazon Pay UPI</Text>
+              <Text allowFontScaling={false}  style={styles.paymentText}>Amazon Pay UPI</Text>
             </View>
             <View
               style={[
@@ -137,8 +137,8 @@ const PaymentScreen = () => {
               style={styles.aImage}
             />
             <View style={styles.paymentDetails}>
-              <Text style={styles.paymentNewText}>Add New UPI ID</Text>
-              <Text style={styles.subNewText}>
+              <Text allowFontScaling={false}  style={styles.paymentNewText}>Add New UPI ID</Text>
+              <Text allowFontScaling={false}  style={styles.subNewText}>
                 You need to have a registered UPI ID
               </Text>
             </View>
@@ -146,7 +146,7 @@ const PaymentScreen = () => {
         </View>
 
         <View style={styles.paymentContainer}>
-          <Text style={styles.paymentHeader}>Credit & Debit Cards</Text>
+          <Text allowFontScaling={false}  style={styles.paymentHeader}>Credit & Debit Cards</Text>
           <View style={styles.divider} />
           <TouchableOpacity style={styles.paymentOption} onPress={() => router.push('./AddCard')}>
             <Image
@@ -154,14 +154,14 @@ const PaymentScreen = () => {
               style={styles.aImage}
             />
             <View style={styles.paymentDetails}>
-              <Text style={styles.paymentNewText}>Add New Card</Text>
-              <Text style={styles.subText}>Save and pay via cards</Text>
+              <Text allowFontScaling={false}  style={styles.paymentNewText}>Add New Card</Text>
+              <Text allowFontScaling={false}  style={styles.subText}>Save and pay via cards</Text>
             </View>
           </TouchableOpacity>
         </View>
 
         <View style={styles.paymentContainer}>
-          <Text style={styles.paymentHeader}>More Payment Options</Text>
+          <Text allowFontScaling={false}  style={styles.paymentHeader}>More Payment Options</Text>
           <View style={styles.divider} />
           <TouchableOpacity style={styles.paymentOption} onPress={() => router.push('./Wallet')}>
             <Image
@@ -169,8 +169,8 @@ const PaymentScreen = () => {
               style={styles.aImage}
             />
             <View style={styles.paymentDetails}>
-              <Text style={styles.paymentText}>Wallet</Text>
-              <Text style={styles.subText}>PhonePe, Amazon Pay & more</Text>
+              <Text allowFontScaling={false}  style={styles.paymentText}>Wallet</Text>
+              <Text allowFontScaling={false}  style={styles.subText}>PhonePe, Amazon Pay & more</Text>
             </View>
             <AntDesign name="right" size={16} color="grey" />
           </TouchableOpacity>
@@ -180,8 +180,8 @@ const PaymentScreen = () => {
               style={styles.aImage}
             />
             <View style={styles.paymentDetails}>
-              <Text style={styles.paymentText}>Pluxee</Text>
-              <Text style={styles.subText}>
+              <Text allowFontScaling={false}  style={styles.paymentText}>Pluxee</Text>
+              <Text allowFontScaling={false}  style={styles.subText}>
                 Pluxee card only valid only on food & instamart
               </Text>
             </View>
@@ -193,8 +193,8 @@ const PaymentScreen = () => {
               style={styles.aImage}
             />
             <View style={styles.paymentDetails}>
-              <Text style={styles.paymentText}>Netbanking</Text>
-              <Text style={styles.subText}>Select from list of banks</Text>
+              <Text allowFontScaling={false}  style={styles.paymentText}>Netbanking</Text>
+              <Text allowFontScaling={false}  style={styles.subText}>Select from list of banks</Text>
             </View>
             <AntDesign name="right" size={16} color="grey" />
           </TouchableOpacity>
@@ -204,8 +204,8 @@ const PaymentScreen = () => {
               style={styles.aImage}
             />
             <View style={styles.paymentDetails}>
-              <Text style={styles.paymentText}>Pay Later</Text>
-              <Text style={styles.subText}>simpi</Text>
+              <Text allowFontScaling={false}  style={styles.paymentText}>Pay Later</Text>
+              <Text allowFontScaling={false}  style={styles.subText}>simpi</Text>
             </View>
             <AntDesign name="right" size={16} color="grey" />
           </TouchableOpacity>
@@ -215,8 +215,8 @@ const PaymentScreen = () => {
               style={styles.aImage}
             />
             <View style={styles.paymentDetails}>
-              <Text style={styles.paymentText}>Pay on Delievery</Text>
-              <Text style={styles.subText}>Pay in cash or pay online</Text>
+              <Text allowFontScaling={false}  style={styles.paymentText}>Pay on Delievery</Text>
+              <Text allowFontScaling={false}  style={styles.subText}>Pay in cash or pay online</Text>
             </View>
             <AntDesign name="right" size={16} color="grey" />
           </TouchableOpacity>
@@ -226,7 +226,7 @@ const PaymentScreen = () => {
               style={styles.aImage}
             />
             <View style={styles.paymentDetails}>
-              <Text style={styles.paymentText}>CRED Pay</Text>
+              <Text allowFontScaling={false}  style={styles.paymentText}>CRED Pay</Text>
             </View>
             <AntDesign name="right" size={16} color="grey" />
           </TouchableOpacity>
@@ -236,7 +236,7 @@ const PaymentScreen = () => {
   <View style={styles.popupContainer}>
     <View style={styles.popupContent}>
       <View style={styles.headerRow}>
-        <Text style={styles.popupTitle}>Introducing Last Bites</Text>
+        <Text allowFontScaling={false}  style={styles.popupTitle}>Introducing Last Bites</Text>
         <Image
           source={require("../../assets/images/image 1 1.png")}
           style={styles.pImage}
@@ -248,16 +248,16 @@ const PaymentScreen = () => {
           <AntDesign name="close" size={20} color="#000" />
         </TouchableOpacity>
       </View>
-      <Text style={styles.popupSubText}>
+      <Text allowFontScaling={false}  style={styles.popupSubText}>
         Unlock 3x faster in-app UPI payment on LastBites
       </Text>
       <TouchableOpacity style={styles.activateButton}>
-        <Text style={styles.activateButtonText}>
+        <Text allowFontScaling={false}  style={styles.activateButtonText}>
           Activate in 10 seconds
         </Text>
       </TouchableOpacity>
       <View style={styles.poweredByRow}>
-        <Text style={styles.popupBottom}>Powered by</Text>
+        <Text allowFontScaling={false}  style={styles.popupBottom}>Powered by</Text>
         <Image
           source={require("../../assets/images/image 1 1.png")}
           style={styles.imageIcon}

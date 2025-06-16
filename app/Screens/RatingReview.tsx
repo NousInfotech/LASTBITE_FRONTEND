@@ -73,14 +73,14 @@ const RatingReview = () => {
   const ReviewItem = ({ item }) => (
     <View style={styles.reviewCard}>
       <View style={styles.reviewHeader}>
-        <Text style={styles.reviewName}>{item.name}</Text>
+        <Text allowFontScaling={false}  style={styles.reviewName}>{item.name}</Text>
         <View style={styles.ratingRow}>
           <FontAwesome name="star" size={16} color="#FFC107" />
-          <Text style={styles.reviewRating}> {item.rating}</Text>
+          <Text allowFontScaling={false}  style={styles.reviewRating}> {item.rating}</Text>
         </View>
       </View>
-      <Text style={styles.reviewDate}>Date: {item.date}</Text>
-      <Text style={styles.reviewText}>"{item.review}"</Text>
+      <Text allowFontScaling={false}  style={styles.reviewDate}>Date: {item.date}</Text>
+      <Text allowFontScaling={false}  style={styles.reviewText}>"{item.review}"</Text>
     </View>
   );
 
@@ -92,46 +92,46 @@ const RatingReview = () => {
         <TouchableOpacity>
           <GoBack />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Reviews and Ratings</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Reviews and Ratings</Text>
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.ratingContainer}>
           <View style={styles.ratingHeaderRow}>
             <View>
-              <Text style={styles.avgRatingLabel}>Average Rating</Text>
-              <Text style={styles.subText}>(based on 120 reviews)</Text>
+              <Text allowFontScaling={false}  style={styles.avgRatingLabel}>Average Rating</Text>
+              <Text allowFontScaling={false}  style={styles.subText}>(based on 120 reviews)</Text>
             </View>
             <View style={styles.ratingRow}>
               <FontAwesome name="star" size={20} color="#FFC107" />
-              <Text style={styles.ratingNumber}> 4.3/5</Text>
+              <Text allowFontScaling={false}  style={styles.ratingNumber}> 4.3/5</Text>
             </View>
           </View>
           
           <View style={styles.separator} />
           
           <View style={styles.infoRow}>
-            <Text style={styles.infoLabel}>Total Reviews</Text>
-            <Text style={styles.infoValue}>120</Text>
+            <Text allowFontScaling={false}  style={styles.infoLabel}>Total Reviews</Text>
+            <Text allowFontScaling={false}  style={styles.infoValue}>120</Text>
           </View>
           
           <View style={styles.infoRow}>
-            <Text style={styles.infoLabel}>Feedback Highlights</Text>
-            <Text style={styles.highlightText}>"Great service!"</Text>
+            <Text allowFontScaling={false}  style={styles.infoLabel}>Feedback Highlights</Text>
+            <Text allowFontScaling={false}  style={styles.highlightText}>"Great service!"</Text>
           </View>
         </View>
 
         <View style={styles.reviewSummaryContainer}>
-          <Text style={styles.sectionTitle}>Reviews Summary</Text>
+          <Text allowFontScaling={false}  style={styles.sectionTitle}>Reviews Summary</Text>
           {ratingSummary.map((item) => (
             <View key={item.stars} style={styles.progressRow}>
-              <Text style={styles.starText}>{item.stars}-Star</Text>
+              <Text allowFontScaling={false}  style={styles.starText}>{item.stars}-Star</Text>
               <ProgressBar progress={item.percentage} />
             </View>
           ))}
         </View>
 
-        <Text style={styles.sectionTitle}>Individual Reviews</Text>
+        <Text allowFontScaling={false}  style={styles.sectionTitle}>Individual Reviews</Text>
         {reviewsData.map((item) => (
           <ReviewItem key={item.id} item={item} />
         ))}

@@ -94,13 +94,13 @@ const PersonalDetails = () => {
       >
         <ScrollView contentContainerStyle={styles.scrollContainer}>
           <View style={styles.content}>
-            <Text style={styles.title}>Your Personal Details</Text>
-            <Text style={styles.subText}>As per your PAN Account</Text>
+            <Text allowFontScaling={false}  style={styles.title}>Your Personal Details</Text>
+            <Text allowFontScaling={false}  style={styles.subText}>As per your PAN Account</Text>
 
             <View style={styles.formContainer}>
               <View style={styles.inputGroup}>
-                <Text style={styles.label}>Full Name</Text>
-                <TextInput
+                <Text allowFontScaling={false}  style={styles.label}>Full Name</Text>
+               <TextInput allowFontScaling={false} 
                   style={styles.input}
                   placeholder="Enter your full name"
                   value={fullName}
@@ -109,8 +109,8 @@ const PersonalDetails = () => {
               </View>
 
               <View style={styles.inputGroup}>
-                <Text style={styles.label}>Date of Birth</Text>
-                <TextInput
+                <Text allowFontScaling={false}  style={styles.label}>Date of Birth</Text>
+               <TextInput allowFontScaling={false} 
                   style={styles.input}
                   placeholder="DD/MM/YYYY"
                   value={dob}
@@ -119,20 +119,20 @@ const PersonalDetails = () => {
               </View>
 
               <View style={styles.inputGroup}>
-                <Text style={styles.label}>Gender</Text>
+                <Text allowFontScaling={false}  style={styles.label}>Gender</Text>
                 <TouchableOpacity
                   style={styles.input}
                   onPress={() => setIsGenderModalVisible(true)}
                 >
-                  <Text style={styles.inputText}>
+                  <Text allowFontScaling={false}  style={styles.inputText}>
                     {gender || "Select gender"}
                   </Text>
                 </TouchableOpacity>
               </View>
 
               <View style={styles.inputGroup}>
-                <Text style={styles.label}>Mother's Full Name</Text>
-                <TextInput
+                <Text allowFontScaling={false}  style={styles.label}>Mother's Full Name</Text>
+               <TextInput allowFontScaling={false} 
                   style={styles.input}
                   placeholder="Enter your mother's full name"
                   value={mothersFullName}
@@ -141,8 +141,8 @@ const PersonalDetails = () => {
               </View>
 
               <View style={styles.inputGroup}>
-                <Text style={styles.label}>Personal Email ID</Text>
-                <TextInput
+                <Text allowFontScaling={false}  style={styles.label}>Personal Email ID</Text>
+               <TextInput allowFontScaling={false} 
                   style={styles.input}
                   placeholder="Enter your email address"
                   value={email}
@@ -159,7 +159,7 @@ const PersonalDetails = () => {
           onPress={handleNext}
           disabled={!isFormValid}
         >
-          <Text style={styles.buttonText}>Next</Text>
+          <Text allowFontScaling={false}  style={styles.buttonText}>Next</Text>
         </TouchableOpacity>
       </KeyboardAvoidingView>
 
@@ -173,16 +173,16 @@ const PersonalDetails = () => {
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>Gender</Text>
+              <Text allowFontScaling={false}  style={styles.modalTitle}>Gender</Text>
               <TouchableOpacity onPress={() => setIsGenderModalVisible(false)}>
-                <Text style={styles.closeButton}>X</Text>
+                <Text allowFontScaling={false}  style={styles.closeButton}>X</Text>
               </TouchableOpacity>
             </View>
             <TouchableOpacity
               style={styles.radioButton}
               onPress={() => setSelectedGender("Male")}
             >
-              <Text style={styles.radioText}>Male</Text>
+              <Text allowFontScaling={false}  style={styles.radioText}>Male</Text>
               <View style={styles.radioCircle}>
                 {selectedGender === "Male" && <View style={styles.radioFill} />}
               </View>
@@ -192,7 +192,7 @@ const PersonalDetails = () => {
               style={styles.radioButton}
               onPress={() => setSelectedGender("Female")}
             >
-              <Text style={styles.radioText}>Female</Text>
+              <Text allowFontScaling={false}  style={styles.radioText}>Female</Text>
               <View style={styles.radioCircle}>
                 {selectedGender === "Female" && (
                   <View style={styles.radioFill} />
@@ -204,7 +204,7 @@ const PersonalDetails = () => {
               style={styles.radioButton}
               onPress={() => setSelectedGender("Other")}
             >
-              <Text style={styles.radioText}>Other</Text>
+              <Text allowFontScaling={false}  style={styles.radioText}>Other</Text>
               <View style={styles.radioCircle}>
                 {selectedGender === "Other" && (
                   <View style={styles.radioFill} />
@@ -216,7 +216,7 @@ const PersonalDetails = () => {
               style={styles.confirmButton}
               onPress={handleGenderConfirm}
             >
-              <Text style={styles.confirmButtonText}>Confirm</Text>
+              <Text allowFontScaling={false}  style={styles.confirmButtonText}>Confirm</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -255,15 +255,15 @@ const AddressDetails = () => {
         </TouchableOpacity>
       </View>
       <View style={styles.content}>
-        <Text style={styles.title}>Your current home address</Text>
-        <Text style={styles.subText}>
+        <Text allowFontScaling={false}  style={styles.title}>Your current home address</Text>
+        <Text allowFontScaling={false}  style={styles.subText}>
           Your email will be delivered to this address
         </Text>
         <View style={styles.addressContainer}>
           <View style={styles.addressContent}>
             <View>
-              <Text style={styles.addressTitle}>Address</Text>
-              <Text style={[styles.subText, styles.addressText]}>
+              <Text allowFontScaling={false}  style={styles.addressTitle}>Address</Text>
+              <Text allowFontScaling={false}  style={[styles.subText, styles.addressText]}>
                 123 Example St, City, Country
               </Text>
             </View>
@@ -282,11 +282,11 @@ const AddressDetails = () => {
           style={styles.changeButton}
           onPress={() => setIsModalVisible(true)}
         >
-          <Text style={styles.changeButtonText}>Change Address</Text>
+          <Text allowFontScaling={false}  style={styles.changeButtonText}>Change Address</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
-          <Text style={styles.buttonText}>Next</Text>
+          <Text allowFontScaling={false}  style={styles.buttonText}>Next</Text>
         </TouchableOpacity>
       </View>
 
@@ -299,8 +299,8 @@ const AddressDetails = () => {
       >
         <View style={styles.modalOverlay_A}>
           <View style={styles.modalContainer}>
-            <Text style={styles.modalTitle_A}>Are You Sure?</Text>
-            <Text style={styles.subText}>
+            <Text allowFontScaling={false}  style={styles.modalTitle_A}>Are You Sure?</Text>
+            <Text allowFontScaling={false}  style={styles.subText}>
           Sure Want to change the current address
         </Text>
             <View style={styles.modalButtons}>
@@ -308,13 +308,13 @@ const AddressDetails = () => {
                 style={styles.cancelButton}
                 onPress={() => setIsModalVisible(false)}
               >
-                <Text style={styles.cancelButtonText}>No</Text>
+                <Text allowFontScaling={false}  style={styles.cancelButtonText}>No</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.saveButton}
                 onPress={handleChangeAddress}
               >
-                <Text style={styles.saveButtonText}>Yes</Text>
+                <Text allowFontScaling={false}  style={styles.saveButtonText}>Yes</Text>
               </TouchableOpacity>
              
             </View>
@@ -347,8 +347,8 @@ const YesDetails = ({ onClose }: Props) => {
         </TouchableOpacity>
       </View>
       <View style={styles.content}>
-        <Text style={styles.title}>Edit Address</Text>
-        <Text style={styles.subText}>
+        <Text allowFontScaling={false}  style={styles.title}>Edit Address</Text>
+        <Text allowFontScaling={false}  style={styles.subText}>
         The card will be delivered here.
         </Text>
         <KeyboardAvoidingView
@@ -357,8 +357,8 @@ const YesDetails = ({ onClose }: Props) => {
       >
         <View style={styles.formContainer}>
         <View style={styles.inputGroup}>
-            <Text style={styles.label}>PinCode</Text>
-            <TextInput
+            <Text allowFontScaling={false}  style={styles.label}>PinCode</Text>
+           <TextInput allowFontScaling={false} 
               style={styles.input}
               placeholder="Enter your zip code"
               value={zip}
@@ -367,8 +367,8 @@ const YesDetails = ({ onClose }: Props) => {
             />
           </View>
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>House no/Building Name</Text>
-            <TextInput
+            <Text allowFontScaling={false}  style={styles.label}>House no/Building Name</Text>
+           <TextInput allowFontScaling={false} 
               style={styles.input}
               placeholder="Enter your address"
               value={newAddress}
@@ -376,8 +376,8 @@ const YesDetails = ({ onClose }: Props) => {
             />
           </View>
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>Street Address</Text>
-            <TextInput
+            <Text allowFontScaling={false}  style={styles.label}>Street Address</Text>
+           <TextInput allowFontScaling={false} 
               style={styles.input}
               placeholder="Enter your Street"
               value={city}
@@ -385,8 +385,8 @@ const YesDetails = ({ onClose }: Props) => {
             />
           </View>
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>Area /Landmark</Text>
-            <TextInput
+            <Text allowFontScaling={false}  style={styles.label}>Area /Landmark</Text>
+           <TextInput allowFontScaling={false} 
               style={styles.input}
               placeholder="Enter your Area"
               value={state}
@@ -394,8 +394,8 @@ const YesDetails = ({ onClose }: Props) => {
             />
           </View>
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>City</Text>
-            <TextInput
+            <Text allowFontScaling={false}  style={styles.label}>City</Text>
+           <TextInput allowFontScaling={false} 
               style={styles.input}
               placeholder="Enter your City"
               value={state}
@@ -408,7 +408,7 @@ const YesDetails = ({ onClose }: Props) => {
           style={styles.submitButton}
           onPress={handleNext}
         >
-          <Text style={styles.buttonText}>Next</Text>
+          <Text allowFontScaling={false}  style={styles.buttonText}>Next</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

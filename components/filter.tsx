@@ -73,7 +73,7 @@ const FilterButtons = () => {
 
   return (
     <View onLayout={onLayoutRootView}>
-      <Text style={styles.title}>Where to Eat Next</Text>
+      <Text allowFontScaling={false}  style={styles.title}>Where to Eat Next</Text>
       <ScrollView horizontal contentContainerStyle={styles.filterContainer}>
         {filters.map((filter, index) => (
           <TouchableOpacity
@@ -91,7 +91,7 @@ const FilterButtons = () => {
               }
             }}
           >
-            <Text
+            <Text allowFontScaling={false} 
               style={[
                 styles.filterText,
                 activeFilters.includes(filter) && styles.activeFilterText,

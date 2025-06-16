@@ -107,27 +107,27 @@ const Settings = () => {
         <TouchableOpacity>
           <GoBack />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Settings</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Settings</Text>
       </View>
       <ScrollView>
         {/* Order Related Messages */}
         <View style={styles.Content}>
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Order Related Messages</Text>
-            <Text style={styles.description}>
+            <Text allowFontScaling={false}  style={styles.sectionTitle}>Order Related Messages</Text>
+            <Text allowFontScaling={false}  style={styles.description}>
               Order-related SMS cannot be disabled as they are critical to providing service.
             </Text>
           </View>
 
           {/* Recommendations & Reminders */}
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Recommendations & Remainders</Text>
-            <Text style={styles.description}>
+            <Text allowFontScaling={false}  style={styles.sectionTitle}>Recommendations & Remainders</Text>
+            <Text allowFontScaling={false}  style={styles.description}>
               Keep this on to receive offer recommendations & timely reminders based on your interests.
             </Text>
 
             <View style={styles.switchRow}>
-              <Text style={styles.switchLabel}>SMS</Text>
+              <Text allowFontScaling={false}  style={styles.switchLabel}>SMS</Text>
               <Switch
                 trackColor={{ false: "#ddd", true: "#01615F" }}
                 thumbColor={"#fff"}
@@ -138,7 +138,7 @@ const Settings = () => {
             </View>
 
             <View style={styles.switchRow}>
-              <Text style={styles.switchLabel}>WhatsApp</Text>
+              <Text allowFontScaling={false}  style={styles.switchLabel}>WhatsApp</Text>
               <Switch
                 trackColor={{ false: "#ddd", true: "#01615F" }}
                 thumbColor={"#fff"}
@@ -151,9 +151,9 @@ const Settings = () => {
 
           {/* Picture in Picture Mode */}
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Picture In Picture Mode</Text>
+            <Text allowFontScaling={false}  style={styles.sectionTitle}>Picture In Picture Mode</Text>
             <View style={styles.switchRow}>
-              <Text style={styles.switchLabel}>Allow Picture in Picture Mode</Text>
+              <Text allowFontScaling={false}  style={styles.switchLabel}>Allow Picture in Picture Mode</Text>
               <Switch
                 trackColor={{ false: "#ddd", true: "#01615F" }}
                 thumbColor={"#fff"}
@@ -162,15 +162,15 @@ const Settings = () => {
                 value={pipEnabled}
               />
             </View>
-            <Text style={styles.subText}>
+            <Text allowFontScaling={false}  style={styles.subText}>
               PIP mode allows you to live track your order in a small window pinned to one corner of your screen while you navigate to other apps or to the home screen.
             </Text>
           </View>
 
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Account Deletion</Text>
+            <Text allowFontScaling={false}  style={styles.sectionTitle}>Account Deletion</Text>
             <TouchableOpacity style={styles.deleteButton} onPress={() => setModalVisible(true)}>
-              <Text style={styles.deleteButtonText}>Delete account</Text>
+              <Text allowFontScaling={false}  style={styles.deleteButtonText}>Delete account</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -185,21 +185,21 @@ const Settings = () => {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Are you sure want to delete your account?</Text>
-            <Text style={styles.modalText}>Once deleted, you will lose access to this account along with the saved details.</Text>
+            <Text allowFontScaling={false}  style={styles.modalTitle}>Are you sure want to delete your account?</Text>
+            <Text allowFontScaling={false}  style={styles.modalText}>Once deleted, you will lose access to this account along with the saved details.</Text>
             <View style={styles.modalButtons}>
               <TouchableOpacity
                 style={[styles.button, styles.cancelButton]}
                 onPress={() => setModalVisible(false)}
               >
-                <Text style={styles.cancelbuttonText}>Cancel</Text>
+                <Text allowFontScaling={false}  style={styles.cancelbuttonText}>Cancel</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
                 style={[styles.button, styles.confirmButton]}
                 onPress={confirmDelete}
               >
-                <Text style={[styles.buttonText, { color: "#FFF" }]}>
+                <Text allowFontScaling={false}  style={[styles.buttonText, { color: "#FFF" }]}>
                   Delete
                 </Text>
               </TouchableOpacity>
@@ -217,21 +217,21 @@ const Settings = () => {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Recommendations & Reminders on SMS</Text>
-            <Text style={styles.modalText}>You will not receive any recommendations & reminders on SMS.</Text>
+            <Text allowFontScaling={false}  style={styles.modalTitle}>Recommendations & Reminders on SMS</Text>
+            <Text allowFontScaling={false}  style={styles.modalText}>You will not receive any recommendations & reminders on SMS.</Text>
             <View style={styles.modalButtons}>
               <TouchableOpacity
                 style={[styles.smsButton, styles.smsButtonCancel]}
                 onPress={cancelSmsOff}
               >
-                <Text style={styles.smsButtonCancelText}>No, Turn On</Text>
+                <Text allowFontScaling={false}  style={styles.smsButtonCancelText}>No, Turn On</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
                 style={[styles.smsButton, styles.smsButtonConfirm]}
                 onPress={confirmSmsOff}
               >
-                <Text style={styles.smsButtonConfirmText}>Keep it Off</Text>
+                <Text allowFontScaling={false}  style={styles.smsButtonConfirmText}>Keep it Off</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -247,21 +247,21 @@ const Settings = () => {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Recommendations & Reminders on WhatsApp</Text>
-            <Text style={styles.modalText}>You will not receive any recommendations & reminders on WhatsApp.</Text>
+            <Text allowFontScaling={false}  style={styles.modalTitle}>Recommendations & Reminders on WhatsApp</Text>
+            <Text allowFontScaling={false}  style={styles.modalText}>You will not receive any recommendations & reminders on WhatsApp.</Text>
             <View style={styles.modalButtons}>
               <TouchableOpacity
                 style={[styles.smsButton, styles.smsButtonCancel]}
                 onPress={cancelWhatsappOff}
               >
-                <Text style={styles.smsButtonCancelText}>No, Turn On</Text>
+                <Text allowFontScaling={false}  style={styles.smsButtonCancelText}>No, Turn On</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
                 style={[styles.smsButton, styles.smsButtonConfirm]}
                 onPress={confirmWhatsappOff}
               >
-                <Text style={styles.smsButtonConfirmText}>Keep it Off</Text>
+                <Text allowFontScaling={false}  style={styles.smsButtonConfirmText}>Keep it Off</Text>
               </TouchableOpacity>
             </View>
           </View>

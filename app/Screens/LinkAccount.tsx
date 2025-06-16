@@ -58,7 +58,7 @@ const LinkAccount = () => {
   if (!fontsLoaded) {
     return (
       <SafeAreaView style={styles.loadingContainer}>
-        <Text>Loading...</Text>
+        <Text allowFontScaling={false} >Loading...</Text>
       </SafeAreaView>
     );
   }
@@ -99,16 +99,16 @@ const LinkAccount = () => {
     <View style={styles.content}>
       <View style={styles.titleContainer}>
         <View style={{ flex: 1 }}>
-          <Text style={styles.title}>
+          <Text allowFontScaling={false}  style={styles.title}>
             Enter mobile number to link {walletName} account
           </Text>
-          <Text style={styles.subtitle}>
+          <Text allowFontScaling={false}  style={styles.subtitle}>
             If you don't have an account, we will create one for you
           </Text>
         </View>
         <Image source={walletIconSource} style={styles.walletIcon} />
       </View>
-      <TextInput
+     <TextInput allowFontScaling={false} 
         style={styles.input}
         placeholder="Phone number"
         placeholderTextColor="#A0A0A0"
@@ -124,7 +124,7 @@ const LinkAccount = () => {
         disabled={!phoneNumber}
         onPress={handlePhoneSubmit}
       >
-        <Text style={styles.buttonText}>Confirm and Proceed</Text>
+        <Text allowFontScaling={false}  style={styles.buttonText}>Confirm and Proceed</Text>
       </TouchableOpacity>
     </View>
   );
@@ -133,14 +133,14 @@ const LinkAccount = () => {
     <View style={styles.content}>
       <View style={styles.titleContainer}>
         <View style={{ flex: 1 }}>
-          <Text style={styles.title}>
+          <Text allowFontScaling={false}  style={styles.title}>
             Enter OTP received on {phoneNumber}
           </Text>
         </View>
         <Image source={walletIconSource} style={styles.walletIcon} />
       </View>
       <View style={styles.inputNewContainer}>
-        <TextInput
+       <TextInput allowFontScaling={false} 
           style={styles.inputNew}
           placeholder="Enter OTP"
           placeholderTextColor="#A0A0A0"
@@ -149,7 +149,7 @@ const LinkAccount = () => {
           onChangeText={setOtp}
         />
         <TouchableOpacity style={styles.resendButton} onPress={handleResend}>
-          <Text style={styles.resendText}>Resend</Text>
+          <Text allowFontScaling={false}  style={styles.resendText}>Resend</Text>
         </TouchableOpacity>
       </View>
       <TouchableOpacity
@@ -160,7 +160,7 @@ const LinkAccount = () => {
         disabled={!otp}
         onPress={handleOtpVerification}
       >
-        <Text style={styles.buttonText}>Verify and Link Account</Text>
+        <Text allowFontScaling={false}  style={styles.buttonText}>Verify and Link Account</Text>
       </TouchableOpacity>
     </View>
   );
@@ -169,14 +169,14 @@ const LinkAccount = () => {
     <View style={styles.content}>
       <View style={styles.balanceContainer}>
         <View style={styles.balanceInfo}>
-          <Text style={styles.balanceLabel}>Current Balance</Text>
-          <Text style={styles.balanceAmount}>{balance}</Text>
+          <Text allowFontScaling={false}  style={styles.balanceLabel}>Current Balance</Text>
+          <Text allowFontScaling={false}  style={styles.balanceAmount}>{balance}</Text>
         </View>
         <Image source={walletIconSource} style={styles.walletIcon} />
       </View>
       <View style={styles.delinkContainer}>
         <TouchableOpacity onPress={handleDelink}>
-          <Text style={styles.delinkText}>Delink</Text>
+          <Text allowFontScaling={false}  style={styles.delinkText}>Delink</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -189,7 +189,7 @@ const LinkAccount = () => {
         <TouchableOpacity onPress={handleGoBack}>
           <GoBack />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Link {walletName} Account</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Link {walletName} Account</Text>
       </View>
       {showBalanceScreen 
         ? renderBalanceView() 
@@ -205,20 +205,20 @@ const LinkAccount = () => {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalText}>
+            <Text allowFontScaling={false}  style={styles.modalText}>
               Are you sure you want to delink Wallet?
             </Text>
             <TouchableOpacity
               style={styles.modalButtonConfirm}
               onPress={confirmDelink}
             >
-              <Text style={styles.modalButtonText}>Yes, Delink Account</Text>
+              <Text allowFontScaling={false}  style={styles.modalButtonText}>Yes, Delink Account</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.modalButtonCancel}
               onPress={() => setShowModal(false)}
             >
-              <Text style={styles.modalButtonTextCancel}>Cancel</Text>
+              <Text allowFontScaling={false}  style={styles.modalButtonTextCancel}>Cancel</Text>
             </TouchableOpacity>
           </View>
         </View>

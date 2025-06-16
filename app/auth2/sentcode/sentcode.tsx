@@ -71,7 +71,7 @@ const Sentcode = () => {
   };
 
   if (!fontsLoaded) {
-    return <Text>Loading...</Text>; // Ensure the font is loaded before rendering
+    return <Text allowFontScaling={false} >Loading...</Text>; // Ensure the font is loaded before rendering
   }
 
   return (
@@ -81,10 +81,10 @@ const Sentcode = () => {
         <GoBack />
       </View>
       <View style={styles.content}>
-        <Text style={[styles.title, { fontFamily: "Poppins_600SemiBold" }]}>
+        <Text allowFontScaling={false}  style={[styles.title, { fontFamily: "Poppins_600SemiBold" }]}>
           Forget your password
         </Text>
-        <Text style={[styles.subtitle, { fontFamily: "Poppins_400Regular" }]}>
+        <Text allowFontScaling={false}  style={[styles.subtitle, { fontFamily: "Poppins_400Regular" }]}>
           Enter the code that was sent to {email}
         </Text>
 
@@ -98,7 +98,7 @@ const Sentcode = () => {
           backgroundColor={isOtpValid ? "#01615F" : "#B0B0B0"} // Button color changes when valid
         />
         <View style={styles.resendContainer}>
-          <Text
+          <Text allowFontScaling={false} 
             style={[styles.resendText, { fontFamily: "Poppins_600SemiBold" }]}
           >
             Don't received the code?
@@ -107,7 +107,7 @@ const Sentcode = () => {
             onPress={handleResendCode}
             disabled={isResendDisabled}
           >
-            <Text
+            <Text allowFontScaling={false} 
               style={[styles.resendLink, { fontFamily: "Poppins_600SemiBold" }]}
             >
               {isResendDisabled

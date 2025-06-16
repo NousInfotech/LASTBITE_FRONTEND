@@ -161,7 +161,7 @@
 //               >
 //                 <Ionicons name="remove" size={16} color="white" />
 //               </TouchableOpacity>
-//               <Text style={styles.quantityText}>{cartItems[item.id]}</Text>
+//               <Text allowFontScaling={false}  style={styles.quantityText}>{cartItems[item.id]}</Text>
 //               <TouchableOpacity
 //                 style={styles.quantityButton}
 //                 onPress={() => handleAddToCart(item.id)}
@@ -182,7 +182,7 @@
           
 //           {isOutOfStock && (
 //             <View style={styles.outOfStockBadge}>
-//               <Text style={styles.outOfStockText}>Out of Stock</Text>
+//               <Text allowFontScaling={false}  style={styles.outOfStockText}>Out of Stock</Text>
 //             </View>
 //           )}
           
@@ -197,13 +197,13 @@
 //             )}
 //           </TouchableOpacity>
 //         </View>
-//         <Text style={[
+//         <Text allowFontScaling={false}  style={[
 //           styles.itemName,
 //           isOutOfStock && { color: '#888888' }
 //         ]}>
 //           {item.name}
 //         </Text>
-//         <Text style={[
+//         <Text allowFontScaling={false}  style={[
 //           styles.itemPrice,
 //           isOutOfStock && { color: '#AAAAAA' }
 //         ]}>
@@ -211,7 +211,7 @@
 //         </Text>
         
 //         {!isOutOfStock && (
-//           <Text style={styles.stockIndicator}>
+//           <Text allowFontScaling={false}  style={styles.stockIndicator}>
 //             In stock: {item.quantity}
 //           </Text>
 //         )}
@@ -228,7 +228,7 @@
 //       ]}
 //       onPress={() => setCurrentCategory(category)}
 //     >
-//       <Text 
+//       <Text allowFontScaling={false}  
 //         style={[
 //           styles.categoryText,
 //           currentCategory === category && styles.activeCategoryText
@@ -246,12 +246,12 @@
 //         <TouchableOpacity style={styles.backButton} onPress={handleBackToHome}>
 //           <Ionicons name="arrow-back" size={24} color="black" />
 //         </TouchableOpacity>
-//         <Text style={styles.headerTitle}>Search groceries and essentials</Text>
+//         <Text allowFontScaling={false}  style={styles.headerTitle}>Search groceries and essentials</Text>
 //       </View>
       
 //       <View style={styles.searchContainer}>
 //         <Ionicons name="search" size={20} color="gray" style={styles.searchIcon} />
-//         <TextInput
+//        <TextInput allowFontScaling={false} 
 //           style={styles.searchInput}
 //           value={searchQuery}
 //           onChangeText={setSearchQuery}
@@ -274,8 +274,8 @@
 //       {filteredItems.length === 0 ? (
 //         <View style={styles.noResultsContainer}>
 //           <Ionicons name="search-outline" size={60} color="#CCCCCC" />
-//           <Text style={styles.noResultsText}>No items match your search</Text>
-//           <Text style={styles.noResultsSubText}>Try different keywords or browse categories</Text>
+//           <Text allowFontScaling={false}  style={styles.noResultsText}>No items match your search</Text>
+//           <Text allowFontScaling={false}  style={styles.noResultsSubText}>Try different keywords or browse categories</Text>
 //         </View>
 //       ) : (
 //         <View style={{flex: 1}}>
@@ -297,7 +297,7 @@
 //                 style={styles.checkoutButton}
 //                 onPress={handleCheckout}
 //               >
-//                 <Text style={styles.checkoutButtonText}>
+//                 <Text allowFontScaling={false}  style={styles.checkoutButtonText}>
 //                   Checkout {totalCartItems > 1 ? `${totalCartItems} items` : '1 item'}
 //                 </Text>
 //               </TouchableOpacity>
@@ -708,7 +708,7 @@ export default function ProductList() {
               >
                 <Ionicons name="remove" size={16} color="white" />
               </TouchableOpacity>
-              <Text style={styles.quantityText}>{cartItems[item.id]}</Text>
+              <Text allowFontScaling={false}  style={styles.quantityText}>{cartItems[item.id]}</Text>
               <TouchableOpacity
                 style={styles.quantityButton}
                 onPress={() => handleAddToCart(item.id)}
@@ -729,7 +729,7 @@ export default function ProductList() {
           
           {isOutOfStock && (
             <View style={styles.outOfStockBadge}>
-              <Text style={styles.outOfStockText}>Out of Stock</Text>
+              <Text allowFontScaling={false}  style={styles.outOfStockText}>Out of Stock</Text>
             </View>
           )}
           
@@ -744,13 +744,13 @@ export default function ProductList() {
             )}
           </TouchableOpacity>
         </View>
-        <Text style={[
+        <Text allowFontScaling={false}  style={[
           styles.itemName,
           isOutOfStock && { color: '#888888' }
         ]}>
           {item.name}
         </Text>
-        <Text style={[
+        <Text allowFontScaling={false}  style={[
           styles.itemPrice,
           isOutOfStock && { color: '#AAAAAA' }
         ]}>
@@ -758,7 +758,7 @@ export default function ProductList() {
         </Text>
         
         {!isOutOfStock && (
-          <Text style={styles.stockIndicator}>
+          <Text allowFontScaling={false}  style={styles.stockIndicator}>
             In stock: {item.quantity}
           </Text>
         )}
@@ -775,7 +775,7 @@ export default function ProductList() {
       ]}
       onPress={() => setCurrentCategory(category)}
     >
-      <Text 
+      <Text allowFontScaling={false}  
         style={[
           styles.categoryText,
           currentCategory === category && styles.activeCategoryText
@@ -793,12 +793,12 @@ export default function ProductList() {
         <TouchableOpacity style={styles.backButton} onPress={handleBackToHome}>
           <Ionicons name="arrow-back" size={24} color="black" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Search groceries and essentials</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Search groceries and essentials</Text>
       </View>
       
       <View style={styles.searchContainer}>
         <Ionicons name="search" size={20} color="gray" style={styles.searchIcon} />
-        <TextInput
+       <TextInput allowFontScaling={false} 
           style={styles.searchInput}
           value={searchQuery}
           onChangeText={setSearchQuery}
@@ -821,8 +821,8 @@ export default function ProductList() {
       {filteredItems.length === 0 ? (
         <View style={styles.noResultsContainer}>
           <Ionicons name="search-outline" size={60} color="#CCCCCC" />
-          <Text style={styles.noResultsText}>No items match your search</Text>
-          <Text style={styles.noResultsSubText}>Try different keywords or browse categories</Text>
+          <Text allowFontScaling={false}  style={styles.noResultsText}>No items match your search</Text>
+          <Text allowFontScaling={false}  style={styles.noResultsSubText}>Try different keywords or browse categories</Text>
         </View>
       ) : (
         <View style={{flex: 1}}>
@@ -844,7 +844,7 @@ export default function ProductList() {
                 style={styles.checkoutButton}
                 onPress={handleCheckout}
               >
-                <Text style={styles.checkoutButtonText}>
+                <Text allowFontScaling={false}  style={styles.checkoutButtonText}>
                   Checkout {totalCartItems > 1 ? `${totalCartItems} items` : '1 item'}
                 </Text>
               </TouchableOpacity>

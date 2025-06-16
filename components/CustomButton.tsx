@@ -35,7 +35,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
       onPress={onPress}
       disabled={isDisabled}
     >
-      <Text style={styles.buttonText}>{title}</Text>
+      <Text allowFontScaling={false}  style={styles.buttonText}>{title}</Text>
     </TouchableOpacity>
   );
 };

@@ -16,7 +16,7 @@ interface FilterPopupProps {
 }
 
 const CloseX: React.FC<{ onPress: () => void }> = ({ onPress }) => (
-  <Text style={styles.closeXText} onPress={onPress}>
+  <Text allowFontScaling={false}  style={styles.closeXText} onPress={onPress}>
     {" "}X
   </Text>
 );
@@ -49,11 +49,11 @@ const FilterPopup: React.FC<FilterPopupProps> = ({ isVisible, onClose, onApply }
         <View style={styles.modalContent}>
           {/* Close Button */}
           <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-            <Text style={styles.closeButtonText}>X</Text>
+            <Text allowFontScaling={false}  style={styles.closeButtonText}>X</Text>
           </TouchableOpacity>
 
-          <Text style={styles.title}>Filtering and Sorting</Text>
-          <Text style={styles.sectionTitle}>Sort by</Text>
+          <Text allowFontScaling={false}  style={styles.title}>Filtering and Sorting</Text>
+          <Text allowFontScaling={false}  style={styles.sectionTitle}>Sort by</Text>
 
           {/* Sorting Options */}
           <View style={styles.sortOptions}>
@@ -65,7 +65,7 @@ const FilterPopup: React.FC<FilterPopupProps> = ({ isVisible, onClose, onApply }
               ]}
             >
               <View style={styles.optionContent}>
-                <Text style={sortOption === "lowToHigh" ? styles.selectedText : undefined}>
+                <Text allowFontScaling={false}  style={sortOption === "lowToHigh" ? styles.selectedText : undefined}>
                   Price - low to high
                 </Text>
                 {sortOption === "lowToHigh" && (
@@ -81,7 +81,7 @@ const FilterPopup: React.FC<FilterPopupProps> = ({ isVisible, onClose, onApply }
               ]}
             >
               <View style={styles.optionContent}>
-                <Text style={sortOption === "highToLow" ? styles.selectedText : undefined}>
+                <Text allowFontScaling={false}  style={sortOption === "highToLow" ? styles.selectedText : undefined}>
                   Price - high to low
                 </Text>
                 {sortOption === "highToLow" && (
@@ -92,7 +92,7 @@ const FilterPopup: React.FC<FilterPopupProps> = ({ isVisible, onClose, onApply }
           </View>
 
           {/* Preferences */}
-          <Text style={styles.sectionTitle}>Veg/Non-veg preference</Text>
+          <Text allowFontScaling={false}  style={styles.sectionTitle}>Veg/Non-veg preference</Text>
           <View style={styles.preferences}>
             {["Veg", "Egg", "Non Veg"].map((preference) => (
               <TouchableOpacity
@@ -104,7 +104,7 @@ const FilterPopup: React.FC<FilterPopupProps> = ({ isVisible, onClose, onApply }
                 ]}
               >
                 <View style={styles.optionContent}>
-                  <Text
+                  <Text allowFontScaling={false} 
                     style={preferences.includes(preference) ? styles.selectedText : undefined}
                   >
                     {preference}
@@ -120,10 +120,10 @@ const FilterPopup: React.FC<FilterPopupProps> = ({ isVisible, onClose, onApply }
           {/* Footer Buttons */}
           <View style={styles.footer}>
             <TouchableOpacity onPress={handleClear} style={styles.clearButton}>
-              <Text style={styles.clearText}>Clear All</Text>
+              <Text allowFontScaling={false}  style={styles.clearText}>Clear All</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={handleApply} style={styles.applyButton}>
-              <Text style={styles.applyText}>Apply</Text>
+              <Text allowFontScaling={false}  style={styles.applyText}>Apply</Text>
             </TouchableOpacity>
           </View>
         </View>

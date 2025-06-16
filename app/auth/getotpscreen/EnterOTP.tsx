@@ -40,8 +40,8 @@ const EnterOtp = () => {
   return (
     <View style={styles.container}>
     <GoBack/>
-      <Text style={styles.title}>Enter OTP</Text>
-      <TextInput
+      <Text allowFontScaling={false}  style={styles.title}>Enter OTP</Text>
+     <TextInput allowFontScaling={false} 
         style={styles.input}
         placeholder="6-digit OTP"
         keyboardType="number-pad"

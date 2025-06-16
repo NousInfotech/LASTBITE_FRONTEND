@@ -21,10 +21,10 @@ const DeliveryPopup: React.FC<DeliveryPopupProps> = ({ onAddressSelect, restaura
         style={styles.navigationImage}
         resizeMode="contain"
       />
-      <Text style={styles.popupText}>Where would you like us to deliver this order?</Text>
+      <Text allowFontScaling={false}  style={styles.popupText}>Where would you like us to deliver this order?</Text>
     </View>
     <TouchableOpacity style={styles.popupButton} onPress={onAddressSelect}>
-      <Text style={styles.popupButtonText}>Add or Select Address</Text>
+      <Text allowFontScaling={false}  style={styles.popupButtonText}>Add or Select Address</Text>
     </TouchableOpacity>
   </View>
 );
@@ -105,9 +105,9 @@ const DeliveryScreen: React.FC = () => {
         <View style={styles.addressPopupOverlay}>
           <View style={styles.addressPopupContainer}>
             <View style={styles.headerContainer}>
-              <Text style={styles.headerText}>Choose a delivery address</Text>
+              <Text allowFontScaling={false}  style={styles.headerText}>Choose a delivery address</Text>
               <TouchableOpacity onPress={closeAllPopups}>
-                <Text style={styles.closeButton}>✕</Text>
+                <Text allowFontScaling={false}  style={styles.closeButton}>✕</Text>
               </TouchableOpacity>
             </View>
             <FlatList
@@ -124,19 +124,19 @@ const DeliveryScreen: React.FC = () => {
                     resizeMode="contain"
                   />
                   <View>
-                    <Text style={styles.addressName}>{item.name}</Text>
-                    <Text style={styles.addressDetails}>{item.address}</Text>
+                    <Text allowFontScaling={false}  style={styles.addressName}>{item.name}</Text>
+                    <Text allowFontScaling={false}  style={styles.addressDetails}>{item.address}</Text>
                   </View>
-                  <Text style={styles.chevron}>›</Text>
+                  <Text allowFontScaling={false}  style={styles.chevron}>›</Text>
                 </TouchableOpacity>
               )}
             />
             <TouchableOpacity style={styles.addressItem} onPress={handleAddNewAddress}>
               <View style={styles.iconTextContainer}>
                 <Ionicons name="add-outline" size={24} color="#01516F" style={styles.addIcon} />
-                <Text style={styles.addressName}>Add new address</Text>
+                <Text allowFontScaling={false}  style={styles.addressName}>Add new address</Text>
               </View>
-              <Text style={styles.chevron}>›</Text>
+              <Text allowFontScaling={false}  style={styles.chevron}>›</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -164,16 +164,16 @@ const DeliveryScreen: React.FC = () => {
               style={styles.modalImage}
               resizeMode="contain"
             />
-            <Text style={styles.modalTitle}>Placing Cash Order</Text>
-            <Text style={styles.modalSubText}>
+            <Text allowFontScaling={false}  style={styles.modalTitle}>Placing Cash Order</Text>
+            <Text allowFontScaling={false}  style={styles.modalSubText}>
               Give cash or ask for QR code when your order is delivered
             </Text>
             <View style={styles.modalButtons}>
               <TouchableOpacity style={styles.modalCancelButton} onPress={handleCancelOrder}>
-                <Text style={styles.modalCancelButtonText}>Cancel</Text>
+                <Text allowFontScaling={false}  style={styles.modalCancelButtonText}>Cancel</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.modalButton} >
-                <Text style={styles.modalButtonText}>Yes! Place Order</Text>
+                <Text allowFontScaling={false}  style={styles.modalButtonText}>Yes! Place Order</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -208,16 +208,16 @@ const PaymentPopup: React.FC<{ onProceedPayment: () => void; totalToPay: number 
           resizeMode="contain"
         />
         <View>
-          <Text style={styles.popupText}>Pay on Delivery (Cash)</Text>
-          <Text style={styles.popupSubText}>Pay cash or ask for QR Code</Text>
+          <Text allowFontScaling={false}  style={styles.popupText}>Pay on Delivery (Cash)</Text>
+          <Text allowFontScaling={false}  style={styles.popupSubText}>Pay cash or ask for QR Code</Text>
         </View>
         <TouchableOpacity onPress={handleChangePaymentMethod} style={styles.chevronContainer}>
-          <Text style={styles.changeText}>Change</Text>
+          <Text allowFontScaling={false}  style={styles.changeText}>Change</Text>
           <Ionicons name="chevron-forward" size={16} color="#01516F" style={styles.chevron_a} />
         </TouchableOpacity>
       </View>
       <TouchableOpacity style={styles.popupButton} onPress={onProceedPayment}>
-        <Text style={styles.popupButtonText}>Place Order | ₹{totalToPay}</Text>
+        <Text allowFontScaling={false}  style={styles.popupButtonText}>Place Order | ₹{totalToPay}</Text>
       </TouchableOpacity>
     </View>
   );

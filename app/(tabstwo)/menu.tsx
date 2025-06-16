@@ -221,17 +221,17 @@ const Menu = () => {
         />
       ) : (
         <View style={styles.noImageContainer}>
-          <Text style={styles.noImageText}>No Image</Text>
+          <Text allowFontScaling={false}  style={styles.noImageText}>No Image</Text>
         </View>
       )}
       
       <View style={styles.contentContainer}>
         <View style={styles.itemInfo}>
-          <Text style={styles.itemName}>{item.name}</Text>
-          <Text style={styles.itemPrice}>₹{item.price}</Text>
+          <Text allowFontScaling={false}  style={styles.itemName}>{item.name}</Text>
+          <Text allowFontScaling={false}  style={styles.itemPrice}>₹{item.price}</Text>
           <View style={[styles.availabilityBadge, 
             { backgroundColor: item.available ? '#e1f5ee' : '#ffebeb' }]}>
-            <Text style={[styles.availabilityText, 
+            <Text allowFontScaling={false}  style={[styles.availabilityText, 
               { color: item.available ? '#099873' : '#ff6b6b' }]}>
               {item.available ? 'Available' : 'Out of Stock'}
             </Text>
@@ -242,13 +242,13 @@ const Menu = () => {
             style={styles.editButton}
             onPress={() => handleEditItem(item)}
           >
-            <Text style={styles.editButtonText}>Edit</Text>
+            <Text allowFontScaling={false}  style={styles.editButtonText}>Edit</Text>
           </TouchableOpacity>
           <TouchableOpacity 
             style={styles.deleteButton}
             onPress={() => handleDeleteItem(item)}
           >
-            <Text style={styles.deleteButtonText}>Delete</Text>
+            <Text allowFontScaling={false}  style={styles.deleteButtonText}>Delete</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -262,7 +262,7 @@ const Menu = () => {
         <TouchableOpacity>
           <GoBack />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Menu</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Menu</Text>
         <TouchableOpacity onPress={openOptionsModal}>
           <Icon name="more-vert" size={24} color="#666666" />
         </TouchableOpacity>
@@ -273,7 +273,7 @@ const Menu = () => {
           style={[styles.tab, activeTab === "food" && styles.activeTab]}
           onPress={() => setActiveTab("food")}
         >
-          <Text
+          <Text allowFontScaling={false} 
             style={[
               styles.tabText,
               activeTab === "food" && styles.activeTabText,
@@ -286,7 +286,7 @@ const Menu = () => {
           style={[styles.tab, activeTab === "grocery" && styles.activeTab]}
           onPress={() => setActiveTab("grocery")}
         >
-          <Text
+          <Text allowFontScaling={false} 
             style={[
               styles.tabText,
               activeTab === "grocery" && styles.activeTabText,
@@ -319,13 +319,13 @@ const Menu = () => {
                   style={styles.modalButton}
                   onPress={handleAddItem}
                 >
-                  <Text style={styles.modalButtonText}>Add New Item</Text>
+                  <Text allowFontScaling={false}  style={styles.modalButtonText}>Add New Item</Text>
                 </TouchableOpacity>
                 <TouchableOpacity 
                   style={styles.modalButton}
                   onPress={openFilterModal}
                 >
-                  <Text style={styles.modalButtonText}>Filter</Text>
+                  <Text allowFontScaling={false}  style={styles.modalButtonText}>Filter</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -348,19 +348,19 @@ const Menu = () => {
                   style={styles.modalButton}
                   onPress={() => applyFilter("available")}
                 >
-                  <Text style={styles.modalButtonText}>Available</Text>
+                  <Text allowFontScaling={false}  style={styles.modalButtonText}>Available</Text>
                 </TouchableOpacity>
                 <TouchableOpacity 
                   style={styles.modalButton}
                   onPress={() => applyFilter("outOfStock")}
                 >
-                  <Text style={styles.modalButtonText}>Out of Stock</Text>
+                  <Text allowFontScaling={false}  style={styles.modalButtonText}>Out of Stock</Text>
                 </TouchableOpacity>
                 <TouchableOpacity 
                   style={styles.modalButton}
                   onPress={() => applyFilter("all")}
                 >
-                  <Text style={styles.modalButtonText}>Reset</Text>
+                  <Text allowFontScaling={false}  style={styles.modalButtonText}>Reset</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -379,19 +379,19 @@ const Menu = () => {
           <View style={styles.confirmModalOverlay}>
             <TouchableWithoutFeedback>
               <View style={styles.confirmModalContainer}>
-                <Text style={styles.confirmModalTitle}>Do you want to delete this item?</Text>
+                <Text allowFontScaling={false}  style={styles.confirmModalTitle}>Do you want to delete this item?</Text>
                 <View style={styles.confirmModalButtons}>
                   <TouchableOpacity 
                     style={[styles.confirmModalButton, styles.cancelButton]}
                     onPress={cancelDelete}
                   >
-                    <Text style={styles.cancelButtonText}>No</Text>
+                    <Text allowFontScaling={false}  style={styles.cancelButtonText}>No</Text>
                   </TouchableOpacity>
                   <TouchableOpacity 
                     style={[styles.confirmModalButton, styles.confirmButton]}
                     onPress={confirmDelete}
                   >
-                    <Text style={styles.confirmButtonText}>Yes</Text>
+                    <Text allowFontScaling={false}  style={styles.confirmButtonText}>Yes</Text>
                   </TouchableOpacity>
                 </View>
               </View>

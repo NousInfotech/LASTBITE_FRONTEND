@@ -47,13 +47,13 @@ const AddUpi = () => {
         <TouchableOpacity>
           <GoBack />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Add New UPI ID</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Add New UPI ID</Text>
       </View>
 
       {/* Content */}
       <View style={styles.content}>
         {/* Input Field */}
-        <TextInput
+       <TextInput allowFontScaling={false} 
           style={styles.input}
           placeholder="Enter your UPI ID"
           value={upiId}
@@ -72,9 +72,9 @@ const AddUpi = () => {
               { backgroundColor: isChecked ? "#01615F" : "#fff" },
             ]}
           >
-            {isChecked && <Text style={styles.tickMark}>✓</Text>}
+            {isChecked && <Text allowFontScaling={false}  style={styles.tickMark}>✓</Text>}
           </View>
-          <Text style={styles.checkboxLabel}>Securely save UPI for future use</Text>
+          <Text allowFontScaling={false}  style={styles.checkboxLabel}>Securely save UPI for future use</Text>
         </TouchableOpacity>
 
         {/* Button */}
@@ -86,7 +86,7 @@ const AddUpi = () => {
           disabled={!upiId}
           onPress={() => alert("UPI Verified and Payment Processed")}
         >
-          <Text style={styles.buttonText}>Verify and Pay</Text>
+          <Text allowFontScaling={false}  style={styles.buttonText}>Verify and Pay</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

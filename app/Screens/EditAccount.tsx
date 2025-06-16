@@ -113,23 +113,23 @@ const EditAccount: React.FC = () => {
         <TouchableOpacity onPress={() => router.back()}>
           <GoBack />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Edit Account</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Edit Account</Text>
       </View>
 
       {/* Form Fields */}
       <View style={styles.form}>
         {/* Name Input */}
         <View style={styles.inputContainer}>
-          <Text style={styles.label}>Name</Text>
+          <Text allowFontScaling={false}  style={styles.label}>Name</Text>
           <View style={styles.inputRow}>
-            <TextInput
+           <TextInput allowFontScaling={false} 
               style={styles.input}
               value={name}
               onChangeText={(text) => setName(text)}
               editable={isEditingName}
             />
             <TouchableOpacity onPress={() => handleEdit("name")}>
-              <Text style={styles.editText}>EDIT</Text>
+              <Text allowFontScaling={false}  style={styles.editText}>EDIT</Text>
             </TouchableOpacity>
           </View>
           {isEditingName && (
@@ -138,7 +138,7 @@ const EditAccount: React.FC = () => {
                 style={styles.cancelButton}
                 onPress={() => handleCancel("name")}
               >
-                <Text style={styles.buttonTextCancel}>Cancel</Text>
+                <Text allowFontScaling={false}  style={styles.buttonTextCancel}>Cancel</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[
@@ -148,7 +148,7 @@ const EditAccount: React.FC = () => {
                 disabled={!isChanged}
                 onPress={() => handleUpdate("name")}
               >
-                <Text style={styles.buttonTextUpdate}>Update</Text>
+                <Text allowFontScaling={false}  style={styles.buttonTextUpdate}>Update</Text>
               </TouchableOpacity>
             </View>
           )}
@@ -156,9 +156,9 @@ const EditAccount: React.FC = () => {
 
         {/* Email Input */}
         <View style={styles.inputContainer}>
-          <Text style={styles.label}>Email Address</Text>
+          <Text allowFontScaling={false}  style={styles.label}>Email Address</Text>
           <View style={styles.inputRow}>
-            <TextInput
+           <TextInput allowFontScaling={false} 
               style={styles.input}
               value={email}
               onChangeText={(text) => setEmail(text)}
@@ -166,7 +166,7 @@ const EditAccount: React.FC = () => {
               editable={isEditingEmail}
             />
             <TouchableOpacity onPress={() => handleEdit("email")}>
-              <Text style={styles.editText}>EDIT</Text>
+              <Text allowFontScaling={false}  style={styles.editText}>EDIT</Text>
             </TouchableOpacity>
           </View>
           {isEditingEmail && (
@@ -175,7 +175,7 @@ const EditAccount: React.FC = () => {
                 style={styles.cancelButton}
                 onPress={() => handleCancel("email")}
               >
-                <Text style={styles.buttonTextCancel}>Cancel</Text>
+                <Text allowFontScaling={false}  style={styles.buttonTextCancel}>Cancel</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[
@@ -185,7 +185,7 @@ const EditAccount: React.FC = () => {
                 disabled={!isChanged}
                 onPress={() => handleUpdate("email")}
               >
-                <Text style={styles.buttonTextUpdate}>Update</Text>
+                <Text allowFontScaling={false}  style={styles.buttonTextUpdate}>Update</Text>
               </TouchableOpacity>
             </View>
           )}
@@ -193,16 +193,16 @@ const EditAccount: React.FC = () => {
 
         {/* Phone Number Input */}
         <View style={styles.inputContainer}>
-          <Text style={styles.label}>Phone Number</Text>
+          <Text allowFontScaling={false}  style={styles.label}>Phone Number</Text>
           <View style={styles.inputRow}>
-            <TextInput
+           <TextInput allowFontScaling={false} 
               style={styles.input}
               value={phone}
               onChangeText={(text) => setPhone(text)}
               editable={isEditingPhone}
             />
             <TouchableOpacity onPress={() => handleEdit("phone")}>
-              <Text style={styles.editText}>EDIT</Text>
+              <Text allowFontScaling={false}  style={styles.editText}>EDIT</Text>
             </TouchableOpacity>
           </View>
           {isEditingPhone && (
@@ -211,7 +211,7 @@ const EditAccount: React.FC = () => {
                 style={styles.cancelButton}
                 onPress={() => handleCancel("phone")}
               >
-                <Text style={styles.buttonTextCancel}>Cancel</Text>
+                <Text allowFontScaling={false}  style={styles.buttonTextCancel}>Cancel</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[
@@ -221,7 +221,7 @@ const EditAccount: React.FC = () => {
                 disabled={!isChanged}
                 onPress={() => handleUpdate("phone")}
               >
-                <Text style={styles.buttonTextUpdate}>Update</Text>
+                <Text allowFontScaling={false}  style={styles.buttonTextUpdate}>Update</Text>
               </TouchableOpacity>
             </View>
           )}

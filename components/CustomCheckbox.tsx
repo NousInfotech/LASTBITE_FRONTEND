@@ -12,10 +12,10 @@ const CustomCheckbox: React.FC<CustomCheckboxProps> = ({ label, checked, onPress
     <TouchableOpacity onPress={onPress} style={styles.checkboxContainer}>
       <View style={[styles.checkbox, checked && styles.checked]}>
         {checked && (
-          <Text style={styles.checkmark}>✓</Text>
+          <Text allowFontScaling={false}  style={styles.checkmark}>✓</Text>
         )}
       </View>
-      <Text style={styles.label}>{label}</Text>
+      <Text allowFontScaling={false}  style={styles.label}>{label}</Text>
     </TouchableOpacity>
   );
 };

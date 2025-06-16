@@ -62,9 +62,9 @@ const FilterModal: React.FC<FilterModalProps> = ({
           <View style={styles.header}>
             <View>
               {tellUsMoreText && (
-                <Text style={styles.tellUsMoreText}>{tellUsMoreText}</Text>
+                <Text allowFontScaling={false}  style={styles.tellUsMoreText}>{tellUsMoreText}</Text>
               )}
-              <Text style={styles.title}>{title}</Text>
+              <Text allowFontScaling={false}  style={styles.title}>{title}</Text>
             </View>
             <TouchableOpacity onPress={onClose}>
               <MaterialIcons name="close" size={24} color="black" />
@@ -77,7 +77,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
               style={styles.optionRow}
               onPress={() => handleSelectOption(option)}
             >
-              <Text style={styles.optionText}>{option}</Text>
+              <Text allowFontScaling={false}  style={styles.optionText}>{option}</Text>
               <View
                 style={[
                   styles.radio,
@@ -98,13 +98,13 @@ const FilterModal: React.FC<FilterModalProps> = ({
               style={[styles.button, styles.cancelButton]}
               onPress={onClose}
             >
-              <Text style={styles.cancelText}>{buttonText.cancel}</Text>
+              <Text allowFontScaling={false}  style={styles.cancelText}>{buttonText.cancel}</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[styles.button, styles.applyButton]}
               onPress={handleApply} // Trigger Apply action
             >
-              <Text style={styles.applyText}>{buttonText.apply}</Text>
+              <Text allowFontScaling={false}  style={styles.applyText}>{buttonText.apply}</Text>
             </TouchableOpacity>
           </View>
         </View>

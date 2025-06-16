@@ -82,9 +82,9 @@ const ResetPassword = () => {
     >
       <View style={styles.successContent}>
         <View style={styles.checkCircle}>
-          <Text style={styles.checkMark}>✓</Text>
+          <Text allowFontScaling={false}  style={styles.checkMark}>✓</Text>
         </View>
-        <Text
+        <Text allowFontScaling={false} 
           style={[styles.successText, { fontFamily: "Poppins_600SemiBold" }]}
         >
           Password changed successfully!
@@ -102,16 +102,16 @@ const ResetPassword = () => {
       </View>
 
       <View style={styles.content}>
-        <Text style={[styles.title, { fontFamily: "Poppins_600SemiBold" }]}>
+        <Text allowFontScaling={false}  style={[styles.title, { fontFamily: "Poppins_600SemiBold" }]}>
           Create a secure password
         </Text>
-        <Text style={[styles.subtitle, { fontFamily: "Poppins_400Regular" }]}>
+        <Text allowFontScaling={false}  style={[styles.subtitle, { fontFamily: "Poppins_400Regular" }]}>
           Please enter a strong password
         </Text>
 
         {/* Password Input */}
-        <Text style={[styles.label, { fontFamily: "Poppins_400Regular" }]}>
-          Password <Text style={styles.required}>*</Text>
+        <Text allowFontScaling={false}  style={[styles.label, { fontFamily: "Poppins_400Regular" }]}>
+          Password <Text allowFontScaling={false}  style={styles.required}>*</Text>
         </Text>
         <View style={styles.passwordContainer}>
           <FormInput
@@ -139,8 +139,8 @@ const ResetPassword = () => {
         </View>
 
         {/* Confirm Password Input */}
-        <Text style={[styles.label, { fontFamily: "Poppins_400Regular" }]}>
-          Confirm Password <Text style={styles.required}>*</Text>
+        <Text allowFontScaling={false}  style={[styles.label, { fontFamily: "Poppins_400Regular" }]}>
+          Confirm Password <Text allowFontScaling={false}  style={styles.required}>*</Text>
         </Text>
         <View style={styles.passwordContainer}>
           <FormInput

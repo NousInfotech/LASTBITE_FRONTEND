@@ -83,7 +83,7 @@ const ProductSearch: React.FC = () => {
       <View style={styles.productCard}>
         
         <TouchableOpacity style={styles.plusButton}>
-            <Text style={styles.plusButtonText}>+</Text>
+            <Text allowFontScaling={false}  style={styles.plusButtonText}>+</Text>
           </TouchableOpacity>
 
         {/* Image Section */}
@@ -93,10 +93,10 @@ const ProductSearch: React.FC = () => {
 
         {/* Product Details Section */}
         <View style={styles.secondContainer}>
-          <Text style={styles.productName}>{item.name}</Text>
-          <Text style={styles.productWeight}>{item.weight}</Text>
+          <Text allowFontScaling={false}  style={styles.productName}>{item.name}</Text>
+          <Text allowFontScaling={false}  style={styles.productWeight}>{item.weight}</Text>
           <View style={styles.priceContainer}>
-            <Text style={styles.price}>{item.price}</Text>
+            <Text allowFontScaling={false}  style={styles.price}>{item.price}</Text>
           
           </View>
         </View>
@@ -107,7 +107,7 @@ const ProductSearch: React.FC = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>Hot deals</Text>
+        <Text allowFontScaling={false}  style={styles.title}>Hot deals</Text>
        
       </View>
       <FlatList

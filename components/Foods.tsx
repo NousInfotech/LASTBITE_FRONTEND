@@ -180,7 +180,7 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({
           {isHiddenScreen && (
             <TouchableOpacity style={styles.menuItem} onPress={handleUnhide}>
               <MaterialIcons name="visibility" size={24} color="black" />
-              <Text style={styles.menuText}>Unhide this restaurant</Text>
+              <Text allowFontScaling={false}  style={styles.menuText}>Unhide this restaurant</Text>
             </TouchableOpacity>
           )}
           
@@ -188,7 +188,7 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({
           {!isHiddenScreen && hideOption && (
             <TouchableOpacity style={styles.menuItem} onPress={handleHide}>
               <MaterialIcons name="visibility-off" size={24} color="black" />
-              <Text style={styles.menuText}>Hide this restaurant</Text>
+              <Text allowFontScaling={false}  style={styles.menuText}>Hide this restaurant</Text>
             </TouchableOpacity>
           )}
           
@@ -199,7 +199,7 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({
               size={24}
               color={isFavorite ? "#FF6347" : "black"}
             />
-            <Text style={styles.menuText}>
+            <Text allowFontScaling={false}  style={styles.menuText}>
               {isFavorite ? "Remove from favorites" : "Add to favorites"}
             </Text>
           </TouchableOpacity>
@@ -208,13 +208,13 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({
 
       <View style={styles.infoContainer}>
         <View style={styles.mainInfo}>
-          <Text style={styles.title}>{restaurant.name}</Text>
+          <Text allowFontScaling={false}  style={styles.title}>{restaurant.name}</Text>
           <View style={styles.ratingContainer}>
             <MaterialIcons name="star" size={20} color="#FFD700" />
-            <Text style={styles.rating}>{rating}</Text>
+            <Text allowFontScaling={false}  style={styles.rating}>{rating}</Text>
           </View>
         </View>
-        <Text style={styles.subtitle}>{locationText}</Text>
+        <Text allowFontScaling={false}  style={styles.subtitle}>{locationText}</Text>
       </View>
 
       <FilterModal

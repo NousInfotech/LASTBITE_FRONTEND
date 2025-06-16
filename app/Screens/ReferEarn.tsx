@@ -96,14 +96,14 @@ export default function ReferEarn() {
   const renderContact: ListRenderItem<Contact> = ({ item }) => (
     <View style={styles.contactItem}>
       <View style={styles.contactInfo}>
-        <Text style={styles.contactName}>{item.name}</Text>
-        <Text style={styles.contactPhone}>{item.phone}</Text>
+        <Text allowFontScaling={false}  style={styles.contactName}>{item.name}</Text>
+        <Text allowFontScaling={false}  style={styles.contactPhone}>{item.phone}</Text>
       </View>
       <TouchableOpacity
         style={[styles.inviteButton, item.invited && styles.reinviteButton]}
         onPress={() => handleInvite(item.id)}
       >
-        <Text
+        <Text allowFontScaling={false} 
           style={[
             styles.inviteButtonText,
             item.invited && styles.reinviteButtonText,
@@ -122,7 +122,7 @@ export default function ReferEarn() {
   const renderFaq: ListRenderItem<FAQ> = ({ item }) => (
     <TouchableOpacity style={styles.faqItem} onPress={() => toggleFaq(item.id)}>
       <View style={styles.faqQuestion}>
-        <Text style={styles.faqQuestionText}>{item.question}</Text>
+        <Text allowFontScaling={false}  style={styles.faqQuestionText}>{item.question}</Text>
         <AntDesign
           name={expanded === item.id ? "up" : "down"}
           size={16}
@@ -130,7 +130,7 @@ export default function ReferEarn() {
         />
       </View>
       {expanded === item.id && (
-        <Text style={styles.faqAnswer}>{item.answer}</Text>
+        <Text allowFontScaling={false}  style={styles.faqAnswer}>{item.answer}</Text>
       )}
     </TouchableOpacity>
   );
@@ -143,7 +143,7 @@ export default function ReferEarn() {
           <TouchableOpacity>
             <GoBack />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Refer friends & Earn ₹2500</Text>
+          <Text allowFontScaling={false}  style={styles.headerTitle}>Refer friends & Earn ₹2500</Text>
         </View>
 
         {/* Referral Info Card */}
@@ -158,13 +158,13 @@ export default function ReferEarn() {
             </View>
 
             <View style={styles.stepsTextContainer}>
-              <Text style={styles.stepText}>
+              <Text allowFontScaling={false}  style={styles.stepText}>
                 You get ₹50 cashback when friend places their first order
               </Text>
-              <Text style={styles.stepText}>
+              <Text allowFontScaling={false}  style={styles.stepText}>
                 Friend gets ₹150 off + free delivery on their first order
               </Text>
-              <Text style={styles.stepText}>
+              <Text allowFontScaling={false}  style={styles.stepText}>
                 You can get a maximum of ₹2500 cashback
               </Text>
             </View>
@@ -179,11 +179,11 @@ export default function ReferEarn() {
 
         {/* Rewards Section */}
         <View style={styles.rewardsSection}>
-          <Text>Get rewards by inviting your</Text>
-          <Text style={styles.rewardsText}>friends to order food</Text>
+          <Text allowFontScaling={false} >Get rewards by inviting your</Text>
+          <Text allowFontScaling={false}  style={styles.rewardsText}>friends to order food</Text>
 
           <View style={styles.shareLinkRow}>
-            <Text style={styles.shareLinkText}>Share link in a group</Text>
+            <Text allowFontScaling={false}  style={styles.shareLinkText}>Share link in a group</Text>
             <TouchableOpacity style={styles.shareButton} onPress={() => setShowShareModal(true)}>
               <Feather name="share-2" size={18} color="#01615F" />
             </TouchableOpacity>
@@ -205,7 +205,7 @@ export default function ReferEarn() {
           <View style={styles.searchContainer}>
             <Ionicons name="search" size={18} color="#757575" />
             <TouchableOpacity onPress={navigateToSeeMore}>
-              <Text style={styles.placeholderText}>Find your friends</Text>
+              <Text allowFontScaling={false}  style={styles.placeholderText}>Find your friends</Text>
             </TouchableOpacity>
           </View>
 
@@ -218,11 +218,11 @@ export default function ReferEarn() {
           />
 
           <TouchableOpacity style={styles.seeMoreButton} onPress={navigateToSeeMore}>
-            <Text style={styles.seeMoreText}>See More</Text>
+            <Text allowFontScaling={false}  style={styles.seeMoreText}>See More</Text>
           </TouchableOpacity> 
 
           {/* FAQs Section */}
-          <Text style={styles.faqTitle}>FAQs</Text>
+          <Text allowFontScaling={false}  style={styles.faqTitle}>FAQs</Text>
           <FlatList
             data={faqs}
             renderItem={renderFaq}

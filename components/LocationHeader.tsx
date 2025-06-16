@@ -123,7 +123,7 @@ const LocationHeader = () => {
           <View style={styles.locationContent}>
             <View style={styles.locationLabelContainer}>
               <Entypo name="location-pin" size={24} color="#01615F" />
-              <Text style={styles.locationLabel}>Location</Text>
+              <Text allowFontScaling={false}  style={styles.locationLabel}>Location</Text>
               <TouchableOpacity onPress={navigateToAddressManagement}>
                 <AntDesign
                   name="caretdown"
@@ -134,7 +134,7 @@ const LocationHeader = () => {
               </TouchableOpacity>
             </View>
             <TouchableOpacity style={styles.locationSelector}>
-              <Text style={styles.locationText}>
+              <Text allowFontScaling={false}  style={styles.locationText}>
                 {location || errorMsg || "Fetching location..."}
               </Text>
             </TouchableOpacity>
@@ -164,20 +164,20 @@ const LocationHeader = () => {
             onPress={() => setShowProfileOptions(false)}
           >
             <View style={styles.modalContent}>
-              <Text style={styles.modalTitle}>Profile Options</Text>
+              <Text allowFontScaling={false}  style={styles.modalTitle}>Profile Options</Text>
               
               <TouchableOpacity
                 style={styles.optionButton}
                 onPress={handleSignup}
               >
-                <Text style={styles.optionButtonText}>Signup</Text>
+                <Text allowFontScaling={false}  style={styles.optionButtonText}>Signup</Text>
               </TouchableOpacity>
               
               <TouchableOpacity
                 style={[styles.optionButton, styles.guestButton]}
                 onPress={handleContinueAsGuest}
               >
-                <Text style={[styles.optionButtonText, styles.guestButtonText]}>Continue as Guest</Text>
+                <Text allowFontScaling={false}  style={[styles.optionButtonText, styles.guestButtonText]}>Continue as Guest</Text>
               </TouchableOpacity>
             </View>
           </TouchableOpacity>
@@ -192,7 +192,7 @@ const LocationHeader = () => {
           >
             <AddressManagementScreen />
             <TouchableOpacity style={styles.closeButton} onPress={toggleSlider}>
-              <Text style={styles.closeButtonText}>Close</Text>
+              <Text allowFontScaling={false}  style={styles.closeButtonText}>Close</Text>
             </TouchableOpacity>
           </Animated.View>
         )}

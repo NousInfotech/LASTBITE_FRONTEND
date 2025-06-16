@@ -91,10 +91,10 @@ const RegisterRiders = () => {
     inputProps?: any
   ) => (
     <View style={styles.inputContainer}>
-      <Text style={styles.label}>
-        {label} {required && <Text style={styles.required}>*</Text>}
+      <Text allowFontScaling={false}  style={styles.label}>
+        {label} {required && <Text allowFontScaling={false}  style={styles.required}>*</Text>}
       </Text>
-      <TextInput
+     <TextInput allowFontScaling={false} 
         placeholder={placeholder || `Enter ${label}`}
         style={styles.input}
         placeholderTextColor="#A0A0A0"
@@ -109,17 +109,17 @@ const RegisterRiders = () => {
     required?: boolean
   ) => (
     <View>
-      <Text style={styles.label}>
-        {label} {required && <Text style={styles.required}>*</Text>}
+      <Text allowFontScaling={false}  style={styles.label}>
+        {label} {required && <Text allowFontScaling={false}  style={styles.required}>*</Text>}
       </Text>
       <View style={styles.inputContainer_A}>
         <TouchableOpacity
           style={styles.uploadButton}
           onPress={() => handleChooseFile(fieldName)}
         >
-          <Text style={styles.uploadButtonText}>Upload File</Text>
+          <Text allowFontScaling={false}  style={styles.uploadButtonText}>Upload File</Text>
         </TouchableOpacity>
-        <Text style={styles.fileName}>
+        <Text allowFontScaling={false}  style={styles.fileName}>
           {form[fieldName as keyof typeof form] ? "File chosen" : "Choose a File"}
         </Text>
       </View>
@@ -133,7 +133,7 @@ const RegisterRiders = () => {
           <TouchableOpacity style={styles.backButton}>
             <GoBack />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Riders Registration</Text>
+          <Text allowFontScaling={false}  style={styles.headerTitle}>Riders Registration</Text>
           <View style={styles.progressContainer}>
             {[1, 2, 3].map((step, index) => (
               <React.Fragment key={index}>
@@ -152,7 +152,7 @@ const RegisterRiders = () => {
           <>
             <View style={styles.formCard}>
               <View style={styles.formSection}>
-                <Text style={styles.sectionTitle}>Basic Details</Text>
+                <Text allowFontScaling={false}  style={styles.sectionTitle}>Basic Details</Text>
                 {renderInput("Name", "Enter Full name", true, {
                   maxLength: 100,
                   onChangeText: (text: string) => {
@@ -182,7 +182,7 @@ const RegisterRiders = () => {
           <>
             <View style={styles.formCard}>
               <View style={styles.formSection}>
-                <Text style={styles.sectionTitle}>Address Details</Text>
+                <Text allowFontScaling={false}  style={styles.sectionTitle}>Address Details</Text>
                 {renderInput("Plot Number", "PlotNo", true, {
                   maxLength: 100,
                   onChangeText: (text: string) => {
@@ -215,7 +215,7 @@ const RegisterRiders = () => {
         {activeStep === 3 && (
           <>
             <View style={styles.formCard}>
-              <Text style={styles.sectionTitle}>Documentations</Text>
+              <Text allowFontScaling={false}  style={styles.sectionTitle}>Documentations</Text>
               {renderFileUpload("Aadhar Card", "aadharCard", true)}
               
               {renderInput("Bank IFSC code", "Enter IFSC Code", true, {
@@ -254,7 +254,7 @@ const RegisterRiders = () => {
         )}
 
         <TouchableOpacity style={styles.button} onPress={handleContinue}>
-          <Text style={styles.buttonText}>Continue</Text>
+          <Text allowFontScaling={false}  style={styles.buttonText}>Continue</Text>
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>

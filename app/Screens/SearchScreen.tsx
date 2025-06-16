@@ -129,7 +129,7 @@ const SearchScreen = () => {
         <TouchableOpacity>
           <GoBack />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Search for Dishes & Restaurants</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Search for Dishes & Restaurants</Text>
       </View>
       
       <SearchBarVoice
@@ -141,7 +141,7 @@ const SearchScreen = () => {
       {/* Dishes Section - Show only when no search text or no search results */}
       {(!searchText || searchText.trim() === '') && (
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Recommendations "Dishes"</Text>
+          <Text allowFontScaling={false}  style={styles.sectionTitle}>Recommendations "Dishes"</Text>
           {dishes.slice(0, 2).map(dish => (
             <View key={dish.id} style={styles.dishesItem}>
               <View style={styles.dishesLeft}>
@@ -150,8 +150,8 @@ const SearchScreen = () => {
                 </TouchableOpacity>
                 <View style={styles.dishesDetails}>
                   <TouchableOpacity onPress={() => handleDishClick(dish)}>
-                    <Text style={styles.dishesType}>{dish.name}</Text>
-                    <Text style={styles.dishesText}>Dish</Text>
+                    <Text allowFontScaling={false}  style={styles.dishesType}>{dish.name}</Text>
+                    <Text allowFontScaling={false}  style={styles.dishesText}>Dish</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -171,8 +171,8 @@ const SearchScreen = () => {
                 </TouchableOpacity>
                 <View style={styles.dishesDetails}>
                   <TouchableOpacity onPress={() => handleDishClick(dish)}>
-                    <Text style={styles.dishesType}>{dish.name}</Text>
-                    <Text style={styles.dishesText}>Dish</Text>
+                    <Text allowFontScaling={false}  style={styles.dishesType}>{dish.name}</Text>
+                    <Text allowFontScaling={false}  style={styles.dishesText}>Dish</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -184,7 +184,7 @@ const SearchScreen = () => {
       {/* Restaurants Section - Show only when no search text or no search results */}
       {(!searchText || searchText.trim() === '') && (
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Recommendation "Restaurants"</Text>
+          <Text allowFontScaling={false}  style={styles.sectionTitle}>Recommendation "Restaurants"</Text>
           {restaurants.slice(0, 2).map(restaurant => (
             <View key={restaurant.restaurantId} style={styles.dishesItem}>
               <View style={styles.dishesLeft}>
@@ -196,11 +196,11 @@ const SearchScreen = () => {
                 </TouchableOpacity>
                 <View style={styles.dishesDetails}>
                   <TouchableOpacity onPress={() => handleRestaurantClick(restaurant)}>
-                    <Text style={styles.dishesType}>{restaurant.name}</Text>
+                    <Text allowFontScaling={false}  style={styles.dishesType}>{restaurant.name}</Text>
                   </TouchableOpacity>
-                  <Text style={styles.dishesText}>
+                  <Text allowFontScaling={false}  style={styles.dishesText}>
                     {isNewRestaurant(restaurant.createdAt) && (
-                      <Text style={styles.newBadge}>New • </Text>
+                      <Text allowFontScaling={false}  style={styles.newBadge}>New • </Text>
                     )}
                     {restaurant.details}
                   </Text>
@@ -225,11 +225,11 @@ const SearchScreen = () => {
                 </TouchableOpacity>
                 <View style={styles.dishesDetails}>
                   <TouchableOpacity onPress={() => handleRestaurantClick(restaurant)}>
-                    <Text style={styles.dishesType}>{restaurant.name}</Text>
+                    <Text allowFontScaling={false}  style={styles.dishesType}>{restaurant.name}</Text>
                   </TouchableOpacity>
-                  <Text style={styles.dishesText}>
+                  <Text allowFontScaling={false}  style={styles.dishesText}>
                     {isNewRestaurant(restaurant.createdAt) && (
-                      <Text style={styles.newBadge}>New • </Text>
+                      <Text allowFontScaling={false}  style={styles.newBadge}>New • </Text>
                     )}
                     {restaurant.details}
                   </Text>

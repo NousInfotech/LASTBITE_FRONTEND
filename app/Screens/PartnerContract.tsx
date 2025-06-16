@@ -75,15 +75,15 @@ const RegisterRestaurant = () => {
           <TouchableOpacity>
             <GoBack />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Partner Contract</Text>
+          <Text allowFontScaling={false}  style={styles.headerTitle}>Partner Contract</Text>
         </View>
 
         <View style={styles.formCard}>
-          <Text style={styles.sectionTitle}>Oveview</Text>
+          <Text allowFontScaling={false}  style={styles.sectionTitle}>Oveview</Text>
         </View>
         <View style={styles.formCard}>
           <View style={styles.titleContainer}>
-            <Text style={styles.title}>Letter of Understanding</Text>
+            <Text allowFontScaling={false}  style={styles.title}>Letter of Understanding</Text>
             <TouchableOpacity onPress={handleDownloadPDF}>
               <Image
                 source={require("../../assets/images/Download.png")}
@@ -95,10 +95,10 @@ const RegisterRestaurant = () => {
 
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.cancelButton}>
-            <Text style={styles.cancelButtonText}>Cancel</Text>
+            <Text allowFontScaling={false}  style={styles.cancelButtonText}>Cancel</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.saveButton}>
-            <Text style={styles.saveButtonText}>Save</Text>
+            <Text allowFontScaling={false}  style={styles.saveButtonText}>Save</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

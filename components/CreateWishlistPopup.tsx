@@ -86,9 +86,9 @@ const CreateWishlistPopup: React.FC<CreateWishlistPopupProps> = ({
                 style={styles.itemImage} 
               />
               
-              <Text style={styles.itemName}>{itemName}</Text>
+              <Text allowFontScaling={false}  style={styles.itemName}>{itemName}</Text>
               
-              <TextInput
+             <TextInput allowFontScaling={false} 
                 style={styles.input}
                 placeholder="Name your list"
                 placeholderTextColor="#999"
@@ -103,7 +103,7 @@ const CreateWishlistPopup: React.FC<CreateWishlistPopupProps> = ({
               onPress={handleSave}
               disabled={!listName.trim()}
             >
-              <Text style={styles.doneButtonText}>Done</Text>
+              <Text allowFontScaling={false}  style={styles.doneButtonText}>Done</Text>
             </TouchableOpacity>
           </Animated.View>
         </TouchableWithoutFeedback>

@@ -260,10 +260,10 @@ const RegisterRestaurant = () => {
     required?: boolean
   ) => (
     <View style={styles.inputContainer}>
-      <Text style={styles.label}>
-        {label} {required && <Text style={styles.required}>*</Text>}
+      <Text allowFontScaling={false}  style={styles.label}>
+        {label} {required && <Text allowFontScaling={false}  style={styles.required}>*</Text>}
       </Text>
-      <TextInput
+     <TextInput allowFontScaling={false} 
         value={form[field]}
         onChangeText={(text) => setForm((prev) => ({ ...prev, [field]: text }))} // Update state
         placeholder={placeholder || `Enter ${label}`} // Default placeholder
@@ -316,45 +316,45 @@ const RegisterRestaurant = () => {
           <TouchableOpacity style={styles.backButton}>
             <GoBack />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Menu SetUp</Text>
+          <Text allowFontScaling={false}  style={styles.headerTitle}>Menu SetUp</Text>
         </View>
 
         <>
           <View style={styles.formCard}>
-            <Text style={styles.sectionTitle}>Upload your menu</Text>
+            <Text allowFontScaling={false}  style={styles.sectionTitle}>Upload your menu</Text>
             <View style={styles.inputContainer_A}>
               <TouchableOpacity
                 style={styles.uploadButton}
                 onPress={handleChooseFile}
               >
-                <Text style={styles.uploadButtonText}>Upload File</Text>
+                <Text allowFontScaling={false}  style={styles.uploadButtonText}>Upload File</Text>
               </TouchableOpacity>
-              <Text style={styles.fileName}>
+              <Text allowFontScaling={false}  style={styles.fileName}>
                 {chosenFile ? chosenFile : "Choose a File"}
               </Text>
             </View>
 
-            <Text style={styles.requirementsTitle}>Requirements:</Text>
+            <Text allowFontScaling={false}  style={styles.requirementsTitle}>Requirements:</Text>
             <View style={styles.requirementsList}>
-              <Text style={styles.bulletPoint}>
+              <Text allowFontScaling={false}  style={styles.bulletPoint}>
                 • Upload clear menu card photos or as a word/excel file.
               </Text>
-              <Text style={styles.bulletPoint}>
+              <Text allowFontScaling={false}  style={styles.bulletPoint}>
                 • Item names and prices should be readable.
               </Text>
-              <Text style={styles.bulletPoint}>
+              <Text allowFontScaling={false}  style={styles.bulletPoint}>
                 • Menu should be in English only.
               </Text>
-              <Text style={styles.bulletPoint}>
+              <Text allowFontScaling={false}  style={styles.bulletPoint}>
                 • Every item should have a price mentioned against it.
               </Text>
-              <Text style={styles.bulletPoint}>
+              <Text allowFontScaling={false}  style={styles.bulletPoint}>
                 • Max file size: 25 MB (.jpg, .png, .docx, .xlsx, .pdf).
               </Text>
             </View>
 
-            <Text style={styles.sectionTitle}>Add Category</Text>
-            <Text style={styles.sectionSubtitle}>
+            <Text allowFontScaling={false}  style={styles.sectionTitle}>Add Category</Text>
+            <Text allowFontScaling={false}  style={styles.sectionSubtitle}>
               Add a category to classify your products.
             </Text>
 
@@ -362,7 +362,7 @@ const RegisterRestaurant = () => {
           </View>
 
           <View style={styles.formCard}>
-            <Text style={styles.sectionTitle}>
+            <Text allowFontScaling={false}  style={styles.sectionTitle}>
               What kind of food is on your menu?{" "}
             </Text>
             <View style={styles.radioGroupNew}>
@@ -380,7 +380,7 @@ const RegisterRestaurant = () => {
                       <View style={styles.radioFill} />
                     )}
                   </View>
-                  <Text style={styles.radioText}>{type}</Text>
+                  <Text allowFontScaling={false}  style={styles.radioText}>{type}</Text>
                 </TouchableOpacity>
               ))}
             </View>
@@ -388,8 +388,8 @@ const RegisterRestaurant = () => {
 
           {/* Cuisine Selection */}
           <View style={styles.formCard}>
-            <Text style={styles.sectionTitle}>
-              Add cuisines <Text style={styles.required}>*</Text>
+            <Text allowFontScaling={false}  style={styles.sectionTitle}>
+              Add cuisines <Text allowFontScaling={false}  style={styles.required}>*</Text>
             </Text>
             <View style={styles.chipContainer}>
               {cuisines.map((cuisine) => (
@@ -401,7 +401,7 @@ const RegisterRestaurant = () => {
                   ]}
                   onPress={() => toggleCuisine(cuisine)}
                 >
-                  <Text
+                  <Text allowFontScaling={false} 
                     style={[
                       styles.chipText,
                       selectedCuisines.includes(cuisine) &&
@@ -416,10 +416,10 @@ const RegisterRestaurant = () => {
           </View>
 
           <View style={styles.formCard}>
-            <Text style={styles.sectionTitle}>
-              Packaging Charges <Text style={styles.required}>*</Text>
+            <Text allowFontScaling={false}  style={styles.sectionTitle}>
+              Packaging Charges <Text allowFontScaling={false}  style={styles.required}>*</Text>
             </Text>
-            <Text style={styles.sectionSubtitle}>
+            <Text allowFontScaling={false}  style={styles.sectionSubtitle}>
               Not applicable on Indian Breads, MRP Items, Packaged Beverages
               (Soft drinks, Water Bottle)
             </Text>
@@ -435,7 +435,7 @@ const RegisterRestaurant = () => {
                   ]}
                   onPress={() => setSelectedOption(option)}
                 >
-                  <Text
+                  <Text allowFontScaling={false} 
                     style={[
                       styles.optionText,
                       selectedOption === option && styles.selectedOptionText,
@@ -454,10 +454,10 @@ const RegisterRestaurant = () => {
             style={styles.cancelButton}
             onPress={() => router.back()}
           >
-            <Text style={styles.cancelButtonText}>Cancel</Text>
+            <Text allowFontScaling={false}  style={styles.cancelButtonText}>Cancel</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-            <Text style={styles.saveButtonText}>Save</Text>
+            <Text allowFontScaling={false}  style={styles.saveButtonText}>Save</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

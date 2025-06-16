@@ -51,7 +51,7 @@ const Orders: React.FC = () => {
         <TouchableOpacity>
           <GoBack />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Orders</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Orders</Text>
         <TouchableOpacity style={styles.filterButton}>
           <Image
             source={require("../../assets/images/Filter.png")}
@@ -67,7 +67,7 @@ const Orders: React.FC = () => {
           style={[styles.tab, activeTab === "currentOrder" && styles.activeTab]}
           onPress={() => setActiveTab("currentOrder")}
         >
-          <Text
+          <Text allowFontScaling={false} 
             style={[
               styles.tabText,
               activeTab === "currentOrder" && styles.activeTabText,
@@ -80,7 +80,7 @@ const Orders: React.FC = () => {
           style={[styles.tab, activeTab === "delievered" && styles.activeTab]}
           onPress={() => setActiveTab("delievered")}
         >
-          <Text
+          <Text allowFontScaling={false} 
             style={[
               styles.tabText,
               activeTab === "delievered" && styles.activeTabText,
@@ -95,59 +95,59 @@ const Orders: React.FC = () => {
         {activeTab === "currentOrder" ? (
           <View style={styles.currentOrderCard}>
             <View style={styles.orderHeader}>
-              <Text style={styles.orderStatus}>On the Way</Text>
-              <Text style={styles.orderTime}>
+              <Text allowFontScaling={false}  style={styles.orderStatus}>On the Way</Text>
+              <Text allowFontScaling={false}  style={styles.orderTime}>
                 Remaining time:
-                <Text style={styles.deliveryPlace}> 15 mins</Text>
+                <Text allowFontScaling={false}  style={styles.deliveryPlace}> 15 mins</Text>
               </Text>
             </View>
 
             <View style={styles.orderDetails}>
-              <Text style={styles.earnings}>
-                Estimated Earnings: <Text style={styles.amount}>₹40</Text>
+              <Text allowFontScaling={false}  style={styles.earnings}>
+                Estimated Earnings: <Text allowFontScaling={false}  style={styles.amount}>₹40</Text>
               </Text>
 
-              <Text style={styles.deliveryLocation}>
-                Deliver at: <Text style={styles.deliveryPlace}>abc</Text>
+              <Text allowFontScaling={false}  style={styles.deliveryLocation}>
+                Deliver at: <Text allowFontScaling={false}  style={styles.deliveryPlace}>abc</Text>
               </Text>
             </View>
-            <Text style={styles.deliveryInfo}>
+            <Text allowFontScaling={false}  style={styles.deliveryInfo}>
               Time: 16 mins | Distance: 3.34 kms
             </Text>
             <View style={styles.orderActions}>
               <TouchableOpacity style={styles.mapButton} onPress={handleMap}>
-                <Text style={styles.mapButtonText}>Map</Text>
+                <Text allowFontScaling={false}  style={styles.mapButtonText}>Map</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.detailsButton} onPress={handleViewDetails}>
-                <Text style={styles.detailsButtonText}>View Details</Text>
+                <Text allowFontScaling={false}  style={styles.detailsButtonText}>View Details</Text>
               </TouchableOpacity>
             </View>
           </View>
         ) : (
           <View style={styles.currentOrderCard}>
           <View style={styles.orderHeader}>
-            <Text style={styles.orderStatus}>Delievered</Text>
-            <Text style={styles.orderTime}>
+            <Text allowFontScaling={false}  style={styles.orderStatus}>Delievered</Text>
+            <Text allowFontScaling={false}  style={styles.orderTime}>
               Remaining time:
-              <Text style={styles.deliveryPlace}> 15 mins</Text>
+              <Text allowFontScaling={false}  style={styles.deliveryPlace}> 15 mins</Text>
             </Text>
           </View>
 
           <View style={styles.orderDetails}>
-            <Text style={styles.earnings}>
-              Earnings: <Text style={styles.amount}>₹40</Text>
+            <Text allowFontScaling={false}  style={styles.earnings}>
+              Earnings: <Text allowFontScaling={false}  style={styles.amount}>₹40</Text>
             </Text>
 
-            <Text style={styles.deliveryLocation}>
-              Delivered at: <Text style={styles.deliveryPlace}>abc</Text>
+            <Text allowFontScaling={false}  style={styles.deliveryLocation}>
+              Delivered at: <Text allowFontScaling={false}  style={styles.deliveryPlace}>abc</Text>
             </Text>
           </View>
-          <Text style={styles.deliveryInfo}>
+          <Text allowFontScaling={false}  style={styles.deliveryInfo}>
             Time: 16 mins | Distance: 3.34 kms
           </Text>
           <View style={styles.orderActions}>
             <TouchableOpacity style={styles.detailsButton} onPress={handleViewDetails}>
-              <Text style={styles.detailsButtonText}>View Details</Text>
+              <Text allowFontScaling={false}  style={styles.detailsButtonText}>View Details</Text>
             </TouchableOpacity>
           </View>
         </View>

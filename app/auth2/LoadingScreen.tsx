@@ -158,7 +158,7 @@ const LoadingScreen: React.FC = () => {
           ]} 
         />
       </View>
-      <Text style={styles.loadingText}>Loading for Verification...</Text>
+      <Text allowFontScaling={false}  style={styles.loadingText}>Loading for Verification...</Text>
     </View>
   );
 };

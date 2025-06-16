@@ -53,7 +53,7 @@ const Button: React.FC<ButtonProps> = ({
         style={[styles.button, { backgroundColor, width: buttonWidth }]}
         onPress={onPress}
       >
-        <Text
+        <Text allowFontScaling={false} 
           style={[
             styles.text,
             { color: textColor, fontFamily: "Poppins-Regular" },

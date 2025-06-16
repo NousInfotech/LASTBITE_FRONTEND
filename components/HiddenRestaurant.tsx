@@ -78,13 +78,13 @@ const HiddenRestaurant: React.FC<HiddenRestaurantProps> = ({
       {mainModalVisible && (
         <View style={styles.container}>
           <View style={styles.header}>
-            <Text style={styles.title}>We have hidden {restaurant.name}</Text>
+            <Text allowFontScaling={false}  style={styles.title}>We have hidden {restaurant.name}</Text>
             <TouchableOpacity onPress={onClose}>
               <X stroke="#666" width={24} height={24} />
             </TouchableOpacity>
           </View>
 
-          <Text style={styles.description}>
+          <Text allowFontScaling={false}  style={styles.description}>
             You can unhide it from your Account section. Tell us more about
             your decision and help us recommend you better.
           </Text>
@@ -92,7 +92,7 @@ const HiddenRestaurant: React.FC<HiddenRestaurantProps> = ({
           <View style={styles.buttonContainer}>
             <TouchableOpacity style={styles.undoButton} onPress={handleUndo}>
               <FontAwesome name="undo" size={24} color="#097969" />
-              <Text style={styles.undoText}>Undo</Text>
+              <Text allowFontScaling={false}  style={styles.undoText}>Undo</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -101,7 +101,7 @@ const HiddenRestaurant: React.FC<HiddenRestaurantProps> = ({
               accessible={true}
               accessibilityLabel="Provide additional feedback"
             >
-              <Text style={styles.tellMoreText}>Tell Us More</Text>
+              <Text allowFontScaling={false}  style={styles.tellMoreText}>Tell Us More</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -114,12 +114,12 @@ const HiddenRestaurant: React.FC<HiddenRestaurantProps> = ({
         >
           <View style={styles.feedbackContainer}>
             <View style={styles.feedbackHeader}>
-              <Text style={styles.feedbackTitle}>We'd love your feedback</Text>
+              <Text allowFontScaling={false}  style={styles.feedbackTitle}>We'd love your feedback</Text>
               <TouchableOpacity onPress={handleClose}>
                 <X stroke="#666" width={24} height={24} />
               </TouchableOpacity>
             </View>
-            <TextInput
+           <TextInput allowFontScaling={false} 
               style={styles.feedbackInput}
               placeholder="Please tell us more about your decision..."
               placeholderTextColor="#aaa"
@@ -132,7 +132,7 @@ const HiddenRestaurant: React.FC<HiddenRestaurantProps> = ({
               style={styles.submitButton}
               onPress={handleSubmitFeedback}
             >
-              <Text style={styles.submitText}>Submit</Text>
+              <Text allowFontScaling={false}  style={styles.submitText}>Submit</Text>
             </TouchableOpacity>
           </View>
         </KeyboardAvoidingView>

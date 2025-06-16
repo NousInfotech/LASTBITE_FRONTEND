@@ -81,11 +81,11 @@ const SignupScreen = () => {
         />
       </View>
       <View style={styles.formContainer}>
-        <Text style={styles.title}>Create Your Account</Text>
+        <Text allowFontScaling={false}  style={styles.title}>Create Your Account</Text>
         <View style={styles.form}>
           {/* Name Input */}
-          <Text style={styles.label}>
-            Name <Text style={styles.required}>*</Text>
+          <Text allowFontScaling={false}  style={styles.label}>
+            Name <Text allowFontScaling={false}  style={styles.required}>*</Text>
           </Text>
           <FormInput
             placeholder="Enter your name"
@@ -98,8 +98,8 @@ const SignupScreen = () => {
           />
 
           {/* Email Input */}
-          <Text style={styles.label}>
-            Email <Text style={styles.required}>*</Text>
+          <Text allowFontScaling={false}  style={styles.label}>
+            Email <Text allowFontScaling={false}  style={styles.required}>*</Text>
           </Text>
           <FormInput
             placeholder="Enter your email"
@@ -112,8 +112,8 @@ const SignupScreen = () => {
           />
 
           {/* Password Input */}
-          <Text style={styles.label}>
-            Password <Text style={styles.required}>*</Text>
+          <Text allowFontScaling={false}  style={styles.label}>
+            Password <Text allowFontScaling={false}  style={styles.required}>*</Text>
           </Text>
           <View style={styles.passwordContainer}>
             <FormInput
@@ -141,8 +141,8 @@ const SignupScreen = () => {
           </View>
 
           {/* Confirm Password Input */}
-          <Text style={styles.label}>
-            Confirm Password <Text style={styles.required}>*</Text>
+          <Text allowFontScaling={false}  style={styles.label}>
+            Confirm Password <Text allowFontScaling={false}  style={styles.required}>*</Text>
           </Text>
           <View style={styles.passwordContainer}>
             <FormInput
@@ -181,11 +181,11 @@ const SignupScreen = () => {
 
           {/* Login Link */}
           <View style={styles.loginContainer}>
-            <Text style={styles.loginText}>Already having an account? </Text>
+            <Text allowFontScaling={false}  style={styles.loginText}>Already having an account? </Text>
             <TouchableOpacity
               onPress={() => router.push("/auth2/signin/signin")}
             >
-              <Text style={styles.loginLink}>Login</Text>
+              <Text allowFontScaling={false}  style={styles.loginLink}>Login</Text>
             </TouchableOpacity>
           </View>
         </View>

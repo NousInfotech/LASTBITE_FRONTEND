@@ -164,7 +164,7 @@ const WishList: React.FC = () => {
       <StatusBar barStyle="dark-content" />
       <View style={styles.header}>
         <GoBack />
-        <Text style={styles.headerTitle}>My Wishlist</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>My Wishlist</Text>
       </View>
       
       {wishlistData.length === 0 ? (
@@ -173,27 +173,27 @@ const WishList: React.FC = () => {
             source={require("../../assets/images/pana.png")}
             style={styles.mainImage}
           />
-          <Text style={styles.emptyText}>No wishlists yet!</Text>
+          <Text allowFontScaling={false}  style={styles.emptyText}>No wishlists yet!</Text>
         </View>
       ) : selectedItem ? (
         <View style={styles.detailView}>
           <TouchableOpacity onPress={() => setSelectedItem(null)}>
-            <Text style={styles.backText}>← Back to Wishlist</Text>
+            <Text allowFontScaling={false}  style={styles.backText}>← Back to Wishlist</Text>
           </TouchableOpacity>
 
           <View style={styles.detailCard}>
             <View style={styles.detailTextContainer}>
-              <Text style={styles.detailTitle}>{selectedItem.title}</Text>
-              <Text style={styles.subtitle}>{selectedItem.dishes}</Text>
+              <Text allowFontScaling={false}  style={styles.detailTitle}>{selectedItem.title}</Text>
+              <Text allowFontScaling={false}  style={styles.subtitle}>{selectedItem.dishes}</Text>
               {selectedItem.items && selectedItem.items.length > 0 && (
                 <>
-                  <Text style={styles.description}>{selectedItem.items[0].name}</Text>
-                  <Text style={styles.price}>₹{selectedItem.items[0].price.toFixed(2)}</Text>
+                  <Text allowFontScaling={false}  style={styles.description}>{selectedItem.items[0].name}</Text>
+                  <Text allowFontScaling={false}  style={styles.price}>₹{selectedItem.items[0].price.toFixed(2)}</Text>
                 </>
               )}
-              <Text style={styles.viewMore}>View More Details <AntDesign name="right" size={10} color="#757575" /></Text>
+              <Text allowFontScaling={false}  style={styles.viewMore}>View More Details <AntDesign name="right" size={10} color="#757575" /></Text>
               <TouchableOpacity>
-                <Text style={styles.menuButton}>
+                <Text allowFontScaling={false}  style={styles.menuButton}>
                   Explore Full Menu
                   <AntDesign name="right" size={14} color="#01615F" />
                 </Text>
@@ -221,8 +221,8 @@ const WishList: React.FC = () => {
                 style={styles.image} 
               />
               <View style={styles.wishlistTextContainer}>
-                <Text style={styles.wishlistTitle}>{item.title}</Text>
-                <Text style={styles.dishes}>{item.dishes}</Text>
+                <Text allowFontScaling={false}  style={styles.wishlistTitle}>{item.title}</Text>
+                <Text allowFontScaling={false}  style={styles.dishes}>{item.dishes}</Text>
                 <TouchableOpacity 
                   style={styles.deleteButton}
                   onPress={() => handleDeleteWishlist(item.id)}

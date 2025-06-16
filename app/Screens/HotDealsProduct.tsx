@@ -134,7 +134,7 @@ const HotDealsProduct = () => {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <GoBack />
-        <Text style={styles.headerTitle}>Hot deals</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Hot deals</Text>
       </View>
 
       <FlatList
@@ -155,7 +155,7 @@ const HotDealsProduct = () => {
       <View style={styles.checkoutBackground}>
         {totalItems > 0 && (
           <TouchableOpacity style={styles.checkoutButton} onPress={checkoutPageNavigation}>
-            <Text style={styles.checkoutButtonText}>Checkout {totalItems} items</Text>
+            <Text allowFontScaling={false}  style={styles.checkoutButtonText}>Checkout {totalItems} items</Text>
           </TouchableOpacity>
         )}
       </View>

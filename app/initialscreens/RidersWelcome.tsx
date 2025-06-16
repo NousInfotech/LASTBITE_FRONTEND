@@ -33,7 +33,7 @@ const Onboarding = () => {
           />
         </View>
         <View style={{ alignItems: "center" }}>
-          <Text
+          <Text allowFontScaling={false} 
             style={{
               fontSize: RFPercentage(2),
               color: "#014D4E",
@@ -43,7 +43,7 @@ const Onboarding = () => {
           >
             Partner with Last Bite
           </Text>
-          <Text
+          <Text allowFontScaling={false} 
             style={{
               fontSize: RFPercentage(2),
               color: "#4A4A4A",

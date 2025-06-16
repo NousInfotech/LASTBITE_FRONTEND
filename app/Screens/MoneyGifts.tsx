@@ -21,7 +21,7 @@ export default function MoneyGifts() {
         <TouchableOpacity style={styles.backButton} onPress={handleBackPress}>
           <Ionicons name="arrow-back" size={24} color="#333" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Money & Gift cards</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Money & Gift cards</Text>
       </View>
       
       {/* Balance Card */}
@@ -33,15 +33,15 @@ export default function MoneyGifts() {
 >
       <View style={styles.balanceCard}>
         <View style={styles.balanceHeader}>
-          <Text style={styles.balanceTitle}>Available Balance</Text>
+          <Text allowFontScaling={false}  style={styles.balanceTitle}>Available Balance</Text>
           <View style={styles.infoIconContainer}>
             <Ionicons name="information-circle-outline" size={20} color="#fff" />
           </View>
         </View>
         
-        <Text style={styles.balanceAmount}>$0</Text>
+        <Text allowFontScaling={false}  style={styles.balanceAmount}>$0</Text>
         
-        <Text style={styles.balanceDescription}>
+        <Text allowFontScaling={false}  style={styles.balanceDescription}>
           This balance can be used for all your orders across categories (food & indameni*)
         </Text>
         
@@ -58,20 +58,20 @@ export default function MoneyGifts() {
       </LinearGradient>
       {/* Gift Card Option */}
       <View style={styles.giftCardSection}>
-        <Text style={styles.giftCardTitle}>Spread joy with personalized e-gift cards!</Text>
-        <Text style={styles.giftCardDescription}>
+        <Text allowFontScaling={false}  style={styles.giftCardTitle}>Spread joy with personalized e-gift cards!</Text>
+        <Text allowFontScaling={false}  style={styles.giftCardDescription}>
           Make every special occasion memorable with e-gift vouchers for your loved ones.
         </Text>
         
         <TouchableOpacity style={styles.buyVoucherButton}>
-          <Text style={styles.buyVoucherText}>Buy a gift voucher</Text>
+          <Text allowFontScaling={false}  style={styles.buyVoucherText}>Buy a gift voucher</Text>
         </TouchableOpacity>
       </View>
       
       {/* Update Alert */}
       <View style={styles.alertBox}>
-        <Text style={styles.alertTitle}>Major update alert</Text>
-        <Text style={styles.alertDescription}>
+        <Text allowFontScaling={false}  style={styles.alertTitle}>Major update alert</Text>
+        <Text allowFontScaling={false}  style={styles.alertDescription}>
           HDFC bank Credit Card cashback will now credit directly in the statement.
         </Text>
       </View>
@@ -79,13 +79,13 @@ export default function MoneyGifts() {
       {/* Bottom Actions */}
       <View style={styles.bottomContainer}>
         <TouchableOpacity style={styles.addBalanceButton}>
-          <Text style={styles.addBalanceText}>Add Balance</Text>
+          <Text allowFontScaling={false}  style={styles.addBalanceText}>Add Balance</Text>
         </TouchableOpacity>
         
         <View style={styles.redeemContainer}>
-          <Text style={styles.redeemQuestion}>Have a gift voucher? </Text>
+          <Text allowFontScaling={false}  style={styles.redeemQuestion}>Have a gift voucher? </Text>
           <TouchableOpacity>
-            <Text style={styles.redeemLink}>Redeem Now</Text>
+            <Text allowFontScaling={false}  style={styles.redeemLink}>Redeem Now</Text>
           </TouchableOpacity>
         </View>
       </View>

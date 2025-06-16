@@ -255,10 +255,10 @@ const toggleCuisine = (cuisine: string) => {
     ...inputProps: TextInputProps[] // Use rest operator to catch additional props
   ) => (
     <View style={styles.inputContainer}>
-      <Text style={styles.label}>
-        {label} {required && <Text style={styles.required}>*</Text>}
+      <Text allowFontScaling={false}  style={styles.label}>
+        {label} {required && <Text allowFontScaling={false}  style={styles.required}>*</Text>}
       </Text>
-      <TextInput
+     <TextInput allowFontScaling={false} 
         value={form[field]}
         onChangeText={(text) => setForm((prev) => ({ ...prev, [field]: text }))}
         placeholder={placeholder || `Enter ${label}`}
@@ -276,7 +276,7 @@ const toggleCuisine = (cuisine: string) => {
           <TouchableOpacity style={styles.backButton}>
             <GoBack />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Restaurant Information</Text>
+          <Text allowFontScaling={false}  style={styles.headerTitle}>Restaurant Information</Text>
           <View style={styles.progressContainer}>
             {[1, 2, 3, 4].map((step, index) => (
               <React.Fragment key={index}>
@@ -295,7 +295,7 @@ const toggleCuisine = (cuisine: string) => {
           <>
             <View style={styles.formCard}>
               <View style={styles.formSection}>
-                <Text style={styles.sectionTitle}>Basic Details</Text>
+                <Text allowFontScaling={false}  style={styles.sectionTitle}>Basic Details</Text>
                 {renderInput(
                   "Owner's full name ",
                   "ownerName",
@@ -316,22 +316,22 @@ const toggleCuisine = (cuisine: string) => {
                     maxLength: 200,
                   }
                 )}
-                <Text style={styles.label}>
-                  Profile Photo <Text style={styles.required}>*</Text>
+                <Text allowFontScaling={false}  style={styles.label}>
+                  Profile Photo <Text allowFontScaling={false}  style={styles.required}>*</Text>
                 </Text>
                 <View style={styles.inputContainer_A}>
                   <TouchableOpacity
                     style={styles.uploadButton}
                     onPress={handleChooseFile}
                   >
-                    <Text style={styles.uploadButtonText}>Upload File</Text>
+                    <Text allowFontScaling={false}  style={styles.uploadButtonText}>Upload File</Text>
                   </TouchableOpacity>
-                  <Text style={styles.fileName}>
+                  <Text allowFontScaling={false}  style={styles.fileName}>
                     {form.profilePhoto ? "Profile chose" : "Choose a File"}
                   </Text>
                 </View>
-                <Text style={styles.sectionTitle}>Add restaurant location</Text>
-                <Text style={styles.sectionSubtitle}>
+                <Text allowFontScaling={false}  style={styles.sectionTitle}>Add restaurant location</Text>
+                <Text allowFontScaling={false}  style={styles.sectionSubtitle}>
                   Provide exact details for quick food delivery.
                 </Text>
 
@@ -373,7 +373,7 @@ const toggleCuisine = (cuisine: string) => {
 
             <View style={styles.formCard}>
               <View style={styles.formSection}>
-                <Text style={styles.sectionTitle}>Owner Contact Details</Text>
+                <Text allowFontScaling={false}  style={styles.sectionTitle}>Owner Contact Details</Text>
 
                 {/* Email Address & Mobile Number */}
                 {renderInput(
@@ -398,7 +398,7 @@ const toggleCuisine = (cuisine: string) => {
                 )}
 
                 {/* WhatsApp Number Options */}
-                <Text style={styles.radioGroupTitle}>
+                <Text allowFontScaling={false}  style={styles.radioGroupTitle}>
                   WhatsApp Number Options
                 </Text>
 
@@ -409,7 +409,7 @@ const toggleCuisine = (cuisine: string) => {
                   <View style={styles.radioCircle}>
                     {sameWhatsApp && <View style={styles.radioFill} />}
                   </View>
-                  <Text style={styles.radioText}>
+                  <Text allowFontScaling={false}  style={styles.radioText}>
                     My WhatsApp number is the same as above
                   </Text>
                 </TouchableOpacity>
@@ -421,7 +421,7 @@ const toggleCuisine = (cuisine: string) => {
                   <View style={styles.radioCircle}>
                     {!sameWhatsApp && <View style={styles.radioFill} />}
                   </View>
-                  <Text style={styles.radioText}>
+                  <Text allowFontScaling={false}  style={styles.radioText}>
                     I have a different WhatsApp number
                   </Text>
                 </TouchableOpacity>
@@ -443,11 +443,11 @@ const toggleCuisine = (cuisine: string) => {
             <View style={styles.formCard}>
               <View style={styles.formSection}>
                 <View style={styles.workingDaysHeader}>
-                  <Text style={styles.sectionTitle}>
-                    Working Days <Text style={{ color: "red" }}>*</Text>
+                  <Text allowFontScaling={false}  style={styles.sectionTitle}>
+                    Working Days <Text allowFontScaling={false}  style={{ color: "red" }}>*</Text>
                   </Text>
                   <TouchableOpacity onPress={handleSelectAll}>
-                    <Text style={styles.selectAllText}>Select All</Text>
+                    <Text allowFontScaling={false}  style={styles.selectAllText}>Select All</Text>
                   </TouchableOpacity>
                 </View>
 
@@ -510,7 +510,7 @@ const toggleCuisine = (cuisine: string) => {
                       <View style={styles.radioFill} />
                     )}
                   </View>
-                  <Text style={styles.radioText}>
+                  <Text allowFontScaling={false}  style={styles.radioText}>
                     I open and close my restaurant at the same time
                   </Text>
                 </TouchableOpacity>
@@ -524,7 +524,7 @@ const toggleCuisine = (cuisine: string) => {
                       <View style={styles.radioFill} />
                     )}
                   </View>
-                  <Text style={styles.radioText}>
+                  <Text allowFontScaling={false}  style={styles.radioText}>
                     I've separate daywise timings.
                   </Text>
                 </TouchableOpacity>
@@ -561,7 +561,7 @@ const toggleCuisine = (cuisine: string) => {
                     "Sunday",
                   ].map((day, index) => (
                     <View key={index} style={styles.dayRow}>
-                      <Text style={styles.dayName}>{day}</Text>
+                      <Text allowFontScaling={false}  style={styles.dayName}>{day}</Text>
                       <View style={styles.row}>
                         <View style={styles.halfInputContainer}>
                          {renderInput(
@@ -591,10 +591,10 @@ const toggleCuisine = (cuisine: string) => {
         {activeStep === 2 && (
           <>
             <View style={styles.formCard}>
-              <Text style={styles.sectionTitle}>
-                What's your outlet-type? <Text style={{ color: "red" }}>*</Text>
+              <Text allowFontScaling={false}  style={styles.sectionTitle}>
+                What's your outlet-type? <Text allowFontScaling={false}  style={{ color: "red" }}>*</Text>
               </Text>
-              <Text style={styles.sectionSubtitle}>
+              <Text allowFontScaling={false}  style={styles.sectionSubtitle}>
                 This determines whether Last Bite or you pay GST on the items
                 sold.
               </Text>
@@ -605,16 +605,16 @@ const toggleCuisine = (cuisine: string) => {
                   setForm((prev) => ({ ...prev, category: selectedCategory }));
                 }}
               >
-                <Text style={styles.categoryText}>{selectedCategory}</Text>
-                <Text style={styles.editText}>Edit</Text>
+                <Text allowFontScaling={false}  style={styles.categoryText}>{selectedCategory}</Text>
+                <Text allowFontScaling={false}  style={styles.editText}>Edit</Text>
               </TouchableOpacity>
-              <Text style={styles.noteText}>
+              <Text allowFontScaling={false}  style={styles.noteText}>
                 Last Bite will pay the GST on your behalf.
               </Text>
             </View>
 
             <View style={styles.formCard}>
-              <Text style={styles.sectionTitle}>Enter PAN & GSTIN details</Text>
+              <Text allowFontScaling={false}  style={styles.sectionTitle}>Enter PAN & GSTIN details</Text>
               {renderInput(
                 "Business/Owner PAN",
                 "ownerPanNo",
@@ -648,7 +648,7 @@ const toggleCuisine = (cuisine: string) => {
 
             {/* Official Bank Details */}
             <View style={styles.formCard}>
-              <Text style={styles.sectionTitle}>Official Bank Details</Text>
+              <Text allowFontScaling={false}  style={styles.sectionTitle}>Official Bank Details</Text>
               {renderInput(
                 "Bank IFSC code",
                 "bankIfscCode",
@@ -692,7 +692,7 @@ const toggleCuisine = (cuisine: string) => {
             </View>
 
             <View style={styles.formCard}>
-              <Text style={styles.sectionTitle}>FSSAI certificate</Text>
+              <Text allowFontScaling={false}  style={styles.sectionTitle}>FSSAI certificate</Text>
               {renderInput(
                 "FSSAI certificate number",
                 "fssaiCertificateNo",
@@ -713,17 +713,17 @@ const toggleCuisine = (cuisine: string) => {
                 }
               )}
 
-              <Text style={styles.requirementsTitle}>Requirements:</Text>
+              <Text allowFontScaling={false}  style={styles.requirementsTitle}>Requirements:</Text>
               <View style={styles.requirementsList}>
-                <Text style={styles.bulletPoint}>
+                <Text allowFontScaling={false}  style={styles.bulletPoint}>
                   • The FSSAI certificate should either match the name of the
                   restaurant or the owner.
                 </Text>
-                <Text style={styles.bulletPoint}>
+                <Text allowFontScaling={false}  style={styles.bulletPoint}>
                   • The address on the FSSAI certificate should match the
                   address of the restaurant.
                 </Text>
-                <Text style={styles.bulletPoint}>
+                <Text allowFontScaling={false}  style={styles.bulletPoint}>
                   • The FSSAI certificate should not be expiring before 30 days.
                 </Text>
               </View>
@@ -733,40 +733,40 @@ const toggleCuisine = (cuisine: string) => {
         {activeStep === 3 && (
           <>
             <View style={styles.formCard}>
-              <Text style={styles.sectionTitle}>Upload your menu</Text>
+              <Text allowFontScaling={false}  style={styles.sectionTitle}>Upload your menu</Text>
               <View style={styles.inputContainer_A}>
                 <TouchableOpacity
                   style={styles.uploadButton}
                   // onPress={handleChooseFile}
                 >
-                  <Text style={styles.uploadButtonText}>Upload File</Text>
+                  <Text allowFontScaling={false}  style={styles.uploadButtonText}>Upload File</Text>
                 </TouchableOpacity>
-                <Text style={styles.fileName}>
+                <Text allowFontScaling={false}  style={styles.fileName}>
                   {chosenFile ? chosenFile : "Choose a File"}
                 </Text>
               </View>
 
-              <Text style={styles.requirementsTitle}>Requirements:</Text>
+              <Text allowFontScaling={false}  style={styles.requirementsTitle}>Requirements:</Text>
               <View style={styles.requirementsList}>
-                <Text style={styles.bulletPoint}>
+                <Text allowFontScaling={false}  style={styles.bulletPoint}>
                   • Upload clear menu card photos or as a word/excel file.
                 </Text>
-                <Text style={styles.bulletPoint}>
+                <Text allowFontScaling={false}  style={styles.bulletPoint}>
                   • Item names and prices should be readable.
                 </Text>
-                <Text style={styles.bulletPoint}>
+                <Text allowFontScaling={false}  style={styles.bulletPoint}>
                   • Menu should be in English only.
                 </Text>
-                <Text style={styles.bulletPoint}>
+                <Text allowFontScaling={false}  style={styles.bulletPoint}>
                   • Every item should have a price mentioned against it.
                 </Text>
-                <Text style={styles.bulletPoint}>
+                <Text allowFontScaling={false}  style={styles.bulletPoint}>
                   • Max file size: 25 MB (.jpg, .png, .docx, .xlsx, .pdf).
                 </Text>
               </View>
 
-              <Text style={styles.sectionTitle}>Add Category</Text>
-              <Text style={styles.sectionSubtitle}>
+              <Text allowFontScaling={false}  style={styles.sectionTitle}>Add Category</Text>
+              <Text allowFontScaling={false}  style={styles.sectionSubtitle}>
                 Add a category to classify your products.
               </Text>
 
@@ -774,7 +774,7 @@ const toggleCuisine = (cuisine: string) => {
             </View>
 
             <View style={styles.formCard}>
-              <Text style={styles.sectionTitle}>
+              <Text allowFontScaling={false}  style={styles.sectionTitle}>
                 What kind of food is on your menu?{" "}
               </Text>
               <View style={styles.radioGroupNew}>
@@ -792,7 +792,7 @@ const toggleCuisine = (cuisine: string) => {
                         <View style={styles.radioFill} />
                       )}
                     </View>
-                    <Text style={styles.radioText}>{type}</Text>
+                    <Text allowFontScaling={false}  style={styles.radioText}>{type}</Text>
                   </TouchableOpacity>
                 ))}
               </View>
@@ -800,8 +800,8 @@ const toggleCuisine = (cuisine: string) => {
 
             {/* Cuisine Selection */}
             <View style={styles.formCard}>
-              <Text style={styles.sectionTitle}>
-                Add cuisines <Text style={styles.required}>*</Text>
+              <Text allowFontScaling={false}  style={styles.sectionTitle}>
+                Add cuisines <Text allowFontScaling={false}  style={styles.required}>*</Text>
               </Text>
               <View style={styles.chipContainer}>
                 {cuisines.map((cuisine) => (
@@ -813,7 +813,7 @@ const toggleCuisine = (cuisine: string) => {
                     ]}
                     onPress={() => toggleCuisine(cuisine)}
                   >
-                    <Text
+                    <Text allowFontScaling={false} 
                       style={[
                         styles.chipText,
                         selectedCuisines.includes(cuisine) &&
@@ -828,10 +828,10 @@ const toggleCuisine = (cuisine: string) => {
             </View>
 
             <View style={styles.formCard}>
-              <Text style={styles.sectionTitle}>
-                Packaging Charges <Text style={styles.required}>*</Text>
+              <Text allowFontScaling={false}  style={styles.sectionTitle}>
+                Packaging Charges <Text allowFontScaling={false}  style={styles.required}>*</Text>
               </Text>
-              <Text style={styles.sectionSubtitle}>
+              <Text allowFontScaling={false}  style={styles.sectionSubtitle}>
                 Not applicable on Indian Breads, MRP Items, Packaged Beverages
                 (Soft drinks, Water Bottle)
               </Text>
@@ -847,7 +847,7 @@ const toggleCuisine = (cuisine: string) => {
                     ]}
                     onPress={() => setSelectedOption(option)}
                   >
-                    <Text
+                    <Text allowFontScaling={false} 
                       style={[
                         styles.optionText,
                         selectedOption === option && styles.selectedOptionText,
@@ -865,11 +865,11 @@ const toggleCuisine = (cuisine: string) => {
         {activeStep === 4 && (
           <>
             <View style={styles.formCard}>
-              <Text style={styles.sectionTitle}>Oveview</Text>
+              <Text allowFontScaling={false}  style={styles.sectionTitle}>Oveview</Text>
             </View>
             <View style={styles.formCard}>
               <View style={styles.titleContainer}>
-                <Text style={styles.title}>Letter of Understanding</Text>
+                <Text allowFontScaling={false}  style={styles.title}>Letter of Understanding</Text>
                 <Image
                   source={require("../../assets/images/Download.png")}
                   style={styles.image}
@@ -888,7 +888,7 @@ const toggleCuisine = (cuisine: string) => {
           style={styles.button}
           onPress={activeStep < 4 ? handleContinue : restaurantHome}
         >
-          <Text style={styles.buttonText}>Continue</Text>
+          <Text allowFontScaling={false}  style={styles.buttonText}>Continue</Text>
         </TouchableOpacity>
       </ScrollView>
       <Modal
@@ -904,10 +904,10 @@ const toggleCuisine = (cuisine: string) => {
               style={styles.closeButton}
               onPress={() => setModalVisible(false)}
             >
-              <Text style={styles.closeButtonText}>✕</Text>
+              <Text allowFontScaling={false}  style={styles.closeButtonText}>✕</Text>
             </TouchableOpacity>
             ``
-            <Text style={styles.modalTitle}>Select your outlet type</Text>
+            <Text allowFontScaling={false}  style={styles.modalTitle}>Select your outlet type</Text>
             {/* Category Options */}
             {categories.map((category, index) => (
               <TouchableOpacity
@@ -919,10 +919,10 @@ const toggleCuisine = (cuisine: string) => {
                 }}
               >
                 <View style={styles.categoryHeader}>
-                  <Text style={styles.categoryHeading}>{category.name}</Text>
-                  <Text style={styles.selectText}>Select</Text>
+                  <Text allowFontScaling={false}  style={styles.categoryHeading}>{category.name}</Text>
+                  <Text allowFontScaling={false}  style={styles.selectText}>Select</Text>
                 </View>
-                <Text style={styles.categoryDescription}>
+                <Text allowFontScaling={false}  style={styles.categoryDescription}>
                   {category.description}
                 </Text>
               </TouchableOpacity>

@@ -31,10 +31,10 @@ const CouponModal: React.FC<CouponModalProps> = ({ isVisible, onClose, onApply }
               />
             </View>
             <View style={styles.textContainer}>
-              <Text style={styles.modalTitle}>
+              <Text allowFontScaling={false}  style={styles.modalTitle}>
                 $150 savings with this coupon
               </Text>
-              <Text style={styles.modalSubtext}>
+              <Text allowFontScaling={false}  style={styles.modalSubtext}>
                 Try now and save every time you order
               </Text>
             </View>
@@ -47,7 +47,7 @@ const CouponModal: React.FC<CouponModalProps> = ({ isVisible, onClose, onApply }
               onClose();
             }}
           >
-            <Text style={styles.yayButtonText}>YAY!</Text>
+            <Text allowFontScaling={false}  style={styles.yayButtonText}>YAY!</Text>
           </TouchableOpacity>
         </View>
       </View>

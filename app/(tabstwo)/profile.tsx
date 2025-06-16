@@ -95,7 +95,7 @@ const [profileImage, setProfileImage] = useState<string | null>(null);
         <TouchableOpacity>
           <GoBack />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Profile</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Profile</Text>
       </View>
       <View style={styles.profileCard}>
         <View style={styles.profileImageContainer}>
@@ -111,42 +111,42 @@ const [profileImage, setProfileImage] = useState<string | null>(null);
             <Entypo name="camera" size={13} color="#fff" />
           </TouchableOpacity>
         </View>
-        <Text style={styles.profileName}>Lorem Ipsum</Text>
+        <Text allowFontScaling={false}  style={styles.profileName}>Lorem Ipsum</Text>
       </View>
       <ScrollView style={styles.content}>
         <TouchableOpacity
           style={styles.sectionBox}
           onPress={() => router.push("/Screens/ProfileEdit")}
         >
-          <Text style={styles.sectionTitle}>Restaurant Information</Text>
+          <Text allowFontScaling={false}  style={styles.sectionTitle}>Restaurant Information</Text>
           <AntDesign name="right" size={16} color="#757575" />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.sectionBox}
           onPress={() => router.push("/Screens/RestaurantDocuments")}
         >
-          <Text style={styles.sectionTitle}>Restaurant Documents</Text>
+          <Text allowFontScaling={false}  style={styles.sectionTitle}>Restaurant Documents</Text>
           <AntDesign name="right" size={16} color="#757575" />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.sectionBox}
           onPress={() => router.push("/Screens/MenuSetUp")}
         >
-          <Text style={styles.sectionTitle}>Menu Set-up</Text>
+          <Text allowFontScaling={false}  style={styles.sectionTitle}>Menu Set-up</Text>
           <AntDesign name="right" size={16} color="#757575" />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.sectionBox}
           onPress={() => router.push("/Screens/PartnerContract")}
         >
-          <Text style={styles.sectionTitle}>Partner Contract</Text>
+          <Text allowFontScaling={false}  style={styles.sectionTitle}>Partner Contract</Text>
           <AntDesign name="right" size={16} color="#757575" />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.sectionBox}
           onPress={() => router.push("/Screens/RatingReview")}
         >
-          <Text style={styles.sectionTitle}>Reviews and Ratings</Text>
+          <Text allowFontScaling={false}  style={styles.sectionTitle}>Reviews and Ratings</Text>
           <AntDesign name="right" size={16} color="#757575" />
         </TouchableOpacity>
       </ScrollView>
@@ -164,20 +164,20 @@ const [profileImage, setProfileImage] = useState<string | null>(null);
           onPress={() => setShowOptions(false)}
         >
           <View style={styles.optionsContainer}>
-            <Text style={styles.optionsTitle}>Select Restaurant Logo</Text>
+            <Text allowFontScaling={false}  style={styles.optionsTitle}>Select Restaurant Logo</Text>
             <TouchableOpacity style={styles.optionButton} onPress={pickImage}>
               <Entypo name="images" size={22} color="#01615F" />
-              <Text style={styles.optionText}>Upload from Gallery</Text>
+              <Text allowFontScaling={false}  style={styles.optionText}>Upload from Gallery</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.optionButton} onPress={takePicture}>
               <Entypo name="camera" size={22} color="#01615F" />
-              <Text style={styles.optionText}>Take a Picture</Text>
+              <Text allowFontScaling={false}  style={styles.optionText}>Take a Picture</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[styles.optionButton, styles.cancelButton]}
               onPress={() => setShowOptions(false)}
             >
-              <Text style={styles.cancelText}>Cancel</Text>
+              <Text allowFontScaling={false}  style={styles.cancelText}>Cancel</Text>
             </TouchableOpacity>
           </View>
         </TouchableOpacity>

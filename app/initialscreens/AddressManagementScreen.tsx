@@ -216,8 +216,8 @@ const AddressManagementScreen: React.FC = () => {
         <View style={styles.addressLeft}>
           <Icon name={item.icon} size={24} color="#666" />
           <View style={styles.addressDetails}>
-            <Text style={styles.addressType}>{item.type}</Text>
-            <Text style={styles.addressText}>{item.address}</Text>
+            <Text allowFontScaling={false}  style={styles.addressType}>{item.type}</Text>
+            <Text allowFontScaling={false}  style={styles.addressText}>{item.address}</Text>
           </View>
         </View>
         <TouchableOpacity
@@ -238,7 +238,7 @@ const AddressManagementScreen: React.FC = () => {
         <TouchableOpacity>
           <GoBack />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>
           Enter your area or apartment name
         </Text>
       </View>
@@ -246,7 +246,7 @@ const AddressManagementScreen: React.FC = () => {
       {/* Search Input */}
       <View style={styles.searchContainer}>
         <Icon name="search" size={20} color="#666" />
-        <TextInput
+       <TextInput allowFontScaling={false} 
           style={styles.searchInput}
           placeholder="Try Elm Street..."
           value={searchText}
@@ -265,7 +265,7 @@ const AddressManagementScreen: React.FC = () => {
         onPress={handleUseCurrentLocation}
       >
         <Icon name="my-location" size={20} color="#01615F" />
-        <Text style={styles.locationText}>Use my current location</Text>
+        <Text allowFontScaling={false}  style={styles.locationText}>Use my current location</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
@@ -273,26 +273,26 @@ const AddressManagementScreen: React.FC = () => {
         onPress={handleAddNewAddress}
       >
         <Icon name="add" size={20} color="#01615F" />
-        <Text style={styles.locationText}>Add new address</Text>
+        <Text allowFontScaling={false}  style={styles.locationText}>Add new address</Text>
       </TouchableOpacity>
 
       {/* Saved Addresses */}
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>SAVED ADDRESSES</Text>
+        <Text allowFontScaling={false}  style={styles.sectionTitle}>SAVED ADDRESSES</Text>
         {savedAddresses.length > 0 ? (
           savedAddresses.map((address) => renderAddressItem(address))
         ) : (
-          <Text style={styles.emptyText}>No saved addresses found</Text>
+          <Text allowFontScaling={false}  style={styles.emptyText}>No saved addresses found</Text>
         )}
       </View>
 
       {/* Recent Searches */}
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>RECENT SEARCHES</Text>
+        <Text allowFontScaling={false}  style={styles.sectionTitle}>RECENT SEARCHES</Text>
         {recentSearches.length > 0 ? (
           recentSearches.map((address) => renderAddressItem(address))
         ) : (
-          <Text style={styles.emptyText}>No recent searches</Text>
+          <Text allowFontScaling={false}  style={styles.emptyText}>No recent searches</Text>
         )}
       </View>
 

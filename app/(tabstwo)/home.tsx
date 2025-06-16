@@ -85,8 +85,8 @@ const Home = () => {
                 style={styles.icon}
               />
             </View>
-            <Text style={styles.label}>Orders Today</Text>
-            <Text style={styles.value}>20</Text>
+            <Text allowFontScaling={false}  style={styles.label}>Orders Today</Text>
+            <Text allowFontScaling={false}  style={styles.value}>20</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.card} onPress={navigateToAvgRating}>
             <View style={styles.imageContainer}>
@@ -95,8 +95,8 @@ const Home = () => {
                 style={styles.icon}
               />
             </View>
-            <Text style={styles.label}>Average Rating</Text>
-            <Text style={styles.value}>₹500</Text>
+            <Text allowFontScaling={false}  style={styles.label}>Average Rating</Text>
+            <Text allowFontScaling={false}  style={styles.value}>₹500</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.singleCardContainer}>
@@ -107,15 +107,15 @@ const Home = () => {
                 style={styles.icon}
               />
             </View>
-            <Text style={styles.label}>Pending Payments</Text>
-            <Text style={styles.value}>2</Text>
+            <Text allowFontScaling={false}  style={styles.label}>Pending Payments</Text>
+            <Text allowFontScaling={false}  style={styles.value}>2</Text>
           </TouchableOpacity>
         </View>
 
         <View style={styles.headerRow}>
-          <Text style={styles.sectionTitle}>Orders Today</Text>
+          <Text allowFontScaling={false}  style={styles.sectionTitle}>Orders Today</Text>
           <TouchableOpacity>
-            <Text style={styles.viewAll}>View All</Text>
+            <Text allowFontScaling={false}  style={styles.viewAll}>View All</Text>
           </TouchableOpacity>
         </View>
 
@@ -125,28 +125,28 @@ const Home = () => {
           <View style={styles.orderCard}>
             <View style={styles.orderHeader}>
               <View>
-                <Text style={styles.orderId}>
+                <Text allowFontScaling={false}  style={styles.orderId}>
                   Order ID:{" "}
-                  <Text style={styles.orderNumber}>#{orderNumber}</Text>
+                  <Text allowFontScaling={false}  style={styles.orderNumber}>#{orderNumber}</Text>
                 </Text>
-                <Text style={styles.orderTime}>
+                <Text allowFontScaling={false}  style={styles.orderTime}>
                   05:16 PM | 2 items for ₹500
                 </Text>
               </View>
-              <Text style={styles.orderAmount}>₹500</Text>
+              <Text allowFontScaling={false}  style={styles.orderAmount}>₹500</Text>
             </View>
             <View style={styles.buttonContainer}>
               <TouchableOpacity
                 style={styles.viewButton}
                 onPress={handleViewOrder}
               >
-                <Text style={styles.viewButtonText}>View Order</Text>
+                <Text allowFontScaling={false}  style={styles.viewButtonText}>View Order</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.confirmButton}
                 onPress={() => handleConfirmOrder("#136558-19")}
               >
-                <Text style={styles.confirmButtonText}>Confirm Order</Text>
+                <Text allowFontScaling={false}  style={styles.confirmButtonText}>Confirm Order</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -156,24 +156,24 @@ const Home = () => {
             <View style={styles.orderHeader}>
               <View>
                 <View style={styles.statusRow}>
-                  <Text style={styles.status}>🚚 Order Delivered</Text>
+                  <Text allowFontScaling={false}  style={styles.status}>🚚 Order Delivered</Text>
                 </View>
-                <Text style={styles.orderId}>
+                <Text allowFontScaling={false}  style={styles.orderId}>
                   Order ID:{" "}
-                  <Text style={styles.orderNumber}>#{orderNumber}</Text>
+                  <Text allowFontScaling={false}  style={styles.orderNumber}>#{orderNumber}</Text>
                 </Text>
-                <Text style={styles.orderTime}>
+                <Text allowFontScaling={false}  style={styles.orderTime}>
                   05:16 PM | 2 items for ₹500
                 </Text>
               </View>
-              <Text style={styles.orderAmount}>₹500</Text>
+              <Text allowFontScaling={false}  style={styles.orderAmount}>₹500</Text>
             </View>
 
             <TouchableOpacity
               style={styles.singleButton}
               onPress={handleViewOrder}
             >
-              <Text style={styles.viewButtonText}>View Order</Text>
+              <Text allowFontScaling={false}  style={styles.viewButtonText}>View Order</Text>
             </TouchableOpacity>
           </View>
 
@@ -182,27 +182,27 @@ const Home = () => {
             <View style={styles.orderHeader}>
               <View>
                 <View style={styles.statusRow}>
-                  <Text style={styles.status}>📦 Packing</Text>
+                  <Text allowFontScaling={false}  style={styles.status}>📦 Packing</Text>
                 </View>
-                <Text style={styles.orderId}>
+                <Text allowFontScaling={false}  style={styles.orderId}>
                   Order ID:{" "}
-                  <Text style={styles.orderNumber}>#{orderNumber}</Text>
+                  <Text allowFontScaling={false}  style={styles.orderNumber}>#{orderNumber}</Text>
                 </Text>
-                <Text style={styles.orderTime}>
+                <Text allowFontScaling={false}  style={styles.orderTime}>
                   05:16 PM | 2 items for ₹500
                 </Text>
               </View>
-              <Text style={styles.orderAmount}>₹500</Text>
+              <Text allowFontScaling={false}  style={styles.orderAmount}>₹500</Text>
             </View>
             <View style={styles.buttonContainer}>
               <TouchableOpacity
                 style={styles.viewButton}
                 onPress={handleViewOrder}
               >
-                <Text style={styles.viewButtonText}>View Order</Text>
+                <Text allowFontScaling={false}  style={styles.viewButtonText}>View Order</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.actionButton}>
-                <Text style={styles.confirmButtonText}>Order Packed</Text>
+                <Text allowFontScaling={false}  style={styles.confirmButtonText}>Order Packed</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -211,25 +211,25 @@ const Home = () => {
           <View style={styles.orderCard}>
             <View style={styles.orderHeader}>
               <View>
-              <Text style={styles.orderId}>
+              <Text allowFontScaling={false}  style={styles.orderId}>
                   Order ID:{" "}
-                  <Text style={styles.orderNumber}>#{orderNumber}</Text>
+                  <Text allowFontScaling={false}  style={styles.orderNumber}>#{orderNumber}</Text>
                 </Text>
-                <Text style={styles.orderTime}>
+                <Text allowFontScaling={false}  style={styles.orderTime}>
                   05:16 PM | 2 items for ₹500
                 </Text>
               </View>
-              <Text style={styles.orderAmount}>₹500</Text>
+              <Text allowFontScaling={false}  style={styles.orderAmount}>₹500</Text>
             </View>
             <View style={styles.buttonContainer}>
               <TouchableOpacity
                 style={styles.viewButton}
                 onPress={handleViewOrder}
               >
-                <Text style={styles.viewButtonText}>View Order</Text>
+                <Text allowFontScaling={false}  style={styles.viewButtonText}>View Order</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.actionButton}>
-                <Text style={styles.confirmButtonText}>Order Prepared</Text>
+                <Text allowFontScaling={false}  style={styles.confirmButtonText}>Order Prepared</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -245,7 +245,7 @@ const Home = () => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalTitle}>
+            <Text allowFontScaling={false}  style={styles.modalTitle}>
               How long will this take to prepare?
             </Text>
 
@@ -254,18 +254,18 @@ const Home = () => {
                 style={styles.timeButton}
                 onPress={decrementPrepTime}
               >
-                <Text style={styles.timeButtonText}>-</Text>
+                <Text allowFontScaling={false}  style={styles.timeButtonText}>-</Text>
               </TouchableOpacity>
 
               <View style={styles.timeDisplay}>
-                <Text style={styles.timeText}>{prepTime} MINS</Text>
+                <Text allowFontScaling={false}  style={styles.timeText}>{prepTime} MINS</Text>
               </View>
 
               <TouchableOpacity
                 style={styles.timeButton}
                 onPress={incrementPrepTime}
               >
-                <Text style={styles.timeButtonText}>+</Text>
+                <Text allowFontScaling={false}  style={styles.timeButtonText}>+</Text>
               </TouchableOpacity>
             </View>
 
@@ -273,7 +273,7 @@ const Home = () => {
               style={styles.doneButton}
               onPress={confirmPreparationTime}
             >
-              <Text style={styles.doneButtonText}>Done</Text>
+              <Text allowFontScaling={false}  style={styles.doneButtonText}>Done</Text>
             </TouchableOpacity>
           </View>
         </View>

@@ -139,37 +139,37 @@ export default function OrdersScreen() {
       case "Order Packed":
         return (
           <View style={[styles.statusIcon, styles.packingIcon]}>
-            <Text>📦</Text>
+            <Text allowFontScaling={false} >📦</Text>
           </View>
         );
       case "Order Prepared":
         return (
           <View style={[styles.statusIcon, styles.preparingIcon]}>
-            <Text>🔄</Text>
+            <Text allowFontScaling={false} >🔄</Text>
           </View>
         );
       case "Hand Over":
         return (
           <View style={[styles.statusIcon, styles.handOverIcon]}>
-            <Text>🤝</Text>
+            <Text allowFontScaling={false} >🤝</Text>
           </View>
         );
       case "Unconfirmed":
         return (
           <View style={[styles.statusIcon, styles.unconfirmedIcon]}>
-            <Text>❓</Text>
+            <Text allowFontScaling={false} >❓</Text>
           </View>
         );
       case "Picked":
         return (
           <View style={[styles.statusIcon, styles.pickedIcon]}>
-            <Text>🔍</Text>
+            <Text allowFontScaling={false} >🔍</Text>
           </View>
         );
       case "Delivered":
         return (
           <View style={[styles.statusIcon, styles.deliveredIcon]}>
-            <Text>✅</Text>
+            <Text allowFontScaling={false} >✅</Text>
           </View>
         );
       default:
@@ -196,24 +196,24 @@ export default function OrdersScreen() {
       <View style={styles.orderCard}>
         {getStatusIcon(item.status)}
         <View style={styles.orderHeader}>
-          <Text style={styles.orderLabel}>{item.status}</Text>
+          <Text allowFontScaling={false}  style={styles.orderLabel}>{item.status}</Text>
           {item.additionalInfo && (
-            <Text style={styles.preparingInfo}>
+            <Text allowFontScaling={false}  style={styles.preparingInfo}>
               {item.additionalInfo.type === "time" ? "Preparation Time: " : ""}
               {item.additionalInfo.value}
             </Text>
           )}
         </View>
         <View style={styles.orderDetails}>
-          <Text style={styles.orderId}>Order ID: {item.id}</Text>
-          <Text style={styles.orderAmount}>₹{item.total}</Text>
+          <Text allowFontScaling={false}  style={styles.orderId}>Order ID: {item.id}</Text>
+          <Text allowFontScaling={false}  style={styles.orderAmount}>₹{item.total}</Text>
         </View>
-        <Text style={styles.orderMeta}>
+        <Text allowFontScaling={false}  style={styles.orderMeta}>
           {item.date} | {item.items} items for ₹{item.total}.0
         </Text>
         <View style={styles.actionButtons}>
           <TouchableOpacity style={styles.viewButton} onPress={handleViewOrder}>
-            <Text style={styles.viewButtonText}>View Order</Text>
+            <Text allowFontScaling={false}  style={styles.viewButtonText}>View Order</Text>
           </TouchableOpacity>
 
           {!isDelivered && (
@@ -221,7 +221,7 @@ export default function OrdersScreen() {
               style={styles.actionButton}
               onPress={() => handleStatusChange(index)}
             >
-              <Text style={styles.actionButtonText}>
+              <Text allowFontScaling={false}  style={styles.actionButtonText}>
                 {buttonTextMap[item.status]}
               </Text>
             </TouchableOpacity>
@@ -236,7 +236,7 @@ export default function OrdersScreen() {
       <StatusBar barStyle="dark-content" />
       <View style={styles.header}>
         <GoBack />
-        <Text style={styles.headerTitle}>Orders</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Orders</Text>
         <TouchableOpacity style={styles.filterButton}>
           <Ionicons name="filter" size={24} color="black" />
         </TouchableOpacity>
@@ -255,7 +255,7 @@ export default function OrdersScreen() {
               style={[styles.tab, activeTab === tab && styles.activeTab]}
               onPress={() => setActiveTab(tab)}
             >
-              <Text
+              <Text allowFontScaling={false} 
                 style={[
                   styles.tabText,
                   activeTab === tab && styles.activeTabText,

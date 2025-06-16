@@ -43,10 +43,10 @@ const HotDealsList = ({ item, onAdd, cartCount, onIncrement, onDecrement }: Prod
   return (
     <View style={styles.productCard}>
       <Image source={item.image} style={styles.productImage} />
-      <Text style={styles.productTitle}>{item.title}</Text>
-      <Text style={styles.productWeight}>{item.weight}</Text>
+      <Text allowFontScaling={false}  style={styles.productTitle}>{item.title}</Text>
+      <Text allowFontScaling={false}  style={styles.productWeight}>{item.weight}</Text>
       <View style={styles.productFooter}>
-        <Text style={styles.productPrice}>₹{item.price}</Text>
+        <Text allowFontScaling={false}  style={styles.productPrice}>₹{item.price}</Text>
         {cartCount > 0 ? (
           <CartCounter
             count={cartCount}
@@ -55,7 +55,7 @@ const HotDealsList = ({ item, onAdd, cartCount, onIncrement, onDecrement }: Prod
           />
         ) : (
           <TouchableOpacity onPress={onAdd} style={styles.addButton}>
-            <Text style={styles.addButtonText}>Add</Text>
+            <Text allowFontScaling={false}  style={styles.addButtonText}>Add</Text>
           </TouchableOpacity>
         )}
       </View>

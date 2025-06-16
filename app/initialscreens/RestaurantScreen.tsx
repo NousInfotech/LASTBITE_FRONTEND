@@ -39,26 +39,26 @@ const RestaurantScreen = () => {
           source={require("../../assets/images/initialimage.png")}
           style={styles.image}
         />
-        <Text style={styles.heading}>
+        <Text allowFontScaling={false}  style={styles.heading}>
           Make your restaurant delivery-ready in 24hrs!
         </Text>
-        <Text style={styles.subText}>
+        <Text allowFontScaling={false}  style={styles.subText}>
           Simplify your submission with these handy items:
         </Text>
         <View style={styles.listContainer}>
-          <Text style={styles.listItem}>• PAN Number</Text>
-          <Text style={styles.listItem}>• GSTIN Number</Text>
-          <Text style={styles.listItem}>
+          <Text allowFontScaling={false}  style={styles.listItem}>• PAN Number</Text>
+          <Text allowFontScaling={false}  style={styles.listItem}>• GSTIN Number</Text>
+          <Text allowFontScaling={false}  style={styles.listItem}>
             • Bank Details (IFSC and Account Number)
           </Text>
-          <Text style={styles.listItem}>• FSSAI Registration Number</Text>
-          <Text style={styles.listItem}>• Your Restaurant Menu</Text>
+          <Text allowFontScaling={false}  style={styles.listItem}>• FSSAI Registration Number</Text>
+          <Text allowFontScaling={false}  style={styles.listItem}>• Your Restaurant Menu</Text>
         </View>
         <TouchableOpacity
           style={styles.button}
           onPress={() => router.push("/Screens/RegisterRestaurant")}
         >
-          <Text style={styles.buttonText}>Get Started</Text>
+          <Text allowFontScaling={false}  style={styles.buttonText}>Get Started</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

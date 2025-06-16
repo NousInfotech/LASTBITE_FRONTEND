@@ -126,7 +126,7 @@ const CheckoutPageNavigation: React.FC = () => {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <GoBack />
-        <Text style={styles.headerTitle}>Your cart</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Your cart</Text>
       </View>
 
       {/* Main content */}
@@ -135,19 +135,19 @@ const CheckoutPageNavigation: React.FC = () => {
           {/* Restaurant Info */}
           {restaurantInfo && (
             <View style={styles.restaurantInfoContainer}>
-              <Text style={styles.restaurantName}>{restaurantInfo.name}</Text>
+              <Text allowFontScaling={false}  style={styles.restaurantName}>{restaurantInfo.name}</Text>
             </View>
           )}
 
           {/* Display cart items */}
           <View style={styles.itemsContainer}>
             <View style={styles.itemsHeader}>
-              <Text style={styles.itemsTitle}>Items in your cart</Text>
+              <Text allowFontScaling={false}  style={styles.itemsTitle}>Items in your cart</Text>
               <TouchableOpacity 
                 style={styles.addMoreButton}
                 onPress={handleAddMoreItems}
               >
-                <Text style={styles.addMoreButtonText}>+ Add More</Text>
+                <Text allowFontScaling={false}  style={styles.addMoreButtonText}>+ Add More</Text>
               </TouchableOpacity>
             </View>
             
@@ -155,20 +155,20 @@ const CheckoutPageNavigation: React.FC = () => {
               items.map((item, index) => (
                 <View key={index} style={styles.itemCard}>
                   <View style={styles.itemDetails}>
-                    <Text style={styles.itemName}>{item.name}</Text>
-                    <Text style={styles.itemPrice}>${(item.price || 0).toFixed(2)} × {item.quantity}</Text>
+                    <Text allowFontScaling={false}  style={styles.itemName}>{item.name}</Text>
+                    <Text allowFontScaling={false}  style={styles.itemPrice}>${(item.price || 0).toFixed(2)} × {item.quantity}</Text>
                   </View>
-                  <Text style={styles.itemTotal}>${((item.price || 0) * item.quantity).toFixed(2)}</Text>
+                  <Text allowFontScaling={false}  style={styles.itemTotal}>${((item.price || 0) * item.quantity).toFixed(2)}</Text>
                 </View>
               ))
             ) : (
-              <Text style={styles.emptyCartText}>Your cart is empty</Text>
+              <Text allowFontScaling={false}  style={styles.emptyCartText}>Your cart is empty</Text>
             )}
             
             {items.length > 0 && (
               <View style={styles.subtotalContainer}>
-                <Text style={styles.subtotalText}>Subtotal</Text>
-                <Text style={styles.subtotalAmount}>${totalAmount.toFixed(2)}</Text>
+                <Text allowFontScaling={false}  style={styles.subtotalText}>Subtotal</Text>
+                <Text allowFontScaling={false}  style={styles.subtotalAmount}>${totalAmount.toFixed(2)}</Text>
               </View>
             )}
           </View>
@@ -196,7 +196,7 @@ const CheckoutPageNavigation: React.FC = () => {
             style={styles.checkoutButton}
             onPress={handleProceedToPayment}
           >
-            <Text style={styles.checkoutButtonText}>
+            <Text allowFontScaling={false}  style={styles.checkoutButtonText}>
               Proceed to Payment (${totalAmount.toFixed(2)})
             </Text>
           </TouchableOpacity>

@@ -42,7 +42,7 @@ const FoodMenu: React.FC<FoodMenuProps> = ({ onSelectMenu }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Flavors for Every Mood</Text>
+      <Text allowFontScaling={false}  style={styles.title}>Flavors for Every Mood</Text>
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -54,14 +54,14 @@ const FoodMenu: React.FC<FoodMenuProps> = ({ onSelectMenu }) => {
             style={styles.itemContainer} 
             onPress={() => onSelectMenu(item.name)}
           >
-            <Text
+            <Text allowFontScaling={false} 
               style={styles.icon}
               accessibilityLabel={`${item.name} icon`}
               accessible
             >
               {item.icon}
             </Text>
-            <Text style={styles.itemName}>{item.name}</Text>
+            <Text allowFontScaling={false}  style={styles.itemName}>{item.name}</Text>
           </TouchableOpacity>
         ))}
       </ScrollView>

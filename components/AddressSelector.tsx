@@ -18,14 +18,14 @@ const AddressSelector: React.FC = () => {
         {/* Question Section */}
         <View style={styles.questionContainer}>
           <Feather name="map-pin" size={20} color="#006B5E" />
-          <Text style={styles.questionText}>
+          <Text allowFontScaling={false}  style={styles.questionText}>
             Where would you like us to deliver this order?
           </Text>
         </View>
 
         {/* Button Section */}
         <TouchableOpacity style={styles.button} onPress={handlePress}>
-          <Text style={styles.buttonText}>Add or Select address</Text>
+          <Text allowFontScaling={false}  style={styles.buttonText}>Add or Select address</Text>
         </TouchableOpacity>
       </View>
 

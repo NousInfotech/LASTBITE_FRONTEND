@@ -87,10 +87,10 @@ export default function OrderSummaryScreen() {
       <View style={styles.header}>
         <GoBack />
         <View style={styles.headerTitleContainer}>
-          <Text style={styles.headerTitle}>
-            Order ID: <Text style={styles.orderNumber}>#{orderNumber}</Text>
+          <Text allowFontScaling={false}  style={styles.headerTitle}>
+            Order ID: <Text allowFontScaling={false}  style={styles.orderNumber}>#{orderNumber}</Text>
           </Text>
-          <Text style={styles.subTitle}>30/11/11 | Dine-in for ROOM</Text>
+          <Text allowFontScaling={false}  style={styles.subTitle}>30/11/11 | Dine-in for ROOM</Text>
         </View>
       </View>
 
@@ -98,20 +98,20 @@ export default function OrderSummaryScreen() {
       <View style={{ flex: 1 }}>
         {/* Items List */}
         <ScrollView style={styles.content}>
-          <Text style={styles.sectionTitle}>Items</Text>
+          <Text allowFontScaling={false}  style={styles.sectionTitle}>Items</Text>
           {items.map((item, index) => (
             <View key={index} style={styles.itemContainer}>
               <View style={styles.itemDetails}>
                 <View style={styles.itemNameContainer}>
-                  <Text style={styles.itemName}>{item.name}</Text>
-                  <Text style={styles.quantity}>x{item.quantity}</Text>
+                  <Text allowFontScaling={false}  style={styles.itemName}>{item.name}</Text>
+                  <Text allowFontScaling={false}  style={styles.quantity}>x{item.quantity}</Text>
                 </View>
                 <View style={styles.inline}>
                   <Image
                     source={item.image}
                     style={{ width: 30, height: 30, marginRight: 8 }}
                   />
-                  <Text style={styles.itemPrice}>
+                  <Text allowFontScaling={false}  style={styles.itemPrice}>
                     ₹{(item.price * item.quantity).toFixed(2)}
                   </Text>
                 </View>
@@ -123,30 +123,30 @@ export default function OrderSummaryScreen() {
         {/* Bill Summary */}
         <View style={styles.billSummary}>
           <View style={styles.billRow}>
-            <Text style={styles.billLabel}>Item Total</Text>
-            <Text style={styles.billValue}>₹{itemTotal.toFixed(2)}</Text>
+            <Text allowFontScaling={false}  style={styles.billLabel}>Item Total</Text>
+            <Text allowFontScaling={false}  style={styles.billValue}>₹{itemTotal.toFixed(2)}</Text>
           </View>
           <View style={styles.billRow}>
-            <Text style={styles.billLabel}>Packaging Charges</Text>
-            <Text style={styles.billValue}>
+            <Text allowFontScaling={false}  style={styles.billLabel}>Packaging Charges</Text>
+            <Text allowFontScaling={false}  style={styles.billValue}>
               ₹{packagingCharges.toFixed(2)}
             </Text>
           </View>
           <View style={styles.billRow}>
-            <Text style={styles.billLabel}>GST</Text>
-            <Text style={styles.billValue}>₹{gst.toFixed(2)}</Text>
+            <Text allowFontScaling={false}  style={styles.billLabel}>GST</Text>
+            <Text allowFontScaling={false}  style={styles.billValue}>₹{gst.toFixed(2)}</Text>
           </View>
           <View style={styles.billRow}>
-            <Text style={styles.billLabel}>Discount</Text>
-            <Text style={styles.billValue}>-₹{discount.toFixed(2)}</Text>
+            <Text allowFontScaling={false}  style={styles.billLabel}>Discount</Text>
+            <Text allowFontScaling={false}  style={styles.billValue}>-₹{discount.toFixed(2)}</Text>
           </View>
           <View style={styles.billRow}>
-            <Text style={styles.billLabel}>Discount Description</Text>
-            <Text style={styles.discountLabel}>{discountPercentage}</Text>
+            <Text allowFontScaling={false}  style={styles.billLabel}>Discount Description</Text>
+            <Text allowFontScaling={false}  style={styles.discountLabel}>{discountPercentage}</Text>
           </View>
           <View style={styles.totalRow}>
-            <Text style={styles.totalLabel}>Bill Total</Text>
-            <Text style={styles.totalValue}>₹{billTotal.toFixed(2)}</Text>
+            <Text allowFontScaling={false}  style={styles.totalLabel}>Bill Total</Text>
+            <Text allowFontScaling={false}  style={styles.totalValue}>₹{billTotal.toFixed(2)}</Text>
           </View>
         </View>
 
@@ -156,7 +156,7 @@ export default function OrderSummaryScreen() {
             style={styles.confirmButton}
             onPress={handleStatusPress}
           >
-            <Text style={styles.confirmButtonText}>{orderStatus}</Text>
+            <Text allowFontScaling={false}  style={styles.confirmButtonText}>{orderStatus}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -170,7 +170,7 @@ export default function OrderSummaryScreen() {
       >
         <View style={styles.modalOverlay}>
           <View style={styles.modalBox}>
-            <Text style={styles.modalTitle}>
+            <Text allowFontScaling={false}  style={styles.modalTitle}>
               How long will this take to prepare?
             </Text>
             <View style={styles.timePicker}>
@@ -178,18 +178,18 @@ export default function OrderSummaryScreen() {
                 onPress={decrementTime}
                 style={styles.timeButton}
               >
-                <Text style={styles.timeButtonText}>−</Text>
+                <Text allowFontScaling={false}  style={styles.timeButtonText}>−</Text>
               </TouchableOpacity>
-              <Text style={styles.timeText}>{prepTime} MINS</Text>
+              <Text allowFontScaling={false}  style={styles.timeText}>{prepTime} MINS</Text>
               <TouchableOpacity
                 onPress={incrementTime}
                 style={styles.timeButton}
               >
-                <Text style={styles.timeButtonText}>+</Text>
+                <Text allowFontScaling={false}  style={styles.timeButtonText}>+</Text>
               </TouchableOpacity>
             </View>
             <TouchableOpacity style={styles.doneButton} onPress={handleDone}>
-              <Text style={styles.doneButtonText}>Done</Text>
+              <Text allowFontScaling={false}  style={styles.doneButtonText}>Done</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -204,8 +204,8 @@ export default function OrderSummaryScreen() {
       >
         <View style={styles.modalOverlay}>
           <View style={styles.modalBox}>
-            <Text style={styles.modalTitle}>Enter Verification Code</Text>
-            <TextInput
+            <Text allowFontScaling={false}  style={styles.modalTitle}>Enter Verification Code</Text>
+           <TextInput allowFontScaling={false} 
               style={styles.input}
               placeholder="Verification Code"
               value={verificationCode}
@@ -216,7 +216,7 @@ export default function OrderSummaryScreen() {
               style={styles.doneButton}
               onPress={() => setVerificationModalVisible(false)}
             >
-              <Text style={styles.doneButtonText}>Submit</Text>
+              <Text allowFontScaling={false}  style={styles.doneButtonText}>Submit</Text>
             </TouchableOpacity>
           </View>
         </View>

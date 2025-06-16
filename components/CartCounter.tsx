@@ -13,11 +13,11 @@ const CartCounter = ({ count, onIncrement, onDecrement }: CartCounterProps) => (
   
   <View style={styles.counterContainer}>
     <TouchableOpacity onPress={onDecrement} style={styles.counterButton}>
-      <Text style={styles.counterButtonText}>-</Text>
+      <Text allowFontScaling={false}  style={styles.counterButtonText}>-</Text>
     </TouchableOpacity>
-    <Text style={styles.counterText}>{count}</Text>
+    <Text allowFontScaling={false}  style={styles.counterText}>{count}</Text>
     <TouchableOpacity onPress={onIncrement} style={styles.counterButton}>
-      <Text style={styles.counterButtonText}>+</Text>
+      <Text allowFontScaling={false}  style={styles.counterButtonText}>+</Text>
     </TouchableOpacity>
   </View>
 );

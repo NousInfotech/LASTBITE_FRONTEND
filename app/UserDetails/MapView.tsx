@@ -78,7 +78,7 @@ const LocationSelector: React.FC<LocationSelectorProps> = ({
       {/* Header */}
       <View style={styles.header}>
         <GoBack />
-        <Text style={styles.headerTitle}>Select delivery location</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Select delivery location</Text>
       </View>
 
       {/* Search Bar */}
@@ -110,7 +110,7 @@ const LocationSelector: React.FC<LocationSelectorProps> = ({
         onPress={handleCurrentLocation}
       >
         <Ionicons name="locate" size={20} color="#006B5E" />
-        <Text style={styles.currentLocationText}>Use Current Location</Text>
+        <Text allowFontScaling={false}  style={styles.currentLocationText}>Use Current Location</Text>
       </TouchableOpacity>
 
       {/* Bottom Section */}
@@ -119,15 +119,15 @@ const LocationSelector: React.FC<LocationSelectorProps> = ({
           <View style={styles.addressLeft}>
             <MaterialIcons name="location-on" size={24} color="#006B5E" />
             <View style={styles.addressTextContainer}>
-              <Text style={styles.streetName}>{address.street}</Text>
-              <Text style={styles.addressDetails}>{address.details}</Text>
+              <Text allowFontScaling={false}  style={styles.streetName}>{address.street}</Text>
+              <Text allowFontScaling={false}  style={styles.addressDetails}>{address.details}</Text>
             </View>
           </View>
           <TouchableOpacity
             style={styles.changeButton}
             onPress={handleChangeLocation}
           >
-            <Text style={styles.changeButtonText}>Change</Text>
+            <Text allowFontScaling={false}  style={styles.changeButtonText}>Change</Text>
           </TouchableOpacity>
         </View>
 
@@ -135,12 +135,12 @@ const LocationSelector: React.FC<LocationSelectorProps> = ({
           style={styles.confirmButton}
           onPress={handleConfirmLocation}
         >
-          <Text style={styles.confirmButtonText}>Confirm Location</Text>
+          <Text allowFontScaling={false}  style={styles.confirmButtonText}>Confirm Location</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
   ) : (
-    <Text>Loading fonts...</Text> // Fallback until fonts are loaded
+    <Text allowFontScaling={false} >Loading fonts...</Text> // Fallback until fonts are loaded
   );
 };
 

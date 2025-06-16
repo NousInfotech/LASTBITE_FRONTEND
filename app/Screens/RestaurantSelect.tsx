@@ -496,7 +496,7 @@ const RestaurantSelect = () => {
   if (!restaurant) {
     return (
       <SafeAreaView style={styles.container}>
-        <Text style={styles.headerTitle}>Loading...</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Loading...</Text>
       </SafeAreaView>
     );
   }
@@ -558,9 +558,9 @@ const RestaurantSelect = () => {
               ]}
             >
               <View style={wishlistStyles.header}>
-                <Text style={wishlistStyles.title}>Add to Your Wishlist</Text>
+                <Text allowFontScaling={false}  style={wishlistStyles.title}>Add to Your Wishlist</Text>
                 <TouchableOpacity onPress={onClose} style={wishlistStyles.closeButton}>
-                  <Text style={wishlistStyles.closeButtonText}>✕</Text>
+                  <Text allowFontScaling={false}  style={wishlistStyles.closeButtonText}>✕</Text>
                 </TouchableOpacity>
               </View>
               
@@ -569,12 +569,12 @@ const RestaurantSelect = () => {
                 onPress={onCreateNewList}
               >
                 <View style={wishlistStyles.plusIconContainer}>
-                  <Text style={wishlistStyles.plusIcon}>+</Text>
+                  <Text allowFontScaling={false}  style={wishlistStyles.plusIcon}>+</Text>
                 </View>
-                <Text style={wishlistStyles.createNewListText}>Create New List</Text>
+                <Text allowFontScaling={false}  style={wishlistStyles.createNewListText}>Create New List</Text>
               </TouchableOpacity>
               
-              <Text style={wishlistStyles.listSectionTitle}>Your Lists</Text>
+              <Text allowFontScaling={false}  style={wishlistStyles.listSectionTitle}>Your Lists</Text>
               
               {wishlistLists.slice(0, 1).map(list => (
                 <TouchableOpacity 
@@ -583,7 +583,7 @@ const RestaurantSelect = () => {
                   onPress={() => onToggleList(list.id)}
                 >
                   <Image source={list.image} style={wishlistStyles.listItemImage} />
-                  <Text style={wishlistStyles.listItemText}>{list.name}</Text>
+                  <Text allowFontScaling={false}  style={wishlistStyles.listItemText}>{list.name}</Text>
                   <View style={[
                     wishlistStyles.checkbox,
                     selectedLists.includes(list.id) && wishlistStyles.checkboxSelected
@@ -595,7 +595,7 @@ const RestaurantSelect = () => {
                 </TouchableOpacity>
               ))}
               
-              <Text style={wishlistStyles.listSectionTitle}>Suggested List</Text>
+              <Text allowFontScaling={false}  style={wishlistStyles.listSectionTitle}>Suggested List</Text>
               
               {wishlistLists.slice(1).map(list => (
                 <TouchableOpacity 
@@ -604,7 +604,7 @@ const RestaurantSelect = () => {
                   onPress={() => onToggleList(list.id)}
                 >
                   <Image source={list.image} style={wishlistStyles.listItemImage} />
-                  <Text style={wishlistStyles.listItemText}>{list.name}</Text>
+                  <Text allowFontScaling={false}  style={wishlistStyles.listItemText}>{list.name}</Text>
                   <View style={[
                     wishlistStyles.checkbox,
                     selectedLists.includes(list.id) && wishlistStyles.checkboxSelected
@@ -620,7 +620,7 @@ const RestaurantSelect = () => {
                 style={wishlistStyles.saveButton}
                 onPress={onSave}
               >
-                <Text style={wishlistStyles.saveButtonText}>Save</Text>
+                <Text allowFontScaling={false}  style={wishlistStyles.saveButtonText}>Save</Text>
               </TouchableOpacity>
             </Animated.View>
           </TouchableWithoutFeedback>
@@ -661,7 +661,7 @@ const RestaurantSelect = () => {
           onPress={() => setIsFilterVisible(true)}
         >
           <Ionicons name="funnel-outline" size={18} color="black" />
-          <Text style={styles.buttonText}>Filter</Text>
+          <Text allowFontScaling={false}  style={styles.buttonText}>Filter</Text>
           <Ionicons
             name={isFilterOpen ? "caret-up" : "caret-down"}
             size={18}
@@ -685,7 +685,7 @@ const RestaurantSelect = () => {
             onPress={() => toggleSelection(filter)}
           >
             <Image source={filterImages[filter]} style={styles.filterIcon} />
-            <Text
+            <Text allowFontScaling={false} 
               style={[
                 styles.buttonText,
                 selectedFilters.includes(filter) && { color: "#01615F" },
@@ -711,7 +711,7 @@ const RestaurantSelect = () => {
           style={styles.checkoutButton}
           onPress={handleCheckout}
         >
-          <Text style={styles.checkoutText}>
+          <Text allowFontScaling={false}  style={styles.checkoutText}>
             {`Checkout ${totalItems} item${totalItems > 1 ? "s" : ""}`}
           </Text>
         </TouchableOpacity>
@@ -737,9 +737,9 @@ const RestaurantSelect = () => {
           />
         </TouchableOpacity>
         <View style={styles.menuDetails}>
-          <Text style={styles.menuName}>{item.name}</Text>
-          <Text style={styles.menuCategory}>{item.category}</Text>
-          <Text style={styles.menuPrice}>${item.price.toFixed(2)}</Text>
+          <Text allowFontScaling={false}  style={styles.menuName}>{item.name}</Text>
+          <Text allowFontScaling={false}  style={styles.menuCategory}>{item.category}</Text>
+          <Text allowFontScaling={false}  style={styles.menuPrice}>${item.price.toFixed(2)}</Text>
         </View>
         <View style={styles.addButtonContainer}>
           {count === 0 ? (
@@ -747,7 +747,7 @@ const RestaurantSelect = () => {
               style={styles.addButton}
               onPress={() => handleAddToCart(item)}
             >
-              <Text style={styles.addButtonText}>Add</Text>
+              <Text allowFontScaling={false}  style={styles.addButtonText}>Add</Text>
             </TouchableOpacity>
           ) : (
             <View style={styles.counterContainer}>
@@ -755,14 +755,14 @@ const RestaurantSelect = () => {
                 style={styles.minusButton}
                 onPress={() => handleRemoveFromCart(item)}
               >
-                <Text style={styles.addButtonText}>-</Text>
+                <Text allowFontScaling={false}  style={styles.addButtonText}>-</Text>
               </TouchableOpacity>
-              <Text style={styles.counterText}>{count}</Text>
+              <Text allowFontScaling={false}  style={styles.counterText}>{count}</Text>
               <TouchableOpacity
                 style={styles.plusButton}
                 onPress={() => handleAddToCart(item)}
               >
-                <Text style={styles.addButtonText}>+</Text>
+                <Text allowFontScaling={false}  style={styles.addButtonText}>+</Text>
               </TouchableOpacity>
             </View>
           )}
@@ -792,7 +792,7 @@ const RestaurantSelect = () => {
               <Feather name="arrow-left" size={24} color="black" />
             </TouchableOpacity>
 
-            <Text style={styles.title} numberOfLines={1}>
+            <Text allowFontScaling={false}  style={styles.title} numberOfLines={1}>
               {restaurant.name}
             </Text>
 
@@ -817,7 +817,7 @@ const RestaurantSelect = () => {
                   color={isRestaurantFavorite ? "#FF375F" : "black"}
                   style={styles.icon}
                 />
-                <Text style={styles.dropdownText}>
+                <Text allowFontScaling={false}  style={styles.dropdownText}>
                   {isRestaurantFavorite ? "Remove from favorites" : "Add to favorites"}
                 </Text>
               </Pressable>
@@ -831,7 +831,7 @@ const RestaurantSelect = () => {
                   color="black"
                   style={styles.icon}
                 />
-                <Text style={styles.dropdownText}>Share</Text>
+                <Text allowFontScaling={false}  style={styles.dropdownText}>Share</Text>
               </Pressable>
             </View>
           )}
@@ -841,7 +841,7 @@ const RestaurantSelect = () => {
         {isRestaurantFavorite && (
           <View style={styles.favoriteBadge}>
             <FontAwesome name="heart" size={14} color="#fff" />
-            <Text style={styles.favoriteBadgeText}>Favorite</Text>
+            <Text allowFontScaling={false}  style={styles.favoriteBadgeText}>Favorite</Text>
           </View>
         )}
 
@@ -864,7 +864,7 @@ const RestaurantSelect = () => {
                 style={styles.categoryChip}
                 onPress={() => toggleCategory(category)}
               >
-                <Text style={styles.categoryText}>{category}</Text>
+                <Text allowFontScaling={false}  style={styles.categoryText}>{category}</Text>
                 <Ionicons
                   name={
                     expandedCategories.has(category) ? "caret-up" : "caret-down"
@@ -885,7 +885,7 @@ const RestaurantSelect = () => {
           onPress={handleOpenModal}
         >
           <Image source={require("./../../assets/images/Restaurant.png")} />
-          <Text style={styles.floatbuttonText}>Menu</Text>
+          <Text allowFontScaling={false}  style={styles.floatbuttonText}>Menu</Text>
         </TouchableOpacity>
 
         {/* Wishlist Popup */}
@@ -913,7 +913,7 @@ const RestaurantSelect = () => {
           <View style={styles.modalBackground}>
             <TouchableWithoutFeedback>
               <View style={styles.modalContainer}>
-                <Text style={styles.modalTitle}>Menu Categories</Text>
+                <Text allowFontScaling={false}  style={styles.modalTitle}>Menu Categories</Text>
                 <FlatList
                   data={restaurant?.categories}
                   keyExtractor={(item) => item}
@@ -921,8 +921,8 @@ const RestaurantSelect = () => {
                     const itemsCount = getItemsCountPerCategory()[item];
                     return (
                       <View style={styles.categoryItem}>
-                        <Text style={styles.categoryText}>{item}</Text>
-                        <Text style={styles.itemsCountText}>
+                        <Text allowFontScaling={false}  style={styles.categoryText}>{item}</Text>
+                        <Text allowFontScaling={false}  style={styles.itemsCountText}>
                           ({itemsCount})
                         </Text>
                       </View>

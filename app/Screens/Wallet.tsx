@@ -37,7 +37,7 @@ const Wallet = () => {
   if (!fontsLoaded) {
     return (
       <SafeAreaView style={styles.loadingContainer}>
-        <Text>Loading...</Text>
+        <Text allowFontScaling={false} >Loading...</Text>
       </SafeAreaView>
     );
   }
@@ -56,7 +56,7 @@ const Wallet = () => {
         <TouchableOpacity>
           <GoBack />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Select a Wallet</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Select a Wallet</Text>
       </View>
 
       {/* Wallet List */}
@@ -64,7 +64,7 @@ const Wallet = () => {
         {wallets.map((wallet) => (
           <View key={wallet.id} style={styles.walletItem}>
             <Image source={wallet.icon} style={styles.walletIcon} />
-            <Text style={styles.walletName}>{wallet.name}</Text>
+            <Text allowFontScaling={false}  style={styles.walletName}>{wallet.name}</Text>
             <TouchableOpacity
               style={styles.linkButton}
               onPress={() =>
@@ -76,7 +76,7 @@ const Wallet = () => {
                 })
               }
             >
-              <Text style={styles.linkButtonText}>Link Account</Text>
+              <Text allowFontScaling={false}  style={styles.linkButtonText}>Link Account</Text>
             </TouchableOpacity>
           </View>
         ))}

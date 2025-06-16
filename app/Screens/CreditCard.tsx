@@ -59,25 +59,25 @@ const CreditCard = () => {
         <TouchableOpacity>
           <GoBack />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>HDFC Bank Credit Card</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>HDFC Bank Credit Card</Text>
       </View>
 
       {/* Content */}
       <View style={styles.content}>
-        <Text style={styles.title}>Your Mobile & PAN number</Text>
-        <Text style={styles.subText}>An OTP will be sent to this mobile number</Text>
+        <Text allowFontScaling={false}  style={styles.title}>Your Mobile & PAN number</Text>
+        <Text allowFontScaling={false}  style={styles.subText}>An OTP will be sent to this mobile number</Text>
 
         <View style={styles.inputContainer}>
-            <Text style={styles.label}>Mobile Number</Text>
-          <TextInput
+            <Text allowFontScaling={false}  style={styles.label}>Mobile Number</Text>
+         <TextInput allowFontScaling={false} 
             style={styles.input}
             placeholder="Your Mobile Number"
             value={phoneNumber}
             onChangeText={setPhoneNumber}
             keyboardType="phone-pad"
           />
-          <Text style={styles.label}>PAN Number</Text>
-          <TextInput
+          <Text allowFontScaling={false}  style={styles.label}>PAN Number</Text>
+         <TextInput allowFontScaling={false} 
             style={styles.input}
             placeholder="Your PAN Number"
             value={panNumber}
@@ -94,14 +94,14 @@ const CreditCard = () => {
           onPress={handleContinue}
           disabled={!isButtonActive}
         >
-          <Text style={styles.buttonText}>Next</Text>
+          <Text allowFontScaling={false}  style={styles.buttonText}>Next</Text>
         </TouchableOpacity>
         </View>
         <View style={styles.bankInfoContainer}>
-          <Text style={styles.bankInfoTitle}>
+          <Text allowFontScaling={false}  style={styles.bankInfoTitle}>
             Having an HDFC Bank savings account/card?
           </Text>
-          <Text style={styles.bankInfoSubText}>
+          <Text allowFontScaling={false}  style={styles.bankInfoSubText}>
             Ensure mobile number matches your bank records by logging in here
             with registered mobile number.
           </Text>
@@ -118,7 +118,7 @@ const CreditCard = () => {
           onPress={handleContinue}
           disabled={!isButtonActive}
         >
-          <Text style={styles.buttonText}>Next</Text>
+          <Text allowFontScaling={false}  style={styles.buttonText}>Next</Text>
         </TouchableOpacity>
       </View> */}
 
@@ -136,17 +136,17 @@ const CreditCard = () => {
               { transform: [{ translateY: slideAnim }] },
             ]}
           >
-            <Text style={styles.modalTitle}>Terms of Service</Text>
-            <Text style={styles.modalText}>
+            <Text allowFontScaling={false}  style={styles.modalTitle}>Terms of Service</Text>
+            <Text allowFontScaling={false}  style={styles.modalText}>
             I have read, understood, and agree to Consent Terms and General Terms & Conditions, Most Important Terms & Conditions, Card Member Agreement, Key Fact Statement of HDFC Bank Ltd.
             </Text>
-            <Text style={styles.modalText}>
+            <Text allowFontScaling={false}  style={styles.modalText}>
             I hereby provide my express consent to HDFC Bank Limited ("Bank"). for collecting, disclosing, sharing, displaying, and transferring my personal, demographic information for my credit card application.
             </Text>
-            <Text style={styles.modalText}>
+            <Text allowFontScaling={false}  style={styles.modalText}>
             By submitting, I confirm that I am an Indian above 18 years of age, residing in India, and have read & agreed to HDFC Bank Privacy Policy and T&C. I agree to receive calls, SMS, WhatsApp messages from HDFC Bank for personalized offerings regarding new products.
             </Text>
-            <Text style={styles.modalText}>
+            <Text allowFontScaling={false}  style={styles.modalText}>
             I agree to receive cashback benefits of the card in the form of Statement Credit and here are its terms & conditions.
             </Text>
             <View style={styles.modalButtons}>
@@ -154,7 +154,7 @@ const CreditCard = () => {
                 style={styles.cancelButton}
                 onPress={() => setModalVisible(false)}
               >
-                <Text style={styles.cancelButtonText}>Cancel</Text>
+                <Text allowFontScaling={false}  style={styles.cancelButtonText}>Cancel</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.agreeButton}
@@ -166,7 +166,7 @@ const CreditCard = () => {
                   });
                 }}
               >
-                <Text style={styles.agreeButtonText}>I agree</Text>
+                <Text allowFontScaling={false}  style={styles.agreeButtonText}>I agree</Text>
               </TouchableOpacity>
             </View>
           </Animated.View>

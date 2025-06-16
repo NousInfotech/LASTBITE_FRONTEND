@@ -54,12 +54,12 @@ const SuccessToast: React.FC<ToastProps> = ({
       <View style={styles.toast}>
         <MaterialIcons name="check-circle" size={40} color="green" />
         <View style={styles.toastTextContainer}>
-          <Text
+          <Text allowFontScaling={false} 
             style={[styles.toastMessage, { fontFamily: "Poppins-SemiBold" }]}
           >
             {message}
           </Text>
-          <Text
+          <Text allowFontScaling={false} 
             style={[styles.toastSubMessage, { fontFamily: "Poppins-Regular" }]}
           >
             {subMessage}

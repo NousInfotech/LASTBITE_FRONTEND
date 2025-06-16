@@ -51,7 +51,7 @@ export default function ProductDetail() {
           />
           {outOfStock && (
             <View style={styles.outOfStockOverlay}>
-              <Text style={styles.outOfStockText}>Out of Stock</Text>
+              <Text allowFontScaling={false}  style={styles.outOfStockText}>Out of Stock</Text>
             </View>
           )}
         </View>
@@ -60,19 +60,19 @@ export default function ProductDetail() {
         <View style={styles.productInfoContainer}>
           <View style={styles.productInfoHeader}>
             <View>
-              <Text style={[
+              <Text allowFontScaling={false}  style={[
                 styles.productTitle,
                 outOfStock && styles.outOfStockText
               ]}>
                 {name}
               </Text>
-              <Text style={[
+              <Text allowFontScaling={false}  style={[
                 styles.productPrice,
                 outOfStock && styles.outOfStockPrice
               ]}>
                 {price}
               </Text>
-              <Text style={styles.productDescription}>
+              <Text allowFontScaling={false}  style={styles.productDescription}>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
               </Text>
             </View>
@@ -80,29 +80,29 @@ export default function ProductDetail() {
               <View style={styles.quantityContainer}>
                 {outOfStock ? (
                   <>
-                    <Text style={styles.quantityText}>Currently Unavailable</Text>
+                    <Text allowFontScaling={false}  style={styles.quantityText}>Currently Unavailable</Text>
                     <TouchableOpacity 
                       style={styles.soldOutButton}
                       onPress={handleSoldOutPress}
                     >
-                      <Text style={styles.soldOutButtonText}>SOLD OUT</Text>
+                      <Text allowFontScaling={false}  style={styles.soldOutButtonText}>SOLD OUT</Text>
                     </TouchableOpacity>
                   </>
                 ) : (
                   <>
-                    <Text style={styles.quantityText}>Quantity (kg)</Text>
+                    <Text allowFontScaling={false}  style={styles.quantityText}>Quantity (kg)</Text>
                     {quantity === 0 ? (
                       <TouchableOpacity style={styles.addButton} onPress={incrementQuantity}>
-                        <Text style={styles.buttonText}>Add</Text>
+                        <Text allowFontScaling={false}  style={styles.buttonText}>Add</Text>
                       </TouchableOpacity>
                     ) : (
                       <View style={styles.counterContainer}>
                         <TouchableOpacity style={styles.counterButton} onPress={decrementQuantity}>
-                          <Text style={styles.counterButtonText}>-</Text>
+                          <Text allowFontScaling={false}  style={styles.counterButtonText}>-</Text>
                         </TouchableOpacity>
-                        <Text style={styles.counterText}>{quantity}</Text>
+                        <Text allowFontScaling={false}  style={styles.counterText}>{quantity}</Text>
                         <TouchableOpacity style={styles.counterButton} onPress={incrementQuantity}>
-                          <Text style={styles.counterButtonText}>+</Text>
+                          <Text allowFontScaling={false}  style={styles.counterButtonText}>+</Text>
                         </TouchableOpacity>
                       </View>
                     )}
@@ -114,37 +114,37 @@ export default function ProductDetail() {
 
           {/* Product Details */}
           <View style={styles.detailsContainer}>
-            <Text style={styles.detailsTitle}>Product details</Text>
+            <Text allowFontScaling={false}  style={styles.detailsTitle}>Product details</Text>
             
             <View style={styles.detailRow}>
-              <Text style={styles.detailLabel}>Category:</Text>
-              <Text style={styles.detailValue}>Fruits</Text>
+              <Text allowFontScaling={false}  style={styles.detailLabel}>Category:</Text>
+              <Text allowFontScaling={false}  style={styles.detailValue}>Fruits</Text>
             </View>
             
             <View style={styles.detailRow}>
-              <Text style={styles.detailLabel}>Seller:</Text>
-              <Text style={styles.detailValue}>Fresh Farm Organics</Text>
+              <Text allowFontScaling={false}  style={styles.detailLabel}>Seller:</Text>
+              <Text allowFontScaling={false}  style={styles.detailValue}>Fresh Farm Organics</Text>
             </View>
             
             <View style={styles.detailRow}>
-              <Text style={styles.detailLabel}>Country of Origin:</Text>
-              <Text style={styles.detailValue}></Text>
+              <Text allowFontScaling={false}  style={styles.detailLabel}>Country of Origin:</Text>
+              <Text allowFontScaling={false}  style={styles.detailValue}></Text>
             </View>
             
             <View style={styles.detailRow}>
-              <Text style={styles.detailLabel}>Storage:</Text>
-              <Text style={styles.detailValue}>Keep it cool, dry place or refrigerate for longevity</Text>
+              <Text allowFontScaling={false}  style={styles.detailLabel}>Storage:</Text>
+              <Text allowFontScaling={false}  style={styles.detailValue}>Keep it cool, dry place or refrigerate for longevity</Text>
             </View>
             
             <View style={styles.detailRow}>
-              <Text style={styles.detailLabel}>Delivery Time:</Text>
-              <Text style={styles.detailValue}>1-2 days</Text>
+              <Text allowFontScaling={false}  style={styles.detailLabel}>Delivery Time:</Text>
+              <Text allowFontScaling={false}  style={styles.detailValue}>1-2 days</Text>
             </View>
 
             {outOfStock && (
               <View style={styles.detailRow}>
-                <Text style={styles.detailLabel}>Availability:</Text>
-                <Text style={styles.outOfStockDetailValue}>Out of Stock</Text>
+                <Text allowFontScaling={false}  style={styles.detailLabel}>Availability:</Text>
+                <Text allowFontScaling={false}  style={styles.outOfStockDetailValue}>Out of Stock</Text>
               </View>
             )}
           </View>

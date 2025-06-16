@@ -39,11 +39,11 @@ const CameraScreen: React.FC = () => {
   };
 
   if (hasPermission === null) {
-    return <View style={styles.container}><Text>Requesting camera permission...</Text></View>;
+    return <View style={styles.container}><Text allowFontScaling={false} >Requesting camera permission...</Text></View>;
   }
 
   if (hasPermission === false) {
-    return <View style={styles.container}><Text>No access to camera</Text></View>;
+    return <View style={styles.container}><Text allowFontScaling={false} >No access to camera</Text></View>;
   }
 
   return (
@@ -65,7 +65,7 @@ const CameraScreen: React.FC = () => {
               setType(type === CameraType.front ? CameraType.back : CameraType.front);
             }}
           >
-            <Text style={styles.flipText}>Flip</Text>
+            <Text allowFontScaling={false}  style={styles.flipText}>Flip</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -80,8 +80,8 @@ const CameraScreen: React.FC = () => {
       </Camera>
 
       <View style={styles.header}>
-        <Text style={styles.headerText}>Face Verification</Text>
-        <Text style={styles.subHeaderText}>Position your face within the frame</Text>
+        <Text allowFontScaling={false}  style={styles.headerText}>Face Verification</Text>
+        <Text allowFontScaling={false}  style={styles.subHeaderText}>Position your face within the frame</Text>
       </View>
     </View>
   );

@@ -23,7 +23,7 @@ const TitleComponent: React.FC<TitleComponentProps> = ({ title }) => {
     return null;
   }
   return (
-    <Text style={[styles.title, { fontFamily: "Poppins-SemiBold" }]}>
+    <Text allowFontScaling={false}  style={[styles.title, { fontFamily: "Poppins-SemiBold" }]}>
       {title}
     </Text>
   );

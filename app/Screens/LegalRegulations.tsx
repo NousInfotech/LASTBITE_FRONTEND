@@ -69,7 +69,7 @@ const LegalRegulations = () => {
         <TouchableOpacity>
           <GoBack />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Legal Terms & Conditions</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Legal Terms & Conditions</Text>
       </View>
 
       <ScrollView style={styles.content}>
@@ -80,7 +80,7 @@ const LegalRegulations = () => {
               onPress={() => toggleItem(faq.id)}
               activeOpacity={0.7}
             >
-              <Text style={styles.questionText}>{faq.question}</Text>
+              <Text allowFontScaling={false}  style={styles.questionText}>{faq.question}</Text>
               <Ionicons
                 name={expandedItem === faq.id ? "chevron-up" : "chevron-down"}
                 size={20}
@@ -90,7 +90,7 @@ const LegalRegulations = () => {
             
             {expandedItem === faq.id && (
               <View style={styles.answerContainer}>
-                <Text style={styles.answerText}>{faq.answer}</Text>
+                <Text allowFontScaling={false}  style={styles.answerText}>{faq.answer}</Text>
               </View>
             )}
           </View>

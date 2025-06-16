@@ -54,19 +54,19 @@ const LogOut = () => {
         <TouchableOpacity>
           <GoBack />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Logout Options</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Logout Options</Text>
       </View>
 
       {/* Current Device Section */}
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Current Device</Text>
+        <Text allowFontScaling={false}  style={styles.sectionTitle}>Current Device</Text>
         <View style={styles.deviceInfo}>
           <View style={styles.deviceDetails}>
-            <Text style={styles.deviceName}>LYNX X5088KLP</Text>
-            <Text style={styles.deviceStatus}>Android, Active Now</Text>
+            <Text allowFontScaling={false}  style={styles.deviceName}>LYNX X5088KLP</Text>
+            <Text allowFontScaling={false}  style={styles.deviceStatus}>Android, Active Now</Text>
           </View>
           <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-            <Text style={styles.logoutButtonText}>LOGOUT</Text>
+            <Text allowFontScaling={false}  style={styles.logoutButtonText}>LOGOUT</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -80,21 +80,21 @@ const LogOut = () => {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Are you sure want to Logout?</Text>
+            <Text allowFontScaling={false}  style={styles.modalTitle}>Are you sure want to Logout?</Text>
 
             <View style={styles.modalButtons}>
               <TouchableOpacity
                 style={[styles.button, styles.cancelButton]}
                 onPress={() => setModalVisible(false)}
               >
-                <Text style={styles.cancelbuttonText}>No</Text>
+                <Text allowFontScaling={false}  style={styles.cancelbuttonText}>No</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
                 style={[styles.button, styles.confirmButton]}
                 onPress={confirmLogout}
               >
-                <Text style={[styles.buttonText, { color: "#FFF" }]}>
+                <Text allowFontScaling={false}  style={[styles.buttonText, { color: "#FFF" }]}>
                   Yes! Logout
                 </Text>
               </TouchableOpacity>

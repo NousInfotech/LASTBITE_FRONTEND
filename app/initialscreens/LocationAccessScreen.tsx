@@ -57,10 +57,10 @@ const LocationAccessScreen = () => {
       <View style={styles.container}>
         <View style={styles.contentContainer}>
           <View style={styles.headerContainer}>
-            <Text style={[styles.title, { fontFamily: "Poppins-Bold" }]}>
+            <Text allowFontScaling={false}  style={[styles.title, { fontFamily: "Poppins-Bold" }]}>
               What's your location?
             </Text>
-            <Text style={[styles.subtitle, { fontFamily: "Poppins-Regular" }]}>
+            <Text allowFontScaling={false}  style={[styles.subtitle, { fontFamily: "Poppins-Regular" }]}>
               We need your location to show available restaurants & products.
             </Text>
           </View>
@@ -90,7 +90,7 @@ const LocationAccessScreen = () => {
               ]}
               activeOpacity={0.8}
             >
-              <Text
+              <Text allowFontScaling={false} 
                 style={[
                   styles.borderButtonText,
                   { fontFamily: "Poppins-Medium" },

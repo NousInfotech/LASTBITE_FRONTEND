@@ -106,14 +106,14 @@ export default function OrderSummaryScreen({ navigation }: Props) {
       <View style={styles.header}>
         <GoBack />
         <View style={styles.headerTitleContainer}>
-          <Text style={styles.headerTitle}>
-            Order ID: <Text style={styles.orderNumber}>#{orderNumber}</Text>
+          <Text allowFontScaling={false}  style={styles.headerTitle}>
+            Order ID: <Text allowFontScaling={false}  style={styles.orderNumber}>#{orderNumber}</Text>
           </Text>
-          <Text style={styles.subTitle}>06:19 PM | Deliver at: abc</Text>
+          <Text allowFontScaling={false}  style={styles.subTitle}>06:19 PM | Deliver at: abc</Text>
         </View>
         <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
           <TouchableOpacity style={styles.rejectButton}>
-            <Text style={styles.rejectButtonText}>X Reject</Text>
+            <Text allowFontScaling={false}  style={styles.rejectButtonText}>X Reject</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -125,28 +125,28 @@ export default function OrderSummaryScreen({ navigation }: Props) {
           {/* Estimated Earnings */}
           <View style={styles.earningsContainer}>
             <View style={styles.earningsHeader}>
-              <Text style={styles.earningsTitle}>Estimated Earnings:</Text>
-              <Text style={styles.earningsAmount}>₹{estimatedEarning}</Text>
+              <Text allowFontScaling={false}  style={styles.earningsTitle}>Estimated Earnings:</Text>
+              <Text allowFontScaling={false}  style={styles.earningsAmount}>₹{estimatedEarning}</Text>
             </View>
             
             <View style={styles.earningsDetail}>
-              <Text style={styles.earningsLabel}>Time: {prepTime} mins</Text>
+              <Text allowFontScaling={false}  style={styles.earningsLabel}>Time: {prepTime} mins</Text>
             </View>
             
             <View style={styles.earningsDetail}>
-              <Text style={styles.earningsLabel}>Distance: 3.34 kms</Text>
+              <Text allowFontScaling={false}  style={styles.earningsLabel}>Distance: 3.34 kms</Text>
             </View>
             
             <View style={styles.divider} />
             
             <View style={styles.addressSection}>
-              <Text style={styles.addressLabel}>To Restaurant</Text>
-              <Text style={styles.addressAmount}>₹30</Text>
+              <Text allowFontScaling={false}  style={styles.addressLabel}>To Restaurant</Text>
+              <Text allowFontScaling={false}  style={styles.addressAmount}>₹30</Text>
             </View>
             
             <View style={styles.addressSection}>
-              <Text style={styles.addressLabel}>Long Distance</Text>
-              <Text style={styles.addressAmount}>₹10</Text>
+              <Text allowFontScaling={false}  style={styles.addressLabel}>Long Distance</Text>
+              <Text allowFontScaling={false}  style={styles.addressAmount}>₹10</Text>
             </View>
             
             <View style={styles.divider} />
@@ -159,8 +159,8 @@ export default function OrderSummaryScreen({ navigation }: Props) {
                 />
               </View>
               <View style={styles.locationDetails}>
-                <Text style={styles.locationTitle}>Connecticut</Text>
-                <Text style={styles.locationAddress}>
+                <Text allowFontScaling={false}  style={styles.locationTitle}>Connecticut</Text>
+                <Text allowFontScaling={false}  style={styles.locationAddress}>
                   2158 Trainridge Cir, Syracuse, Connecticut 34242
                 </Text>
               </View>
@@ -176,8 +176,8 @@ export default function OrderSummaryScreen({ navigation }: Props) {
                 />
               </View>
               <View style={styles.locationDetails}>
-                <Text style={styles.locationTitle}>Kentucky</Text>
-                <Text style={styles.locationAddress}>
+                <Text allowFontScaling={false}  style={styles.locationTitle}>Kentucky</Text>
+                <Text allowFontScaling={false}  style={styles.locationAddress}>
                   4917 Washington Ave, Manchester, Kentucky 39498
                 </Text>
               </View>
@@ -186,20 +186,20 @@ export default function OrderSummaryScreen({ navigation }: Props) {
           
           {/* Items List */}
           <View style={styles.content}>
-            <Text style={styles.sectionTitle}>Items</Text>
+            <Text allowFontScaling={false}  style={styles.sectionTitle}>Items</Text>
             {items.map((item, index) => (
               <View key={index} style={styles.itemContainer}>
                 <View style={styles.itemDetails}>
                   <View style={styles.itemNameContainer}>
-                    <Text style={styles.itemName}>{item.name}</Text>
-                    <Text style={styles.quantity}>x{item.quantity}</Text>
+                    <Text allowFontScaling={false}  style={styles.itemName}>{item.name}</Text>
+                    <Text allowFontScaling={false}  style={styles.quantity}>x{item.quantity}</Text>
                   </View>
                   <View style={styles.inline}>
                     <Image
                       source={item.image}
                       style={{ width: 30, height: 30, marginRight: 8 }}
                     />
-                    <Text style={styles.itemPrice}>
+                    <Text allowFontScaling={false}  style={styles.itemPrice}>
                       ₹{(item.price * item.quantity).toFixed(2)}
                     </Text>
                   </View>
@@ -211,30 +211,30 @@ export default function OrderSummaryScreen({ navigation }: Props) {
           {/* Bill Summary */}
           <View style={styles.billSummary}>
             <View style={styles.billRow}>
-              <Text style={styles.billLabel}>Item Total</Text>
-              <Text style={styles.billValue}>₹{itemTotal.toFixed(2)}</Text>
+              <Text allowFontScaling={false}  style={styles.billLabel}>Item Total</Text>
+              <Text allowFontScaling={false}  style={styles.billValue}>₹{itemTotal.toFixed(2)}</Text>
             </View>
             <View style={styles.billRow}>
-              <Text style={styles.billLabel}>Packaging Charges</Text>
-              <Text style={styles.billValue}>
+              <Text allowFontScaling={false}  style={styles.billLabel}>Packaging Charges</Text>
+              <Text allowFontScaling={false}  style={styles.billValue}>
                 ₹{packagingCharges.toFixed(2)}
               </Text>
             </View>
             <View style={styles.billRow}>
-              <Text style={styles.billLabel}>GST</Text>
-              <Text style={styles.billValue}>₹{gst.toFixed(2)}</Text>
+              <Text allowFontScaling={false}  style={styles.billLabel}>GST</Text>
+              <Text allowFontScaling={false}  style={styles.billValue}>₹{gst.toFixed(2)}</Text>
             </View>
             <View style={styles.billRow}>
-              <Text style={styles.billLabel}>Discount</Text>
-              <Text style={styles.billValue}>-₹{discount.toFixed(2)}</Text>
+              <Text allowFontScaling={false}  style={styles.billLabel}>Discount</Text>
+              <Text allowFontScaling={false}  style={styles.billValue}>-₹{discount.toFixed(2)}</Text>
             </View>
             <View style={styles.billRow}>
-              <Text style={styles.billLabel}>Discount Description</Text>
-              <Text style={styles.discountLabel}>{discountPercentage}</Text>
+              <Text allowFontScaling={false}  style={styles.billLabel}>Discount Description</Text>
+              <Text allowFontScaling={false}  style={styles.discountLabel}>{discountPercentage}</Text>
             </View>
             <View style={styles.totalRow}>
-              <Text style={styles.totalLabel}>Bill Total</Text>
-              <Text style={styles.totalValue}>₹{billTotal.toFixed(2)}</Text>
+              <Text allowFontScaling={false}  style={styles.totalLabel}>Bill Total</Text>
+              <Text allowFontScaling={false}  style={styles.totalValue}>₹{billTotal.toFixed(2)}</Text>
             </View>
           </View>
 
@@ -244,7 +244,7 @@ export default function OrderSummaryScreen({ navigation }: Props) {
               style={styles.instructionHeader}
               onPress={() => setDeliveryInstructionsCollapsed(!deliveryInstructionsCollapsed)}
             >
-              <Text style={styles.instructionTitle}>Delivery Instructions</Text>
+              <Text allowFontScaling={false}  style={styles.instructionTitle}>Delivery Instructions</Text>
               <Ionicons 
                 name={deliveryInstructionsCollapsed ? "chevron-down" : "chevron-up"} 
                 size={20} 
@@ -253,7 +253,7 @@ export default function OrderSummaryScreen({ navigation }: Props) {
             </TouchableOpacity>
             {!deliveryInstructionsCollapsed && (
               <View style={styles.instructionContent}>
-                <Text style={styles.instructionText}>
+                <Text allowFontScaling={false}  style={styles.instructionText}>
                   Leave the package with the security guard if no one answers the door.
                 </Text>
               </View>
@@ -266,7 +266,7 @@ export default function OrderSummaryScreen({ navigation }: Props) {
               style={styles.instructionHeader}
               onPress={() => setCashOnDeliveryCollapsed(!cashOnDeliveryCollapsed)}
             >
-              <Text style={styles.instructionTitle}>Cash On Delivery</Text>
+              <Text allowFontScaling={false}  style={styles.instructionTitle}>Cash On Delivery</Text>
               <Ionicons 
                 name={cashOnDeliveryCollapsed ? "chevron-down" : "chevron-up"} 
                 size={20} 
@@ -275,9 +275,9 @@ export default function OrderSummaryScreen({ navigation }: Props) {
             </TouchableOpacity>
             {!cashOnDeliveryCollapsed && (
               <View style={styles.instructionContent}>
-                <Text style={styles.instructionText}>
+                <Text allowFontScaling={false}  style={styles.instructionText}>
                   Amount to be collected:
-                  <Text style={styles.amountText}> ₹300</Text>
+                  <Text allowFontScaling={false}  style={styles.amountText}> ₹300</Text>
                 </Text>
               </View>
             )}
@@ -292,10 +292,10 @@ export default function OrderSummaryScreen({ navigation }: Props) {
   {/* Call and Map buttons in the same row */}
   <View style={styles.buttonRow}>
     <TouchableOpacity style={styles.callButton}>
-      <Text style={styles.callButtonText}>Call</Text>
+      <Text allowFontScaling={false}  style={styles.callButtonText}>Call</Text>
     </TouchableOpacity>
     <TouchableOpacity style={styles.mapButton}>
-      <Text style={styles.mapButtonText}>Map</Text>
+      <Text allowFontScaling={false}  style={styles.mapButtonText}>Map</Text>
     </TouchableOpacity>
   </View>
   
@@ -305,7 +305,7 @@ export default function OrderSummaryScreen({ navigation }: Props) {
       style={styles.confirmButton}
       onPress={handleStatusPress}
     >
-      <Text style={styles.confirmButtonText}>{orderStatus}</Text>
+      <Text allowFontScaling={false}  style={styles.confirmButtonText}>{orderStatus}</Text>
     </TouchableOpacity>
   </View>
 </View>
@@ -320,18 +320,18 @@ export default function OrderSummaryScreen({ navigation }: Props) {
       >
         <View style={styles.modalOverlay}>
           <View style={styles.modalBox}>
-            <Text style={styles.modalTitle}>Food preparation time</Text>
+            <Text allowFontScaling={false}  style={styles.modalTitle}>Food preparation time</Text>
             <View style={styles.timePicker}>
               <TouchableOpacity style={styles.timeButton} onPress={decrementTime}>
-                <Text style={styles.timeButtonText}>-</Text>
+                <Text allowFontScaling={false}  style={styles.timeButtonText}>-</Text>
               </TouchableOpacity>
-              <Text style={styles.timeText}>{prepTime} mins</Text>
+              <Text allowFontScaling={false}  style={styles.timeText}>{prepTime} mins</Text>
               <TouchableOpacity style={styles.timeButton} onPress={incrementTime}>
-                <Text style={styles.timeButtonText}>+</Text>
+                <Text allowFontScaling={false}  style={styles.timeButtonText}>+</Text>
               </TouchableOpacity>
             </View>
             <TouchableOpacity style={styles.doneButton} onPress={handleDone}>
-              <Text style={styles.doneButtonText}>Done</Text>
+              <Text allowFontScaling={false}  style={styles.doneButtonText}>Done</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -346,8 +346,8 @@ export default function OrderSummaryScreen({ navigation }: Props) {
       >
         <View style={styles.modalOverlay}>
           <View style={styles.modalBox}>
-            <Text style={styles.modalTitle}>Enter Verification Code</Text>
-            <TextInput
+            <Text allowFontScaling={false}  style={styles.modalTitle}>Enter Verification Code</Text>
+           <TextInput allowFontScaling={false} 
               style={styles.input}
               value={verificationCode}
               onChangeText={setVerificationCode}
@@ -358,7 +358,7 @@ export default function OrderSummaryScreen({ navigation }: Props) {
               style={styles.doneButton}
               onPress={() => setVerificationModalVisible(false)}
             >
-              <Text style={styles.doneButtonText}>Verify</Text>
+              <Text allowFontScaling={false}  style={styles.doneButtonText}>Verify</Text>
             </TouchableOpacity>
           </View>
         </View>

@@ -224,8 +224,8 @@ const LocationInputScreen: React.FC = () => {
         color="#757575" 
       />
       <View style={styles.suggestionTextContainer}>
-        <Text style={styles.suggestionTitle}>{item.name}</Text>
-        <Text style={styles.suggestionDescription}>{item.description}</Text>
+        <Text allowFontScaling={false}  style={styles.suggestionTitle}>{item.name}</Text>
+        <Text allowFontScaling={false}  style={styles.suggestionDescription}>{item.description}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -245,7 +245,7 @@ const LocationInputScreen: React.FC = () => {
         }}
       >
         <GoBack /> {/* BackButton component here */}
-        <Text style={{ fontSize: RFPercentage(2), fontWeight: "700" }}>
+        <Text allowFontScaling={false}  style={{ fontSize: RFPercentage(2), fontWeight: "700" }}>
           Enter your area or apartment name in Tamil Nadu
         </Text>
       </View>
@@ -274,12 +274,12 @@ const LocationInputScreen: React.FC = () => {
             keyExtractor={item => item.id}
             ListHeaderComponent={
               !searchText.trim() && recentSearches.length > 0 ? (
-                <Text style={styles.sectionHeader}>Recent Searches</Text>
+                <Text allowFontScaling={false}  style={styles.sectionHeader}>Recent Searches</Text>
               ) : null
             }
             ListEmptyComponent={
               searchText.trim() ? (
-                <Text style={styles.emptyMessage}>
+                <Text allowFontScaling={false}  style={styles.emptyMessage}>
                   No locations found in Tamil Nadu. Try a different search term.
                 </Text>
               ) : null

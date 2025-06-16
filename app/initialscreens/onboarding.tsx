@@ -101,7 +101,7 @@ const Onboarding = () => {
             />
           </View>
 
-          <Text
+          <Text allowFontScaling={false} 
             style={{
               color: "#929292",
               textAlign: "center",
@@ -123,7 +123,7 @@ const Onboarding = () => {
         >
           {options.map((option, index) => (
             <View key={option} style={{ flexDirection: "row", alignItems: "center" }}>
-              <Text
+              <Text allowFontScaling={false} 
                 style={{
                   fontFamily: "Poppins-Medium",
                   fontWeight: activeOption === option ? "400" : "normal",

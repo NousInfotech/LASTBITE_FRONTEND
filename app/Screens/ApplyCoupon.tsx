@@ -44,14 +44,14 @@ const ApplyCoupon = () => {
         <TouchableOpacity>
           <GoBack />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Apply Coupon</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Apply Coupon</Text>
       </View>
 
       {/* Content */}
       <ScrollView style={styles.content}>
         {/* Input Section */}
         <View style={styles.inputContainer}>
-          <TextInput
+         <TextInput allowFontScaling={false} 
             style={styles.inputBox}
             placeholder="Enter Coupon Code"
             placeholderTextColor="#A3A3A3"
@@ -62,55 +62,55 @@ const ApplyCoupon = () => {
             style={[styles.applyButton, couponInput ? {} : styles.applyButtonDisabled]} 
             disabled={!couponInput} // Disables the button if couponInput is empty
           >
-            <Text style={styles.applyButtonText}>Apply</Text>
+            <Text allowFontScaling={false}  style={styles.applyButtonText}>Apply</Text>
           </TouchableOpacity>
         </View>
 
       <View style={styles.section}>
-      <Text style={styles.sectionTitle}>Applied Coupons</Text>
+      <Text allowFontScaling={false}  style={styles.sectionTitle}>Applied Coupons</Text>
       <View style={styles.couponCard}>
         <View style={styles.couponLeftBorder}>
-          <Text style={styles.couponLeftBorderText}>50% OFF</Text>
+          <Text allowFontScaling={false}  style={styles.couponLeftBorderText}>50% OFF</Text>
         </View>
         <View style={styles.couponContent}>
           <View style={styles.couponRow}>
-            <Text style={styles.couponCode}>TRYNEW</Text>
+            <Text allowFontScaling={false}  style={styles.couponCode}>TRYNEW</Text>
             <TouchableOpacity>
-              <Text style={styles.removeText}>Remove</Text>
+              <Text allowFontScaling={false}  style={styles.removeText}>Remove</Text>
             </TouchableOpacity>
           </View>
-          <Text style={styles.discountText}>Save ₹84 on this order!</Text>
+          <Text allowFontScaling={false}  style={styles.discountText}>Save ₹84 on this order!</Text>
           <View style={styles.separatorLine} />
-          <Text style={styles.couponDetails}>
+          <Text allowFontScaling={false}  style={styles.couponDetails}>
             Use code TRYNEW & get 50% off on orders above ₹149. Maximum discount: ₹100.
           </Text>
           <TouchableOpacity>
-            <Text style={styles.moreText}>+ MORE</Text>
+            <Text allowFontScaling={false}  style={styles.moreText}>+ MORE</Text>
           </TouchableOpacity>
         </View>
       </View>
     </View>
 
     <View style={styles.section}>
-      <Text style={styles.sectionTitle}>Best Offers</Text>
+      <Text allowFontScaling={false}  style={styles.sectionTitle}>Best Offers</Text>
       <View style={styles.couponCard}>
         <View style={styles.couponLeftBorder}>
-          <Text style={styles.couponLeftBorderText}>50% OFF</Text>
+          <Text allowFontScaling={false}  style={styles.couponLeftBorderText}>50% OFF</Text>
         </View>
         <View style={styles.couponContent}>
           <View style={styles.couponRow}>
-            <Text style={styles.couponCode}>TRYNEW</Text>
+            <Text allowFontScaling={false}  style={styles.couponCode}>TRYNEW</Text>
             <TouchableOpacity>
-              <Text style={styles.removeText}>Apply</Text>
+              <Text allowFontScaling={false}  style={styles.removeText}>Apply</Text>
             </TouchableOpacity>
           </View>
-          <Text style={styles.discountText}>Save ₹84 on this order!</Text>
+          <Text allowFontScaling={false}  style={styles.discountText}>Save ₹84 on this order!</Text>
           <View style={styles.separatorLine} />
-          <Text style={styles.couponDetails}>
+          <Text allowFontScaling={false}  style={styles.couponDetails}>
             Use code TRYNEW & get 50% off on orders above ₹149. Maximum discount: ₹100.
           </Text>
           <TouchableOpacity>
-            <Text style={styles.moreText}>+ MORE</Text>
+            <Text allowFontScaling={false}  style={styles.moreText}>+ MORE</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -118,9 +118,9 @@ const ApplyCoupon = () => {
 
         {/* Payment Offers Section */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Payment Offers</Text>
+          <Text allowFontScaling={false}  style={styles.sectionTitle}>Payment Offers</Text>
           <View style={styles.offerCard}>
-            <Text style={styles.offerDetails}>
+            <Text allowFontScaling={false}  style={styles.offerDetails}>
             Save on top of coupon discounts by applying these offers on the payments page.
             </Text>
           </View>
@@ -133,14 +133,14 @@ const ApplyCoupon = () => {
             source={{ uri: "https://upload.wikimedia.org/wikipedia/commons/0/0c/Paytm_logo.png" }} // Paytm logo as an example
             style={styles.offerLogo}
           />
-          <Text style={styles.offerTitle}>Assured up to ₹100 cashback...</Text>
+          <Text allowFontScaling={false}  style={styles.offerTitle}>Assured up to ₹100 cashback...</Text>
         </View>
-        <Text style={styles.offerDetail}>
+        <Text allowFontScaling={false}  style={styles.offerDetail}>
           Unlock Double Rewards This Month! Pay using Paytm UPI & get assured cashback between ₹10
           to ₹100 on your two transactions above ₹150.
         </Text>
         <TouchableOpacity>
-          <Text style={styles.moreText}>+ MORE</Text>
+          <Text allowFontScaling={false}  style={styles.moreText}>+ MORE</Text>
         </TouchableOpacity>
       </View>
       </ScrollView>

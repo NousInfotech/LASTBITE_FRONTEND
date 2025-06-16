@@ -191,10 +191,10 @@ const RegisterRestaurant = () => {
     required?: boolean // Optional parameter for required field
   ) => (
     <View style={styles.inputContainer}>
-      <Text style={styles.label}>
-        {label} {required && <Text style={styles.required}>*</Text>}
+      <Text allowFontScaling={false}  style={styles.label}>
+        {label} {required && <Text allowFontScaling={false}  style={styles.required}>*</Text>}
       </Text>
-      <TextInput
+     <TextInput allowFontScaling={false} 
   value={String(form[field] ?? "")} 
   onChangeText={(text) => setForm((prev) => ({ ...prev, [field]: text }))}
   placeholder={placeholder || `Enter ${label}`}
@@ -212,15 +212,15 @@ const RegisterRestaurant = () => {
         <TouchableOpacity>
           <GoBack />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Restaurant Documents</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Restaurant Documents</Text>
       </View>
        
           <>
             <View style={styles.formCard}>
-              <Text style={styles.sectionTitle}>
-                What's your outlet-type? <Text style={{ color: "red" }}>*</Text>
+              <Text allowFontScaling={false}  style={styles.sectionTitle}>
+                What's your outlet-type? <Text allowFontScaling={false}  style={{ color: "red" }}>*</Text>
               </Text>
-              <Text style={styles.sectionSubtitle}>
+              <Text allowFontScaling={false}  style={styles.sectionSubtitle}>
                 This determines whether Last Bite or you pay GST on the items
                 sold.
               </Text>
@@ -231,23 +231,23 @@ const RegisterRestaurant = () => {
                   setForm((prev) => ({ ...prev, category: selectedCategory }));
                 }}
               >
-                <Text style={styles.categoryText}>{selectedCategory}</Text>
-                <Text style={styles.editText}>Edit</Text>
+                <Text allowFontScaling={false}  style={styles.categoryText}>{selectedCategory}</Text>
+                <Text allowFontScaling={false}  style={styles.editText}>Edit</Text>
               </TouchableOpacity>
-              <Text style={styles.noteText}>
+              <Text allowFontScaling={false}  style={styles.noteText}>
                 Last Bite will pay the GST on your behalf.
               </Text>
             </View>
 
             <View style={styles.formCard}>
-              <Text style={styles.sectionTitle}>Enter PAN & GSTIN details</Text>
+              <Text allowFontScaling={false}  style={styles.sectionTitle}>Enter PAN & GSTIN details</Text>
               {renderInput(
                 "Business/Owner PAN",
                 "ownerPanNo",
                 "Enter Business/Owner PAN",
                 true
               )}
-              {/* <Text style={styles.cardHolderText}>Card Holder: xoyyzz</Text> */}
+              {/* <Text allowFontScaling={false}  style={styles.cardHolderText}>Card Holder: xoyyzz</Text> */}
               
               {/* Only show GSTIN input if noGST is false */}
               {!noGST && renderInput("GSTIN", "gstinNo", "Enter GSTIN", false)}
@@ -261,7 +261,7 @@ const RegisterRestaurant = () => {
 
             {/* Official Bank Details */}
             <View style={styles.formCard}>
-              <Text style={styles.sectionTitle}>Official Bank Details</Text>
+              <Text allowFontScaling={false}  style={styles.sectionTitle}>Official Bank Details</Text>
               {renderInput(
                 "Bank IFSC code",
                 "bankIfscCode",
@@ -277,7 +277,7 @@ const RegisterRestaurant = () => {
             </View>
 
             <View style={styles.formCard}>
-              <Text style={styles.sectionTitle}>FSSAI certificate</Text>
+              <Text allowFontScaling={false}  style={styles.sectionTitle}>FSSAI certificate</Text>
               {renderInput(
                 "FSSAI certificate number",
                 "fssaiCertificateNo",
@@ -285,17 +285,17 @@ const RegisterRestaurant = () => {
                 true
               )}
 
-              <Text style={styles.requirementsTitle}>Requirements:</Text>
+              <Text allowFontScaling={false}  style={styles.requirementsTitle}>Requirements:</Text>
               <View style={styles.requirementsList}>
-                <Text style={styles.bulletPoint}>
+                <Text allowFontScaling={false}  style={styles.bulletPoint}>
                   • The FSSAI certificate should either match the name of the
                   restaurant or the owner.
                 </Text>
-                <Text style={styles.bulletPoint}>
+                <Text allowFontScaling={false}  style={styles.bulletPoint}>
                   • The address on the FSSAI certificate should match the
                   address of the restaurant.
                 </Text>
-                <Text style={styles.bulletPoint}>
+                <Text allowFontScaling={false}  style={styles.bulletPoint}>
                   • The FSSAI certificate should not be expiring before 30 days.
                 </Text>
               </View>
@@ -304,10 +304,10 @@ const RegisterRestaurant = () => {
         
           <View style={styles.buttonContainer}>
   <TouchableOpacity style={styles.cancelButton}>
-    <Text style={styles.cancelButtonText}>Cancel</Text>
+    <Text allowFontScaling={false}  style={styles.cancelButtonText}>Cancel</Text>
   </TouchableOpacity>
   <TouchableOpacity style={styles.saveButton} >
-    <Text style={styles.saveButtonText}>Save</Text>
+    <Text allowFontScaling={false}  style={styles.saveButtonText}>Save</Text>
   </TouchableOpacity>
 </View>
 
@@ -325,10 +325,10 @@ const RegisterRestaurant = () => {
               style={styles.closeButton}
               onPress={() => setModalVisible(false)}
             >
-              <Text style={styles.closeButtonText}>✕</Text>
+              <Text allowFontScaling={false}  style={styles.closeButtonText}>✕</Text>
             </TouchableOpacity>
             
-            <Text style={styles.modalTitle}>Select your outlet type</Text>
+            <Text allowFontScaling={false}  style={styles.modalTitle}>Select your outlet type</Text>
             {/* Category Options */}
             {categories.map((category, index) => (
               <TouchableOpacity
@@ -340,10 +340,10 @@ const RegisterRestaurant = () => {
                 }}
               >
                 <View style={styles.categoryHeader}>
-                  <Text style={styles.categoryHeading}>{category.name}</Text>
-                  <Text style={styles.selectText}>Select</Text>
+                  <Text allowFontScaling={false}  style={styles.categoryHeading}>{category.name}</Text>
+                  <Text allowFontScaling={false}  style={styles.selectText}>Select</Text>
                 </View>
-                <Text style={styles.categoryDescription}>
+                <Text allowFontScaling={false}  style={styles.categoryDescription}>
                   {category.description}
                 </Text>
               </TouchableOpacity>

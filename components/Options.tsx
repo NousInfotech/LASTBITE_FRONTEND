@@ -51,17 +51,17 @@ export const MoreOptionsMenu: React.FC<MoreOptionsMenuProps> = ({
             ]}>
             <TouchableOpacity style={styles.menuItem} onPress={onEditPress}>
               <Icon name="edit" size={20} color="#333" />
-              <Text style={styles.menuText}>Edit</Text>
+              <Text allowFontScaling={false}  style={styles.menuText}>Edit</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.menuItem} onPress={onSharePress}>
               <Icon name="share" size={20} color="#333" />
-              <Text style={styles.menuText}>Share</Text>
+              <Text allowFontScaling={false}  style={styles.menuText}>Share</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.menuItem} onPress={onDeletePress}>
               <Icon name="delete-outline" size={20} color="#FF4646" />
-              <Text style={[styles.menuText, styles.deleteText]}>Delete</Text>
+              <Text allowFontScaling={false}  style={[styles.menuText, styles.deleteText]}>Delete</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -88,24 +88,24 @@ export const DeleteConfirmationModal: React.FC<
             </View>
           </View>
 
-          <Text style={styles.deleteTitle}>
+          <Text allowFontScaling={false}  style={styles.deleteTitle}>
             Proceed to delete this address?
           </Text>
-          <Text style={styles.deleteAddress}>{address}</Text>
+          <Text allowFontScaling={false}  style={styles.deleteAddress}>{address}</Text>
 
           <View style={styles.deleteButtons}>
             <TouchableOpacity
               style={[styles.deleteButton, styles.cancelButton]}
               onPress={onCancel}
             >
-              <Text style={styles.cancelButtonText}>Cancel</Text>
+              <Text allowFontScaling={false}  style={styles.cancelButtonText}>Cancel</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={[styles.deleteButton, styles.confirmButton]}
               onPress={onDelete}
             >
-              <Text style={styles.confirmButtonText}>Delete</Text>
+              <Text allowFontScaling={false}  style={styles.confirmButtonText}>Delete</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -158,7 +158,7 @@ export const AddressManager: React.FC = () => {
       />
 
       {/* Address editing view */}
-      <TextInput
+     <TextInput allowFontScaling={false} 
         value={address}
         editable={isEditable}
         onChangeText={setAddress}

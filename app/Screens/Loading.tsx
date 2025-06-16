@@ -138,7 +138,7 @@ export default function LoadingScreen() {
           ]} 
         />
       </View>
-      <Text style={styles.loadingText}>Loading for Verification...</Text>
+      <Text allowFontScaling={false}  style={styles.loadingText}>Loading for Verification...</Text>
     </View>
   );
 }

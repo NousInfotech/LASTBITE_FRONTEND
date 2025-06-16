@@ -6,8 +6,8 @@
 //   return (
 //     <View style={styles.container}>
 //       <View style={styles.content}>
-//         <Text style={styles.mainText}>Order will be delivered here</Text>
-//         <Text style={styles.subText}>Move the pin to change the location</Text>
+//         <Text allowFontScaling={false}  style={styles.mainText}>Order will be delivered here</Text>
+//         <Text allowFontScaling={false}  style={styles.subText}>Move the pin to change the location</Text>
 //       </View>
 //       <View style={styles.triangle} />
 //     </View>
@@ -105,8 +105,8 @@ const LocationMarker: React.FC = () => {
       {/* Tooltip */}
       <View style={styles.tooltipContainer}>
         <View style={styles.tooltip}>
-          <Text style={styles.mainText}>Order will be delivered here</Text>
-          <Text style={styles.subText}>Move the pin to change the location</Text>
+          <Text allowFontScaling={false}  style={styles.mainText}>Order will be delivered here</Text>
+          <Text allowFontScaling={false}  style={styles.subText}>Move the pin to change the location</Text>
         </View>
         <View style={styles.triangle} />
       </View>

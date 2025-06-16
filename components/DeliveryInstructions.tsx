@@ -109,7 +109,7 @@ const DeliveryInstructions: React.FC = () => {
                   {instruction.icon(isActive)}
                 </View>
                 <View style={styles.textContainer}>
-                  <Text style={styles.instructionText}>{instruction.text}</Text>
+                  <Text allowFontScaling={false}  style={styles.instructionText}>{instruction.text}</Text>
                 </View>
               </View>
             </TouchableOpacity>
@@ -132,23 +132,23 @@ const DeliveryInstructions: React.FC = () => {
         style={styles.closeButtonTopRight}
         onPress={() => setShowModal(false)}
       >
-        <Text style={styles.closeButtonText}>✕</Text>
+        <Text allowFontScaling={false}  style={styles.closeButtonText}>✕</Text>
       </TouchableOpacity>
 
-      <Text style={styles.modalTitle}>Directions to Reach</Text>
-      <Text style={styles.modalSubText}>
+      <Text allowFontScaling={false}  style={styles.modalTitle}>Directions to Reach</Text>
+      <Text allowFontScaling={false}  style={styles.modalSubText}>
         123 Main Street, City, Country
       </Text>
 
       <View style={styles.inputWithIcon}>
-  <TextInput
+ <TextInput allowFontScaling={false} 
     style={styles.inputBox}
     placeholder="Tap to reach Voice Direction"
     placeholderTextColor="black"
   />
   <FontAwesome name="microphone" size={20} color="#01615F" style={styles.icon} />
 </View>
-      <TextInput
+     <TextInput allowFontScaling={false} 
         style={styles.inputBoxOne}
         placeholder="Type here"
         placeholderTextColor="#929292"
@@ -158,7 +158,7 @@ const DeliveryInstructions: React.FC = () => {
   style={styles.saveButton}
   onPress={() => setShowModal(false)}
 >
-  <Text style={styles.saveButtonText}>Save Instruction</Text>
+  <Text allowFontScaling={false}  style={styles.saveButtonText}>Save Instruction</Text>
 </TouchableOpacity>
 
     </View>

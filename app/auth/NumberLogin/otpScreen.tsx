@@ -109,16 +109,16 @@ const handleMobileNumberChange = (text: string): void => {
           skip: getSkipDestination(),
         }}
       />
-      <Text style={{ fontSize: 14, color: "#555", marginBottom: 10 }}>
+      <Text allowFontScaling={false}  style={{ fontSize: 14, color: "#555", marginBottom: 10 }}>
   In production, click 'Skip' to continue without phone verification.
 </Text>
 
 
-      <Text style={styles.title}>Phone Verification</Text>
+      <Text allowFontScaling={false}  style={styles.title}>Phone Verification</Text>
 
       <View style={styles.inputContainer}>
-        <Text style={styles.prefix}>+91</Text>
-        <TextInput
+        <Text allowFontScaling={false}  style={styles.prefix}>+91</Text>
+        <TextInput allowFontScaling={false} 
           style={styles.input}
           placeholder="10 digit number"
           keyboardType="number-pad"

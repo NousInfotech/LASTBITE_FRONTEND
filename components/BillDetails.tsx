@@ -30,7 +30,7 @@ const BillDetails: React.FC<BillDetailsProps> = ({ items, total }) => {
 
   return (
 <View style={styles.container}>
-      <Text style={styles.title}>Bill Details</Text>
+      <Text allowFontScaling={false}  style={styles.title}>Bill Details</Text>
       <View style={styles.billContainer}>
         {items.map((item, index) => (
           <View
@@ -40,7 +40,7 @@ const BillDetails: React.FC<BillDetailsProps> = ({ items, total }) => {
               item.note && styles.noteRow
             ]}
           >
-            <Text
+            <Text allowFontScaling={false} 
               style={[
                 styles.label,
                 item.note && styles.noteText
@@ -49,7 +49,7 @@ const BillDetails: React.FC<BillDetailsProps> = ({ items, total }) => {
               {item.label}
             </Text>
             {item.amount > 0 && (
-              <Text style={styles.amount}>
+              <Text allowFontScaling={false}  style={styles.amount}>
                 ₹{item.amount.toFixed(2)}
               </Text>
             )}
@@ -57,8 +57,8 @@ const BillDetails: React.FC<BillDetailsProps> = ({ items, total }) => {
         ))}
 
         <View style={styles.totalRow}>
-          <Text style={styles.totalLabel}>To Pay</Text>
-          <Text style={styles.totalAmount}>₹{total.toFixed(2)}</Text>
+          <Text allowFontScaling={false}  style={styles.totalLabel}>To Pay</Text>
+          <Text allowFontScaling={false}  style={styles.totalAmount}>₹{total.toFixed(2)}</Text>
         </View>
       </View>
     </View>

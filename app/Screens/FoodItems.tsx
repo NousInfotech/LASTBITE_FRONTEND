@@ -119,16 +119,16 @@ const Menu = () => {
                     style={styles.vegIcon}
                   />
                   <View style={styles.nameContainer}>
-                    <Text style={styles.itemName}>{item.name}</Text>
+                    <Text allowFontScaling={false}  style={styles.itemName}>{item.name}</Text>
                   </View>
-                  <Text style={styles.itemType}>
+                  <Text allowFontScaling={false}  style={styles.itemType}>
                     {item.isVeg ? "Vegetarian" : "Non-Vegetarian"}
                   </Text>
-                  <Text style={styles.itemPrice}>₹{item.price}</Text>
+                  <Text allowFontScaling={false}  style={styles.itemPrice}>₹{item.price}</Text>
                 </View>
                 <View style={styles.rightContainer}>
                   <View style={styles.statusContainer}>
-                    <Text
+                    <Text allowFontScaling={false} 
                       style={[
                         styles.availabilityText,
                         !item.available && styles.outOfStockText,
@@ -148,7 +148,7 @@ const Menu = () => {
                       style={styles.actionButton}
                       onPress={() => openDeleteModal(item)}
                     >
-                      <Text style={styles.actionButtonText}>Delete</Text>
+                      <Text allowFontScaling={false}  style={styles.actionButtonText}>Delete</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={[styles.actionButton, styles.editButton]}
@@ -166,7 +166,7 @@ const Menu = () => {
                         })
                       }
                     >
-                      <Text style={styles.editButtonText}>Edit</Text>
+                      <Text allowFontScaling={false}  style={styles.editButtonText}>Edit</Text>
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -185,7 +185,7 @@ const Menu = () => {
         >
           <View style={styles.modalContainer}>
             <View style={styles.modalContent}>
-              <Text style={styles.modalTitle}>
+              <Text allowFontScaling={false}  style={styles.modalTitle}>
                 Are you sure want to delete?
               </Text>
               <View style={styles.modalButtons}>
@@ -193,14 +193,14 @@ const Menu = () => {
                   style={[styles.button, styles.cancelButton]}
                   onPress={() => setIsModalVisible(false)}
                 >
-                  <Text style={styles.cancelbuttonText}>Cancel</Text>
+                  <Text allowFontScaling={false}  style={styles.cancelbuttonText}>Cancel</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                   style={[styles.button, styles.confirmButton]}
                   onPress={deleteItem}
                 >
-                  <Text style={[styles.buttonText, { color: "#FFF" }]}>
+                  <Text allowFontScaling={false}  style={[styles.buttonText, { color: "#FFF" }]}>
                     Delete
                   </Text>
                 </TouchableOpacity>

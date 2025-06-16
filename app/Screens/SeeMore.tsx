@@ -56,14 +56,14 @@ const [friends, setFriends] = useState<Friend[]>([
 const renderFriendItem = ({ item }: { item: Friend }) => (
     <View style={styles.friendItem}>
       <View style={styles.friendInfo}>
-        <Text style={styles.friendName}>{item.name}</Text>
-        <Text style={styles.friendPhone}>{item.phone}</Text>
+        <Text allowFontScaling={false}  style={styles.friendName}>{item.name}</Text>
+        <Text allowFontScaling={false}  style={styles.friendPhone}>{item.phone}</Text>
       </View>
       <TouchableOpacity 
         style={[styles.inviteButton, item.invited && styles.reinviteButton]} 
         onPress={() => handleInvite(item.id)}
       >
-        <Text style={[styles.inviteButtonText, item.invited && styles.reinviteButtonText]}>
+        <Text allowFontScaling={false}  style={[styles.inviteButtonText, item.invited && styles.reinviteButtonText]}>
           {item.invited ? 'Reinvite' : 'Invite'}
         </Text>
       </TouchableOpacity>
@@ -79,13 +79,13 @@ const renderFriendItem = ({ item }: { item: Friend }) => (
         <TouchableOpacity style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} color="black" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Find your friends</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Find your friends</Text>
       </View>
       
       {/* Search Bar */}
       <View style={styles.searchContainer}>
         <Ionicons name="search" size={20} color="#999" style={styles.searchIcon} />
-        <TextInput
+       <TextInput allowFontScaling={false} 
           style={styles.searchInput}
           placeholder="Find your friends"
           value={searchQuery}
@@ -108,7 +108,7 @@ const renderFriendItem = ({ item }: { item: Friend }) => (
         contentContainerStyle={styles.listContainer}
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
-            <Text style={styles.emptyText}>No friends found matching "{searchQuery}"</Text>
+            <Text allowFontScaling={false}  style={styles.emptyText}>No friends found matching "{searchQuery}"</Text>
           </View>
         }
       />

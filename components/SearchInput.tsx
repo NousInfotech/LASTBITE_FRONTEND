@@ -30,6 +30,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
           <Icon name="search" size={20} color="#929292" />
         </TouchableOpacity>
         <TextInput
+        allowFontScaling={false}
           ref={inputRef} // Attach the ref to the TextInput
           value={searchText}
           onChangeText={setSearchText}

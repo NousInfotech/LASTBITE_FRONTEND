@@ -57,13 +57,13 @@ const ProductGrid: React.FC<ProductGridProps> = ({ categories }) => {
   //     <View style={styles.imageContainer}>
   //       <Image source={item.image} style={styles.productImage} />
   //     </View>
-  //     <Text style={styles.productName}>{item.name}</Text>
+  //     <Text allowFontScaling={false}  style={styles.productName}>{item.name}</Text>
   //   </TouchableOpacity>
   // );
 
   const renderCategory = (category: Category) => (
     <View key={category.title} style={styles.categoryContainer}>
-      <Text style={styles.categoryTitle}>{category.title}</Text>
+      <Text allowFontScaling={false}  style={styles.categoryTitle}>{category.title}</Text>
       <View style={styles.productsGrid}>
         {category.items.map((item) => renderProductItem(item))}
       </View>
@@ -83,7 +83,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ categories }) => {
       <View style={styles.imageContainer}>
         <Image source={item.image} style={styles.productImage} />
       </View>
-      <Text style={styles.productName}>{item.name}</Text>
+      <Text allowFontScaling={false}  style={styles.productName}>{item.name}</Text>
     </TouchableOpacity>
   );
   return (

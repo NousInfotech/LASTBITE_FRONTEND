@@ -25,14 +25,14 @@ const ReviewNotice: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>
+      <Text allowFontScaling={false}  style={styles.heading}>
         Review your order and address details to avoid cancellations
       </Text>
       
       <View style={styles.innerContainer}>
         <View style={styles.noticeContainer}>
-          <Text style={styles.noticeLabel}>Note: </Text>
-          <Text style={styles.noticeText}>
+          <Text allowFontScaling={false}  style={styles.noticeLabel}>Note: </Text>
+          <Text allowFontScaling={false}  style={styles.noticeText}>
             Please ensure your address and order details are correct. This order, if cancelled, is non-refundable.
           </Text>
         </View>
@@ -41,7 +41,7 @@ const ReviewNotice: React.FC = () => {
           onPress={handlePolicyPress}
           activeOpacity={0.7}
         >
-          <Text style={styles.policyButton}>READ POLICY</Text>
+          <Text allowFontScaling={false}  style={styles.policyButton}>READ POLICY</Text>
         </TouchableOpacity>
       </View>
     </View>

@@ -29,8 +29,8 @@ const ProductDetailsModal = ({ visible, onClose, item, onAddToCart, cartCounts }
           <View style={styles.modalHeader}>
             <View style={styles.headerTopRow}>
               <View style={styles.titlePriceContainer}>
-                <Text style={styles.itemName}>{item?.name || "Lorem Ipsum"}</Text>
-                <Text style={styles.itemPrice}>${item?.price?.toFixed(2) || "65"}</Text>
+                <Text allowFontScaling={false}  style={styles.itemName}>{item?.name || "Lorem Ipsum"}</Text>
+                <Text allowFontScaling={false}  style={styles.itemPrice}>${item?.price?.toFixed(2) || "65"}</Text>
               </View>
               <View style={styles.addButtonContainer}>
                 {/* We use the Add button regardless of cart state in the modal */}
@@ -39,11 +39,11 @@ const ProductDetailsModal = ({ visible, onClose, item, onAddToCart, cartCounts }
                   onPress={() => onAddToCart(item)}
                   activeOpacity={0.8}
                 >
-                  <Text style={styles.addButtonText}>Add</Text>
+                  <Text allowFontScaling={false}  style={styles.addButtonText}>Add</Text>
                 </TouchableOpacity>
               </View>
             </View>
-            <Text style={styles.itemDescription}>
+            <Text allowFontScaling={false}  style={styles.itemDescription}>
               {item?.description || "Lorem ipsum dolor sit amet consectetur. Risi lorem blandit massa tincidun"}
             </Text>
           </View>
@@ -51,21 +51,21 @@ const ProductDetailsModal = ({ visible, onClose, item, onAddToCart, cartCounts }
           <View style={styles.divider} />
 
           <View style={styles.detailsSection}>
-            <Text style={styles.detailsTitle}>Product details</Text>
+            <Text allowFontScaling={false}  style={styles.detailsTitle}>Product details</Text>
             
             <View style={styles.detailRow}>
-              <Text style={styles.detailLabel}>Quantity:</Text>
-              <Text style={styles.detailValue}>1 kg (Serves 3-4 people)</Text>
+              <Text allowFontScaling={false}  style={styles.detailLabel}>Quantity:</Text>
+              <Text allowFontScaling={false}  style={styles.detailValue}>1 kg (Serves 3-4 people)</Text>
             </View>
             
             <View style={styles.detailRow}>
-              <Text style={styles.detailLabel}>Serves with:</Text>
-              <Text style={styles.detailValue}>None</Text>
+              <Text allowFontScaling={false}  style={styles.detailLabel}>Serves with:</Text>
+              <Text allowFontScaling={false}  style={styles.detailValue}>None</Text>
             </View>
             
             <View style={styles.detailRow}>
-              <Text style={styles.detailLabel}>Delivery Time:</Text>
-              <Text style={styles.detailValue}>30-45 minutes</Text>
+              <Text allowFontScaling={false}  style={styles.detailLabel}>Delivery Time:</Text>
+              <Text allowFontScaling={false}  style={styles.detailValue}>30-45 minutes</Text>
             </View>
           </View>
           
@@ -74,7 +74,7 @@ const ProductDetailsModal = ({ visible, onClose, item, onAddToCart, cartCounts }
             style={styles.closeButton}
             onPress={handleRequestClose}
           >
-            <Text style={styles.closeButtonText}>Close</Text>
+            <Text allowFontScaling={false}  style={styles.closeButtonText}>Close</Text>
           </TouchableOpacity>
         </View>
       </View>

@@ -32,7 +32,7 @@ const SavingsCorner = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>SAVINGS CORNER</Text>
+      <Text allowFontScaling={false}  style={styles.title}>SAVINGS CORNER</Text>
       <TouchableOpacity
         style={styles.couponContainer}
         onPress={handleCouponClick}
@@ -40,7 +40,7 @@ const SavingsCorner = () => {
       >
         <View style={styles.couponContent}>
           <Ionicons name="pricetag" size={17} color="#fff" style={styles.icon} />
-          <Text style={styles.couponText}>Apply Coupon</Text>
+          <Text allowFontScaling={false}  style={styles.couponText}>Apply Coupon</Text>
         </View>
         <Ionicons name="chevron-forward" size={20} color="#000" />
       </TouchableOpacity>

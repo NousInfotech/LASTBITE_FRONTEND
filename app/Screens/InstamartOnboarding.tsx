@@ -69,7 +69,7 @@ const InstantOnboarding = () => {
         <TouchableOpacity>
           <GoBack />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Instamart Onboarding</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Instamart Onboarding</Text>
       </View>
 
       <ScrollView style={styles.content}>
@@ -80,7 +80,7 @@ const InstantOnboarding = () => {
               onPress={() => toggleItem(faq.id)}
               activeOpacity={0.7}
             >
-              <Text style={styles.questionText}>{faq.question}</Text>
+              <Text allowFontScaling={false}  style={styles.questionText}>{faq.question}</Text>
               <Ionicons
                 name={expandedItem === faq.id ? "chevron-up" : "chevron-down"}
                 size={20}
@@ -90,7 +90,7 @@ const InstantOnboarding = () => {
             
             {expandedItem === faq.id && (
               <View style={styles.answerContainer}>
-                <Text style={styles.answerText}>{faq.answer}</Text>
+                <Text allowFontScaling={false}  style={styles.answerText}>{faq.answer}</Text>
               </View>
             )}
           </View>

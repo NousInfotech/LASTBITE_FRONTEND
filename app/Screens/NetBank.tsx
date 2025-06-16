@@ -44,11 +44,11 @@ const NetBank = () => {
             <TouchableOpacity>
               <GoBack />
             </TouchableOpacity>
-            <Text style={styles.headerTitle}>Select a Bank</Text>
+            <Text allowFontScaling={false}  style={styles.headerTitle}>Select a Bank</Text>
           </View>
           <ScrollView>
           <View style={styles.paymentContainer}>
-          <Text style={styles.paymentHeader}>Popular Banks</Text>
+          <Text allowFontScaling={false}  style={styles.paymentHeader}>Popular Banks</Text>
           <View style={styles.divider} />
           <TouchableOpacity style={styles.paymentOption}>
             <Image
@@ -56,7 +56,7 @@ const NetBank = () => {
               style={styles.aImage}
             />
             <View style={styles.paymentDetails}>
-              <Text style={styles.paymentText}>HDFC</Text>
+              <Text allowFontScaling={false}  style={styles.paymentText}>HDFC</Text>
             </View>
             <AntDesign name="right" size={16} color="grey" />
           </TouchableOpacity>
@@ -66,7 +66,7 @@ const NetBank = () => {
               style={styles.aImage}
             />
             <View style={styles.paymentDetails}>
-              <Text style={styles.paymentText}>ICICI</Text>
+              <Text allowFontScaling={false}  style={styles.paymentText}>ICICI</Text>
             </View>
             <AntDesign name="right" size={16} color="grey" />
           </TouchableOpacity>
@@ -76,7 +76,7 @@ const NetBank = () => {
               style={styles.aImage}
             />
             <View style={styles.paymentDetails}>
-              <Text style={styles.paymentText}>SBI</Text>
+              <Text allowFontScaling={false}  style={styles.paymentText}>SBI</Text>
             </View>
             <AntDesign name="right" size={16} color="grey" />
           </TouchableOpacity>
@@ -86,7 +86,7 @@ const NetBank = () => {
               style={styles.aImage}
             />
             <View style={styles.paymentDetails}>
-              <Text style={styles.paymentText}>AXIS</Text>
+              <Text allowFontScaling={false}  style={styles.paymentText}>AXIS</Text>
             </View>
             <AntDesign name="right" size={16} color="grey" />
           </TouchableOpacity>
@@ -96,7 +96,7 @@ const NetBank = () => {
               style={styles.aImage}
             />
             <View style={styles.paymentDetails}>
-              <Text style={styles.paymentText}>KOTAK</Text>
+              <Text allowFontScaling={false}  style={styles.paymentText}>KOTAK</Text>
             </View>
             <AntDesign name="right" size={16} color="grey" />
           </TouchableOpacity>
@@ -106,7 +106,7 @@ const NetBank = () => {
               style={styles.aImage}
             />
             <View style={styles.paymentDetails}>
-              <Text style={styles.paymentText}>YES</Text>
+              <Text allowFontScaling={false}  style={styles.paymentText}>YES</Text>
             </View>
             <AntDesign name="right" size={16} color="grey" />
           </TouchableOpacity>
@@ -116,54 +116,54 @@ const NetBank = () => {
               style={styles.aImage}
             />
             <View style={styles.paymentDetails}>
-              <Text style={styles.paymentText}>CITI</Text>
+              <Text allowFontScaling={false}  style={styles.paymentText}>CITI</Text>
             </View>
             <AntDesign name="right" size={16} color="grey" />
           </TouchableOpacity>
         </View>
 
         <View style={styles.paymentContainer}>
-          <Text style={styles.paymentHeader}>All Banks</Text>
+          <Text allowFontScaling={false}  style={styles.paymentHeader}>All Banks</Text>
           <View style={styles.divider} />
           <TouchableOpacity style={styles.paymentOption} >
             <View style={styles.paymentDetails}>
-              <Text style={styles.paymentText}>Bank of Baroda</Text>
+              <Text allowFontScaling={false}  style={styles.paymentText}>Bank of Baroda</Text>
             </View>
             <AntDesign name="right" size={16} color="grey" />
           </TouchableOpacity>
           <TouchableOpacity style={styles.paymentOption} >
             <View style={styles.paymentDetails}>
-              <Text style={styles.paymentText}>Central Bank of India</Text>
+              <Text allowFontScaling={false}  style={styles.paymentText}>Central Bank of India</Text>
             </View>
             <AntDesign name="right" size={16} color="grey" />
           </TouchableOpacity>
           <TouchableOpacity style={styles.paymentOption}>
             <View style={styles.paymentDetails}>
-              <Text style={styles.paymentText}>Syndicate Bank</Text>
+              <Text allowFontScaling={false}  style={styles.paymentText}>Syndicate Bank</Text>
             </View>
             <AntDesign name="right" size={16} color="grey" />
           </TouchableOpacity>
           <TouchableOpacity style={styles.paymentOption}>
             <View style={styles.paymentDetails}>
-              <Text style={styles.paymentText}>Federal Bank</Text>
+              <Text allowFontScaling={false}  style={styles.paymentText}>Federal Bank</Text>
             </View>
             <AntDesign name="right" size={16} color="grey" />
           </TouchableOpacity>
           <TouchableOpacity style={styles.paymentOption}>
             <View style={styles.paymentDetails}>
-              <Text style={styles.paymentText}>DBS</Text>
+              <Text allowFontScaling={false}  style={styles.paymentText}>DBS</Text>
             </View>
             <AntDesign name="right" size={16} color="grey" />
           </TouchableOpacity>
           <TouchableOpacity style={styles.paymentOption}>
             <View style={styles.paymentDetails}>
-              <Text style={styles.paymentText}>Canara Bank</Text>
+              <Text allowFontScaling={false}  style={styles.paymentText}>Canara Bank</Text>
             </View>
             <AntDesign name="right" size={16} color="grey" />
           </TouchableOpacity>
           <TouchableOpacity style={styles.paymentOption}>
             <View style={styles.paymentDetails}>
-              <Text style={styles.paymentText}>IDFC</Text>
+              <Text allowFontScaling={false}  style={styles.paymentText}>IDFC</Text>
             </View>
             <AntDesign name="right" size={16} color="grey" />
           </TouchableOpacity>

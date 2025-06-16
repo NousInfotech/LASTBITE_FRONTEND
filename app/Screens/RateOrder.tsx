@@ -91,14 +91,14 @@ const RateOrder = () => {
           style={styles.closeButton}
           onPress={() => setShowThankYou(false)}
         >
-          <Text style={styles.closeButtonText}>X</Text>
+          <Text allowFontScaling={false}  style={styles.closeButtonText}>X</Text>
         </TouchableOpacity>
         <View style={styles.centerContent}>
           <Image
             source={require("../../assets/images/Star Struck.png")}
             style={styles.thankYouImage}
           />
-          <Text style={styles.thankYouText}>
+          <Text allowFontScaling={false}  style={styles.thankYouText}>
             Thank You for your valuable feedback!
           </Text>
         </View>
@@ -113,7 +113,7 @@ const RateOrder = () => {
         <TouchableOpacity>
           <GoBack />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Rate Your Meal</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Rate Your Meal</Text>
       </View>
 
       {/* Meal Rating Section */}
@@ -122,7 +122,7 @@ const RateOrder = () => {
         onPress={() => toggleSection("mealRating")}
       >
         <View style={styles.mealRatingSection}>
-          <Text style={[styles.sectionTitle, { color: "#01615F" }]}>
+          <Text allowFontScaling={false}  style={[styles.sectionTitle, { color: "#01615F" }]}>
             Meal from Spice House
           </Text>
           <View style={styles.stars}>
@@ -148,7 +148,7 @@ const RateOrder = () => {
         style={styles.sectionSubHeader}
         onPress={() => toggleSection("dishRating")}
       >
-        <Text style={styles.sectionTitle}>Rate Your Ordered Dishes</Text>
+        <Text allowFontScaling={false}  style={styles.sectionTitle}>Rate Your Ordered Dishes</Text>
         <Ionicons
           name={expanded.dishRating ? "chevron-up" : "chevron-down"}
           size={20}
@@ -162,7 +162,7 @@ const RateOrder = () => {
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
               <View style={styles.dishRow}>
-                <Text style={styles.dishName}>{item}</Text>
+                <Text allowFontScaling={false}  style={styles.dishName}>{item}</Text>
                 <View style={styles.dishIcons}>
                   <TouchableOpacity
                     onPress={() => handleDishFeedback(item, "like")}
@@ -204,7 +204,7 @@ const RateOrder = () => {
         style={styles.sectionSubHeader}
         onPress={() => toggleSection("detailedReview")}
       >
-        <Text style={styles.sectionTitle}>Add a Detailed Review</Text>
+        <Text allowFontScaling={false}  style={styles.sectionTitle}>Add a Detailed Review</Text>
         <Ionicons
           name={expanded.detailedReview ? "chevron-up" : "chevron-down"}
           size={20}
@@ -213,7 +213,7 @@ const RateOrder = () => {
       </TouchableOpacity>
       {expanded.detailedReview && (
         <View style={styles.sectionContent}>
-          <TextInput
+         <TextInput allowFontScaling={false} 
             style={styles.textInput}
             placeholder="Tell us about food you ordered here"
             multiline
@@ -226,7 +226,7 @@ const RateOrder = () => {
         style={styles.sectionSubHeader}
         onPress={() => toggleSection("deliveryRating")}
       >
-        <Text style={styles.sectionTitle}>Rate Your Delivery Partner</Text>
+        <Text allowFontScaling={false}  style={styles.sectionTitle}>Rate Your Delivery Partner</Text>
         <Ionicons
           name={expanded.deliveryRating ? "chevron-up" : "chevron-down"}
           size={20}
@@ -256,7 +256,7 @@ const RateOrder = () => {
       )}
 
       <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-        <Text style={styles.submitButtonText}>Submit</Text>
+        <Text allowFontScaling={false}  style={styles.submitButtonText}>Submit</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );

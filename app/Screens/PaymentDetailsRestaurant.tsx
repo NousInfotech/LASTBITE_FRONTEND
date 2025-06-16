@@ -67,94 +67,94 @@ const PaymentDetailsRestaurant: React.FC = () => {
         <TouchableOpacity onPress={() => router.back()}>
           <GoBack />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Payment Details</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Payment Details</Text>
       </View>
 
       <ScrollView style={styles.content}>
         <View style={styles.section}>
           <View style={styles.orderHeader}>
-            <Text style={styles.orderId}>Order ID: {params.id}</Text>
-            <Text style={[styles.status, { color: "#FF9800" }]}>{params.status}</Text>
+            <Text allowFontScaling={false}  style={styles.orderId}>Order ID: {params.id}</Text>
+            <Text allowFontScaling={false}  style={[styles.status, { color: "#FF9800" }]}>{params.status}</Text>
           </View>
           <View style={styles.row}>
-            <Text style={styles.label}>Payout Date</Text>
-            <Text style={styles.value}>{params.date}</Text>
+            <Text allowFontScaling={false}  style={styles.label}>Payout Date</Text>
+            <Text allowFontScaling={false}  style={styles.value}>{params.date}</Text>
           </View>
           <View style={styles.row}>
-            <Text style={styles.label}>Amount</Text>
-            <Text style={styles.value}>{params.amount}</Text>
+            <Text allowFontScaling={false}  style={styles.label}>Amount</Text>
+            <Text allowFontScaling={false}  style={styles.value}>{params.amount}</Text>
           </View>
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Earnings</Text>
+          <Text allowFontScaling={false}  style={styles.sectionTitle}>Earnings</Text>
           <View style={styles.row}>
-            <Text style={styles.label}>Base Earnings</Text>
-            <Text style={styles.value}>{paymentDetails.earnings.base}</Text>
+            <Text allowFontScaling={false}  style={styles.label}>Base Earnings</Text>
+            <Text allowFontScaling={false}  style={styles.value}>{paymentDetails.earnings.base}</Text>
           </View>
           <View style={styles.row}>
-            <Text style={styles.label}>Promotion</Text>
-            <Text style={styles.value}>{paymentDetails.earnings.promotion}</Text>
+            <Text allowFontScaling={false}  style={styles.label}>Promotion</Text>
+            <Text allowFontScaling={false}  style={styles.value}>{paymentDetails.earnings.promotion}</Text>
           </View>
           <View style={styles.row}>
-            <Text style={styles.label}>Deductions</Text>
-            <Text style={styles.value}>{paymentDetails.earnings.deductions}</Text>
+            <Text allowFontScaling={false}  style={styles.label}>Deductions</Text>
+            <Text allowFontScaling={false}  style={styles.value}>{paymentDetails.earnings.deductions}</Text>
           </View>
           <View style={styles.row}>
-            <Text style={styles.label}>Tax Deducted</Text>
-            <Text style={styles.value}>{paymentDetails.earnings.taxDeducted}</Text>
+            <Text allowFontScaling={false}  style={styles.label}>Tax Deducted</Text>
+            <Text allowFontScaling={false}  style={styles.value}>{paymentDetails.earnings.taxDeducted}</Text>
           </View>
           <View style={[styles.row]}>
-            <Text style={styles.label}>Final Amount</Text>
-            <Text style={styles.totalValue}>{paymentDetails.earnings.finalAmount}</Text>
+            <Text allowFontScaling={false}  style={styles.label}>Final Amount</Text>
+            <Text allowFontScaling={false}  style={styles.totalValue}>{paymentDetails.earnings.finalAmount}</Text>
           </View>
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Payment</Text>
+          <Text allowFontScaling={false}  style={styles.sectionTitle}>Payment</Text>
           <View style={styles.row}>
-            <Text style={styles.label}>Bank Account</Text>
-            <Text style={styles.value}>{paymentDetails.payment.bankAccount}</Text>
+            <Text allowFontScaling={false}  style={styles.label}>Bank Account</Text>
+            <Text allowFontScaling={false}  style={styles.value}>{paymentDetails.payment.bankAccount}</Text>
           </View>
           <View style={styles.row}>
-            <Text style={styles.label}>Transfer Date</Text>
-            <Text style={styles.value}>{paymentDetails.payment.transferDate}</Text>
+            <Text allowFontScaling={false}  style={styles.label}>Transfer Date</Text>
+            <Text allowFontScaling={false}  style={styles.value}>{paymentDetails.payment.transferDate}</Text>
           </View>
           <View style={styles.row}>
-            <Text style={styles.label}>Transaction ID</Text>
-            <Text style={styles.value}>{paymentDetails.payment.transactionId}</Text>
+            <Text allowFontScaling={false}  style={styles.label}>Transaction ID</Text>
+            <Text allowFontScaling={false}  style={styles.value}>{paymentDetails.payment.transactionId}</Text>
           </View>
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Order</Text>
+          <Text allowFontScaling={false}  style={styles.sectionTitle}>Order</Text>
           <View style={styles.row}>
-            <Text style={styles.label}>Order</Text>
-            <Text style={styles.value}>{paymentDetails.order.orderId}</Text>
+            <Text allowFontScaling={false}  style={styles.label}>Order</Text>
+            <Text allowFontScaling={false}  style={styles.value}>{paymentDetails.order.orderId}</Text>
           </View>
           <View style={styles.row}>
-            <Text style={styles.label}>Customer</Text>
-            <Text style={styles.value}>{paymentDetails.order.customer}</Text>
+            <Text allowFontScaling={false}  style={styles.label}>Customer</Text>
+            <Text allowFontScaling={false}  style={styles.value}>{paymentDetails.order.customer}</Text>
           </View>
           <View style={styles.row}>
-            <Text style={styles.label}>Total Order Value</Text>
-            <Text style={styles.value}>{paymentDetails.order.totalOrderValue}</Text>
+            <Text allowFontScaling={false}  style={styles.label}>Total Order Value</Text>
+            <Text allowFontScaling={false}  style={styles.value}>{paymentDetails.order.totalOrderValue}</Text>
           </View>
           <View style={styles.row}>
-            <Text style={styles.label}>Order Timestamp</Text>
-            <Text style={styles.value}>{paymentDetails.order.orderTimestamp}</Text>
+            <Text allowFontScaling={false}  style={styles.label}>Order Timestamp</Text>
+            <Text allowFontScaling={false}  style={styles.value}>{paymentDetails.order.orderTimestamp}</Text>
           </View>
         </View>
 
         <View style={[styles.section, styles.lastSection]}>
-          <Text style={styles.sectionTitle}>Payment Confirmation</Text>
+          <Text allowFontScaling={false}  style={styles.sectionTitle}>Payment Confirmation</Text>
           <View style={styles.row}>
-            <Text style={styles.label}>Amount Transferred to Bank</Text>
-            <Text style={styles.value}>{paymentDetails.confirmation.amountTransferred}</Text>
+            <Text allowFontScaling={false}  style={styles.label}>Amount Transferred to Bank</Text>
+            <Text allowFontScaling={false}  style={styles.value}>{paymentDetails.confirmation.amountTransferred}</Text>
           </View>
           <View style={styles.row}>
-            <Text style={styles.label}>Status</Text>
-            <Text style={[styles.value, { color: "#FF9800" }]}>
+            <Text allowFontScaling={false}  style={styles.label}>Status</Text>
+            <Text allowFontScaling={false}  style={[styles.value, { color: "#FF9800" }]}>
               {paymentDetails.confirmation.pending}
             </Text>
           </View>

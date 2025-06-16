@@ -103,7 +103,7 @@ const HiddenRestaurant = () => {
         <TouchableOpacity onPress={() => router.back()}>
           <GoBack />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Hidden Restaurants</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Hidden Restaurants</Text>
       </View>
 
       {hiddenRestaurants.length === 0 ? (
@@ -114,8 +114,8 @@ const HiddenRestaurant = () => {
               source={require("../../assets/images/Hidden.png")}
               style={styles.mainImage}
             />
-            <Text style={styles.Title}>No Hidden Restaurants</Text>
-            <Text style={styles.subText}>
+            <Text allowFontScaling={false}  style={styles.Title}>No Hidden Restaurants</Text>
+            <Text allowFontScaling={false}  style={styles.subText}>
               Restaurants you hide will appear here. You can unhide them anytime.
             </Text>
           </View>

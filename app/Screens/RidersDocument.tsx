@@ -191,10 +191,10 @@ const RegisterRestaurant = () => {
      required?: boolean
    ) => (
      <View style={styles.inputContainer}>
-       <Text style={styles.label}>
-         {label} {required && <Text style={styles.required}>*</Text>}
+       <Text allowFontScaling={false}  style={styles.label}>
+         {label} {required && <Text allowFontScaling={false}  style={styles.required}>*</Text>}
        </Text>
-       <TextInput
+      <TextInput allowFontScaling={false} 
          placeholder={placeholder || `Enter ${label}`}
          style={styles.input}
          placeholderTextColor="#A0A0A0"
@@ -208,48 +208,48 @@ const RegisterRestaurant = () => {
         <TouchableOpacity>
           <GoBack />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Riders Documents</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Riders Documents</Text>
       </View>
       <ScrollView style={styles.scrollView}>
     <View style={styles.formCard}>
-                  <Text style={styles.sectionTitle}>Documentations</Text>
-                  <Text style={styles.label}>
-                    Aadhar Card <Text style={styles.required}>*</Text>
+                  <Text allowFontScaling={false}  style={styles.sectionTitle}>Documentations</Text>
+                  <Text allowFontScaling={false}  style={styles.label}>
+                    Aadhar Card <Text allowFontScaling={false}  style={styles.required}>*</Text>
                   </Text>
                   <View style={styles.inputContainer_A}>
                     <TouchableOpacity
                       style={styles.uploadButton}
                       onPress={handleChooseFile}
                     >
-                      <Text style={styles.uploadButtonText}>Upload File</Text>
+                      <Text allowFontScaling={false}  style={styles.uploadButtonText}>Upload File</Text>
                     </TouchableOpacity>
-                    <Text style={styles.fileName}>
+                    <Text allowFontScaling={false}  style={styles.fileName}>
                       {form.profilePhoto ? "Profile chose" : "Choose a File"}
                     </Text>
                   </View>
                   {renderInput("Bank IFSC code", "Enter IFSC Code", true)}
                   {renderInput("Bank Account number", "Enter account number", true)}
-                  <Text style={styles.label}>
-                    Dreiving License <Text style={styles.required}>*</Text>
+                  <Text allowFontScaling={false}  style={styles.label}>
+                    Dreiving License <Text allowFontScaling={false}  style={styles.required}>*</Text>
                   </Text>
                   <View style={styles.inputContainer_A}>
                     <TouchableOpacity
                       style={styles.uploadButton}
                       onPress={handleChooseFile}
                     >
-                      <Text style={styles.uploadButtonText}>Upload File</Text>
+                      <Text allowFontScaling={false}  style={styles.uploadButtonText}>Upload File</Text>
                     </TouchableOpacity>
-                    <Text style={styles.fileName}>
+                    <Text allowFontScaling={false}  style={styles.fileName}>
                       {form.profilePhoto ? "Profile chose" : "Choose a File"}
                     </Text>
                   </View>
                 </View>
           <View style={styles.buttonContainer}>
                  <TouchableOpacity style={styles.cancelButton}>
-                   <Text style={styles.cancelButtonText}>Cancel</Text>
+                   <Text allowFontScaling={false}  style={styles.cancelButtonText}>Cancel</Text>
                  </TouchableOpacity>
                  <TouchableOpacity style={styles.saveButton}>
-                   <Text style={styles.saveButtonText}>Save</Text>
+                   <Text allowFontScaling={false}  style={styles.saveButtonText}>Save</Text>
                  </TouchableOpacity>
                </View>
       </ScrollView>

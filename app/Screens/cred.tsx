@@ -42,7 +42,7 @@ const PayLater = () => {
         <TouchableOpacity>
           <GoBack />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Pay on Method</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Pay on Method</Text>
       </View>
       <View style={styles.paymentContainer}>
         <TouchableOpacity
@@ -53,7 +53,7 @@ const PayLater = () => {
             style={styles.aImage}
           />
           <View style={styles.paymentDetails}>
-            <Text style={styles.paymentText}>CRED Pay</Text>
+            <Text allowFontScaling={false}  style={styles.paymentText}>CRED Pay</Text>
           </View>
         </TouchableOpacity>
       </View>

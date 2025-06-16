@@ -239,7 +239,7 @@ const CheckoutPageNavigation: React.FC<CheckoutPageProps> = ({ navigation }) => 
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <GoBack />
-        <Text style={styles.headerTitle}>Your cart</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Your cart</Text>
       </View>
 
       {/* Main content */}
@@ -248,9 +248,9 @@ const CheckoutPageNavigation: React.FC<CheckoutPageProps> = ({ navigation }) => 
           {/* Display cart items */}
           <View style={styles.itemsContainer}>
             <View style={styles.itemsHeader}>
-              <Text style={styles.itemsTitle}>Items in your cart</Text>
+              <Text allowFontScaling={false}  style={styles.itemsTitle}>Items in your cart</Text>
               <TouchableOpacity style={styles.addMoreButton} onPress={handleAddMoreButtonClick}>
-                <Text style={styles.addMoreButtonText}>+ Add More</Text>
+                <Text allowFontScaling={false}  style={styles.addMoreButtonText}>+ Add More</Text>
               </TouchableOpacity>
             </View>
             
@@ -258,19 +258,19 @@ const CheckoutPageNavigation: React.FC<CheckoutPageProps> = ({ navigation }) => 
               items.map((item, index) => (
                 <View key={index} style={styles.itemCard}>
                   <View style={styles.itemDetails}>
-                    <Text style={styles.itemName}>{item.name}</Text>
-                    <Text style={styles.itemPrice}>${item.price} × {item.quantity} ({item.weight})</Text>
+                    <Text allowFontScaling={false}  style={styles.itemName}>{item.name}</Text>
+                    <Text allowFontScaling={false}  style={styles.itemPrice}>${item.price} × {item.quantity} ({item.weight})</Text>
                   </View>
-                  <Text style={styles.itemTotal}>${(parseFloat(item.price) * item.quantity).toFixed(2)}</Text>
+                  <Text allowFontScaling={false}  style={styles.itemTotal}>${(parseFloat(item.price) * item.quantity).toFixed(2)}</Text>
                 </View>
               ))
             ) : (
-              <Text style={styles.emptyCartText}>Your cart is empty</Text>
+              <Text allowFontScaling={false}  style={styles.emptyCartText}>Your cart is empty</Text>
             )}
             
             <View style={styles.subtotalContainer}>
-              <Text style={styles.subtotalText}>Subtotal</Text>
-              <Text style={styles.subtotalAmount}>${totalAmount.toFixed(2)}</Text>
+              <Text allowFontScaling={false}  style={styles.subtotalText}>Subtotal</Text>
+              <Text allowFontScaling={false}  style={styles.subtotalAmount}>${totalAmount.toFixed(2)}</Text>
             </View>
           </View>
         </View>

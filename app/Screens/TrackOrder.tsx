@@ -79,8 +79,8 @@ const TrackOrder = () => {
           <GoBack />
         </View>
         <View style={styles.titleContainer}>
-          <Text style={styles.titleHeader}>Order From</Text>
-          <Text style={styles.titleText}>The Spice Hub</Text>
+          <Text allowFontScaling={false}  style={styles.titleHeader}>Order From</Text>
+          <Text allowFontScaling={false}  style={styles.titleText}>The Spice Hub</Text>
         </View>
       </View>
 
@@ -88,19 +88,19 @@ const TrackOrder = () => {
       <View style={styles.infoPanel}>
         <View style={styles.statusRow}>
           <View style={styles.timeBadge}>
-            <Text style={styles.timeNumber}>7</Text>
-            <Text style={styles.timeLabel}>mins</Text>
+            <Text allowFontScaling={false}  style={styles.timeNumber}>7</Text>
+            <Text allowFontScaling={false}  style={styles.timeLabel}>mins</Text>
           </View>
 
           <View style={styles.textSection}>
-            <Text style={styles.statusTitle}>Out for delivery</Text>
-            <Text style={styles.statusDescription}>
+            <Text allowFontScaling={false}  style={styles.statusTitle}>Out for delivery</Text>
+            <Text allowFontScaling={false}  style={styles.statusDescription}>
               David is on the way to deliver your order and will assist you.
             </Text>
           </View>
 
           <View style={styles.onTimeIndicator}>
-            <Text style={styles.onTimeText}>On Time</Text>
+            <Text allowFontScaling={false}  style={styles.onTimeText}>On Time</Text>
             <Icon name="check-circle" size={20} color="#01615F" />
           </View>
         </View>
@@ -111,7 +111,7 @@ const TrackOrder = () => {
             onPress={showInstructionsModal}
           >
             <Icon name="message-text-outline" size={18} color="#01615F" style={{ marginRight: 6 }} />
-            <Text style={styles.instructionsText}>Add Delivery Instructions</Text>
+            <Text allowFontScaling={false}  style={styles.instructionsText}>Add Delivery Instructions</Text>
           </TouchableOpacity>
           
           <TouchableOpacity style={styles.phoneButton}>
@@ -132,16 +132,16 @@ const TrackOrder = () => {
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
               <View style={styles.instructionsModal}>
                 <View style={styles.modalHeader}>
-                  <Text style={styles.modalTitle}>Add Delivery instructions</Text>
+                  <Text allowFontScaling={false}  style={styles.modalTitle}>Add Delivery instructions</Text>
                   <TouchableOpacity onPress={hideInstructionsModal}>
                     <Icon name="close" size={24} color="#333" />
                   </TouchableOpacity>
                 </View>
                 
-                <Text style={styles.modalSubtitle}>Directions to help the driver reach you</Text>
+                <Text allowFontScaling={false}  style={styles.modalSubtitle}>Directions to help the driver reach you</Text>
                 
                 <View style={styles.inputContainer}>
-                  <TextInput
+                 <TextInput allowFontScaling={false} 
                     style={styles.instructionsInput}
                     placeholder="Type directions"
                     multiline={true}
@@ -152,7 +152,7 @@ const TrackOrder = () => {
                   style={styles.submitButton}
                   onPress={hideInstructionsModal}
                 >
-                  <Text style={styles.submitButtonText}>Submit</Text>
+                  <Text allowFontScaling={false}  style={styles.submitButtonText}>Submit</Text>
                 </TouchableOpacity>
               </View>
             </TouchableWithoutFeedback>

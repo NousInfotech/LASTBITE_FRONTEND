@@ -73,7 +73,7 @@ const PlacesAutocompleteInput: React.FC<PlacesAutocompleteInputProps> = ({
 
   return (
     <View style={{ flex: 1 }}>
-      <TextInput
+     <TextInput allowFontScaling={false} 
         placeholder="Search for locations..."
         value={query}
         onChangeText={setQuery}
@@ -81,7 +81,7 @@ const PlacesAutocompleteInput: React.FC<PlacesAutocompleteInputProps> = ({
       />
       {loading && <ActivityIndicator size="small" style={{ marginTop: 10 }} />}
       {!loading && suggestions.length === 0 && query.length > 2 && (
-        <Text style={styles.noResults}>No results found</Text>
+        <Text allowFontScaling={false}  style={styles.noResults}>No results found</Text>
       )}
       <FlatList
         data={suggestions}
@@ -91,7 +91,7 @@ const PlacesAutocompleteInput: React.FC<PlacesAutocompleteInputProps> = ({
             onPress={() => handleSelect(item)}
             style={styles.item}
           >
-            <Text numberOfLines={1}>{item.display_name}</Text>
+            <Text allowFontScaling={false}  numberOfLines={1}>{item.display_name}</Text>
           </TouchableOpacity>
         )}
         keyboardShouldPersistTaps="handled"

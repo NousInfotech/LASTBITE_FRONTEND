@@ -114,7 +114,7 @@ const SelectRole = () => {
             />
           </View>
 
-          <Text
+          <Text allowFontScaling={false} 
             style={{
               color: "#929292",
               textAlign: "center",
@@ -185,7 +185,7 @@ const SelectRole = () => {
                   />
                 )}
               </View>
-              <Text
+              <Text allowFontScaling={false} 
                 style={{
                   fontFamily: activeOption === option ? "Poppins-Regular" : "Poppins-Medium",
                   fontSize: 14,

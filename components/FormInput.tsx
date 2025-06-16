@@ -48,7 +48,7 @@ const FormInput: React.FC<FormInputProps> = ({
 
   return (
     <React.Fragment>
-      <TextInput
+     <TextInput allowFontScaling={false} 
         style={[
           styles.input,
           isError ? styles.inputError : null,
@@ -64,7 +64,7 @@ const FormInput: React.FC<FormInputProps> = ({
         onBlur={() => setIsFocused(false)}
         {...rest} // Pass any additional props
       />
-      {isError && <Text style={styles.errorText}>{errorMessage}</Text>}
+      {isError && <Text allowFontScaling={false}  style={styles.errorText}>{errorMessage}</Text>}
     </React.Fragment>
   );
 };

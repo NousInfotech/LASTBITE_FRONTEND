@@ -69,8 +69,8 @@
 //       <View style={styles.locationHeader}>
 //         <Icon name="map-marker" size={32} color="#006A6A" />
 //         <View style={styles.locationTextContainer}>
-//           <Text style={styles.locationTitle}>LakeView street</Text>
-//           <Text style={styles.locationSubtitle}>
+//           <Text allowFontScaling={false}  style={styles.locationTitle}>LakeView street</Text>
+//           <Text allowFontScaling={false}  style={styles.locationSubtitle}>
 //             123, Green Valley, Lakeview Street
 //           </Text>
 //         </View>
@@ -78,37 +78,37 @@
 
 //       {/* Info Message */}
 //       <View style={styles.infoBox}>
-//         <Text style={styles.infoText}>
+//         <Text allowFontScaling={false}  style={styles.infoText}>
 //           A detailed address will help our delivery partner reach your doorstep
 //           easily.
 //         </Text>
 //       </View>
 
 //       {/* Form Inputs */}
-//       <TextInput
+//      <TextInput allowFontScaling={false} 
 //         style={styles.input}
 //         placeholder="House / Flat / Block No."
 //         value={formData.houseNo}
 //         onChangeText={(text) => setFormData({ ...formData, houseNo: text })}
 //       />
 
-//       <TextInput
+//      <TextInput allowFontScaling={false} 
 //         style={styles.input}
 //         placeholder="Apartment / Road / Area (Optional)"
 //         value={formData.apartment}
 //         onChangeText={(text) => setFormData({ ...formData, apartment: text })}
 //       />
 
-//       <Text style={styles.label}>Directions to reach (Optional)</Text>
+//       <Text allowFontScaling={false}  style={styles.label}>Directions to reach (Optional)</Text>
 
 //       <TouchableOpacity style={styles.voiceInput}>
-//         <Text style={styles.voiceInputText}>
+//         <Text allowFontScaling={false}  style={styles.voiceInputText}>
 //           Tap to record voice directions
 //         </Text>
 //         {/* <Icon name="microphone" size={20} color="#006A6A" /> */}
 //       </TouchableOpacity>
 
-//       <TextInput
+//      <TextInput allowFontScaling={false} 
 //         style={[styles.input, styles.directionsInput]} // Add the specific padding style
 //         placeholder="e.g. Ring the bell on the red gate..."
 //         value={formData.directions}
@@ -116,7 +116,7 @@
 //       />
 
 //       {/* Save As Tags */}
-//       <Text style={styles.label}>Save As</Text>
+//       <Text allowFontScaling={false}  style={styles.label}>Save As</Text>
 //       <View style={styles.tagsContainer}>
 //         {locationTags.map((tag) => (
 //           <TouchableOpacity
@@ -129,7 +129,7 @@
 //               size={16}
 //               color={selectedTag === tag.id ? "#006A6A" : "#666"}
 //             />
-//             <Text
+//             <Text allowFontScaling={false} 
 //               style={[
 //                 styles.tagText,
 //                 selectedTag === tag.id && styles.selectedTagText,
@@ -142,7 +142,7 @@
 //       </View>
 
 //       {/* Alternate Phone */}
-//       <TextInput
+//      <TextInput allowFontScaling={false} 
 //         style={styles.input}
 //         placeholder="Alternate phone number (Optional)"
 //         value={formData.alternatePhone}
@@ -380,13 +380,13 @@ const AddressInput: React.FC = () => {
         <TouchableOpacity onPress={() => router.back()}>
           <GoBack />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>
           {isEditing ? "Edit Address" : "Add New Address"}
         </Text>
       </View>
 
       {/* Address Type Selection */}
-      <Text style={styles.sectionTitle}>ADDRESS TYPE</Text>
+      <Text allowFontScaling={false}  style={styles.sectionTitle}>ADDRESS TYPE</Text>
       <View style={styles.addressTypeContainer}>
         <TouchableOpacity
           style={[
@@ -400,7 +400,7 @@ const AddressInput: React.FC = () => {
             size={24}
             color={addressType === "Home" ? "#01615F" : "#666"}
           />
-          <Text
+          <Text allowFontScaling={false} 
             style={[
               styles.addressTypeText,
               addressType === "Home" && styles.selectedAddressTypeText,
@@ -422,7 +422,7 @@ const AddressInput: React.FC = () => {
             size={24}
             color={addressType === "Work" ? "#01615F" : "#666"}
           />
-          <Text
+          <Text allowFontScaling={false} 
             style={[
               styles.addressTypeText,
               addressType === "Work" && styles.selectedAddressTypeText,
@@ -444,7 +444,7 @@ const AddressInput: React.FC = () => {
             size={24}
             color={addressType === "Other" ? "#01615F" : "#666"}
           />
-          <Text
+          <Text allowFontScaling={false} 
             style={[
               styles.addressTypeText,
               addressType === "Other" && styles.selectedAddressTypeText,
@@ -456,10 +456,10 @@ const AddressInput: React.FC = () => {
       </View>
 
       {/* Address Fields */}
-      <Text style={styles.sectionTitle}>ADDRESS DETAILS</Text>
+      <Text allowFontScaling={false}  style={styles.sectionTitle}>ADDRESS DETAILS</Text>
 
       {/* Building No and Name */}
-      <TextInput
+     <TextInput allowFontScaling={false} 
         style={styles.input}
         value={addressData.building}
         onChangeText={(value) => handleInputChange("building", value)}
@@ -467,7 +467,7 @@ const AddressInput: React.FC = () => {
       />
 
       {/* Street */}
-      <TextInput
+     <TextInput allowFontScaling={false} 
         style={styles.input}
         value={addressData.street}
         onChangeText={(value) => handleInputChange("street", value)}
@@ -475,7 +475,7 @@ const AddressInput: React.FC = () => {
       />
 
       {/* Town */}
-      <TextInput
+     <TextInput allowFontScaling={false} 
         style={styles.input}
         value={addressData.town}
         onChangeText={(value) => handleInputChange("town", value)}
@@ -483,7 +483,7 @@ const AddressInput: React.FC = () => {
       />
 
       {/* City */}
-      <TextInput
+     <TextInput allowFontScaling={false} 
         style={styles.input}
         value={addressData.city}
         onChangeText={(value) => handleInputChange("city", value)}
@@ -491,7 +491,7 @@ const AddressInput: React.FC = () => {
       />
 
       {/* State */}
-      <TextInput
+     <TextInput allowFontScaling={false} 
         style={styles.input}
         value={addressData.state}
         onChangeText={(value) => handleInputChange("state", value)}
@@ -499,7 +499,7 @@ const AddressInput: React.FC = () => {
       />
 
       {/* Country */}
-      <TextInput
+     <TextInput allowFontScaling={false} 
         style={styles.input}
         value={addressData.country}
         onChangeText={(value) => handleInputChange("country", value)}
@@ -507,7 +507,7 @@ const AddressInput: React.FC = () => {
       />
 
       {/* Pincode */}
-      <TextInput
+     <TextInput allowFontScaling={false} 
         style={styles.input}
         value={addressData.pincode}
         onChangeText={(value) => handleInputChange("pincode", value)}
@@ -518,7 +518,7 @@ const AddressInput: React.FC = () => {
       {/* Action Buttons */}
       <View style={styles.actions}>
         <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-          <Text style={styles.buttonText}>
+          <Text allowFontScaling={false}  style={styles.buttonText}>
             {isEditing ? "Update Address" : "Save Address"}
           </Text>
         </TouchableOpacity>
@@ -526,7 +526,7 @@ const AddressInput: React.FC = () => {
           style={styles.cancelButton}
           onPress={() => router.back()}
         >
-          <Text style={styles.buttonText}>Cancel</Text>
+          <Text allowFontScaling={false}  style={styles.buttonText}>Cancel</Text>
         </TouchableOpacity>
       </View>
       

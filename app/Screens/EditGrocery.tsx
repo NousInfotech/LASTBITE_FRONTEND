@@ -195,7 +195,7 @@ const EditGrocery = () => {
         <TouchableOpacity onPress={() => router.back()}>
           <GoBack />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Edit Grocery Items</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Edit Grocery Items</Text>
       </View>
 
       <ScrollView style={styles.scrollView}>
@@ -208,7 +208,7 @@ const EditGrocery = () => {
             />
           ) : (
             <View style={styles.imagePlaceholder}>
-              <Text style={styles.placeholderText}>Lorem ipsum</Text>
+              <Text allowFontScaling={false}  style={styles.placeholderText}>Lorem ipsum</Text>
             </View>
           )}
         </View>
@@ -216,8 +216,8 @@ const EditGrocery = () => {
         {/* Form Fields */}
         <View style={styles.formContainer}>
           <View style={styles.inputWrapper}>
-            <Text style={styles.label}>Item Name</Text>
-            <TextInput
+            <Text allowFontScaling={false}  style={styles.label}>Item Name</Text>
+           <TextInput allowFontScaling={false} 
               placeholder="Orange"
               style={styles.input}
               placeholderTextColor="#888"
@@ -227,7 +227,7 @@ const EditGrocery = () => {
           </View>
 
           <View style={styles.inputWrapper}>
-            <Text style={styles.label}>Category</Text>
+            <Text allowFontScaling={false}  style={styles.label}>Category</Text>
             <View style={styles.pickerWrapper}>
               <Picker
                 selectedValue={category}
@@ -245,8 +245,8 @@ const EditGrocery = () => {
           </View>
 
           <View style={styles.inputWrapper}>
-            <Text style={styles.label}>Quantity</Text>
-            <TextInput
+            <Text allowFontScaling={false}  style={styles.label}>Quantity</Text>
+           <TextInput allowFontScaling={false} 
               placeholder="1kg"
               style={styles.input}
               placeholderTextColor="#888"
@@ -256,8 +256,8 @@ const EditGrocery = () => {
           </View>
 
           <View style={styles.inputWrapper}>
-            <Text style={styles.label}>Price</Text>
-            <TextInput
+            <Text allowFontScaling={false}  style={styles.label}>Price</Text>
+           <TextInput allowFontScaling={false} 
               placeholder="₹130"
               style={styles.input}
               placeholderTextColor="#888"
@@ -268,8 +268,8 @@ const EditGrocery = () => {
           </View>
 
           <View style={styles.inputWrapper}>
-            <Text style={styles.label}>Country of origin</Text>
-            <TextInput
+            <Text allowFontScaling={false}  style={styles.label}>Country of origin</Text>
+           <TextInput allowFontScaling={false} 
               placeholder="India"
               style={styles.input}
               placeholderTextColor="#888"
@@ -279,8 +279,8 @@ const EditGrocery = () => {
           </View>
 
           <View style={styles.inputWrapper}>
-            <Text style={styles.label}>Storage</Text>
-            <TextInput
+            <Text allowFontScaling={false}  style={styles.label}>Storage</Text>
+           <TextInput allowFontScaling={false} 
               placeholder="..."
               style={styles.input}
               placeholderTextColor="#888"
@@ -290,8 +290,8 @@ const EditGrocery = () => {
           </View>
 
           <View style={styles.inputWrapper}>
-            <Text style={styles.label}>Description</Text>
-            <TextInput
+            <Text allowFontScaling={false}  style={styles.label}>Description</Text>
+           <TextInput allowFontScaling={false} 
               placeholder="..."
               style={[styles.input, styles.descriptionInput]}
               placeholderTextColor="#888"
@@ -302,7 +302,7 @@ const EditGrocery = () => {
           </View>
 
           <View style={styles.stockWrapper}>
-            <Text style={styles.label}>Stock Status</Text>
+            <Text allowFontScaling={false}  style={styles.label}>Stock Status</Text>
             <View style={styles.switchContainer}>
               <Switch
                 value={stockStatus}
@@ -310,7 +310,7 @@ const EditGrocery = () => {
                 trackColor={{ false: "#E5E5E5", true: "#01615F" }}
                 thumbColor={"#FFFFFF"}
               />
-              <Text style={stockStatus ? styles.availableText : styles.unavailableText}>
+              <Text allowFontScaling={false}  style={stockStatus ? styles.availableText : styles.unavailableText}>
                 {stockStatus ? "Available" : "Out of Stock"}
               </Text>
             </View>
@@ -319,10 +319,10 @@ const EditGrocery = () => {
           {/* Button Group */}
           <View style={styles.buttonGroup}>
             <TouchableOpacity style={styles.cancelButton} onPress={handleCancel}>
-              <Text style={styles.cancelButtonText}>Cancel</Text>
+              <Text allowFontScaling={false}  style={styles.cancelButtonText}>Cancel</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.saveButton} onPress={handleUpdateGrocery}>
-              <Text style={styles.saveButtonText}>Save</Text>
+              <Text allowFontScaling={false}  style={styles.saveButtonText}>Save</Text>
             </TouchableOpacity>
           </View>
         </View>

@@ -42,7 +42,7 @@ const PayLater = () => {
         <TouchableOpacity>
           <GoBack />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Pay Later</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Pay Later</Text>
       </View>
       <View style={styles.paymentContainer}>
         <TouchableOpacity
@@ -53,8 +53,8 @@ const PayLater = () => {
             style={styles.aImage}
           />
           <View style={styles.paymentDetails}>
-            <Text style={styles.paymentText}>SimpI</Text>
-            <Text style={styles.subText}>
+            <Text allowFontScaling={false}  style={styles.paymentText}>SimpI</Text>
+            <Text allowFontScaling={false}  style={styles.subText}>
               You are not eligible to use SimpI.Try other payment method
             </Text>
           </View>

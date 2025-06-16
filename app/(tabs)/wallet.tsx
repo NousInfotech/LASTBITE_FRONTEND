@@ -67,8 +67,8 @@ const Wallet = () => {
 
       {/* Content */}
       <View style={styles.content}>
-        <Text style={styles.title}>Good to go!</Text>
-        <Text style={styles.subtitle}>
+        <Text allowFontScaling={false}  style={styles.title}>Good to go!</Text>
+        <Text allowFontScaling={false}  style={styles.subtitle}>
           You are one step closer to extraordinary savings
         </Text>
 
@@ -96,7 +96,7 @@ const Wallet = () => {
               }
               style={styles.stepIcon}
             />
-            <Text style={styles.stepText}>Enter your PAN number</Text>
+            <Text allowFontScaling={false}  style={styles.stepText}>Enter your PAN number</Text>
           </View>
           <View style={styles.stepItem}>
   <Image
@@ -109,7 +109,7 @@ const Wallet = () => {
     }
     style={styles.stepIcon}
   />
-  <Text
+  <Text allowFontScaling={false} 
     style={[
       styles.stepText,
       (isPanCompleted || isPersonalCompleted) && { color: "#01615F" }, // Change color if either is true
@@ -128,7 +128,7 @@ const Wallet = () => {
         }
         style={styles.stepIcon}
       />
-      <Text
+      <Text allowFontScaling={false} 
         style={[
           styles.stepText,
           isPersonalCompleted && { color: "#01615F" }, 
@@ -143,7 +143,7 @@ const Wallet = () => {
           style={styles.continueButton}
           onPress={handleContinuePress}
         >
-          <Text style={styles.buttonText}>Continue</Text>
+          <Text allowFontScaling={false}  style={styles.buttonText}>Continue</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

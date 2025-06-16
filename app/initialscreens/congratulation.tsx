@@ -40,10 +40,10 @@ const Congratulation = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={[styles.title, { fontFamily: "Poppins-Medium" }]}>
+      <Text allowFontScaling={false}  style={[styles.title, { fontFamily: "Poppins-Medium" }]}>
         Congratulations!
       </Text>
-      <Text style={[styles.offer, { fontFamily: "Poppins-Regular" }]}>
+      <Text allowFontScaling={false}  style={[styles.offer, { fontFamily: "Poppins-Regular" }]}>
         Your welcome gift is unlocked!
       </Text>
       <Image

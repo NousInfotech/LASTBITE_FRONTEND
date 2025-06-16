@@ -5,13 +5,13 @@ import { RFPercentage } from 'react-native-responsive-fontsize';
 const OrderReviewNotice = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>
+      <Text allowFontScaling={false}  style={styles.heading}>
         Review your order and address details to avoid cancellations
       </Text>
       
       <View style={styles.noteContainer}>
-        <Text style={styles.noteLabel}>Note: </Text>
-        <Text style={styles.noteText}>
+        <Text allowFontScaling={false}  style={styles.noteLabel}>Note: </Text>
+        <Text allowFontScaling={false}  style={styles.noteText}>
           Please ensure your address and order details are correct. This order, if cancelled, is non-refundable.
         </Text>
       </View>
@@ -20,7 +20,7 @@ const OrderReviewNotice = () => {
         style={styles.policyButton}
         onPress={() => {/* Handle policy click */}}
       >
-        <Text style={styles.policyText}>READ POLICY</Text>
+        <Text allowFontScaling={false}  style={styles.policyText}>READ POLICY</Text>
       </TouchableOpacity>
     </View>
   );

@@ -46,8 +46,8 @@ const ShareModal: React.FC<ShareModalProps> = ({ visible, onClose, address }) =>
     >
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
-          <Text style={styles.modalTitle}>Share Address</Text>
-          <Text style={styles.modalAddress}>{address}</Text>
+          <Text allowFontScaling={false}  style={styles.modalTitle}>Share Address</Text>
+          <Text allowFontScaling={false}  style={styles.modalAddress}>{address}</Text>
 
           <View style={styles.iconContainer}>
             <TouchableOpacity onPress={() => handleShare("whatsapp")}>
@@ -68,7 +68,7 @@ const ShareModal: React.FC<ShareModalProps> = ({ visible, onClose, address }) =>
           </View>
 
           <TouchableOpacity style={styles.closeButton} onPress={onClose}>
-            <Text style={styles.closeButtonText}>Close</Text>
+            <Text allowFontScaling={false}  style={styles.closeButtonText}>Close</Text>
           </TouchableOpacity>
         </View>
       </View>

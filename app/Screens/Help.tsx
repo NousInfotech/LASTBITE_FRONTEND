@@ -76,16 +76,16 @@ const Help = () => {
             <GoBack />
           </TouchableOpacity>
         )}
-        <Text style={styles.headerTitle}>Help & Support</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Help & Support</Text>
       </View>
 
       {showRefunds ? (
         <View style={styles.container_A}>
           <View style={styles.card}>
             <View style={styles.header_A}>
-              <Text style={styles.storeName}>Spice House</Text>
+              <Text allowFontScaling={false}  style={styles.storeName}>Spice House</Text>
               <View style={styles.statusContainer}>
-                <Text style={styles.status}>Completed</Text>
+                <Text allowFontScaling={false}  style={styles.status}>Completed</Text>
                 <Image
                   source={require("../../assets/images/tick.png")}
                   style={styles.tickImage}
@@ -93,19 +93,19 @@ const Help = () => {
               </View>
             </View>
 
-            <Text style={styles.paymentMethod}>
-              <Text style={styles.boldText}>To:</Text> UPI
+            <Text allowFontScaling={false}  style={styles.paymentMethod}>
+              <Text allowFontScaling={false}  style={styles.boldText}>To:</Text> UPI
             </Text>
             <View style={styles.completedRow}>
-              <Text style={styles.completedOn}>
-                <Text style={styles.boldText}>Completed On:</Text> 15 Nov 2024
+              <Text allowFontScaling={false}  style={styles.completedOn}>
+                <Text allowFontScaling={false}  style={styles.boldText}>Completed On:</Text> 15 Nov 2024
               </Text>
-              <Text style={styles.amount}>₹280.00</Text>
+              <Text allowFontScaling={false}  style={styles.amount}>₹280.00</Text>
             </View>
 
             <TouchableOpacity style={styles.orderIdContainer}>
-              <Text style={styles.orderId}>
-                Order ID: <Text style={styles.boldText}>#56789</Text>
+              <Text allowFontScaling={false}  style={styles.orderId}>
+                Order ID: <Text allowFontScaling={false}  style={styles.boldText}>#56789</Text>
               </Text>
               <Ionicons name="chevron-forward" size={16} color="#777" />
             </TouchableOpacity>
@@ -115,33 +115,33 @@ const Help = () => {
               <View style={styles.timelineItem}>
                 <View style={styles.circle} />
                 <View style={styles.timelineText}>
-                  <Text style={styles.timelineTitle}>
+                  <Text allowFontScaling={false}  style={styles.timelineTitle}>
                     Last Bites has initiated your refund
                   </Text>
-                  <Text style={styles.timelineDate}>15 Nov 2024</Text>
-                  <Text style={styles.completedText}>Completed</Text>
+                  <Text allowFontScaling={false}  style={styles.timelineDate}>15 Nov 2024</Text>
+                  <Text allowFontScaling={false}  style={styles.completedText}>Completed</Text>
                 </View>
               </View>
 
               <View style={styles.timelineItem}>
                 <View style={styles.circle} />
                 <View style={styles.timelineText}>
-                  <Text style={styles.timelineTitle}>
+                  <Text allowFontScaling={false}  style={styles.timelineTitle}>
                     Your bank has processed your refund
                   </Text>
-                  <Text style={styles.timelineDate}>15 Nov 2024</Text>
-                  <Text style={styles.completedText}>Completed</Text>
+                  <Text allowFontScaling={false}  style={styles.timelineDate}>15 Nov 2024</Text>
+                  <Text allowFontScaling={false}  style={styles.completedText}>Completed</Text>
                 </View>
               </View>
 
               <View style={styles.timelineItem}>
                 <View style={styles.circle} />
                 <View style={styles.timelineText}>
-                  <Text style={styles.timelineTitle}>
+                  <Text allowFontScaling={false}  style={styles.timelineTitle}>
                     Refund credited to your account
                   </Text>
-                  <Text style={styles.timelineDate}>15 Nov 2024</Text>
-                  <Text style={styles.completedDescription}>
+                  <Text allowFontScaling={false}  style={styles.timelineDate}>15 Nov 2024</Text>
+                  <Text allowFontScaling={false}  style={styles.completedDescription}>
                     Completed: The refund amount should reflect in your account
                     by now. If there is an issue, please contact your bank's
                     customer support.
@@ -151,7 +151,7 @@ const Help = () => {
             </View>
           </View>
           <View style={styles.confirmationContainer}>
-            <Text style={styles.confirmationText}>
+            <Text allowFontScaling={false}  style={styles.confirmationText}>
               Did you receive Your Refund?
             </Text>
             <View style={styles.buttonRow}>
@@ -161,7 +161,7 @@ const Help = () => {
                     source={require("../../assets/images/Thumbs_up.png")}
                     style={styles.thumbImage}
                   />
-                  <Text style={styles.buttonText}>Yes</Text>
+                  <Text allowFontScaling={false}  style={styles.buttonText}>Yes</Text>
                 </View>
               </TouchableOpacity>
               <TouchableOpacity style={styles.noButton}>
@@ -170,7 +170,7 @@ const Help = () => {
                     source={require("../../assets/images/Thumbs_down.png")}
                     style={styles.thumbImage}
                   />
-                  <Text style={styles.buttonText}>No</Text>
+                  <Text allowFontScaling={false}  style={styles.buttonText}>No</Text>
                 </View>
               </TouchableOpacity>
             </View>
@@ -181,7 +181,7 @@ const Help = () => {
             style={styles.backButton}
           >
             <Ionicons name="arrow-back" size={16} color="#01615F" />
-            <Text style={styles.backText}>Back</Text>
+            <Text allowFontScaling={false}  style={styles.backText}>Back</Text>
           </TouchableOpacity> */}
         </View>
       ) : (
@@ -189,13 +189,13 @@ const Help = () => {
           <View style={styles.refundContainer}>
             <View style={styles.refundContent}>
               <View>
-                <Text style={styles.refundText}>You have 1 Active Refund</Text>
+                <Text allowFontScaling={false}  style={styles.refundText}>You have 1 Active Refund</Text>
                 <TouchableOpacity
                   style={styles.viewRefundButton}
                   onPress={() => setShowRefunds(true)}
                 >
                   <View style={styles.viewRefundContent}>
-                    <Text style={styles.viewRefundText}>View All Refunds</Text>
+                    <Text allowFontScaling={false}  style={styles.viewRefundText}>View All Refunds</Text>
                     <Ionicons
                       name="chevron-forward"
                       size={16}
@@ -214,20 +214,20 @@ const Help = () => {
           </View>
 
           <View style={styles.orderContainer}>
-            <Text style={styles.orderTitle}>Recent Order</Text>
+            <Text allowFontScaling={false}  style={styles.orderTitle}>Recent Order</Text>
             <View style={styles.orderDetails}>
               <View style={styles.orderHeader}>
                 <View>
-                  <Text style={styles.restaurantName}>Biryani Central</Text>
-                  <Text style={styles.orderInfo}>Indiranagar, Bangalore</Text>
+                  <Text allowFontScaling={false}  style={styles.restaurantName}>Biryani Central</Text>
+                  <Text allowFontScaling={false}  style={styles.orderInfo}>Indiranagar, Bangalore</Text>
                 </View>
                 <View style={styles.orderMeta}>
-                  <Text style={styles.orderAmount}>₹250</Text>
-                  <Text style={styles.orderDate}>12th Nov 2024, 7:30 PM</Text>
+                  <Text allowFontScaling={false}  style={styles.orderAmount}>₹250</Text>
+                  <Text allowFontScaling={false}  style={styles.orderDate}>12th Nov 2024, 7:30 PM</Text>
                 </View>
               </View>
-              <Text style={styles.itemsText}>Items</Text>
-              <Text style={styles.itemsDetails}>
+              <Text allowFontScaling={false}  style={styles.itemsText}>Items</Text>
+              <Text allowFontScaling={false}  style={styles.itemsDetails}>
                 Spicy Chicken Biryani - 1 Plate, Raita - 1 Cup & Gulab Jamun - 2
                 Pieces
               </Text>
@@ -236,32 +236,32 @@ const Help = () => {
 
           {/* Help with Other Queries */}
           <View style={styles.queriesContainer}>
-            <Text style={styles.queriesTitle}>Help with Other Queries</Text>
+            <Text allowFontScaling={false}  style={styles.queriesTitle}>Help with Other Queries</Text>
 
             <TouchableOpacity style={styles.queryButton} onPress={navigateToGeneralIssues}>
               <View style={styles.queryContent}>
-                <Text style={styles.queryButtonText}>General issues</Text>
+                <Text allowFontScaling={false}  style={styles.queryButtonText}>General issues</Text>
                 <Ionicons name="chevron-forward" size={16} color="#777" />
               </View>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.queryButton} onPress={navigateToFaq}>
               <View style={styles.queryContent}>
-                <Text style={styles.queryButtonText}>FAQs</Text>
+                <Text allowFontScaling={false}  style={styles.queryButtonText}>FAQs</Text>
                 <Ionicons name="chevron-forward" size={16} color="#777" />
               </View>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.queryButton} onPress={navigateToInstamartOnboarding}>
               <View style={styles.queryContent}>
-                <Text style={styles.queryButtonText}>Instamart Onboarding</Text>
+                <Text allowFontScaling={false}  style={styles.queryButtonText}>Instamart Onboarding</Text>
                 <Ionicons name="chevron-forward" size={16} color="#777" />
               </View>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.queryButton} onPress={navigateToLegalRegulations}>
               <View style={styles.queryContent}>
-                <Text style={styles.queryButtonText}>
+                <Text allowFontScaling={false}  style={styles.queryButtonText}>
                   Legal Terms & Conditions
                 </Text>
                 <Ionicons name="chevron-forward" size={16} color="#777" />

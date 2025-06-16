@@ -190,10 +190,10 @@ const RegisterRestaurant = () => {
      required?: boolean
    ) => (
      <View style={styles.inputContainer}>
-       <Text style={styles.label}>
-         {label} {required && <Text style={styles.required}>*</Text>}
+       <Text allowFontScaling={false}  style={styles.label}>
+         {label} {required && <Text allowFontScaling={false}  style={styles.required}>*</Text>}
        </Text>
-       <TextInput
+      <TextInput allowFontScaling={false} 
          placeholder={placeholder || `Enter ${label}`}
          style={styles.input}
          placeholderTextColor="#A0A0A0"
@@ -207,12 +207,12 @@ const RegisterRestaurant = () => {
         <TouchableOpacity>
           <GoBack />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Address</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Address</Text>
       </View>
       <ScrollView style={styles.scrollView}>
         <View style={styles.formCard}>
                      <View style={styles.formSection}>
-                       <Text style={styles.sectionTitle}>Address Details</Text>
+                       <Text allowFontScaling={false}  style={styles.sectionTitle}>Address Details</Text>
                        {renderInput("Plot Number", "PlotNo", true)}
                        {renderInput("Address", "Address", true)}
                        {renderInput(
@@ -226,10 +226,10 @@ const RegisterRestaurant = () => {
                    </View>
           <View style={styles.buttonContainer}>
                  <TouchableOpacity style={styles.cancelButton}>
-                   <Text style={styles.cancelButtonText}>Cancel</Text>
+                   <Text allowFontScaling={false}  style={styles.cancelButtonText}>Cancel</Text>
                  </TouchableOpacity>
                  <TouchableOpacity style={styles.saveButton}>
-                   <Text style={styles.saveButtonText}>Save</Text>
+                   <Text allowFontScaling={false}  style={styles.saveButtonText}>Save</Text>
                  </TouchableOpacity>
                </View>
       </ScrollView>

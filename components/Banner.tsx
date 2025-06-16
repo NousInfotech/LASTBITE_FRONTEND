@@ -35,12 +35,12 @@ const Banner = ({
       <View style={[styles.container, { backgroundColor, height, borderRadius }]}>
         <View style={styles.contentContainer}>
           <View style={styles.textContainer}>
-            <Text style={[styles.title, { color: titleColor }]} className='poppins-font-bold'>
+            <Text allowFontScaling={false}  style={[styles.title, { color: titleColor }]} className='poppins-font-bold'>
               {title}
             </Text>
             <View style={styles.subtitleContainer}>
-              <Text style={[styles.subtitle, { color: subtitleColor }]}>{subtitle}{' '}
-                <Text style={[styles.subtitle, { color: subtitleColor }]}>
+              <Text allowFontScaling={false}  style={[styles.subtitle, { color: subtitleColor }]}>{subtitle}{' '}
+                <Text allowFontScaling={false}  style={[styles.subtitle, { color: subtitleColor }]}>
                   {deliveryTime}
                 </Text>
               </Text>
@@ -49,7 +49,7 @@ const Banner = ({
               style={[styles.button, { backgroundColor: buttonColor }]}
               onPress={() => router.push('/(tabs)/supermart')}
             >
-              <Text style={[styles.buttonText, { color: buttonTextColor }]}>{buttonText}</Text>
+              <Text allowFontScaling={false}  style={[styles.buttonText, { color: buttonTextColor }]}>{buttonText}</Text>
             </TouchableOpacity>
           </View>
   

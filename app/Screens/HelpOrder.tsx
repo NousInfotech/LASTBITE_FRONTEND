@@ -135,18 +135,18 @@ const HelpOrder = () => {
           <TouchableOpacity>
             <GoBack />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Raise New Query</Text>
+          <Text allowFontScaling={false}  style={styles.headerTitle}>Raise New Query</Text>
         </View>
 
         <View style={styles.form}>
-          <Text style={styles.label}>
-            Query Type <Text style={styles.required}>*</Text>
+          <Text allowFontScaling={false}  style={styles.label}>
+            Query Type <Text allowFontScaling={false}  style={styles.required}>*</Text>
           </Text>
           <TouchableOpacity
             style={styles.input}
             onPress={() => setModalVisible(true)}
           >
-            <Text style={styles.inputText}>{queryType || "Select Query Type"}</Text>
+            <Text allowFontScaling={false}  style={styles.inputText}>{queryType || "Select Query Type"}</Text>
             <Ionicons name="chevron-down" size={18} color="#01615F" />
           </TouchableOpacity>
 
@@ -166,7 +166,7 @@ const HelpOrder = () => {
                       style={styles.radioOption}
                       onPress={() => handleSelectQueryType(option)}
                     >
-                      <Text style={styles.radioOptionText}>{option}</Text>
+                      <Text allowFontScaling={false}  style={styles.radioOptionText}>{option}</Text>
                       <Ionicons
                         name={selectedOption === option ? "radio-button-on" : "radio-button-off"}
                         size={18}
@@ -179,55 +179,55 @@ const HelpOrder = () => {
             </View>
           </Modal>
 
-          <Text style={styles.label}>Order ID</Text>
-          <TextInput style={styles.input} placeholder="Select Your Order" />
+          <Text allowFontScaling={false}  style={styles.label}>Order ID</Text>
+         <TextInput allowFontScaling={false}  style={styles.input} placeholder="Select Your Order" />
 
          
 
-          <Text style={styles.label}>Subject <Text style={styles.required}>*</Text></Text>
-          <TextInput
+          <Text allowFontScaling={false}  style={styles.label}>Subject <Text allowFontScaling={false}  style={styles.required}>*</Text></Text>
+         <TextInput allowFontScaling={false} 
             style={styles.input}
             placeholder="Short Description of the query"
           />
 
-          <Text style={styles.label}>Description</Text>
-          <TextInput
+          <Text allowFontScaling={false}  style={styles.label}>Description</Text>
+         <TextInput allowFontScaling={false} 
             style={[styles.input, styles.textarea]}
             multiline={true}
             numberOfLines={4}
             placeholder="Detailed Explanation  of the issue"
           />
 
-          <Text style={styles.label}>
-            Phone number <Text style={styles.required}>*</Text>
+          <Text allowFontScaling={false}  style={styles.label}>
+            Phone number <Text allowFontScaling={false}  style={styles.required}>*</Text>
           </Text>
-          <TextInput style={styles.input} placeholder="+91 000000000" />
+         <TextInput allowFontScaling={false}  style={styles.input} placeholder="+91 000000000" />
 
-          <Text style={styles.label}>
-            Email <Text style={styles.required}>*</Text>
+          <Text allowFontScaling={false}  style={styles.label}>
+            Email <Text allowFontScaling={false}  style={styles.required}>*</Text>
           </Text>
-          <TextInput style={styles.input} placeholder="Youremail@gmail.com" />
+         <TextInput allowFontScaling={false}  style={styles.input} placeholder="Youremail@gmail.com" />
 
-          <Text style={styles.label}>Upload Attachments</Text>
+          <Text allowFontScaling={false}  style={styles.label}>Upload Attachments</Text>
           <View style={styles.inputContainer}>
             <TouchableOpacity style={styles.uploadButton} 
             // onPress={handleChooseFile}
             >
-              <Text style={styles.uploadButtonText}>Choose File</Text>
+              <Text allowFontScaling={false}  style={styles.uploadButtonText}>Choose File</Text>
             </TouchableOpacity>
-            <Text style={styles.fileName}>
+            <Text allowFontScaling={false}  style={styles.fileName}>
               {chosenFile ? chosenFile : "No Chosen File"}
             </Text>
           </View>
 
-          <Text style={styles.label}>
-            Date of Incident <Text style={styles.required}>*</Text>
+          <Text allowFontScaling={false}  style={styles.label}>
+            Date of Incident <Text allowFontScaling={false}  style={styles.required}>*</Text>
           </Text>
           <TouchableOpacity
             style={styles.input}
             onPress={() => setDatePickerVisibility(true)}
           >
-            <Text style={styles.inputText}>
+            <Text allowFontScaling={false}  style={styles.inputText}>
               {incidentDate || "Select Date"}
             </Text>
             <Ionicons name="calendar" size={18} color="#ccc" />
@@ -254,7 +254,7 @@ const HelpOrder = () => {
                 <Ionicons name="checkmark" size={18} color="#01615F" />
               )}
             </View>
-            <Text style={styles.checkboxLabel}>
+            <Text allowFontScaling={false}  style={styles.checkboxLabel}>
               Confirm that information provided is accurate.
             </Text>
           </Pressable>
@@ -264,7 +264,7 @@ const HelpOrder = () => {
              onPress={handleSubmit}
              disabled={!validateForm()}
           >
-            <Text style={styles.submitButtonText}>Submit Query</Text>
+            <Text allowFontScaling={false}  style={styles.submitButtonText}>Submit Query</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

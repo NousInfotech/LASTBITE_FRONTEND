@@ -151,21 +151,21 @@ const BillingScreen = () => {
     index: number;
   }) => (
     <View style={styles.cartItem}>
-      <Text style={styles.cartItemText}>{item.name}</Text>
+      <Text allowFontScaling={false}  style={styles.cartItemText}>{item.name}</Text>
 
       <View style={styles.quantityControls}>
         <QuantityButton
           onPress={() => handleQuantityChange(index, "decrement")}
           label="-"
         />
-        <Text style={styles.quantityText}>{item.quantity}</Text>
+        <Text allowFontScaling={false}  style={styles.quantityText}>{item.quantity}</Text>
         <QuantityButton
           onPress={() => handleQuantityChange(index, "increment")}
           label="+"
         />
       </View>
 
-      <Text style={styles.cartItemPrice}>
+      <Text allowFontScaling={false}  style={styles.cartItemPrice}>
         ${(item.price * item.quantity).toFixed(2)}
       </Text>
     </View>
@@ -179,7 +179,7 @@ const BillingScreen = () => {
     label: string;
   }) => (
     <TouchableOpacity onPress={onPress} style={styles.button}>
-      <Text style={styles.buttonText}>{label}</Text>
+      <Text allowFontScaling={false}  style={styles.buttonText}>{label}</Text>
     </TouchableOpacity>
   );
 
@@ -193,7 +193,7 @@ const BillingScreen = () => {
 
     return (
       <View style={styles.savingsCornerContainer}>
-        <Text style={styles.savingsCornerText}>SAVINGS CORNER</Text>
+        <Text allowFontScaling={false}  style={styles.savingsCornerText}>SAVINGS CORNER</Text>
 
         <TouchableOpacity style={styles.applyCouponContainer}>
           <Image
@@ -202,10 +202,10 @@ const BillingScreen = () => {
           />
 
           <View style={styles.textContainer}>
-            <Text style={styles.applyCouponText}>Save $150 on this order</Text>
+            <Text allowFontScaling={false}  style={styles.applyCouponText}>Save $150 on this order</Text>
             <TouchableOpacity onPress={() => router.push("./ApplyCoupon")}>
               <View style={styles.viewAllContainer}>
-                <Text style={styles.viewAllText}>View all coupons</Text>
+                <Text allowFontScaling={false}  style={styles.viewAllText}>View all coupons</Text>
                 <MaterialIcons name="chevron-right" size={16} color="#01615F" />
               </View>
             </TouchableOpacity>
@@ -216,12 +216,12 @@ const BillingScreen = () => {
               style={styles.applyButton}
               onPress={() => setIsModalVisible(true)}
             >
-              <Text style={styles.applyButtonText}>APPLY</Text>
+              <Text allowFontScaling={false}  style={styles.applyButtonText}>APPLY</Text>
             </TouchableOpacity>
           ) : (
             <View style={styles.appliedContainer}>
               <MaterialIcons name="check-circle" size={20} color="#01615F" />
-              <Text style={styles.appliedText}>APPLIED</Text>
+              <Text allowFontScaling={false}  style={styles.appliedText}>APPLIED</Text>
             </View>
           )}
         </TouchableOpacity>
@@ -242,7 +242,7 @@ const BillingScreen = () => {
         style={styles.addMoreButton}
         onPress={navigateToAddMoreItems}
       >
-        <Text style={styles.addMoreButtonText}>+ Add More Items</Text>
+        <Text allowFontScaling={false}  style={styles.addMoreButtonText}>+ Add More Items</Text>
       </TouchableOpacity>
     );
   };
@@ -254,7 +254,7 @@ const BillingScreen = () => {
         <TouchableOpacity onPress={() => router.back()}>
           <GoBack />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>{restaurantName}</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>{restaurantName}</Text>
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -271,64 +271,64 @@ const BillingScreen = () => {
         </View>
 
         {/* <View style={styles.simpleContainer}>
-          <Text style={styles.completeMealText}>COMPLETE YOUR MEAL</Text>
+          <Text allowFontScaling={false}  style={styles.completeMealText}>COMPLETE YOUR MEAL</Text>
         </View> */}
 
         <SavingsCorner />
 
         {/* Delivery Type Section */}
         <View style={styles.Delivery}>
-          <Text style={styles.DelieveryText}>Delivery Type</Text>
-          <Text style={styles.DelieverySubText}>
+          <Text allowFontScaling={false}  style={styles.DelieveryText}>Delivery Type</Text>
+          <Text allowFontScaling={false}  style={styles.DelieverySubText}>
             Your food will always be fresh!
           </Text>
         </View>
         <DeliveryTypeSelection />
         <View style={styles.instructionsSection}>
-          <Text style={styles.instructionsTitle}>Delivery Instructions</Text>
+          <Text allowFontScaling={false}  style={styles.instructionsTitle}>Delivery Instructions</Text>
           <DelieveryInstruction />
         </View>
         <View style={styles.billSection}>
-          <Text style={styles.billTitle}>Bill Details</Text>
+          <Text allowFontScaling={false}  style={styles.billTitle}>Bill Details</Text>
         </View>
         <View style={styles.billContainer}>
           <View style={styles.billItem}>
-            <Text style={styles.billText}>Item Total</Text>
-            <Text style={styles.billText}>${totalAmount.toFixed(2)}</Text>
+            <Text allowFontScaling={false}  style={styles.billText}>Item Total</Text>
+            <Text allowFontScaling={false}  style={styles.billText}>${totalAmount.toFixed(2)}</Text>
           </View>
           <View style={styles.billItem}>
-            <Text style={styles.billText}>Delivery Fee || 11.0 Kms</Text>
-            <Text style={styles.billText}>${deliveryFee.toFixed(2)}</Text>
+            <Text allowFontScaling={false}  style={styles.billText}>Delivery Fee || 11.0 Kms</Text>
+            <Text allowFontScaling={false}  style={styles.billText}>${deliveryFee.toFixed(2)}</Text>
           </View>
           <View style={styles.billItem}>
-            <Text style={styles.billText}>Platform Fee</Text>
-            <Text style={styles.billText}>${platformFee.toFixed(2)}</Text>
+            <Text allowFontScaling={false}  style={styles.billText}>Platform Fee</Text>
+            <Text allowFontScaling={false}  style={styles.billText}>${platformFee.toFixed(2)}</Text>
           </View>
           <View style={styles.billItem}>
-            <Text style={styles.billText}>GST ({gstPercentage}%)</Text>
-            <Text style={styles.billText}>
+            <Text allowFontScaling={false}  style={styles.billText}>GST ({gstPercentage}%)</Text>
+            <Text allowFontScaling={false}  style={styles.billText}>
               ${calculateGST(totalAmount).toFixed(2)}
             </Text>
           </View>
           <View style={styles.billItem}>
-            <Text style={styles.billText}>Restaurant Charges</Text>
-            <Text style={styles.billText}>${restaurantCharges.toFixed(2)}</Text>
+            <Text allowFontScaling={false}  style={styles.billText}>Restaurant Charges</Text>
+            <Text allowFontScaling={false}  style={styles.billText}>${restaurantCharges.toFixed(2)}</Text>
           </View>
           <View style={styles.billTotal}>
-            <Text style={styles.totaltoText}>To Pay</Text>
-            <Text style={styles.totaltoText}>
+            <Text allowFontScaling={false}  style={styles.totaltoText}>To Pay</Text>
+            <Text allowFontScaling={false}  style={styles.totaltoText}>
               ${calculateTotal().toFixed(2)}
             </Text>
           </View>
         </View>
         <View style={styles.billSection}>
-          <Text style={styles.billTitle}>
+          <Text allowFontScaling={false}  style={styles.billTitle}>
             Review your order and address details to avoid cancellations
           </Text>
         </View>
         <View style={styles.reviewContainer}>
-          <Text style={styles.noteText}>
-            <Text style={styles.boldText}>Note:</Text> Please ensure your
+          <Text allowFontScaling={false}  style={styles.noteText}>
+            <Text allowFontScaling={false}  style={styles.boldText}>Note:</Text> Please ensure your
             address and order details are correct. This order, if cancelled, is
             non-refundable.
           </Text>

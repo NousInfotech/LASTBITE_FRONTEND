@@ -18,7 +18,7 @@ const CurrentLocation: React.FC<CurrentLocationButtonProps> = ({
       style={{ flexDirection: "row", alignItems: "center", padding: 20 }}
     >
       <Icon name="map-pin" size={18} color="#01615F" />
-      <Text
+      <Text allowFontScaling={false} 
         style={{
           marginLeft: 8,
           color: "#01615F",

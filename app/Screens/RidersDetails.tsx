@@ -190,10 +190,10 @@ const RegisterRestaurant = () => {
       required?: boolean
     ) => (
       <View style={styles.inputContainer}>
-        <Text style={styles.label}>
-          {label} {required && <Text style={styles.required}>*</Text>}
+        <Text allowFontScaling={false}  style={styles.label}>
+          {label} {required && <Text allowFontScaling={false}  style={styles.required}>*</Text>}
         </Text>
-        <TextInput
+       <TextInput allowFontScaling={false} 
           placeholder={placeholder || `Enter ${label}`}
           style={styles.input}
           placeholderTextColor="#A0A0A0"
@@ -207,7 +207,7 @@ const RegisterRestaurant = () => {
         <TouchableOpacity>
           <GoBack />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Basic Details</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Basic Details</Text>
       </View>
       <View style={styles.profileCard}>
         <View style={styles.profileImageContainer}>
@@ -216,26 +216,26 @@ const RegisterRestaurant = () => {
             <Entypo name="camera" size={13} color="#fff" />
           </TouchableOpacity>
         </View>
-        <Text style={styles.profileName}>Lorem Ipsum</Text>
+        <Text allowFontScaling={false}  style={styles.profileName}>Lorem Ipsum</Text>
       </View>
       <ScrollView style={styles.scrollView}>
         <View style={styles.formCard}>
                      <View style={styles.formSection}>
-                       <Text style={styles.sectionTitle}>Basic Details</Text>
+                       <Text allowFontScaling={false}  style={styles.sectionTitle}>Basic Details</Text>
                        {renderInput("Name", "Enter Full name", true)}
                        {renderInput("Email Address", "Enter email address", true)}
                        {renderInput("Mobile Number", "Enter mobile number", true)}
-                       <Text style={styles.label}>
-                         Profile Photo <Text style={styles.required}>*</Text>
+                       <Text allowFontScaling={false}  style={styles.label}>
+                         Profile Photo <Text allowFontScaling={false}  style={styles.required}>*</Text>
                        </Text>
                        <View style={styles.inputContainer_A}>
                          <TouchableOpacity
                            style={styles.uploadButton}
                            onPress={handleChooseFile}
                          >
-                           <Text style={styles.uploadButtonText}>Upload File</Text>
+                           <Text allowFontScaling={false}  style={styles.uploadButtonText}>Upload File</Text>
                          </TouchableOpacity>
-                         <Text style={styles.fileName}>
+                         <Text allowFontScaling={false}  style={styles.fileName}>
                            {form.profilePhoto ? "Profile chose" : "Choose a File"}
                          </Text>
                        </View>
@@ -243,10 +243,10 @@ const RegisterRestaurant = () => {
                    </View>
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.cancelButton}>
-            <Text style={styles.cancelButtonText}>Cancel</Text>
+            <Text allowFontScaling={false}  style={styles.cancelButtonText}>Cancel</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.saveButton}>
-            <Text style={styles.saveButtonText}>Save</Text>
+            <Text allowFontScaling={false}  style={styles.saveButtonText}>Save</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

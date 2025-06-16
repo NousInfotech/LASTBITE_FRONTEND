@@ -52,14 +52,14 @@ const AddCard = () => {
         <TouchableOpacity>
           <GoBack />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Add New Card</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Add New Card</Text>
       </View>
 
       {/* Content */}
       <View style={styles.content}>
         {/* Card Number */}
-        <Text style={styles.label}>Card Number</Text>
-        <TextInput
+        <Text allowFontScaling={false}  style={styles.label}>Card Number</Text>
+       <TextInput allowFontScaling={false} 
           style={styles.input}
           placeholder="Enter your Card Number"
           value={cardDetails.cardNumber}
@@ -69,8 +69,8 @@ const AddCard = () => {
         {/* Valid Through and CVV */}
         <View style={styles.row}>
           <View style={{ flex: 1, marginRight: 8 }}>
-            <Text style={styles.label}>Valid Through (MM/YY)</Text>
-            <TextInput
+            <Text allowFontScaling={false}  style={styles.label}>Valid Through (MM/YY)</Text>
+           <TextInput allowFontScaling={false} 
               style={styles.input}
               placeholder="MM/YY"
               value={cardDetails.validThrough}
@@ -78,8 +78,8 @@ const AddCard = () => {
             />
           </View>
           <View style={{ flex: 1, marginLeft: 8 }}>
-            <Text style={styles.label}>CVV</Text>
-            <TextInput
+            <Text allowFontScaling={false}  style={styles.label}>CVV</Text>
+           <TextInput allowFontScaling={false} 
               style={styles.input}
               placeholder="Enter CVV"
               value={cardDetails.cvv}
@@ -90,8 +90,8 @@ const AddCard = () => {
         </View>
 
         {/* Name on Card */}
-        <Text style={styles.label}>Name on Card</Text>
-        <TextInput
+        <Text allowFontScaling={false}  style={styles.label}>Name on Card</Text>
+       <TextInput allowFontScaling={false} 
           style={styles.input}
           placeholder="Enter the name on card"
           value={cardDetails.nameOnCard}
@@ -99,8 +99,8 @@ const AddCard = () => {
         />
 
         {/* Card Nickname */}
-        <Text style={styles.label}>Card Nickname  (For easy identification)</Text>
-        <TextInput
+        <Text allowFontScaling={false}  style={styles.label}>Card Nickname  (For easy identification)</Text>
+       <TextInput allowFontScaling={false} 
           style={styles.input}
           placeholder="Enter the card nickname"
           value={cardDetails.cardNickname}
@@ -118,11 +118,11 @@ const AddCard = () => {
               { backgroundColor: isChecked ? "#01615F" : "#fff" },
             ]}
           >
-            {isChecked && <Text style={styles.tickMark}>✓</Text>}
+            {isChecked && <Text allowFontScaling={false}  style={styles.tickMark}>✓</Text>}
           </View>
-          <Text style={styles.checkboxLabel}>
+          <Text allowFontScaling={false}  style={styles.checkboxLabel}>
             Secure this card.{" "}
-            <Text style={styles.link}>Why is it important?</Text>
+            <Text allowFontScaling={false}  style={styles.link}>Why is it important?</Text>
           </Text>
         </TouchableOpacity>
 
@@ -139,7 +139,7 @@ const AddCard = () => {
           disabled={!Object.values(cardDetails).every((val) => val)}
           onPress={() => alert("Card Details Saved")}
         >
-          <Text style={styles.buttonText}>Proceed</Text>
+          <Text allowFontScaling={false}  style={styles.buttonText}>Proceed</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

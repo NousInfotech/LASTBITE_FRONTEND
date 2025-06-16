@@ -48,11 +48,11 @@ const SignInScreen = () => {
         />
       </View>
       <View style={styles.formContainer}>
-        <Text style={styles.title}>Login </Text>
+        <Text allowFontScaling={false}  style={styles.title}>Login </Text>
         <View style={styles.form}>
           {/* Email Input */}
-          <Text style={styles.label}>
-            Email <Text style={styles.required}>*</Text>
+          <Text allowFontScaling={false}  style={styles.label}>
+            Email <Text allowFontScaling={false}  style={styles.required}>*</Text>
           </Text>
           <FormInput
             placeholder="Enter your email"
@@ -65,8 +65,8 @@ const SignInScreen = () => {
           />
 
           {/* Password Input */}
-          <Text style={styles.label}>
-            Password <Text style={styles.required}>*</Text>
+          <Text allowFontScaling={false}  style={styles.label}>
+            Password <Text allowFontScaling={false}  style={styles.required}>*</Text>
           </Text>
           <View style={styles.passwordContainer}>
             <FormInput
@@ -98,7 +98,7 @@ const SignInScreen = () => {
             style={styles.forgotPasswordContainer}
             onPress={handleForgotPassword}
           >
-            <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+            <Text allowFontScaling={false}  style={styles.forgotPasswordText}>Forgot Password?</Text>
           </TouchableOpacity>
 
           {/* CustomButton for Login */}
@@ -111,11 +111,11 @@ const SignInScreen = () => {
 
           {/* Signup Link */}
           <View style={styles.signupContainer}>
-            <Text style={styles.signupText}>Don’t have an account? </Text>
+            <Text allowFontScaling={false}  style={styles.signupText}>Don’t have an account? </Text>
             <TouchableOpacity
               onPress={() => router.push("/auth2/signup/signup")}
             >
-              <Text style={styles.signupLink}>Create an Account</Text>
+              <Text allowFontScaling={false}  style={styles.signupLink}>Create an Account</Text>
             </TouchableOpacity>
           </View>
         </View>

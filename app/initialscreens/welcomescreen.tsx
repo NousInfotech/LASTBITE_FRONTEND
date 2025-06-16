@@ -65,16 +65,16 @@ const WelcomeScreen = () => {
             },
           ]}
         />
-        <Text style={[styles.welcome, { fontFamily: "myCustomFont" }]}>
+        <Text allowFontScaling={false}  style={[styles.welcome, { fontFamily: "myCustomFont" }]}>
           Welcome!
         </Text>
-        <Text style={[styles.offer, { fontFamily: "Poppins-Medium" }]}>
+        <Text allowFontScaling={false}  style={[styles.offer, { fontFamily: "Poppins-Medium" }]}>
           Finish the next steps to unlock
         </Text>
-        <Text style={[styles.discount, { fontFamily: "Poppins-Medium" }]}>
+        <Text allowFontScaling={false}  style={[styles.discount, { fontFamily: "Poppins-Medium" }]}>
           50% off & Free Delivery
         </Text>
-        <Text style={[styles.offer, { fontFamily: "Poppins-Medium" }]}>
+        <Text allowFontScaling={false}  style={[styles.offer, { fontFamily: "Poppins-Medium" }]}>
           on your first order!
         </Text>
       </Animated.View>

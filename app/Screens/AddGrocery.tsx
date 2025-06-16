@@ -152,12 +152,12 @@
 //         <TouchableOpacity onPress={() => router.back()}>
 //           <GoBack />
 //         </TouchableOpacity>
-//         <Text style={styles.headerTitle}>Add Grocery Items</Text>
+//         <Text allowFontScaling={false}  style={styles.headerTitle}>Add Grocery Items</Text>
 //       </View>
 
 //       <ScrollView style={styles.scrollView}>
 //         <View style={styles.formCard}>
-//           <Text style={styles.label}>Grocery Image</Text>
+//           <Text allowFontScaling={false}  style={styles.label}>Grocery Image</Text>
 //           <View style={styles.imageUploadContainer}>
 //             {image ? (
 //               <Image
@@ -166,22 +166,22 @@
 //               />
 //             ) : (
 //               <View style={styles.imagePlaceholder}>
-//                 <Text style={styles.placeholderText}>No image selected</Text>
+//                 <Text allowFontScaling={false}  style={styles.placeholderText}>No image selected</Text>
 //               </View>
 //             )}
 //             <TouchableOpacity
 //               style={styles.uploadButton}
 //               onPress={pickImage}
 //             >
-//               <Text style={styles.uploadButtonText}>
+//               <Text allowFontScaling={false}  style={styles.uploadButtonText}>
 //                 {image ? "Change Image" : "Upload Image"}
 //               </Text>
 //             </TouchableOpacity>
 //           </View>
 
 //           <View style={styles.inputContainer}>
-//             <Text style={styles.label}>Grocery Name</Text>
-//             <TextInput
+//             <Text allowFontScaling={false}  style={styles.label}>Grocery Name</Text>
+//            <TextInput allowFontScaling={false} 
 //               placeholder="Enter grocery name"
 //               style={styles.input}
 //               placeholderTextColor="#A0A0A0"
@@ -192,7 +192,7 @@
 
 //           {/* Category Dropdown */}
 //           <View style={styles.inputContainer}>
-//   <Text style={styles.label}>Category</Text>
+//   <Text allowFontScaling={false}  style={styles.label}>Category</Text>
 //   <View style={styles.pickerContainer}>
 //     <Picker
 //       selectedValue={category}
@@ -221,8 +221,8 @@
           
 
 //           <View style={styles.inputContainer}>
-//             <Text style={styles.label}>Price</Text>
-//             <TextInput
+//             <Text allowFontScaling={false}  style={styles.label}>Price</Text>
+//            <TextInput allowFontScaling={false} 
 //               placeholder="Enter price of grocery"
 //               style={styles.input}
 //               placeholderTextColor="#A0A0A0"
@@ -232,7 +232,7 @@
 //             />
 //           </View>
 
-//           <Text style={styles.label}>Stock Status</Text>
+//           <Text allowFontScaling={false}  style={styles.label}>Stock Status</Text>
 //           <View style={styles.stockStatusContainer}>
 //             <Switch
 //               value={stockStatus}
@@ -241,7 +241,7 @@
 //               thumbColor={"#FFFFFF"}
 //             />
 //             <View style={{ flex: 1, alignItems: "flex-end" }}>
-//               <Text
+//               <Text allowFontScaling={false} 
 //                 style={[
 //                   styles.availableText,
 //                   { color: stockStatus ? "#34C759" : "#FF0000" }, 
@@ -257,13 +257,13 @@
 //               style={styles.cancelButton}
 //               onPress={handleCancel}
 //             >
-//               <Text style={styles.CancelbuttonText}>Cancel</Text>
+//               <Text allowFontScaling={false}  style={styles.CancelbuttonText}>Cancel</Text>
 //             </TouchableOpacity>
 //             <TouchableOpacity 
 //               style={styles.addButton}
 //               onPress={handleAddGrocery}
 //             >
-//               <Text style={styles.buttonText}>Add</Text>
+//               <Text allowFontScaling={false}  style={styles.buttonText}>Add</Text>
 //             </TouchableOpacity>
 //           </View>
 //         </View>
@@ -576,13 +576,13 @@ const AddGrocery = () => {
         <TouchableOpacity onPress={() => router.back()}>
           <GoBack />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Add Grocery Items</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Add Grocery Items</Text>
       </View>
 
       <ScrollView style={styles.scrollView}>
         <View style={styles.formCard}>
           {/* Profile Photo */}
-          <Text style={styles.sectionLabel}>Profile Photo</Text>
+          <Text allowFontScaling={false}  style={styles.sectionLabel}>Profile Photo</Text>
           <View style={styles.imageUploadContainer}>
             {image ? (
               <Image
@@ -595,17 +595,17 @@ const AddGrocery = () => {
                 onPress={pickImage}
               >
                 <View style={styles.uploadButton}>
-                  <Text style={styles.uploadButtonText}>Upload File</Text>
+                  <Text allowFontScaling={false}  style={styles.uploadButtonText}>Upload File</Text>
                 </View>
-                <Text style={styles.chooseSizeText}>Choose a file</Text>
+                <Text allowFontScaling={false}  style={styles.chooseSizeText}>Choose a file</Text>
               </TouchableOpacity>
             )}
           </View>
 
           {/* Item Name */}
           <View style={styles.inputContainer}>
-            <Text style={styles.sectionLabel}>Item Name</Text>
-            <TextInput
+            <Text allowFontScaling={false}  style={styles.sectionLabel}>Item Name</Text>
+           <TextInput allowFontScaling={false} 
               placeholder="Enter the name"
               style={styles.input}
               placeholderTextColor="#A0A0A0"
@@ -616,7 +616,7 @@ const AddGrocery = () => {
 
           {/* Category Dropdown */}
           <View style={styles.inputContainer}>
-            <Text style={styles.sectionLabel}>Category</Text>
+            <Text allowFontScaling={false}  style={styles.sectionLabel}>Category</Text>
             <TouchableOpacity style={styles.selectInput}>
               <Picker
                 selectedValue={category}
@@ -645,8 +645,8 @@ const AddGrocery = () => {
 
           {/* Quantity */}
           <View style={styles.inputContainer}>
-            <Text style={styles.sectionLabel}>Quantity</Text>
-            <TextInput
+            <Text allowFontScaling={false}  style={styles.sectionLabel}>Quantity</Text>
+           <TextInput allowFontScaling={false} 
               placeholder="Enter food quantity"
               style={styles.input}
               placeholderTextColor="#A0A0A0"
@@ -657,8 +657,8 @@ const AddGrocery = () => {
 
           {/* Price */}
           <View style={styles.inputContainer}>
-            <Text style={styles.sectionLabel}>Price</Text>
-            <TextInput
+            <Text allowFontScaling={false}  style={styles.sectionLabel}>Price</Text>
+           <TextInput allowFontScaling={false} 
               placeholder="Enter the price"
               style={styles.input}
               placeholderTextColor="#A0A0A0"
@@ -670,8 +670,8 @@ const AddGrocery = () => {
 
           {/* Country of Origin */}
           <View style={styles.inputContainer}>
-            <Text style={styles.sectionLabel}>Country of Origin</Text>
-            <TextInput
+            <Text allowFontScaling={false}  style={styles.sectionLabel}>Country of Origin</Text>
+           <TextInput allowFontScaling={false} 
               placeholder="Enter the country"
               style={styles.input}
               placeholderTextColor="#A0A0A0"
@@ -682,8 +682,8 @@ const AddGrocery = () => {
 
           {/* Storage */}
           <View style={styles.inputContainer}>
-            <Text style={styles.sectionLabel}>Storage</Text>
-            <TextInput
+            <Text allowFontScaling={false}  style={styles.sectionLabel}>Storage</Text>
+           <TextInput allowFontScaling={false} 
               placeholder="Enter the storage details"
               style={styles.input}
               placeholderTextColor="#A0A0A0"
@@ -694,8 +694,8 @@ const AddGrocery = () => {
 
           {/* Description */}
           <View style={styles.inputContainer}>
-            <Text style={styles.sectionLabel}>Description</Text>
-            <TextInput
+            <Text allowFontScaling={false}  style={styles.sectionLabel}>Description</Text>
+           <TextInput allowFontScaling={false} 
               placeholder="Enter the description"
               style={styles.textArea}
               placeholderTextColor="#A0A0A0"
@@ -708,7 +708,7 @@ const AddGrocery = () => {
 
           {/* Stock Status */}
           <View style={styles.stockContainer}>
-            <Text style={styles.sectionLabel}>Stock Status</Text>
+            <Text allowFontScaling={false}  style={styles.sectionLabel}>Stock Status</Text>
             <View style={styles.stockStatusRow}>
               <Switch
                 value={stockStatus}
@@ -716,7 +716,7 @@ const AddGrocery = () => {
                 trackColor={{ false: "#E5E5E5", true: "#01615F" }}
                 thumbColor={"#FFFFFF"}
               />
-              <Text style={styles.availableText}>
+              <Text allowFontScaling={false}  style={styles.availableText}>
                 {stockStatus ? "Available" : "Out of Stock"}
               </Text>
             </View>
@@ -728,13 +728,13 @@ const AddGrocery = () => {
               style={styles.cancelButton}
               onPress={handleCancel}
             >
-              <Text style={styles.cancelButtonText}>Cancel</Text>
+              <Text allowFontScaling={false}  style={styles.cancelButtonText}>Cancel</Text>
             </TouchableOpacity>
             <TouchableOpacity 
               style={styles.addButton}
               onPress={handleAddGrocery}
             >
-              <Text style={styles.addButtonText}>Add</Text>
+              <Text allowFontScaling={false}  style={styles.addButtonText}>Add</Text>
             </TouchableOpacity>
           </View>
         </View>

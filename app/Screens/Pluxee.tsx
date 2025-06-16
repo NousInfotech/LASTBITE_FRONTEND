@@ -42,7 +42,7 @@ const Pluxee = () => {
             <TouchableOpacity>
               <GoBack />
             </TouchableOpacity>
-            <Text style={styles.headerTitle}>Select a card</Text>
+            <Text allowFontScaling={false}  style={styles.headerTitle}>Select a card</Text>
           </View>
           <View style={styles.cardList}>
 <TouchableOpacity style={styles.paymentOption} onPress={() => router.push('./AddCard')}>
@@ -51,8 +51,8 @@ const Pluxee = () => {
               style={styles.aImage}
             />
             <View style={styles.paymentDetails}>
-              <Text style={styles.paymentNewText}>Add New Food Card</Text>
-              <Text style={styles.subNewText}>Pluxee card need to be added separately for restaurant orders</Text>
+              <Text allowFontScaling={false}  style={styles.paymentNewText}>Add New Food Card</Text>
+              <Text allowFontScaling={false}  style={styles.subNewText}>Pluxee card need to be added separately for restaurant orders</Text>
             </View>
           </TouchableOpacity>
             

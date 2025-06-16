@@ -1,5 +1,5 @@
 // app/_layout.tsx or app/layout.tsx (your RootLayout)
-
+import '../TextConfig';
 import { SplashScreen, Stack } from "expo-router";
 import { useFonts } from "expo-font";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';

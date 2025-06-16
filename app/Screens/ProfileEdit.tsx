@@ -278,10 +278,10 @@ const RegisterRestaurant = () => {
 
   const renderInput = (label, field, placeholder, required) => (
     <View style={styles.inputContainer}>
-      <Text style={styles.label}>
-        {label} {required && <Text style={styles.required}>*</Text>}
+      <Text allowFontScaling={false}  style={styles.label}>
+        {label} {required && <Text allowFontScaling={false}  style={styles.required}>*</Text>}
       </Text>
-      <TextInput
+     <TextInput allowFontScaling={false} 
         value={form[field]}
         onChangeText={(text) => setForm((prev) => ({ ...prev, [field]: text }))}
         placeholder={placeholder || `Enter ${label}`}
@@ -293,10 +293,10 @@ const RegisterRestaurant = () => {
 
   const renderDaywiseTimingInput = (day) => (
     <View style={styles.daywiseTimingRow} key={day}>
-      <Text style={styles.dayLabel}>{day}</Text>
+      <Text allowFontScaling={false}  style={styles.dayLabel}>{day}</Text>
       <View style={styles.daywiseTimingInputs}>
         <View style={styles.timeInputContainer}>
-          <TextInput
+         <TextInput allowFontScaling={false} 
             value={form.daywiseTiming[day].openingTime}
             onChangeText={(text) =>
               setForm((prev) => ({
@@ -315,9 +315,9 @@ const RegisterRestaurant = () => {
             placeholderTextColor="#A0A0A0"
           />
         </View>
-        <Text style={styles.toText}>to</Text>
+        <Text allowFontScaling={false}  style={styles.toText}>to</Text>
         <View style={styles.timeInputContainer}>
-          <TextInput
+         <TextInput allowFontScaling={false} 
             value={form.daywiseTiming[day].closingTime}
             onChangeText={(text) =>
               setForm((prev) => ({
@@ -346,7 +346,7 @@ const RegisterRestaurant = () => {
         <TouchableOpacity>
           <GoBack />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Restaurant Information</Text>
+        <Text allowFontScaling={false}  style={styles.headerTitle}>Restaurant Information</Text>
       </View>
       <View style={styles.profileCard}>
         <View style={styles.profileImageContainer}>
@@ -365,7 +365,7 @@ const RegisterRestaurant = () => {
             <Entypo name="camera" size={13} color="#fff" />
           </TouchableOpacity>
         </View>
-        <Text style={styles.profileName}>
+        <Text allowFontScaling={false}  style={styles.profileName}>
           {form.restaurantName || "Restaurant Name"}
         </Text>
       </View>
@@ -383,14 +383,14 @@ const RegisterRestaurant = () => {
           onPress={() => setShowImageOptions(false)}
         >
           <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Choose Profile Picture</Text>
+            <Text allowFontScaling={false}  style={styles.modalTitle}>Choose Profile Picture</Text>
 
             <TouchableOpacity
               style={styles.modalOption}
               onPress={handleChooseFromGallery}
             >
               <Entypo name="image" size={24} color="#01615F" />
-              <Text style={styles.modalOptionText}>Upload from Gallery</Text>
+              <Text allowFontScaling={false}  style={styles.modalOptionText}>Upload from Gallery</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -398,14 +398,14 @@ const RegisterRestaurant = () => {
               onPress={handleTakePicture}
             >
               <Entypo name="camera" size={24} color="#01615F" />
-              <Text style={styles.modalOptionText}>Take a Picture</Text>
+              <Text allowFontScaling={false}  style={styles.modalOptionText}>Take a Picture</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={styles.cancelModalButton}
               onPress={() => setShowImageOptions(false)}
             >
-              <Text style={styles.cancelModalText}>Cancel</Text>
+              <Text allowFontScaling={false}  style={styles.cancelModalText}>Cancel</Text>
             </TouchableOpacity>
           </View>
         </TouchableOpacity>
@@ -414,7 +414,7 @@ const RegisterRestaurant = () => {
       <ScrollView style={styles.scrollView}>
         <View style={styles.formCard}>
           <View style={styles.formSection}>
-            <Text style={styles.sectionTitle}>Basic Details</Text>
+            <Text allowFontScaling={false}  style={styles.sectionTitle}>Basic Details</Text>
             {renderInput(
               "Owner's full name ",
               "ownerName",
@@ -427,22 +427,22 @@ const RegisterRestaurant = () => {
               "Enter Restaurant name",
               true
             )}
-            <Text style={styles.label}>
-              Profile Photo <Text style={styles.required}>*</Text>
+            <Text allowFontScaling={false}  style={styles.label}>
+              Profile Photo <Text allowFontScaling={false}  style={styles.required}>*</Text>
             </Text>
             <View style={styles.inputContainer_A}>
               <TouchableOpacity
                 style={styles.uploadButton}
                 onPress={handleChooseFile}
               >
-                <Text style={styles.uploadButtonText}>Upload File</Text>
+                <Text allowFontScaling={false}  style={styles.uploadButtonText}>Upload File</Text>
               </TouchableOpacity>
-              <Text style={styles.fileName}>
+              <Text allowFontScaling={false}  style={styles.fileName}>
                 {form.profilePhoto ? "Profile chose" : "Choose a File"}
               </Text>
             </View>
-            <Text style={styles.sectionTitle}>Add restaurant location</Text>
-            <Text style={styles.sectionSubtitle}>
+            <Text allowFontScaling={false}  style={styles.sectionTitle}>Add restaurant location</Text>
+            <Text allowFontScaling={false}  style={styles.sectionSubtitle}>
               Provide exact details for quick food delivery.
             </Text>
             <View style={styles.row}>
@@ -471,7 +471,7 @@ const RegisterRestaurant = () => {
         {/* Rest of the form remains the same */}
         <View style={styles.formCard}>
           <View style={styles.formSection}>
-            <Text style={styles.sectionTitle}>Owner Contact Details</Text>
+            <Text allowFontScaling={false}  style={styles.sectionTitle}>Owner Contact Details</Text>
 
             {renderInput(
               "Email Address",
@@ -487,7 +487,7 @@ const RegisterRestaurant = () => {
             )}
 
             {/* WhatsApp Number Options */}
-            <Text style={styles.radioGroupTitle}>WhatsApp Number Options</Text>
+            <Text allowFontScaling={false}  style={styles.radioGroupTitle}>WhatsApp Number Options</Text>
 
             <TouchableOpacity
               style={styles.radioOption}
@@ -496,7 +496,7 @@ const RegisterRestaurant = () => {
               <View style={styles.radioCircle}>
                 {sameWhatsApp && <View style={styles.radioFill} />}
               </View>
-              <Text style={styles.radioText}>
+              <Text allowFontScaling={false}  style={styles.radioText}>
                 My WhatsApp number is the same as above
               </Text>
             </TouchableOpacity>
@@ -508,7 +508,7 @@ const RegisterRestaurant = () => {
               <View style={styles.radioCircle}>
                 {!sameWhatsApp && <View style={styles.radioFill} />}
               </View>
-              <Text style={styles.radioText}>
+              <Text allowFontScaling={false}  style={styles.radioText}>
                 I have a different WhatsApp number
               </Text>
             </TouchableOpacity>
@@ -520,11 +520,11 @@ const RegisterRestaurant = () => {
         <View style={styles.formCard}>
           <View style={styles.formSection}>
             <View style={styles.workingDaysHeader}>
-              <Text style={styles.sectionTitle}>
-                Working Days <Text style={{ color: "red" }}>*</Text>
+              <Text allowFontScaling={false}  style={styles.sectionTitle}>
+                Working Days <Text allowFontScaling={false}  style={{ color: "red" }}>*</Text>
               </Text>
               <TouchableOpacity onPress={handleSelectAll}>
-                <Text style={styles.selectAllText}>Select All</Text>
+                <Text allowFontScaling={false}  style={styles.selectAllText}>Select All</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.checkboxGrid}>
@@ -569,7 +569,7 @@ const RegisterRestaurant = () => {
         </View>
         <View style={styles.formCard}>
           <View style={styles.formSection}>
-            <Text style={styles.sectionTitle}>Restaurant Timings</Text>
+            <Text allowFontScaling={false}  style={styles.sectionTitle}>Restaurant Timings</Text>
             <TouchableOpacity
               style={styles.radioOption}
               onPress={() => setTimingMode("sameTime")}
@@ -577,7 +577,7 @@ const RegisterRestaurant = () => {
               <View style={styles.radioCircle}>
                 {timingMode === "sameTime" && <View style={styles.radioFill} />}
               </View>
-              <Text style={styles.radioText}>
+              <Text allowFontScaling={false}  style={styles.radioText}>
                 I open and close my restaurant at the same time
               </Text>
             </TouchableOpacity>
@@ -588,7 +588,7 @@ const RegisterRestaurant = () => {
               <View style={styles.radioCircle}>
                 {timingMode === "daywise" && <View style={styles.radioFill} />}
               </View>
-              <Text style={styles.radioText}>
+              <Text allowFontScaling={false}  style={styles.radioText}>
                 I've separate daywise timings.
               </Text>
             </TouchableOpacity>
@@ -613,10 +613,10 @@ const RegisterRestaurant = () => {
         </View>
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.cancelButton}>
-            <Text style={styles.cancelButtonText}>Cancel</Text>
+            <Text allowFontScaling={false}  style={styles.cancelButtonText}>Cancel</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.saveButton} onPress={handleSubmit}>
-            <Text style={styles.saveButtonText}>Save</Text>
+            <Text allowFontScaling={false}  style={styles.saveButtonText}>Save</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

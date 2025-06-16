@@ -63,7 +63,7 @@ const GetUserDetails = () => {
 
       {/* Name Input */}
       <View style={styles.inputContainer}>
-        <Text style={styles.label}>Name</Text>
+        <Text allowFontScaling={false}  style={styles.label}>Name</Text>
         <FormInput
           placeholder="Enter your name"
           value={name}
@@ -78,7 +78,7 @@ const GetUserDetails = () => {
 
       {/* Email Input */}
       <View style={styles.inputContainer}>
-        <Text style={styles.label}>Email</Text>
+        <Text allowFontScaling={false}  style={styles.label}>Email</Text>
         <FormInput
           placeholder="Enter your email (Optional)"
           value={email}

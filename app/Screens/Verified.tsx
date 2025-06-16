@@ -11,7 +11,7 @@ export default function VerificationSuccessScreen() {
       <View style={styles.checkCircle}>
         <Ionicons name="checkmark" size={36} color="white" />
       </View>
-      <Text style={styles.verifiedText}>Verified!</Text>
+      <Text allowFontScaling={false}  style={styles.verifiedText}>Verified!</Text>
     </View>
   );
 }

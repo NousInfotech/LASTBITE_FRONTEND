@@ -208,13 +208,13 @@ const Home = () => {
       >
         {/* Shift Starting Section */}
         <View style={styles.shiftContainer}>
-          <Text style={styles.rupeeSign}>₹{earnings}</Text>
+          <Text allowFontScaling={false}  style={styles.rupeeSign}>₹{earnings}</Text>
           {!shiftActive ? (
-            <Text style={styles.shiftText}>
+            <Text allowFontScaling={false}  style={styles.shiftText}>
               Begin your work shift with just a click!
             </Text>
           ) : (
-            <Text style={styles.shiftText}>
+            <Text allowFontScaling={false}  style={styles.shiftText}>
               Your shift is active! Tap timer to end shift.
             </Text>
           )}
@@ -224,19 +224,19 @@ const Home = () => {
             onPress={handleStartShift}
           >
             {!shiftActive ? (
-              <Text style={styles.startShiftText}>Start Your Shift</Text>
+              <Text allowFontScaling={false}  style={styles.startShiftText}>Start Your Shift</Text>
             ) : (
-              <Text style={styles.startShiftText}>{formatElapsedTime(elapsedTime)}</Text>
+              <Text allowFontScaling={false}  style={styles.startShiftText}>{formatElapsedTime(elapsedTime)}</Text>
             )}
           </TouchableOpacity>
 
-          <Text style={styles.shiftedAtText}>
+          <Text allowFontScaling={false}  style={styles.shiftedAtText}>
             SHIFTED AT: {shiftTime}
           </Text>
         </View>
 
         {/* Quick Links Section */}
-        <Text style={styles.sectionTitle}>Quick Links</Text>
+        <Text allowFontScaling={false}  style={styles.sectionTitle}>Quick Links</Text>
         <View style={styles.quickLinksContainer}>
           <View style={styles.quickLinkCard}>
             <View style={styles.iconCircle}>
@@ -245,8 +245,8 @@ const Home = () => {
                 style={styles.linkIcon}
               />
             </View>
-            <Text style={styles.linkTitle}>Completed Orders</Text>
-            <Text style={styles.linkValue}>20</Text>
+            <Text allowFontScaling={false}  style={styles.linkTitle}>Completed Orders</Text>
+            <Text allowFontScaling={false}  style={styles.linkValue}>20</Text>
           </View>
 
           <View style={styles.quickLinkCard}>
@@ -256,39 +256,39 @@ const Home = () => {
                 style={styles.linkIcon}
               /> */}
             </View>
-            <Text style={styles.linkTitle}>Average Rating</Text>
-            <Text style={styles.linkValue}>4.5</Text>
+            <Text allowFontScaling={false}  style={styles.linkTitle}>Average Rating</Text>
+            <Text allowFontScaling={false}  style={styles.linkValue}>4.5</Text>
           </View>
         </View>
 
         {/* Current Order Section */}
-        <Text style={styles.sectionTitle}>Current Order</Text>
+        <Text allowFontScaling={false}  style={styles.sectionTitle}>Current Order</Text>
         <View style={styles.currentOrderCard}>
           <View style={styles.orderHeader}>
-            <Text style={styles.orderStatus}>On the Way</Text>
-            <Text style={styles.orderTime}>
-              Remaining time:<Text style={styles.deliveryPlace}> 15 mins</Text>
+            <Text allowFontScaling={false}  style={styles.orderStatus}>On the Way</Text>
+            <Text allowFontScaling={false}  style={styles.orderTime}>
+              Remaining time:<Text allowFontScaling={false}  style={styles.deliveryPlace}> 15 mins</Text>
             </Text>
           </View>
 
           <View style={styles.orderDetails}>
-            <Text style={styles.earnings}>
-              Estimated Earnings: <Text style={styles.amount}>₹40</Text>
+            <Text allowFontScaling={false}  style={styles.earnings}>
+              Estimated Earnings: <Text allowFontScaling={false}  style={styles.amount}>₹40</Text>
             </Text>
 
-            <Text style={styles.deliveryLocation}>
-              Deliver at: <Text style={styles.deliveryPlace}>abc</Text>
+            <Text allowFontScaling={false}  style={styles.deliveryLocation}>
+              Deliver at: <Text allowFontScaling={false}  style={styles.deliveryPlace}>abc</Text>
             </Text>
           </View>
-          <Text style={styles.deliveryInfo}>
+          <Text allowFontScaling={false}  style={styles.deliveryInfo}>
             Time: 16 mins | Distance: 3.34 kms
           </Text>
           <View style={styles.orderActions}>
             <TouchableOpacity style={styles.mapButton} onPress={handleMap}>
-              <Text style={styles.mapButtonText}>Map</Text>
+              <Text allowFontScaling={false}  style={styles.mapButtonText}>Map</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.detailsButton} onPress={handleViewDetails}>
-              <Text style={styles.detailsButtonText}>View Details</Text>
+              <Text allowFontScaling={false}  style={styles.detailsButtonText}>View Details</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -304,11 +304,11 @@ const Home = () => {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>
+              <Text allowFontScaling={false}  style={styles.modalTitle}>
                 Please complete face verification to start your delivery job.
               </Text>
               <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
-                <Text style={styles.closeButtonText}>×</Text>
+                <Text allowFontScaling={false}  style={styles.closeButtonText}>×</Text>
               </TouchableOpacity>
             </View>
             
@@ -316,19 +316,19 @@ const Home = () => {
               style={styles.verificationButton}
               onPress={startVerification}
             >
-              <Text style={styles.verificationButtonText}>Start Verification</Text>
+              <Text allowFontScaling={false}  style={styles.verificationButtonText}>Start Verification</Text>
             </TouchableOpacity>
             
             <View style={styles.guideContainer}>
-              <Text style={styles.guideTitle}>Quick Guide for Face Verification</Text>
+              <Text allowFontScaling={false}  style={styles.guideTitle}>Quick Guide for Face Verification</Text>
               <View style={styles.guideItem}>
-                <Text style={styles.guideText}>• Stand in good lighting for clear detection.</Text>
+                <Text allowFontScaling={false}  style={styles.guideText}>• Stand in good lighting for clear detection.</Text>
               </View>
               <View style={styles.guideItem}>
-                <Text style={styles.guideText}>• Keep your face centered in the frame.</Text>
+                <Text allowFontScaling={false}  style={styles.guideText}>• Keep your face centered in the frame.</Text>
               </View>
               <View style={styles.guideItem}>
-                <Text style={styles.guideText}>• Make sure your head is clear and not covered.</Text>
+                <Text allowFontScaling={false}  style={styles.guideText}>• Make sure your head is clear and not covered.</Text>
               </View>
             </View>
           </View>
@@ -345,18 +345,18 @@ const Home = () => {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>
+              <Text allowFontScaling={false}  style={styles.modalTitle}>
                 Do you want to end your current shift?
               </Text>
               <TouchableOpacity style={styles.closeButton} onPress={closeStopTimerModal}>
-                <Text style={styles.closeButtonText}>×</Text>
+                <Text allowFontScaling={false}  style={styles.closeButtonText}>×</Text>
               </TouchableOpacity>
             </View>
             
-            <Text style={styles.shiftStats}>
+            <Text allowFontScaling={false}  style={styles.shiftStats}>
               Total time: {formatElapsedTime(elapsedTime)}
             </Text>
-            <Text style={styles.shiftStats}>
+            <Text allowFontScaling={false}  style={styles.shiftStats}>
               Total earnings: ₹{earnings}
             </Text>
             
@@ -364,14 +364,14 @@ const Home = () => {
               style={styles.stopShiftButton}
               onPress={stopShift}
             >
-              <Text style={styles.verificationButtonText}>Stop Shift</Text>
+              <Text allowFontScaling={false}  style={styles.verificationButtonText}>Stop Shift</Text>
             </TouchableOpacity>
             
             <TouchableOpacity 
               style={styles.cancelButton}
               onPress={closeStopTimerModal}
             >
-              <Text style={styles.cancelButtonText}>Continue Shift</Text>
+              <Text allowFontScaling={false}  style={styles.cancelButtonText}>Continue Shift</Text>
             </TouchableOpacity>
           </View>
         </View>

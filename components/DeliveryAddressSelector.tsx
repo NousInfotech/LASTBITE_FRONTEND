@@ -27,7 +27,7 @@ const DeliveryAddressSelector = ({ setShowModal }: { setShowModal: React.Dispatc
       <View style={styles.outerContainer}>
       <View style={styles.modalContent}>
         <View style={styles.header}>
-          <Text style={styles.headerText}>Choose a delivery address</Text>
+          <Text allowFontScaling={false}  style={styles.headerText}>Choose a delivery address</Text>
           <TouchableOpacity onPress={() => setShowModal(false)} style={styles.closeButton}>
             <MaterialIcons name="close" size={24} color="#000" />
           </TouchableOpacity>
@@ -44,8 +44,8 @@ const DeliveryAddressSelector = ({ setShowModal }: { setShowModal: React.Dispatc
                 <MaterialIcons name="location-on" size={24} color="#00875A" />
               </View>
               <View style={styles.addressDetails}>
-                <Text style={styles.addressType}>{address.type}</Text>
-                <Text style={styles.addressText}>{address.address}</Text>
+                <Text allowFontScaling={false}  style={styles.addressType}>{address.type}</Text>
+                <Text allowFontScaling={false}  style={styles.addressText}>{address.address}</Text>
               </View>
             </View>
             <MaterialIcons name="chevron-right" size={24} color="#CCCCCC" />
@@ -58,7 +58,7 @@ const DeliveryAddressSelector = ({ setShowModal }: { setShowModal: React.Dispatc
           onPress={() => console.log('Add new address')}
         >
           <MaterialIcons name="add" size={24} color="#00875A" />
-          <Text style={styles.addAddressText}>Add new address</Text>
+          <Text allowFontScaling={false}  style={styles.addAddressText}>Add new address</Text>
         </TouchableOpacity>
       </View>
       </View>

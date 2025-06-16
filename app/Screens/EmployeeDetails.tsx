@@ -69,19 +69,19 @@ const EmployeeDetails = () => {
       >
         <ScrollView contentContainerStyle={styles.scrollContainer}>
           <View style={styles.content}>
-            <Text style={styles.title}>Your employment details</Text>
-            <Text style={styles.subText}>
+            <Text allowFontScaling={false}  style={styles.title}>Your employment details</Text>
+            <Text allowFontScaling={false}  style={styles.subText}>
               This helps to provide HDFC Bank to set your personalized credit
               limit
             </Text>
             {/* Input Field moved here */}
             <View style={styles.inputGroup}>
-              <Text style={styles.label}>Employment Type</Text>
+              <Text allowFontScaling={false}  style={styles.label}>Employment Type</Text>
               <TouchableOpacity
                 style={styles.input}
                 onPress={() => setIsModalVisible(true)}
               >
-                <Text style={styles.inputText}>
+                <Text allowFontScaling={false}  style={styles.inputText}>
                   {type || "Select Employment Type"}
                 </Text>
               </TouchableOpacity>
@@ -89,7 +89,7 @@ const EmployeeDetails = () => {
           </View>
         </ScrollView>
         <TouchableOpacity style={styles.submitButton} onPress={handleNext}>
-          <Text style={styles.buttonText}>Next</Text>
+          <Text allowFontScaling={false}  style={styles.buttonText}>Next</Text>
         </TouchableOpacity>
       </KeyboardAvoidingView>
       <Modal
@@ -101,16 +101,16 @@ const EmployeeDetails = () => {
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>Employment Type</Text>
+              <Text allowFontScaling={false}  style={styles.modalTitle}>Employment Type</Text>
               <TouchableOpacity onPress={() => setIsModalVisible(false)}>
-                <Text style={styles.closeButton}>X</Text>
+                <Text allowFontScaling={false}  style={styles.closeButton}>X</Text>
               </TouchableOpacity>
             </View>
             <TouchableOpacity
               style={styles.radioButton}
               onPress={() => setSelectedType("Salaried")}
             >
-              <Text style={styles.radioText}>Salaried</Text>
+              <Text allowFontScaling={false}  style={styles.radioText}>Salaried</Text>
               <View style={styles.radioCircle}>
                 {selectedType === "Salaried" && (
                   <View style={styles.radioFill} />
@@ -122,7 +122,7 @@ const EmployeeDetails = () => {
               style={styles.radioButton}
               onPress={() => setSelectedType("Self Employed")}
             >
-              <Text style={styles.radioText}>Self Employed</Text>
+              <Text allowFontScaling={false}  style={styles.radioText}>Self Employed</Text>
               <View style={styles.radioCircle}>
                 {selectedType === "Self Employed" && (
                   <View style={styles.radioFill} />
@@ -134,7 +134,7 @@ const EmployeeDetails = () => {
               style={styles.confirmButton}
               onPress={handleConfirm}
             >
-              <Text style={styles.confirmButtonText}>Confirm</Text>
+              <Text allowFontScaling={false}  style={styles.confirmButtonText}>Confirm</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -168,8 +168,8 @@ const EmploymentType = () => {
           </TouchableOpacity>
         </View>
         <View style={styles.content}>
-          <Text style={styles.title}>Your employment details</Text>
-          <Text style={styles.subText}>
+          <Text allowFontScaling={false}  style={styles.title}>Your employment details</Text>
+          <Text allowFontScaling={false}  style={styles.subText}>
           This helps to provide HDFC Bank to set your personalizes credit limit 
           </Text>
           <KeyboardAvoidingView
@@ -178,36 +178,36 @@ const EmploymentType = () => {
         >
           <View style={styles.formContainer}>
           <View style={styles.inputGroup}>
-              <Text style={styles.label}>Employment Type</Text>
-              <TextInput
+              <Text allowFontScaling={false}  style={styles.label}>Employment Type</Text>
+             <TextInput allowFontScaling={false} 
                 style={styles.input}
                 placeholder="Enter your Employment Type"
               />
             </View>
             <View style={styles.inputGroup}>
-              <Text style={styles.label}>Company Name</Text>
-              <TextInput
+              <Text allowFontScaling={false}  style={styles.label}>Company Name</Text>
+             <TextInput allowFontScaling={false} 
                 style={styles.input}
                 placeholder="Enter your Comapany Name"
               />
             </View>
             <View style={styles.inputGroup}>
-              <Text style={styles.label}>Designation</Text>
-              <TextInput
+              <Text allowFontScaling={false}  style={styles.label}>Designation</Text>
+             <TextInput allowFontScaling={false} 
                 style={styles.input}
                 placeholder="Enter your Designation"
               />
             </View>
             <View style={styles.inputGroup}>
-              <Text style={styles.label}>Work Email ID</Text>
-              <TextInput
+              <Text allowFontScaling={false}  style={styles.label}>Work Email ID</Text>
+             <TextInput allowFontScaling={false} 
                 style={styles.input}
                 placeholder="Enter your Email ID"
               />
             </View>
             <View style={styles.inputGroup}>
-              <Text style={styles.label}>AnnualIncome(INR) </Text>
-              <TextInput
+              <Text allowFontScaling={false}  style={styles.label}>AnnualIncome(INR) </Text>
+             <TextInput allowFontScaling={false} 
                 style={styles.input}
                 placeholder="Enter your Annual Income"
               />
@@ -218,7 +218,7 @@ const EmploymentType = () => {
             style={styles.submitButton}
             onPress={handleNext}
           >
-            <Text style={styles.buttonText}>Next</Text>
+            <Text allowFontScaling={false}  style={styles.buttonText}>Next</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
