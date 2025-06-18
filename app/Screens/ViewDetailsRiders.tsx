@@ -12,7 +12,7 @@ import {
   Image,
 } from "react-native";
 import { Ionicons } from '@expo/vector-icons'; // Import Ionicons from Expo vector icons
-import GoBack from "@/components/GoBack";
+import Header from "@/components/GoBack";
 import { RFPercentage } from "react-native-responsive-fontsize";
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 type RootStackParamList = {
@@ -104,7 +104,7 @@ export default function OrderSummaryScreen({ navigation }: Props) {
 
       {/* Header */}
       <View style={styles.header}>
-        <GoBack />
+        <Header />
         <View style={styles.headerTitleContainer}>
           <Text allowFontScaling={false}  style={styles.headerTitle}>
             Order ID: <Text allowFontScaling={false}  style={styles.orderNumber}>#{orderNumber}</Text>

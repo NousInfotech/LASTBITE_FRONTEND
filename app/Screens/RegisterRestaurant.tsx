@@ -12,7 +12,7 @@ import {
   Alert,
   TextInputProps,
 } from "react-native";
-import GoBack from "@/components/GoBack";
+import Header from "@/components/GoBack";
 import CustomCheckbox from "@/components/CustomCheckbox";
 import * as Font from "expo-font";
 import { useCreateRestaurant } from "@/api/queryHooks";
@@ -274,7 +274,7 @@ const toggleCuisine = (cuisine: string) => {
       <ScrollView style={styles.scrollView}>
         <View style={styles.header}>
           <TouchableOpacity style={styles.backButton}>
-            <GoBack />
+            <Header />
           </TouchableOpacity>
           <Text allowFontScaling={false}  style={styles.headerTitle}>Restaurant Information</Text>
           <View style={styles.progressContainer}>

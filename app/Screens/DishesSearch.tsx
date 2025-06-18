@@ -11,7 +11,7 @@ import {
 import { useLocalSearchParams } from "expo-router";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
-import GoBack from "@/components/GoBack";
+import Header from "@/components/GoBack";
 import { Ionicons } from "@expo/vector-icons";
 import SearchBarVoice from "@/components/SearchBarVoice";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -447,7 +447,7 @@ const DishesSearch: React.FC = () => {
       <StatusBar barStyle="dark-content" />
       <View style={styles.header}>
         <TouchableOpacity>
-          <GoBack />
+          <Header />
         </TouchableOpacity>
         <Text allowFontScaling={false}  style={styles.headerTitle}>Search for dishes & Restaurant</Text>
       </View>

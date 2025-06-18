@@ -76,7 +76,7 @@ const TrackOrder = () => {
       {/* Title Overlay - The Spice Hub */}
       <View style={styles.titleOverlay}>
         <View style={styles.goBack}>
-          <GoBack />
+          <Header />
         </View>
         <View style={styles.titleContainer}>
           <Text allowFontScaling={false}  style={styles.titleHeader}>Order From</Text>

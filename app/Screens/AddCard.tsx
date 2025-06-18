@@ -8,7 +8,7 @@ import {
   StatusBar,
   StyleSheet,
 } from "react-native";
-import GoBack from "@/components/GoBack";
+import Header from "@/components/GoBack";
 import * as Font from "expo-font";
 import { RFPercentage } from "react-native-responsive-fontsize";
 
@@ -50,7 +50,7 @@ const AddCard = () => {
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity>
-          <GoBack />
+          <Header />
         </TouchableOpacity>
         <Text allowFontScaling={false}  style={styles.headerTitle}>Add New Card</Text>
       </View>

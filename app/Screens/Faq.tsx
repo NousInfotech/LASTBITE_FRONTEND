@@ -8,7 +8,7 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
-import GoBack from "@/components/GoBack";
+import Header from "@/components/GoBack";
 import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import { RFPercentage } from "react-native-responsive-fontsize";
@@ -67,7 +67,7 @@ const Faq = () => {
 
       <View style={styles.header}>
         <TouchableOpacity>
-          <GoBack />
+          <Header />
         </TouchableOpacity>
         <Text allowFontScaling={false}  style={styles.headerTitle}>FAQ</Text>
       </View>

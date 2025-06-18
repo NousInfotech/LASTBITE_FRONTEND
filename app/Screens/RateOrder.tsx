@@ -9,7 +9,7 @@ import {
   FlatList,
   Image,
 } from "react-native";
-import GoBack from "@/components/GoBack";
+import Header from "@/components/GoBack";
 import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -111,7 +111,7 @@ const RateOrder = () => {
       <StatusBar barStyle="dark-content" />
       <View style={styles.header}>
         <TouchableOpacity>
-          <GoBack />
+          <Header />
         </TouchableOpacity>
         <Text allowFontScaling={false}  style={styles.headerTitle}>Rate Your Meal</Text>
       </View>

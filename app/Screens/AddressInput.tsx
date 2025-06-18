@@ -9,7 +9,7 @@
 // } from "react-native";
 // import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 // import { NavigationProp } from "@react-navigation/native";
-// import GoBack from "@/components/GoBack";
+// import Header from "@/components/GoBack";
 // import * as Font from "expo-font";
 // import Button from "@/components/ButtoN";
 // import { useRouter } from "expo-router";
@@ -62,7 +62,7 @@
 //     <SafeAreaView style={styles.container}>
 //       {/* Header */}
 //       <View style={styles.header}>
-//         <GoBack />
+//         <Header />
 //       </View>
 
 //       {/* Location Header */}
@@ -284,7 +284,7 @@ import {
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { RFPercentage } from "react-native-responsive-fontsize";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import GoBack from "@/components/GoBack";
+import Header from "@/components/GoBack";
 
 interface AddressParams {
   id?: string;
@@ -378,7 +378,7 @@ const AddressInput: React.FC = () => {
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()}>
-          <GoBack />
+          <Header />
         </TouchableOpacity>
         <Text allowFontScaling={false}  style={styles.headerTitle}>
           {isEditing ? "Edit Address" : "Add New Address"}

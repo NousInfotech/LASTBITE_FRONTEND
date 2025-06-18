@@ -20,122 +20,134 @@ import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { RFPercentage } from "react-native-responsive-fontsize";
 
-interface Restaurant {
-  restaurantId: string;
-  name: string;
-  details: string;
-  coverImage: string;
-  ratingCount: number;
-  ratingAverage: number;
-  categories: string[];
-  menu: string[];
-  isActive: boolean;
-  createdAt: string;
-  updatedAt: string;
-  veg: boolean;
-  nonVeg: boolean;
-  vegan: boolean;
-}
-
-const restaurants: Restaurant[] = [
-  {
-    restaurantId: "r1",
-    name: "The Spice Hub",
-    details: "35-45 mins to Westside Park",
-    coverImage:
-      "https://www.seasonsandsuppers.ca/wp-content/uploads/2019/10/slow-cooker-pulled-pork-1200.jpg",
-    ratingCount: 250,
-    ratingAverage: 4.5,
-    categories: ["Biryani", "North Indian", "Desserts"],
-    menu: ["m1", "m2", "m3"],
-    isActive: true,
-    veg: false,
-    nonVeg: true,
-    vegan: false,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  },
-  {
-    restaurantId: "r2",
-    name: "Westside Grill",
-    details: "35-45 mins to Westside Park",
-    coverImage:
-      "https://www.seasonsandsuppers.ca/wp-content/uploads/2019/10/slow-cooker-pulled-pork-1200.jpg",
-    ratingCount: 180,
-    ratingAverage: 4.2,
-    categories: [""],
-    menu: ["m0"],
-    isActive: true,
-    veg: false,
-    nonVeg: true,
-    vegan: false,
-    createdAt: "2023-12-15T10:30:00.000Z",
-    updatedAt: "2024-01-10T12:00:00.000Z",
-  },
-  {
-    restaurantId: "r3",
-    name: "Food Hut",
-    details: "35-45 mins to Westside Park",
-    coverImage:
-      "https://www.seasonsandsuppers.ca/wp-content/uploads/2019/10/slow-cooker-pulled-pork-1200.jpg",
-    ratingCount: 300,
-    ratingAverage: 2.7,
-    categories: ["South Indian", "Vegetarian", "Healthy"],
-    menu: ["m7", "m8", "m9"],
-    isActive: true,
-    veg: true,
-    nonVeg: false,
-    vegan: true,
-    createdAt: "2023-12-15T10:30:00.000Z",
-    updatedAt: "2024-01-10T12:00:00.000Z",
-  },
-  {
-    restaurantId: "r4",
-    name: "Green Leaf Cafe",
-    details: "30-40 mins to Westside Park",
-    coverImage:
-      "https://www.seasonsandsuppers.ca/wp-content/uploads/2019/10/slow-cooker-pulled-pork-1200.jpg",
-    ratingCount: 220,
-    ratingAverage: 3.6,
-    categories: ["Vegan", "Organic", "Smoothies"],
-    menu: ["m10", "m11", "m12"],
-    isActive: true,
-    veg: true,
-    nonVeg: false,
-    vegan: true,
-    createdAt: "2024-01-05T08:45:00.000Z",
-    updatedAt: "2024-02-02T14:20:00.000Z",
-  },
-];
+// Import API service and data mapper
+import { RestaurantApiService } from '@/services/restaurant.service';
+import { DataMapper, Restaurant } from '@/utils/DataMapper';
 
 const Home = () => {
-  const [restaurantList, setRestaurantList] =
-    useState<Restaurant[]>(restaurants);
+  const [restaurantList, setRestaurantList] = useState<Restaurant[]>([]);
+  const [isLoading, setIsLoading] = useState(true); // Start with loading true
+  const [apiError, setApiError] = useState<string | null>(null);
+  
   const router = useRouter();
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
   const [hiddenRestaurants, setHiddenRestaurants] = useState<string[]>([]);
   const [toastVisible, setToastVisible] = useState(false);
   const [hiddenPopup, setHiddenPopup] = useState<Restaurant | null>(null);
-  const [filteredRestaurants, setFilteredRestaurants] =
-    useState(restaurantList);
+  const [filteredRestaurants, setFilteredRestaurants] = useState<Restaurant[]>([]);
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
 
+  // Fetch restaurants from API
+const fetchRestaurants = async () => {
+  console.log('Starting to fetch restaurants from API...');
+  setIsLoading(true);
+  setApiError(null);
+  
+  try {
+    // If the service returns IRestaurant[] directly, handle it differently
+    const apiData = await RestaurantApiService.getAllRestaurants(5, 1);
+    console.log('API response received:', apiData);
+    
+    // Check if it's an array (direct data) or response object
+    if (Array.isArray(apiData)) {
+      // Service returned data array directly
+      console.log('Service returned data array directly');
+      const mappedRestaurants = DataMapper.mapIRestaurantsToRestaurants(apiData);
+      console.log('Restaurants mapped successfully:', mappedRestaurants);
+      
+      if (mappedRestaurants.length > 0) {
+        setRestaurantList(mappedRestaurants);
+        console.log('Restaurant list updated with API data');
+      } else {
+        console.warn('No restaurants returned from mapping');
+        setApiError('No restaurants available');
+      }
+    } else if (apiData && typeof apiData === 'object' && 'success' in apiData) {
+      // Service returned full response object
+      console.log('Service returned full response object');
+      const apiResponse = apiData as ApiResponse<IRestaurant[]>;
+      
+      if (apiResponse.success && apiResponse.data && Array.isArray(apiResponse.data)) {
+        const mappedRestaurants = DataMapper.mapIRestaurantsToRestaurants(apiResponse.data);
+        console.log('Restaurants mapped successfully:', mappedRestaurants);
+        
+        if (mappedRestaurants.length > 0) {
+          setRestaurantList(mappedRestaurants);
+          console.log('Restaurant list updated with API data');
+        } else {
+          console.warn('No restaurants returned from mapping');
+          setApiError('No restaurants available');
+        }
+      } else {
+        console.error('Invalid API response structure:', apiResponse);
+        setApiError('Invalid response from server');
+      }
+    } else {
+      console.error('Unexpected response format:', apiData);
+      setApiError('Unexpected response format from server');
+    }
+    
+  } catch (error) {
+    console.error('Error fetching restaurants from API:', error);
+    setApiError(error instanceof Error ? error.message : 'Unknown error occurred');
+  } finally {
+    setIsLoading(false);
+    console.log('Finished fetching restaurants');
+  }
+};
+
+  // Load restaurants on component mount
+  useEffect(() => {
+    console.log('Home component mounted, fetching restaurants...');
+    fetchRestaurants();
+  }, []);
+
   const applyFilters = (filters: string[]) => {
+    console.log('Applying filters:', filters);
     setSelectedFilters(filters);
 
     let filtered = restaurantList.filter((restaurant) => {
-      if (filters.includes("Pure Veg") && !restaurant.veg) return false;
-      if (filters.includes("Non Veg") && !restaurant.nonVeg) return false;
-      if (filters.includes("Vegan") && !restaurant.vegan) return false;
-      if (filters.includes("Ratings 4.0+") && restaurant.ratingAverage < 4.0)
+      console.log(`Filtering restaurant: ${restaurant.name}`, {
+        veg: restaurant.veg,
+        nonVeg: restaurant.nonVeg,
+        vegan: restaurant.vegan,
+        rating: restaurant.ratingAverage
+      });
+      
+      if (filters.includes("Pure Veg") && !restaurant.veg) {
+        console.log(`${restaurant.name} filtered out: not pure veg`);
         return false;
-      if (filters.includes("Rating 4.5+") && restaurant.ratingAverage < 4.5)
+      }
+      if (filters.includes("Non Veg") && !restaurant.nonVeg) {
+        console.log(`${restaurant.name} filtered out: not non-veg`);
         return false;
+      }
+      if (filters.includes("Vegan") && !restaurant.vegan) {
+        console.log(`${restaurant.name} filtered out: not vegan`);
+        return false;
+      }
+      if (filters.includes("Ratings 4.0+") && restaurant.ratingAverage < 4.0) {
+        console.log(`${restaurant.name} filtered out: rating below 4.0`);
+        return false;
+      }
+      if (filters.includes("Rating 4.5+") && restaurant.ratingAverage < 4.5) {
+        console.log(`${restaurant.name} filtered out: rating below 4.5`);
+        return false;
+      }
+      
+      console.log(`${restaurant.name} passed all filters`);
       return true;
     });
 
+    console.log('Filtered restaurants:', filtered);
     setFilteredRestaurants(filtered);
   };
+
+  // Update filtered restaurants when restaurant list changes
+  useEffect(() => {
+    console.log('Restaurant list changed, reapplying filters...');
+    applyFilters(selectedFilters);
+  }, [restaurantList, selectedFilters]);
 
   const handleFavorite = (id: string | number) => {
     console.log("Added to favorites:", id);
@@ -153,14 +165,17 @@ const Home = () => {
   };
 
   const handleUndo = (restaurantId: string | number) => {
+    console.log("Undo hide restaurant:", restaurantId);
     setHiddenRestaurants((prev) => prev.filter((id) => id !== restaurantId));
   };
 
   const handleInputRedirect = () => {
+    console.log("Redirecting to search screen");
     router.push("/Screens/SearchScreen");
   };
 
   const handleCuisines = () => {
+    console.log("Redirecting to dishes search");
     router.push('/Screens/DishesSearch')
   }
 
@@ -216,19 +231,88 @@ const Home = () => {
       setCurrentBannerIndex((prevIndex) => (prevIndex + 1) % banners.length);
     }, 3000);
     return () => clearInterval(interval);
-    applyFilters(selectedFilters);
-  }, [selectedFilters]);
+  }, []);
 
   const [selectedMenu, setSelectedMenu] = useState<string | null>(null);
 
   const handleMenuSelection = (menuName: string) => {
+    console.log("Menu selected:", menuName);
     setSelectedMenu(menuName);
-    console.log(menuName);
     router.push({
       pathname: "/Screens/DishesSearch",
       params: { name: menuName },
     });
   };
+
+  // Retry function for failed API calls
+  const handleRetry = () => {
+    fetchRestaurants();
+  };
+
+  // Render loading state
+  if (isLoading) {
+    return (
+      <View style={styles.container}>
+        <StatusBar barStyle="dark-content" backgroundColor="#fff" />
+        <LocationHeader />
+        <SearchBarVoice
+          onInputPress={handleInputRedirect}
+          redirectTargets={["Dishes", "Restaurants"]}
+          placeholder="Dishes, restaurants & more"
+          onChangeText={handleMenuSelection}
+        />
+        <View style={styles.loadingContainer}>
+          <Text style={styles.loadingText}>Loading restaurants...</Text>
+        </View>
+      </View>
+    );
+  }
+
+  // Render error state
+  if (apiError) {
+    return (
+      <View style={styles.container}>
+        <StatusBar barStyle="dark-content" backgroundColor="#fff" />
+        <LocationHeader />
+        <SearchBarVoice
+          onInputPress={handleInputRedirect}
+          redirectTargets={["Dishes", "Restaurants"]}
+          placeholder="Dishes, restaurants & more"
+          onChangeText={handleMenuSelection}
+        />
+        <View style={styles.errorContainer}>
+          <Text style={styles.errorTitle}>Oops! Something went wrong</Text>
+          <Text style={styles.errorMessage}>{apiError}</Text>
+          <Text style={styles.retryButton} onPress={handleRetry}>
+            Tap to retry
+          </Text>
+        </View>
+      </View>
+    );
+  }
+
+  // Render empty state
+  if (restaurantList.length === 0) {
+    return (
+      <View style={styles.container}>
+        <StatusBar barStyle="dark-content" backgroundColor="#fff" />
+        <LocationHeader />
+        <SearchBarVoice
+          onInputPress={handleInputRedirect}
+          redirectTargets={["Dishes", "Restaurants"]}
+          placeholder="Dishes, restaurants & more"
+          onChangeText={handleMenuSelection}
+        />
+        <View style={styles.emptyContainer}>
+          <Text style={styles.emptyTitle}>No restaurants available</Text>
+          <Text style={styles.emptyMessage}>Check back later for more options</Text>
+          <Text style={styles.retryButton} onPress={handleRetry}>
+            Tap to refresh
+          </Text>
+        </View>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -246,11 +330,23 @@ const Home = () => {
       >
         <Banner
           {...banners[currentBannerIndex]}
-          onButtonPress={() => console.log("Button pressed")}
+          onButtonPress={() => console.log("Banner button pressed")}
         />
         <FoodMenu onSelectMenu={handleMenuSelection} />
 
         <FilterButtons onFilterChange={applyFilters} />
+        
+        {/* Debug information - only in development */}
+        {__DEV__ && (
+          <View style={styles.debugContainer}>
+            <Text style={styles.debugText}>
+              Total restaurants: {restaurantList.length} | 
+              Filtered: {filteredRestaurants.length} | 
+              Hidden: {hiddenRestaurants.length}
+            </Text>
+          </View>
+        )}
+        
         {filteredRestaurants
           .filter(
             (restaurant) => !hiddenRestaurants.includes(restaurant.restaurantId)
@@ -262,12 +358,13 @@ const Home = () => {
               onFavorite={handleFavorite}
               onHide={handleHide}
               setToastVisible={setToastVisible}
-              onPress={() =>
+              onPress={() => {
+                console.log("Restaurant card pressed:", restaurant.restaurantId);
                 router.push({
                   pathname: "/Screens/RestaurantSelect",
                   params: { restaurantId: restaurant.restaurantId },
-                })
-              }
+                });
+              }}
               isUnavailable={restaurant.categories[0] === "" && restaurant.menu[0] === "m0"}
             />
           ))}
@@ -322,5 +419,72 @@ const styles = StyleSheet.create({
     marginTop: 20,
     fontSize: RFPercentage(2.5),
     fontWeight: "bold",
+  },
+  debugContainer: {
+    backgroundColor: '#f0f0f0',
+    padding: 10,
+    margin: 16,
+    borderRadius: 5,
+  },
+  debugText: {
+    fontSize: 12,
+    color: '#666',
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  loadingText: {
+    fontSize: 16,
+    color: '#666',
+    textAlign: 'center',
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  errorTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  errorMessage: {
+    fontSize: 14,
+    color: '#666',
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  emptyTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  emptyMessage: {
+    fontSize: 14,
+    color: '#666',
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  retryButton: {
+    fontSize: 16,
+    color: '#007AFF',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
   },
 });

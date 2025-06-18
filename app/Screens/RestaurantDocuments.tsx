@@ -11,7 +11,7 @@ import {
   Image,
   Alert,
 } from "react-native";
-import GoBack from "@/components/GoBack";
+import Header from "@/components/GoBack";
 import CustomCheckbox from "@/components/CustomCheckbox";
 import * as Font from "expo-font";
 import { router } from "expo-router";
@@ -210,7 +210,7 @@ const RegisterRestaurant = () => {
       <ScrollView style={styles.scrollView}>
       <View style={styles.header}>
         <TouchableOpacity>
-          <GoBack />
+          <Header />
         </TouchableOpacity>
         <Text allowFontScaling={false}  style={styles.headerTitle}>Restaurant Documents</Text>
       </View>

@@ -10,7 +10,7 @@ import {
   ScrollView,
   Modal,
 } from "react-native";
-import GoBack from "@/components/GoBack";
+import Header from "@/components/GoBack";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -105,7 +105,7 @@ const Settings = () => {
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity>
-          <GoBack />
+          <Header />
         </TouchableOpacity>
         <Text allowFontScaling={false}  style={styles.headerTitle}>Settings</Text>
       </View>

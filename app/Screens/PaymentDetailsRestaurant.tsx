@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import * as Font from "expo-font";
-import GoBack from "@/components/GoBack";
+import Header from "@/components/GoBack";
 import { RFPercentage } from "react-native-responsive-fontsize";
 
 const PaymentDetailsRestaurant: React.FC = () => {
@@ -65,7 +65,7 @@ const PaymentDetailsRestaurant: React.FC = () => {
       <StatusBar barStyle="dark-content" />
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()}>
-          <GoBack />
+          <Header />
         </TouchableOpacity>
         <Text allowFontScaling={false}  style={styles.headerTitle}>Payment Details</Text>
       </View>

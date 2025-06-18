@@ -10,7 +10,7 @@ import {
   Modal,
   Animated,
 } from "react-native";
-import GoBack from "@/components/GoBack";
+import Header from "@/components/GoBack";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
 import { RFPercentage } from "react-native-responsive-fontsize";
@@ -57,7 +57,7 @@ const CreditCard = () => {
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity>
-          <GoBack />
+          <Header />
         </TouchableOpacity>
         <Text allowFontScaling={false}  style={styles.headerTitle}>HDFC Bank Credit Card</Text>
       </View>

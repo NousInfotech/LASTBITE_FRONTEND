@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import { useLocalSearchParams } from "expo-router";
-import GoBack from "@/components/GoBack";
+import Header from "@/components/GoBack";
 import DeliveryTypeSelection from "@/components/DeliveryTypeSelector";
 import DeliveryPopup from "@/components/DeliveryPopup";
 import * as Font from "expo-font";
@@ -252,7 +252,7 @@ const BillingScreen = () => {
       <StatusBar barStyle="dark-content" />
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()}>
-          <GoBack />
+          <Header />
         </TouchableOpacity>
         <Text allowFontScaling={false}  style={styles.headerTitle}>{restaurantName}</Text>
       </View>

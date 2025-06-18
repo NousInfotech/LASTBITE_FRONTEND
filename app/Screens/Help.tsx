@@ -8,7 +8,7 @@ import {
   StatusBar,
   StyleSheet,
 } from "react-native";
-import GoBack from "@/components/GoBack";
+import Header from "@/components/GoBack";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
@@ -73,7 +73,7 @@ const Help = () => {
           </TouchableOpacity>
         ) : (
           <TouchableOpacity>
-            <GoBack />
+            <Header />
           </TouchableOpacity>
         )}
         <Text allowFontScaling={false}  style={styles.headerTitle}>Help & Support</Text>

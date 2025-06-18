@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
-import GoBack from "@/components/GoBack";
+import Header from "@/components/GoBack";
 import { RFPercentage } from "react-native-responsive-fontsize";
 
 interface PaymentType {
@@ -121,13 +121,8 @@ const Payments: React.FC = () => {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
       {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity>
-          <GoBack />
-        </TouchableOpacity>
-        <Text allowFontScaling={false}  style={styles.headerTitle}>Earnings</Text>
-      </View>
-
+    
+   <Header title="Earnings" />
       {/* Tabs */}
       <View style={styles.tabsWrapper}>
         <ScrollView

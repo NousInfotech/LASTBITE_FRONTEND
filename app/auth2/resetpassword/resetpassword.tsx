@@ -7,7 +7,7 @@ import {
   SafeAreaView,
   Animated,
 } from "react-native";
-import GoBack from "@/components/GoBack";
+import Header from "@/components/GoBack";
 import Icon from "react-native-vector-icons/FontAwesome";
 import FormInput from "@/components/FormInput";
 import CustomButton from "@/components/CustomButton";
@@ -98,7 +98,7 @@ const ResetPassword = () => {
       {showSuccess && <SuccessMessage />}
 
       <View style={styles.header}>
-        <GoBack />
+        <Header />
       </View>
 
       <View style={styles.content}>

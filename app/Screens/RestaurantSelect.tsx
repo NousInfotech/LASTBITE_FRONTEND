@@ -13,8 +13,11 @@ import {
   ScrollView,
   Pressable,
   Alert,
-  Animated
+  Animated,
+  ActivityIndicator
 } from "react-native";
+import { Share } from 'react-native';
+
 import { useLocalSearchParams } from "expo-router";
 import GoBack from "@/components/GoBack";
 import SearchBarVoice from "@/components/SearchBarVoice";
@@ -27,10 +30,50 @@ import { Feather, MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome } from '@expo/vector-icons';
 import CreateWishlistPopup from "@/components/CreateWishlistPopup";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import API_CONFIG from '@/config/api';
+
+// Enums and Interfaces
+export enum FoodType {
+  VEG = "veg",
+  NON_VEG = "non_veg",
+  HALAL = "halal",
+  VEGAN = "vegan",
+  KOSHER = "kosher",
+  GLUTEN_FREE = "gluten_free",
+  JAIN = "jain",
+  EGGETARIAN = "egg",
+  SEAFOOD = "seafood",
+  ORGANIC = "organic"
+}
+
+interface IAddon {
+  addonId?: string;
+  name: string;
+  price: number;
+  isAvailable?: boolean;
+}
+
+export interface IFoodItem {
+  foodItemId?: string;
+  restaurantId: string;
+  name: string;
+  description?: string;
+  price: number;
+  discountPrice?: number;
+  image?: string;
+  isAvailable?: boolean;
+  typeOfFood: FoodType[];
+  tags?: string[];
+  category?: string;
+  rating?: number;
+  ratingCount?: number;
+  stock?: number;
+  addons?: IAddon[];
+}
 
 interface Restaurant {
   restaurantId: string;
-  name: string;
+restaurantName: string;
   googleLocation?: string;
   location: string;
   coverImage: string;
@@ -44,17 +87,6 @@ interface Restaurant {
 
 interface CheckoutPopupProps {
   totalItems: number;
-}
-
-interface MenuItem {
-  menuItemId: number;
-  name: string;
-  description: string;
-  price: number;
-  category: string;
-  restaurantId: string;
-  image: string;
-  isAvailable: boolean;
 }
 
 interface WishlistPopupProps {
@@ -72,118 +104,24 @@ interface WishlistList {
   image: any;
 }
 
-const mockRestaurants: Restaurant[] = [
-  {
-    restaurantId: "r1",
-    name: "The Spice Hub",
-    googleLocation: "https://maps.google.com/?q=The+Spice+Hub",
-    location: "123 Flavor Street, Food City",
-    coverImage: "https://via.placeholder.com/500x300",
-    ratingCount: 250,
-    ratingAverage: 4.5,
-    categories: ["Biryani", "North Indian", "Desserts"],
-    menu: ["m1", "m2", "m3"],
-    isActive: true,
-  },
-  {
-    restaurantId: "r2",
-    name: "Westside Grill",
-    googleLocation: "https://maps.google.com/?q=Westside+Grill",
-    location: "456 Grilling Avenue, Food City",
-    coverImage: "https://via.placeholder.com/500x300",
-    ratingCount: 300,
-    ratingAverage: 4.7,
-    categories: ["Grill", "North Indian", "Burgers"],
-    menu: ["m4"],
-    isActive: true,
-  },
-];
-
-const mockMenu: MenuItem[] = [
-  {
-    menuItemId: 1,
-    name: "Chicken Biryani",
-    description: "Aromatic basmati rice cooked with tender chicken and spices.",
-    price: 12.99,
-    category: "Biryani",
-    restaurantId: "r1",
-    image: "https://via.placeholder.com/150",
-    isAvailable: true,
-  },
-  {
-    menuItemId: 2,
-    name: "Gulab Jamun",
-    description: "Delicious deep-fried dumplings soaked in sugar syrup.",
-    price: 4.99,
-    category: "Desserts",
-    restaurantId: "r1",
-    image: "https://via.placeholder.com/150",
-    isAvailable: true,
-  },
-  {
-    menuItemId: 3,
-    name: "Paneer Tikka",
-    description:
-      "Soft paneer cubes marinated in spices and grilled to perfection.",
-    price: 9.99,
-    category: "North Indian",
-    restaurantId: "r1",
-    image: "https://via.placeholder.com/150",
-    isAvailable: true,
-  },
-  {
-    menuItemId: 4,
-    name: "Grilled Chicken",
-    description: "Juicy chicken grilled with herbs and spices.",
-    price: 14.99,
-    category: "Grill",
-    restaurantId: "r2",
-    image: "https://via.placeholder.com/150",
-    isAvailable: true,
-  },
-  {
-    menuItemId: 5,
-    name: "Chicken Biryani",
-    description: "Aromatic basmati rice cooked with tender chicken and spices.",
-    price: 12.99,
-    category: "Biryani",
-    restaurantId: "r1",
-    image: "https://via.placeholder.com/150",
-    isAvailable: true,
-  },
-  {
-    menuItemId: 6,
-    name: "Paneer Tikka",
-    description:
-      "Soft paneer cubes marinated in spices and grilled to perfection.",
-    price: 9.99,
-    category: "North Indian",
-    restaurantId: "r1",
-    image: "https://via.placeholder.com/150",
-    isAvailable: true,
-  },
-];
-
 const RestaurantSelect = () => {
   const { restaurantId } = useLocalSearchParams<{ restaurantId: string }>();
   const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
-  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
-  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
-    new Set()
-  );
+  const [foodItems, setFoodItems] = useState<IFoodItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
+  
   // Bookmark states
-  const [bookmarkedItems, setBookmarkedItems] = useState<Record<number, boolean>>({});
-  const [cartCounts, setCartCounts] = useState<Record<number, number>>({});
+  const [bookmarkedItems, setBookmarkedItems] = useState<Record<string, boolean>>({});
+  const [cartCounts, setCartCounts] = useState<Record<string, number>>({});
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const router = useRouter();
-  const totalItemsInCart = Object.values(cartCounts).reduce(
-    (sum, count) => sum + count,
-    0
-  );
+  const totalItemsInCart = Object.values(cartCounts).reduce((sum, count) => sum + count, 0);
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [isFilterVisible, setIsFilterVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-
+const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
   // Add favorite restaurant state
   const [favoriteRestaurants, setFavoriteRestaurants] = useState<Record<string, boolean>>({});
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -191,7 +129,7 @@ const RestaurantSelect = () => {
   // Wishlist popup states
   const [isWishlistPopupVisible, setIsWishlistPopupVisible] = useState<boolean>(false);
   const [selectedLists, setSelectedLists] = useState<string[]>([]);
-  const [activeBookmarkedItemId, setActiveBookmarkedItemId] = useState<number | null>(null);
+  const [activeBookmarkedItemId, setActiveBookmarkedItemId] = useState<string | null>(null);
   const slideAnimation = useRef(new Animated.Value(0)).current;
 
   // Create new wishlist states
@@ -203,33 +141,147 @@ const RestaurantSelect = () => {
 
   const [wishlistLists, setWishlistLists] = useState<WishlistList[]>([]);
 
-  
+  // API Functions
+const fetchRestaurantDetails = async (id: string) => {
+  try {
+    const response = await fetch(`${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.RESTAURANT}/${id}`);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch restaurant: ${response.status} ${response.statusText}`);
+    }
+    const data = await response.json();
+    
+    // FIX: Handle different API response structures
+    if (data.restaurant) {
+      return data.restaurant; // If data is wrapped in a restaurant property
+    } else if (data.data) {
+      return data.data; // If data is wrapped in a data property
+    }
+    return data; // If data is directly the restaurant object
+  } catch (error) {
+    console.error('Error fetching restaurant:', error);
+    throw error;
+  }
+};
+const fetchFoodItemsByRestaurant = async (id: string) => {
+  try {
+    const response = await fetch(`${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.FOOD_ITEMS}/restaurant/${id}`);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch food items: ${response.status} ${response.statusText}`);
+    }
+    const data = await response.json();
+    
+    // FIX: Ensure we always return an array
+    if (Array.isArray(data)) {
+      return data;
+    } else if (data && Array.isArray(data.items)) {
+      return data.items;
+    } else if (data && Array.isArray(data.data)) {
+      return data.data;
+    } else {
+      console.warn('API returned unexpected format:', data);
+      return []; // Return empty array as fallback
+    }
+  } catch (error) {
+    console.error('Error fetching food items:', error);
+    return []; // Return empty array on error
+  }
+};
+
+// 2. Fix the loadRestaurantData function
+useEffect(() => {
+  const loadRestaurantData = async () => {
+    if (!restaurantId) {
+      setError('Restaurant ID not provided');
+      setLoading(false);
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError(null);
+
+      const [restaurantData, foodItemsData] = await Promise.all([
+        fetchRestaurantDetails(restaurantId),
+        fetchFoodItemsByRestaurant(restaurantId)
+      ]);
+
+      // FIX: Add debugging logs
+      console.log('Restaurant Data:', restaurantData);
+      console.log('Restaurant Name:', restaurantData?.name);
+
+      setRestaurant(restaurantData);
+      
+      if (Array.isArray(foodItemsData)) {
+        setFoodItems(foodItemsData);
+        
+        const categories = [...new Set(foodItemsData.map((item: IFoodItem) => item.category).filter(Boolean))];
+        
+        if (restaurantData && categories.length > 0) {
+          setRestaurant(prev => prev
+            ? { ...prev, categories: categories.filter((c): c is string => typeof c === 'string') }
+            : null
+          );
+        }
+      } else {
+        console.error('Food items data is not an array:', foodItemsData);
+        setFoodItems([]);
+      }
+
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to load restaurant data');
+      console.error('Error loading restaurant data:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  loadRestaurantData();
+}, [restaurantId]);
 
   const toggleDropdown = () => setDropdownVisible(!dropdownVisible);
 
-  const getFilteredMenuItems = (
-    items: MenuItem[],
-    query: string
-  ): MenuItem[] => {
-    const searchTerm = query.toLowerCase();
-    if (!searchTerm) return items;
+const getFilteredFoodItems = (items: IFoodItem[], query: string, filters: string[]): IFoodItem[] => {
+  let filteredItems = items;
 
-    return items.filter(
+  // Apply text search filter
+  if (query) {
+    const searchTerm = query.toLowerCase();
+    filteredItems = filteredItems.filter(
       (item) =>
         item.name.toLowerCase().includes(searchTerm) ||
-        item.category.toLowerCase().includes(searchTerm) ||
-        item.description.toLowerCase().includes(searchTerm)
+        item.category?.toLowerCase().includes(searchTerm) ||
+        item.description?.toLowerCase().includes(searchTerm) ||
+        item.tags?.some(tag => tag.toLowerCase().includes(searchTerm))
     );
-  };
+  }
 
-  const getFilteredCategories = (
-    categories: string[],
-    filteredItems: MenuItem[]
-  ): string[] => {
+  // Apply food type filters
+  if (filters.length > 0) {
+    filteredItems = filteredItems.filter((item) => {
+      return filters.some(filter => {
+        switch (filter) {
+          case 'Veg':
+            return item.typeOfFood.includes(FoodType.VEG);
+          case 'Non Veg':
+            return item.typeOfFood.includes(FoodType.NON_VEG);
+          case 'Egg':
+            return item.typeOfFood.includes(FoodType.EGGETARIAN);
+          default:
+            return false;
+        }
+      });
+    });
+  }
+
+  return filteredItems;
+};
+
+
+  const getFilteredCategories = (categories: string[], filteredItems: IFoodItem[]): string[] => {
     if (!searchQuery) return categories;
 
     const availableCategories = new Set(
-      filteredItems.map((item) => item.category)
+      filteredItems.map((item) => item.category).filter(Boolean)
     );
 
     return categories.filter(
@@ -239,18 +291,18 @@ const RestaurantSelect = () => {
     );
   };
 
-  // Toggle bookmark for a specific menu item
-  const toggleBookmark = (menuItemId: number) => {
-    const isCurrentlyBookmarked = bookmarkedItems[menuItemId] || false;
+  // Toggle bookmark for a specific food item
+  const toggleBookmark = (foodItemId: string) => {
+    const isCurrentlyBookmarked = bookmarkedItems[foodItemId] || false;
     
     setBookmarkedItems(prev => ({
       ...prev,
-      [menuItemId]: !prev[menuItemId]
+      [foodItemId]: !prev[foodItemId]
     }));
     
     // Only show the wishlist popup when adding to bookmarks, not when removing
     if (!isCurrentlyBookmarked) {
-      setActiveBookmarkedItemId(menuItemId);
+      setActiveBookmarkedItemId(foodItemId);
       showWishlistPopup();
     }
   };
@@ -277,12 +329,12 @@ const RestaurantSelect = () => {
   };
 
   const handleCreateNewList = () => {
-    // Get the active menu item details if we have an active bookmarked item
+    // Get the active food item details if we have an active bookmarked item
     if (activeBookmarkedItemId) {
-      const item = menuItems.find(item => item.menuItemId === activeBookmarkedItemId);
+      const item = foodItems.find(item => item.foodItemId === activeBookmarkedItemId);
       if (item) {
         setActiveItemDetails({ 
-          image: item.image, 
+          image: item.image || '', 
           name: item.name 
         });
       }
@@ -316,7 +368,7 @@ const RestaurantSelect = () => {
       
       // If we have a bookmarked item, save it with the list
       if (activeBookmarkedItemId) {
-        const bookmarkedItem = menuItems.find(item => item.menuItemId === activeBookmarkedItemId);
+        const bookmarkedItem = foodItems.find(item => item.foodItemId === activeBookmarkedItemId);
         
         if (bookmarkedItem) {
           // Get existing wishlist items or initialize empty object
@@ -325,11 +377,11 @@ const RestaurantSelect = () => {
           
           // Add item to the new list
           savedItems[newListId] = [{
-            id: bookmarkedItem.menuItemId.toString(),
+            id: bookmarkedItem.foodItemId?.toString() || '',
             name: bookmarkedItem.name,
-            price: bookmarkedItem.price,
-            image: bookmarkedItem.image,
-            restaurant: restaurant?.name || '',
+            price: bookmarkedItem.discountPrice || bookmarkedItem.price,
+            image: bookmarkedItem.image || '',
+            restaurant: restaurant?.restaurantName || '',
             restaurantId: bookmarkedItem.restaurantId
           }];
           
@@ -419,7 +471,7 @@ const RestaurantSelect = () => {
   const getItemsCountPerCategory = () => {
     const counts: Record<string, number> = {};
     restaurant?.categories.forEach((category) => {
-      counts[category] = menuItems.filter(
+      counts[category] = foodItems.filter(
         (item) => item.category === category
       ).length;
     });
@@ -446,16 +498,6 @@ const RestaurantSelect = () => {
     loadFonts();
   }, []);
 
-  useEffect(() => {
-    const selectedRestaurant = mockRestaurants.find(
-      (r) => r.restaurantId === restaurantId
-    );
-    setRestaurant(selectedRestaurant || null);
-
-    const items = mockMenu.filter((item) => item.restaurantId === restaurantId);
-    setMenuItems(items);
-  }, [restaurantId]);
-
   const toggleCategory = (category: string) => {
     setExpandedCategories((prev) => {
       const newSet = new Set(prev);
@@ -470,14 +512,14 @@ const RestaurantSelect = () => {
 
   const handleCheckout = () => {
     const selectedItems = Object.entries(cartCounts).map(
-      ([menuItemId, quantity]) => {
-        const menuItem = menuItems.find(
-          (item) => item.menuItemId === parseInt(menuItemId)
+      ([foodItemId, quantity]) => {
+        const foodItem = foodItems.find(
+          (item) => item.foodItemId === foodItemId
         );
         return {
-          name: menuItem?.name,
+          name: foodItem?.name,
           quantity,
-          price: menuItem?.price,
+          price: foodItem?.discountPrice || foodItem?.price,
         };
       }
     );
@@ -487,41 +529,116 @@ const RestaurantSelect = () => {
       pathname: "./checkoutPageRestaurant",
       params: {
         restaurantId: restaurant?.restaurantId,
-        restaurantName: restaurant?.name,
+        restaurantName: restaurant?.restaurantName,
         cart: JSON.stringify(selectedItems),
       },
     });
   };
 
-  if (!restaurant) {
-    return (
-      <SafeAreaView style={styles.container}>
-        <Text allowFontScaling={false}  style={styles.headerTitle}>Loading...</Text>
-      </SafeAreaView>
-    );
+// 4. Add error handling for restaurant data
+if (loading) {
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#01615F" />
+        <Text allowFontScaling={false} style={styles.loadingText}>Loading restaurant...</Text>
+      </View>
+    </SafeAreaView>
+  );
+}
+
+// Error state
+if (error || !restaurant) {
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.errorContainer}>
+        <Text allowFontScaling={false} style={styles.errorText}>
+          {error || 'Restaurant not found'}
+        </Text>
+        <TouchableOpacity 
+          style={styles.retryButton} 
+          onPress={async () => {
+            if (!restaurantId) return;
+            
+            try {
+              setError(null);
+              setLoading(true);
+              
+              const [restaurantData, foodItemsData] = await Promise.all([
+                fetchRestaurantDetails(restaurantId),
+                fetchFoodItemsByRestaurant(restaurantId)
+              ]);
+
+              setRestaurant(restaurantData);
+              
+              // Ensure foodItemsData is an array
+              if (Array.isArray(foodItemsData)) {
+                setFoodItems(foodItemsData);
+                const categories = [...new Set(foodItemsData.map((item: IFoodItem) => item.category).filter(Boolean))];
+                
+                if (restaurantData && categories.length > 0) {
+                  setRestaurant(prev => prev
+                    ? { ...prev, categories: categories.filter((c): c is string => typeof c === 'string') }
+                    : null
+                  );
+                }
+              } else {
+                setFoodItems([]);
+              }
+
+            } catch (err) {
+              setError(err instanceof Error ? err.message : 'Failed to load restaurant data');
+            } finally {
+              setLoading(false);
+            }
+          }}
+        >
+          <Text allowFontScaling={false} style={styles.retryButtonText}>Retry</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
+  );
+}
+
+  const handleAddToCart = (item: IFoodItem) => {
+    const itemId = item.foodItemId || '';
+    setCartCounts((prevCounts) => {
+      const newCount = prevCounts[itemId] ? prevCounts[itemId] + 1 : 1;
+      return { ...prevCounts, [itemId]: newCount };
+    });
+  };
+
+  const handleRemoveFromCart = (item: IFoodItem) => {
+    const itemId = item.foodItemId || '';
+    setCartCounts((prevCounts) => {
+      const newCount = prevCounts[itemId] > 0 ? prevCounts[itemId] - 1 : 0;
+      return { ...prevCounts, [itemId]: newCount };
+    });
+  };
+
+const handleShareRestaurant = async () => {
+  try {
+    const result = await Share.share({
+      message: `Check out ${restaurant?.restaurantName}! Great food with ${restaurant?.ratingAverage}/5 rating. Located at ${restaurant?.location}`,
+      url: `https://yourapp.com/restaurant/${restaurantId}`, // Replace with your app's deep link
+      title: `${restaurant?.restaurantName} - Great Food Awaits!`,
+    });
+    
+    if (result.action === Share.sharedAction) {
+      if (result.activityType) {
+        // Shared with activity type of result.activityType
+      } else {
+        // Shared
+      }
+    } else if (result.action === Share.dismissedAction) {
+      // Dismissed
+    }
+  } catch (error) {
+    Alert.alert('Error', 'Unable to share restaurant');
   }
+  setDropdownVisible(false);
+};
 
-  const handleAddToCart = (item: MenuItem) => {
-    setCartCounts((prevCounts) => {
-      const newCount = prevCounts[item.menuItemId]
-        ? prevCounts[item.menuItemId] + 1
-        : 1;
-      return { ...prevCounts, [item.menuItemId]: newCount };
-    });
-  };
-
-  const handleRemoveFromCart = (item: MenuItem) => {
-    setCartCounts((prevCounts) => {
-      const newCount =
-        prevCounts[item.menuItemId] > 0 ? prevCounts[item.menuItemId] - 1 : 0;
-      return { ...prevCounts, [item.menuItemId]: newCount };
-    });
-  };
-
-  const handleShareRestaurant = () => {
-    Alert.alert("Share", `Sharing ${restaurant.name} with friends!`);
-    setDropdownVisible(false);
-  };
 
   const handleOpenModal = () => {
     setIsModalVisible(true);
@@ -529,6 +646,14 @@ const RestaurantSelect = () => {
 
   const handleCloseModal = () => {
     setIsModalVisible(false);
+  };
+
+  // Helper function to get food type display
+  const getFoodTypeDisplay = (typeOfFood: FoodType[]) => {
+    if (typeOfFood.includes(FoodType.VEG)) return 'VEG';
+    if (typeOfFood.includes(FoodType.NON_VEG)) return 'NON VEG';
+    if (typeOfFood.includes(FoodType.EGGETARIAN)) return 'EGG';
+    return 'VEG'; // Default
   };
 
   // WishlistPopup component
@@ -558,9 +683,9 @@ const RestaurantSelect = () => {
               ]}
             >
               <View style={wishlistStyles.header}>
-                <Text allowFontScaling={false}  style={wishlistStyles.title}>Add to Your Wishlist</Text>
+                <Text allowFontScaling={false} style={wishlistStyles.title}>Add to Your Wishlist</Text>
                 <TouchableOpacity onPress={onClose} style={wishlistStyles.closeButton}>
-                  <Text allowFontScaling={false}  style={wishlistStyles.closeButtonText}>✕</Text>
+                  <Text allowFontScaling={false} style={wishlistStyles.closeButtonText}>✕</Text>
                 </TouchableOpacity>
               </View>
               
@@ -569,12 +694,12 @@ const RestaurantSelect = () => {
                 onPress={onCreateNewList}
               >
                 <View style={wishlistStyles.plusIconContainer}>
-                  <Text allowFontScaling={false}  style={wishlistStyles.plusIcon}>+</Text>
+                  <Text allowFontScaling={false} style={wishlistStyles.plusIcon}>+</Text>
                 </View>
-                <Text allowFontScaling={false}  style={wishlistStyles.createNewListText}>Create New List</Text>
+                <Text allowFontScaling={false} style={wishlistStyles.createNewListText}>Create New List</Text>
               </TouchableOpacity>
               
-              <Text allowFontScaling={false}  style={wishlistStyles.listSectionTitle}>Your Lists</Text>
+              <Text allowFontScaling={false} style={wishlistStyles.listSectionTitle}>Your Lists</Text>
               
               {wishlistLists.slice(0, 1).map(list => (
                 <TouchableOpacity 
@@ -583,7 +708,7 @@ const RestaurantSelect = () => {
                   onPress={() => onToggleList(list.id)}
                 >
                   <Image source={list.image} style={wishlistStyles.listItemImage} />
-                  <Text allowFontScaling={false}  style={wishlistStyles.listItemText}>{list.name}</Text>
+                  <Text allowFontScaling={false} style={wishlistStyles.listItemText}>{list.name}</Text>
                   <View style={[
                     wishlistStyles.checkbox,
                     selectedLists.includes(list.id) && wishlistStyles.checkboxSelected
@@ -595,7 +720,7 @@ const RestaurantSelect = () => {
                 </TouchableOpacity>
               ))}
               
-              <Text allowFontScaling={false}  style={wishlistStyles.listSectionTitle}>Suggested List</Text>
+              <Text allowFontScaling={false} style={wishlistStyles.listSectionTitle}>Suggested List</Text>
               
               {wishlistLists.slice(1).map(list => (
                 <TouchableOpacity 
@@ -604,7 +729,7 @@ const RestaurantSelect = () => {
                   onPress={() => onToggleList(list.id)}
                 >
                   <Image source={list.image} style={wishlistStyles.listItemImage} />
-                  <Text allowFontScaling={false}  style={wishlistStyles.listItemText}>{list.name}</Text>
+                  <Text allowFontScaling={false} style={wishlistStyles.listItemText}>{list.name}</Text>
                   <View style={[
                     wishlistStyles.checkbox,
                     selectedLists.includes(list.id) && wishlistStyles.checkboxSelected
@@ -620,7 +745,7 @@ const RestaurantSelect = () => {
                 style={wishlistStyles.saveButton}
                 onPress={onSave}
               >
-                <Text allowFontScaling={false}  style={wishlistStyles.saveButtonText}>Save</Text>
+                <Text allowFontScaling={false} style={wishlistStyles.saveButtonText}>Save</Text>
               </TouchableOpacity>
             </Animated.View>
           </TouchableWithoutFeedback>
@@ -629,81 +754,60 @@ const RestaurantSelect = () => {
     );
   };
 
-  const NavigationBar = () => {
-    const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
-    const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
-
-    const toggleSelection = (filter: string) => {
-      if (selectedFilters.includes(filter)) {
-        setSelectedFilters(selectedFilters.filter((item) => item !== filter));
-      } else {
-        setSelectedFilters([...selectedFilters, filter]);
-      }
-    };
-
-    const toggleFilterDropdown = () => {
-      setIsFilterOpen(!isFilterOpen);
-    };
-
-    const filterImages: { [key: string]: any } = {
-      Veg: require("./../../assets/images/Veg.png"),
-      Egg: require("./../../assets/images/Egg.png"),
-      "Non Veg": require("./../../assets/images/NonVeg.png"),
-    };
-
-    return (
-      <View style={styles.FileListcontainer}>
-        <TouchableOpacity
-          style={[
-            styles.filterButton,
-            selectedFilters.includes("filter") && styles.selected,
-          ]}
-          onPress={() => setIsFilterVisible(true)}
-        >
-          <Ionicons name="funnel-outline" size={18} color="black" />
-          <Text allowFontScaling={false}  style={styles.buttonText}>Filter</Text>
-          <Ionicons
-            name={isFilterOpen ? "caret-up" : "caret-down"}
-            size={18}
-            color="grey"
-            style={styles.dropdownIcon}
-          />
-          <FilterPopup
-            isVisible={isFilterVisible}
-            onClose={() => setIsFilterVisible(false)}
-            onApply={handleFilterApply}
-          />
-        </TouchableOpacity>
-
-        {["Veg", "Egg", "Non Veg"].map((filter) => (
-          <TouchableOpacity
-            key={filter}
-            style={[
-              styles.button,
-              selectedFilters.includes(filter) && styles.selected,
-            ]}
-            onPress={() => toggleSelection(filter)}
-          >
-            <Image source={filterImages[filter]} style={styles.filterIcon} />
-            <Text allowFontScaling={false} 
-              style={[
-                styles.buttonText,
-                selectedFilters.includes(filter) && { color: "#01615F" },
-              ]}
-            >
-              {filter}
-            </Text>
-            {selectedFilters.includes(filter) && (
-              <TouchableOpacity onPress={() => toggleSelection(filter)}>
-                <Ionicons name="close-outline" size={14} color="#01615F" />
-              </TouchableOpacity>
-            )}
-          </TouchableOpacity>
-        ))}
-      </View>
-    );
+const NavigationBarWithState = () => {
+  const toggleSelection = (filter: string) => {
+    if (selectedFilters.includes(filter)) {
+      setSelectedFilters(selectedFilters.filter((item) => item !== filter));
+    } else {
+      setSelectedFilters([...selectedFilters, filter]);
+    }
   };
 
+  const filterImages: { [key: string]: any } = {
+    Veg: require("./../../assets/images/Veg.png"),
+    Egg: require("./../../assets/images/Egg.png"),
+    "Non Veg": require("./../../assets/images/NonVeg.png"),
+  };
+
+  return (
+    <View style={styles.FileListcontainer}>
+      {/* <TouchableOpacity
+        style={styles.filterButton}
+        onPress={() => setIsFilterVisible(true)}
+      >
+        <Ionicons name="funnel-outline" size={18} color="black" />
+        <Text allowFontScaling={false} style={styles.buttonText}>Filter</Text>
+        <Ionicons name="caret-down" size={18} color="grey" />
+      </TouchableOpacity> */}
+
+      {["Veg", "Egg", "Non Veg"].map((filter) => (
+        <TouchableOpacity
+          key={filter}
+          style={[
+            styles.filterOptionButton,
+            selectedFilters.includes(filter) && styles.selected,
+          ]}
+          onPress={() => toggleSelection(filter)}
+        >
+          <Image source={filterImages[filter]} style={styles.filterIcon} />
+          <Text allowFontScaling={false} 
+            style={[
+              styles.buttonText,
+              selectedFilters.includes(filter) && { color: "#01615F" },
+            ]}
+          >
+            {filter}
+          </Text>
+          {selectedFilters.includes(filter) && (
+            <TouchableOpacity onPress={() => toggleSelection(filter)}>
+              <Ionicons name="close-outline" size={14} color="#01615F" />
+            </TouchableOpacity>
+          )}
+        </TouchableOpacity>
+      ))}
+    </View>
+  );
+};
   const CheckoutPopup: React.FC<CheckoutPopupProps> = ({ totalItems }) => {
     return (
       <View style={styles.popupContainer}>
@@ -711,7 +815,7 @@ const RestaurantSelect = () => {
           style={styles.checkoutButton}
           onPress={handleCheckout}
         >
-          <Text allowFontScaling={false}  style={styles.checkoutText}>
+          <Text allowFontScaling={false} style={styles.checkoutText}>
             {`Checkout ${totalItems} item${totalItems > 1 ? "s" : ""}`}
           </Text>
         </TouchableOpacity>
@@ -719,63 +823,96 @@ const RestaurantSelect = () => {
     );
   };
 
-  const renderMenuItem = (item: MenuItem) => {
-    const count = cartCounts[item.menuItemId] || 0;
-    const isBookmarked = bookmarkedItems[item.menuItemId] || false;
+const renderFoodItem = (item: IFoodItem) => {
+  const itemId = item.foodItemId || '';
+  const count = cartCounts[itemId] || 0;
+  const isBookmarked = bookmarkedItems[itemId] || false;
+  const displayPrice = item.discountPrice || item.price;
+  const hasDiscount = item.discountPrice && item.discountPrice < item.price;
 
-    return (
-      <View style={styles.menuCard} key={item.menuItemId}>
-        <Image style={styles.menuImage} source={{ uri: item.image }} />
-        <TouchableOpacity 
-          style={styles.iconWrapper} 
-          onPress={() => toggleBookmark(item.menuItemId)}
-        >
-          <FontAwesome
-            name={isBookmarked ? 'bookmark' : 'bookmark-o'}
-            size={18}
-            color="#01615F"
-          />
-        </TouchableOpacity>
-        <View style={styles.menuDetails}>
-          <Text allowFontScaling={false}  style={styles.menuName}>{item.name}</Text>
-          <Text allowFontScaling={false}  style={styles.menuCategory}>{item.category}</Text>
-          <Text allowFontScaling={false}  style={styles.menuPrice}>${item.price.toFixed(2)}</Text>
-        </View>
-        <View style={styles.addButtonContainer}>
-          {count === 0 ? (
-            <TouchableOpacity
-              style={styles.addButton}
-              onPress={() => handleAddToCart(item)}
-            >
-              <Text allowFontScaling={false}  style={styles.addButtonText}>Add</Text>
-            </TouchableOpacity>
-          ) : (
-            <View style={styles.counterContainer}>
-              <TouchableOpacity
-                style={styles.minusButton}
-                onPress={() => handleRemoveFromCart(item)}
-              >
-                <Text allowFontScaling={false}  style={styles.addButtonText}>-</Text>
-              </TouchableOpacity>
-              <Text allowFontScaling={false}  style={styles.counterText}>{count}</Text>
-              <TouchableOpacity
-                style={styles.plusButton}
-                onPress={() => handleAddToCart(item)}
-              >
-                <Text allowFontScaling={false}  style={styles.addButtonText}>+</Text>
-              </TouchableOpacity>
-            </View>
+  return (
+    <View style={styles.menuCard} key={itemId}>
+      <Image 
+        style={styles.menuImage} 
+        source={{ uri: item.image || 'https://via.placeholder.com/150' }} 
+      />
+      <TouchableOpacity 
+        style={styles.iconWrapper} 
+        onPress={() => toggleBookmark(itemId)}
+      >
+        <FontAwesome
+          name={isBookmarked ? 'bookmark' : 'bookmark-o'}
+          size={18}
+          color="#01615F"
+        />
+      </TouchableOpacity>
+      <View style={styles.menuDetails}>
+        <Text allowFontScaling={false} style={styles.menuName}>
+          {item.name || 'Unknown Item'}
+        </Text>
+        <Text allowFontScaling={false} style={styles.menuCategory}>
+          {item.category || 'General'} • {getFoodTypeDisplay(item.typeOfFood || [FoodType.VEG])}
+        </Text>
+        {item.description && (
+          <Text allowFontScaling={false} style={styles.menuDescription} numberOfLines={2}>
+            {item.description}
+          </Text>
+        )}
+        <View style={styles.priceContainer}>
+          <Text allowFontScaling={false} style={styles.menuPrice}>
+            ${displayPrice?.toFixed(2) || '0.00'}
+          </Text>
+          {hasDiscount && (
+            <Text allowFontScaling={false} style={styles.originalPrice}>
+              ${item.price?.toFixed(2) || '0.00'}
+            </Text>
           )}
         </View>
+        {item.rating && (
+          <View style={styles.ratingContainer}>
+            <Ionicons name="star" size={12} color="#FFD700" />
+            <Text allowFontScaling={false} style={styles.ratingText}>
+              {item.rating.toFixed(1)} ({item.ratingCount || 0})
+            </Text>
+          </View>
+        )}
       </View>
-    );
-  };
-
-  const filteredMenuItems = getFilteredMenuItems(menuItems, searchQuery);
-  const filteredCategories = getFilteredCategories(
-    restaurant.categories,
-    filteredMenuItems
+      <View style={styles.addButtonContainer}>
+        {item.isAvailable === false ? (
+          <Text allowFontScaling={false} style={styles.unavailableText}>Not Available</Text>
+        ) : count === 0 ? (
+          <TouchableOpacity
+            style={styles.addButton}
+            onPress={() => handleAddToCart(item)}
+          >
+            <Text allowFontScaling={false} style={styles.addButtonText}>Add</Text>
+          </TouchableOpacity>
+        ) : (
+          <View style={styles.counterContainer}>
+            <TouchableOpacity
+              style={styles.minusButton}
+              onPress={() => handleRemoveFromCart(item)}
+            >
+              <Text allowFontScaling={false} style={styles.addButtonText}>-</Text>
+            </TouchableOpacity>
+            <Text allowFontScaling={false} style={styles.counterText}>{count}</Text>
+            <TouchableOpacity
+              style={styles.plusButton}
+              onPress={() => handleAddToCart(item)}
+            >
+              <Text allowFontScaling={false} style={styles.addButtonText}>+</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      </View>
+    </View>
   );
+};
+const filteredFoodItems = getFilteredFoodItems(foodItems, searchQuery, selectedFilters);
+const filteredCategories = getFilteredCategories(
+  restaurant?.categories || [],
+  filteredFoodItems
+);
 
   // Check if the current restaurant is favorited
   const isRestaurantFavorite = favoriteRestaurants[restaurantId] || false;
@@ -792,9 +929,9 @@ const RestaurantSelect = () => {
               <Feather name="arrow-left" size={24} color="black" />
             </TouchableOpacity>
 
-            <Text allowFontScaling={false}  style={styles.title} numberOfLines={1}>
-              {restaurant.name}
-            </Text>
+        <Text allowFontScaling={false} style={styles.title} numberOfLines={1}>
+  {restaurant?.restaurantName || 'Loading...'}
+</Text>
 
             <TouchableOpacity
               onPress={toggleDropdown}
@@ -846,40 +983,44 @@ const RestaurantSelect = () => {
         )}
 
         {/* Search Bar */}
-        <SearchBarVoice
-          redirectTargets={["Dishes", "Restaurants"]}
-          placeholder={`Search Dishes in ${restaurant.name}`}
-          value={searchQuery}
-          onChangeText={setSearchQuery}
+       <SearchBarVoice
+  redirectTargets={["Dishes", "Restaurants"]}
+  placeholder={`Search Dishes in ${restaurant?.restaurantName || 'Restaurant'}`}
+  value={searchQuery}
+  onChangeText={setSearchQuery}
+/>
+
+
+       <NavigationBarWithState />
+
+   <FlatList
+  data={filteredCategories}
+  keyExtractor={(item) => item}
+  renderItem={({ item: category }) => (
+    <View key={category}>
+      <TouchableOpacity
+        style={styles.categoryChip}
+        onPress={() => toggleCategory(category)}
+      >
+        <Text allowFontScaling={false} style={styles.categoryText}>{category}</Text>
+        <Ionicons
+          name={expandedCategories.has(category) ? "caret-up" : "caret-down"}
+          size={16}
+          color="grey"
         />
-
-        <NavigationBar />
-
-        <FlatList
-          data={filteredCategories}
-          keyExtractor={(item) => item}
-          renderItem={({ item: category }) => (
-            <View>
-              <TouchableOpacity
-                style={styles.categoryChip}
-                onPress={() => toggleCategory(category)}
-              >
-                <Text allowFontScaling={false}  style={styles.categoryText}>{category}</Text>
-                <Ionicons
-                  name={
-                    expandedCategories.has(category) ? "caret-up" : "caret-down"
-                  }
-                  size={16}
-                  color="grey"
-                />
-              </TouchableOpacity>
-              {expandedCategories.has(category) &&
-                filteredMenuItems
-                  .filter((menuItem) => menuItem.category === category)
-                  .map(renderMenuItem)}
+      </TouchableOpacity>
+      {expandedCategories.has(category) &&
+        filteredFoodItems
+          .filter((foodItem) => foodItem.category === category)
+          .map((item) => (
+            <View key={item.foodItemId || `item-${Math.random()}`}>
+              {renderFoodItem(item)}
             </View>
-          )}
-        />
+          ))
+      }
+    </View>
+  )}
+/>
         <TouchableOpacity
           style={styles.floatingButton}
           onPress={handleOpenModal}
@@ -1031,23 +1172,21 @@ const styles = StyleSheet.create({
   FileListcontainer: {
     flexDirection: "row",
     alignItems: "center",
-    display: "flex",
     justifyContent: "center",
     paddingVertical: 8,
+    paddingHorizontal: 16,
     gap: 8,
-    width: 350,
-    overflow: "hidden",
   },
   filterButton: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 8,
+    paddingHorizontal: 12,
     paddingVertical: 8,
     borderRadius: 16,
-    marginBottom: 8,
-    marginLeft: 50,
     borderWidth: 1,
     borderColor: "black",
+    minWidth: 80,
+    justifyContent: "center",
   },
   dropdownIcon: {
     marginLeft: 4,
@@ -1063,18 +1202,32 @@ const styles = StyleSheet.create({
     borderColor: "black",
     position: "relative",
   },
-  selected: {
+ selected: {
     borderColor: "#01615F",
+    backgroundColor: "#F0F9FF",
   },
-  buttonText: {
-    marginLeft: 2,
-    fontSize: RFPercentage(2),
+buttonText: {
+    marginHorizontal: 4,
+    fontSize: RFPercentage(1.8),
     color: "black",
     fontFamily: "Poppins-Regular",
+    textAlign: "center",
   },
-  filterIcon: {
-    width: 20,
-    height: 20,
+ filterIcon: {
+    width: 16,
+    height: 16,
+    marginRight: 4,
+  },
+   filterOptionButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: "black",
+    minWidth: 80,
+    justifyContent: "center",
   },
   categoriesContainer: {
     marginHorizontal: 16,
@@ -1264,6 +1417,77 @@ const styles = StyleSheet.create({
     fontSize: RFPercentage(1.8),
     fontFamily: "Poppins-Regular",
   },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingText: {
+    marginTop: 16,
+    fontSize: 16,
+    color: '#666',
+    fontFamily: 'Poppins-Regular',
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  errorText: {
+    fontSize: 16,
+    color: '#666',
+    textAlign: 'center',
+    marginBottom: 20,
+    fontFamily: 'Poppins-Regular',
+  },
+  retryButton: {
+    backgroundColor: '#01615F',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 8,
+  },
+  retryButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontFamily: 'Poppins-Medium',
+  },
+  menuDescription: {
+    fontSize: 12,
+    color: '#666',
+    marginVertical: 2,
+    fontFamily: 'Poppins-Regular',
+  },
+  priceContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 4,
+  },
+  originalPrice: {
+    fontSize: 12,
+    color: '#999',
+    textDecorationLine: 'line-through',
+    marginLeft: 8,
+    fontFamily: 'Poppins-Regular',
+  },
+  ratingContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 2,
+  },
+  ratingText: {
+    fontSize: 12,
+    color: '#666',
+    marginLeft: 4,
+    fontFamily: 'Poppins-Regular',
+  },
+  unavailableText: {
+    fontSize: 12,
+    color: '#999',
+    fontStyle: 'italic',
+    fontFamily: 'Poppins-Regular',
+  },
+
 });
 
 const wishlistStyles = StyleSheet.create({
@@ -1362,6 +1586,7 @@ const wishlistStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+
   checkboxSelected: {
     borderColor: '#01615F',
     backgroundColor: '#01615F',

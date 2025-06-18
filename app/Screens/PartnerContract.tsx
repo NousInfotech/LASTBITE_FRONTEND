@@ -9,7 +9,7 @@ import {
   Image,
   Alert,
 } from "react-native";
-import GoBack from "@/components/GoBack";
+import Header from "@/components/GoBack";
 import * as Font from "expo-font";
 import { RFPercentage } from "react-native-responsive-fontsize";
 import * as FileSystem from "expo-file-system"; // Use expo-file-system instead
@@ -73,7 +73,7 @@ const RegisterRestaurant = () => {
       <ScrollView style={styles.scrollView}>
         <View style={styles.header}>
           <TouchableOpacity>
-            <GoBack />
+            <Header />
           </TouchableOpacity>
           <Text allowFontScaling={false}  style={styles.headerTitle}>Partner Contract</Text>
         </View>

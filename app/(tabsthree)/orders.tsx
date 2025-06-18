@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
-import GoBack from "@/components/GoBack";
+import Header from "@/components/GoBack";
 import { RFPercentage } from "react-native-responsive-fontsize";
 
 const Orders: React.FC = () => {
@@ -47,9 +47,9 @@ const Orders: React.FC = () => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      <View style={styles.header}>
+      {/* <View style={styles.header}>
         <TouchableOpacity>
-          <GoBack />
+         
         </TouchableOpacity>
         <Text allowFontScaling={false}  style={styles.headerTitle}>Orders</Text>
         <TouchableOpacity style={styles.filterButton}>
@@ -58,8 +58,8 @@ const Orders: React.FC = () => {
             style={styles.filterIcon}
           />
         </TouchableOpacity>
-      </View>
-
+      </View> */}
+ <Header title="Orders"/>
       {/* Tabs */}
      
  <View style={styles.tabContainer}>

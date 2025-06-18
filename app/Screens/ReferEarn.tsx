@@ -12,7 +12,7 @@ import {
   ListRenderItem,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import GoBack from "@/components/GoBack";
+import Header from "@/components/GoBack";
 import { Ionicons, AntDesign, Feather } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { RFPercentage } from "react-native-responsive-fontsize";
@@ -141,7 +141,7 @@ export default function ReferEarn() {
         {/* Header */}
         <View style={styles.header}>
           <TouchableOpacity>
-            <GoBack />
+            <Header />
           </TouchableOpacity>
           <Text allowFontScaling={false}  style={styles.headerTitle}>Refer friends & Earn ₹2500</Text>
         </View>

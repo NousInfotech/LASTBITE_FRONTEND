@@ -6,8 +6,12 @@ import {
   TouchableOpacity,
   StyleSheet,
   GestureResponderEvent,
+  ScrollView,
+  Dimensions,
 } from "react-native";
 import { RFPercentage } from "react-native-responsive-fontsize";
+
+const { width: screenWidth } = Dimensions.get('window');
 
 interface FilterPopupProps {
   isVisible: boolean;
@@ -16,9 +20,11 @@ interface FilterPopupProps {
 }
 
 const CloseX: React.FC<{ onPress: () => void }> = ({ onPress }) => (
-  <Text allowFontScaling={false}  style={styles.closeXText} onPress={onPress}>
-    {" "}X
-  </Text>
+  <TouchableOpacity onPress={onPress} style={styles.closeXContainer}>
+    <Text allowFontScaling={false} style={styles.closeXText}>
+      ×
+    </Text>
+  </TouchableOpacity>
 );
 
 const FilterPopup: React.FC<FilterPopupProps> = ({ isVisible, onClose, onApply }) => {
@@ -47,83 +53,123 @@ const FilterPopup: React.FC<FilterPopupProps> = ({ isVisible, onClose, onApply }
     <Modal visible={isVisible} transparent animationType="slide">
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
-          {/* Close Button */}
-          <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-            <Text allowFontScaling={false}  style={styles.closeButtonText}>X</Text>
-          </TouchableOpacity>
-
-          <Text allowFontScaling={false}  style={styles.title}>Filtering and Sorting</Text>
-          <Text allowFontScaling={false}  style={styles.sectionTitle}>Sort by</Text>
-
-          {/* Sorting Options */}
-          <View style={styles.sortOptions}>
-            <TouchableOpacity
-              onPress={() => setSortOption("lowToHigh")}
-              style={[
-                styles.optionButton,
-                sortOption === "lowToHigh" && styles.selectedOption,
-              ]}
-            >
-              <View style={styles.optionContent}>
-                <Text allowFontScaling={false}  style={sortOption === "lowToHigh" ? styles.selectedText : undefined}>
-                  Price - low to high
-                </Text>
-                {sortOption === "lowToHigh" && (
-                  <CloseX onPress={() => setSortOption(null)} />
-                )}
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => setSortOption("highToLow")}
-              style={[
-                styles.optionButton,
-                sortOption === "highToLow" && styles.selectedOption,
-              ]}
-            >
-              <View style={styles.optionContent}>
-                <Text allowFontScaling={false}  style={sortOption === "highToLow" ? styles.selectedText : undefined}>
-                  Price - high to low
-                </Text>
-                {sortOption === "highToLow" && (
-                  <CloseX onPress={() => setSortOption(null)} />
-                )}
-              </View>
+          {/* Header with Close Button */}
+          <View style={styles.header}>
+            <Text allowFontScaling={false} style={styles.title}>
+              Filtering and Sorting
+            </Text>
+            <TouchableOpacity onPress={onClose} style={styles.closeButton}>
+              <Text allowFontScaling={false} style={styles.closeButtonText}>
+                ×
+              </Text>
             </TouchableOpacity>
           </View>
 
-          {/* Preferences */}
-          <Text allowFontScaling={false}  style={styles.sectionTitle}>Veg/Non-veg preference</Text>
-          <View style={styles.preferences}>
-            {["Veg", "Egg", "Non Veg"].map((preference) => (
-              <TouchableOpacity
-                key={preference}
-                onPress={() => togglePreference(preference)}
-                style={[
-                  styles.preferenceButton,
-                  preferences.includes(preference) && styles.selectedOption,
-                ]}
-              >
-                <View style={styles.optionContent}>
-                  <Text allowFontScaling={false} 
-                    style={preferences.includes(preference) ? styles.selectedText : undefined}
+          <ScrollView 
+            style={styles.scrollContainer}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.scrollContent}
+          >
+            {/* Sort by Section */}
+            <View style={styles.section}>
+              <Text allowFontScaling={false} style={styles.sectionTitle}>
+                Sort by
+              </Text>
+              <View style={styles.optionsContainer}>
+                <TouchableOpacity
+                  onPress={() => setSortOption("lowToHigh")}
+                  style={[
+                    styles.optionButton,
+                    sortOption === "lowToHigh" && styles.selectedOption,
+                  ]}
+                >
+                  <View style={styles.optionContent}>
+                    <Text 
+                      allowFontScaling={false} 
+                      style={[
+                        styles.optionText,
+                        sortOption === "lowToHigh" && styles.selectedText
+                      ]}
+                    >
+                      Price - low to high
+                    </Text>
+                    {sortOption === "lowToHigh" && (
+                      <CloseX onPress={() => setSortOption(null)} />
+                    )}
+                  </View>
+                </TouchableOpacity>
+                
+                <TouchableOpacity
+                  onPress={() => setSortOption("highToLow")}
+                  style={[
+                    styles.optionButton,
+                    sortOption === "highToLow" && styles.selectedOption,
+                  ]}
+                >
+                  <View style={styles.optionContent}>
+                    <Text 
+                      allowFontScaling={false} 
+                      style={[
+                        styles.optionText,
+                        sortOption === "highToLow" && styles.selectedText
+                      ]}
+                    >
+                      Price - high to low
+                    </Text>
+                    {sortOption === "highToLow" && (
+                      <CloseX onPress={() => setSortOption(null)} />
+                    )}
+                  </View>
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            {/* Preferences Section */}
+            <View style={styles.section}>
+              <Text allowFontScaling={false} style={styles.sectionTitle}>
+                Veg/Non-veg preference
+              </Text>
+              <View style={styles.optionsContainer}>
+                {["Veg", "Egg", "Non Veg"].map((preference) => (
+                  <TouchableOpacity
+                    key={preference}
+                    onPress={() => togglePreference(preference)}
+                    style={[
+                      styles.preferenceButton,
+                      preferences.includes(preference) && styles.selectedOption,
+                    ]}
                   >
-                    {preference}
-                  </Text>
-                  {preferences.includes(preference) && (
-                    <CloseX onPress={() => togglePreference(preference)} />
-                  )}
-                </View>
-              </TouchableOpacity>
-            ))}
-          </View>
+                    <View style={styles.optionContent}>
+                      <Text 
+                        allowFontScaling={false}
+                        style={[
+                          styles.optionText,
+                          preferences.includes(preference) && styles.selectedText
+                        ]}
+                      >
+                        {preference}
+                      </Text>
+                      {preferences.includes(preference) && (
+                        <CloseX onPress={() => togglePreference(preference)} />
+                      )}
+                    </View>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </View>
+          </ScrollView>
 
           {/* Footer Buttons */}
           <View style={styles.footer}>
             <TouchableOpacity onPress={handleClear} style={styles.clearButton}>
-              <Text allowFontScaling={false}  style={styles.clearText}>Clear All</Text>
+              <Text allowFontScaling={false} style={styles.clearText}>
+                Clear All
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={handleApply} style={styles.applyButton}>
-              <Text allowFontScaling={false}  style={styles.applyText}>Apply</Text>
+              <Text allowFontScaling={false} style={styles.applyText}>
+                Apply
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -142,105 +188,139 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     width: "100%",
+    maxWidth: 400,
     backgroundColor: "#fff",
-    borderRadius: 8,
-    padding: 20,
-    position: "relative",
+    borderRadius: 12,
+    maxHeight: '80%',
+    overflow: 'hidden',
   },
-  closeButton: {
-    position: "absolute",
-    top: 20,
-    right: 20,
-    zIndex: 10,
-  },
-  closeButtonText: {
-    fontSize: RFPercentage(2.5),
-    color: "#01615F",
-    fontWeight: "bold",
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f0f0f0',
   },
   title: {
     fontSize: RFPercentage(2.5),
     fontWeight: "bold",
-    marginBottom: 20,
-    marginTop: 10,
+    color: '#333',
   },
-  sortOptions: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 20,
+  closeButton: {
+    padding: 5,
+  },
+  closeButtonText: {
+    fontSize: RFPercentage(3),
+    color: "#01615F",
+    fontWeight: "bold",
+  },
+  scrollContainer: {
+    flex: 1,
+  },
+  scrollContent: {
+    paddingHorizontal: 20,
+    paddingBottom: 20,
+  },
+  section: {
+    marginTop: 20,
+  },
+  sectionTitle: {
+    fontSize: RFPercentage(2.2),
+    fontWeight: "bold",
+    marginBottom: 15,
+    color: '#333',
+  },
+  optionsContainer: {
+    gap: 12,
   },
   optionButton: {
-    padding: 9,
-    flex: 1,
-    // marginHorizontal: 2,
+    borderWidth: 1,
+    borderColor: "#e0e0e0",
+    borderRadius: 25,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    minHeight: 45,
+    backgroundColor: '#fafafa',
+  },
+  preferenceButton: {
+    borderWidth: 1,
+    borderColor: "#e0e0e0",
+    borderRadius: 25,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    minHeight: 45,
+    backgroundColor: '#fafafa',
+    marginBottom: 8,
   },
   optionContent: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-between",
+    flex: 1,
+  },
+  optionText: {
+    fontSize: RFPercentage(2),
+    color: '#666',
+    flex: 1,
   },
   selectedOption: {
     borderColor: "#01615F",
-    borderWidth: 1,
-    borderRadius: 20,
+    borderWidth: 2,
+    backgroundColor: '#f0f8f7',
   },
   selectedText: {
     color: "#01615F",
+    fontWeight: '600',
+  },
+  closeXContainer: {
+    marginLeft: 8,
+    padding: 4,
   },
   closeXText: {
     color: "#01615F",
-    fontSize: RFPercentage(2),
+    fontSize: RFPercentage(2.5),
     fontWeight: "bold",
-    marginLeft: 4,
-  },
-  sectionTitle: {
-    fontSize: RFPercentage(2),
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  preferences: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 20,
-  },
-  preferenceButton: {
-    padding: 10,
-    borderWidth: 1,
-    borderRadius: 20,
-    borderColor: "#ccc",
-    flex: 1,
-    marginHorizontal: 5,
   },
   footer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 10,
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+    borderTopWidth: 1,
+    borderTopColor: '#f0f0f0',
+    gap: 12,
   },
   clearButton: {
-    padding: 10,
-    borderWidth: 1,
-    borderRadius: 5,
+    flex: 1,
+    borderWidth: 2,
     borderColor: "#01615F",
-    paddingHorizontal: 20,
+    borderRadius: 8,
+    paddingVertical: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
   },
   applyButton: {
-    padding: 10,
+    flex: 1,
     backgroundColor: "#01615F",
-    borderRadius: 5,
-    paddingHorizontal: 20,
+    borderRadius: 8,
+    paddingVertical: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   applyText: {
     color: "#fff",
-    fontWeight:"bold",
-   paddingHorizontal: 25,
-    paddingVertical:8,
+    fontWeight: "bold",
+    fontSize: RFPercentage(2.2),
   },
-  clearText:{
-     color: "#01615F",
-    fontWeight:"bold",
-    paddingHorizontal: 25,
-    paddingVertical:8,
-  }
+  clearText: {
+    color: "#01615F",
+    fontWeight: "bold",
+    fontSize: RFPercentage(2.2),
+  },
 });
 
 export default FilterPopup;

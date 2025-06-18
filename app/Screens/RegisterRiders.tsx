@@ -11,7 +11,7 @@ import {
   Image,
   Alert,
 } from "react-native";
-import GoBack from "@/components/GoBack";
+import Header from "@/components/GoBack";
 import * as Font from "expo-font";
 import { router } from "expo-router";
 import * as ImagePicker from "expo-image-picker";
@@ -131,7 +131,7 @@ const RegisterRiders = () => {
       <ScrollView style={styles.scrollView}>
         <View style={styles.header}>
           <TouchableOpacity style={styles.backButton}>
-            <GoBack />
+            <Header />
           </TouchableOpacity>
           <Text allowFontScaling={false}  style={styles.headerTitle}>Riders Registration</Text>
           <View style={styles.progressContainer}>

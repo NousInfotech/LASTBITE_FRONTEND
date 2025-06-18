@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 // import DateTimePicker from "react-native-modal-datetime-picker";
-import GoBack from "@/components/GoBack";
+import Header from "@/components/GoBack";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
 import * as DocumentPicker from 'expo-document-picker';
@@ -133,7 +133,7 @@ const HelpOrder = () => {
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.header}>
           <TouchableOpacity>
-            <GoBack />
+            <Header />
           </TouchableOpacity>
           <Text allowFontScaling={false}  style={styles.headerTitle}>Raise New Query</Text>
         </View>

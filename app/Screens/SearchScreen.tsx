@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, Image, SafeAreaView, StatusBar, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
-import GoBack from "@/components/GoBack";
+import Header from "@/components/GoBack";
 import SearchBarVoice from "@/components/SearchBarVoice";
 import { RFPercentage } from "react-native-responsive-fontsize";
 
@@ -127,7 +127,7 @@ const SearchScreen = () => {
       <StatusBar barStyle="dark-content" />
       <View style={styles.header}>
         <TouchableOpacity>
-          <GoBack />
+          <Header />
         </TouchableOpacity>
         <Text allowFontScaling={false}  style={styles.headerTitle}>Search for Dishes & Restaurants</Text>
       </View>

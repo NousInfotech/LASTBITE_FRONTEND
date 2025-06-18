@@ -10,7 +10,7 @@ import {
   TextInput,
   Image,
 } from "react-native";
-import GoBack from "@/components/GoBack";
+import Header from "@/components/GoBack";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
 import { RFPercentage } from "react-native-responsive-fontsize";
@@ -42,7 +42,7 @@ const ApplyCoupon = () => {
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity>
-          <GoBack />
+          <Header />
         </TouchableOpacity>
         <Text allowFontScaling={false}  style={styles.headerTitle}>Apply Coupon</Text>
       </View>

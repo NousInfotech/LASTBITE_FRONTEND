@@ -133,7 +133,7 @@ const HotDealsProduct = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <GoBack />
+        <Header />
         <Text allowFontScaling={false}  style={styles.headerTitle}>Hot deals</Text>
       </View>
 

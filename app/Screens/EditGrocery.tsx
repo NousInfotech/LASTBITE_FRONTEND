@@ -13,7 +13,7 @@ import {
   Image,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
-import GoBack from "@/components/GoBack";
+import Header from "@/components/GoBack";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import * as Font from "expo-font";
 import { RFPercentage } from "react-native-responsive-fontsize";
@@ -193,7 +193,7 @@ const EditGrocery = () => {
       <StatusBar barStyle="dark-content" />
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()}>
-          <GoBack />
+          <Header />
         </TouchableOpacity>
         <Text allowFontScaling={false}  style={styles.headerTitle}>Edit Grocery Items</Text>
       </View>

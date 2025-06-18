@@ -3,7 +3,7 @@ import React from "react";
 import SplashScreen from "./initialscreens/SplashScreen";
 
 const index = () => {
-  console.log("Index", "Syed");
+  console.log("Index", "running");
   return (
     <View>
       <SplashScreen />

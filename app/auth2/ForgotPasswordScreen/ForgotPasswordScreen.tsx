@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import CustomButton from "@/components/CustomButton"; // Import the CustomButton component
-import GoBack from "@/components/GoBack";
+import Header from "@/components/GoBack";
 import FormInput from "@/components/FormInput"; // Import the updated FormInput component
 import { useFonts } from "expo-font";
 import {
@@ -56,7 +56,7 @@ const ForgotPasswordScreen = () => {
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />{" "}
       {/* Updated status bar color */}
       <View style={styles.header}>
-        <GoBack />
+        <Header />
       </View>
       <View style={styles.content}>
         <Text allowFontScaling={false}  style={[styles.title, { fontFamily: "Poppins_600SemiBold" }]}>

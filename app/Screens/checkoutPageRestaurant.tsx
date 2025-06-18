@@ -125,7 +125,7 @@ const CheckoutPageNavigation: React.FC = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <GoBack />
+        <Header />
         <Text allowFontScaling={false}  style={styles.headerTitle}>Your cart</Text>
       </View>
 

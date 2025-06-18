@@ -4,6 +4,9 @@ import { useNavigation, useRouter } from "expo-router";
 import FormInput from "@/components/FormInput";
 import CustomButton from "@/components/CustomButton";
 import TitleComponent from "@/components/Title";
+// import Header from "@/components/GoBack";
+import Header from "@/components/GoBack";
+
 
 const GetUserDetails = () => {
   const navigation = useNavigation();
@@ -59,6 +62,7 @@ const GetUserDetails = () => {
 
   return (
     <View style={styles.container}>
+    <Header />
       <TitleComponent title="Help us get to know you" />
 
       {/* Name Input */}
@@ -109,8 +113,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    paddingHorizontal: 24,
-    paddingTop: 80,
+  padding:24,
   },
   inputContainer: {
     marginBottom: 6,

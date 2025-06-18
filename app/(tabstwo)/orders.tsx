@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router"; // Added missing import
-import GoBack from "@/components/GoBack";
+import Header from "@/components/GoBack";
 import { RFPercentage } from "react-native-responsive-fontsize";
 
 // Define types for better type safety
@@ -375,7 +375,7 @@ export default function OrdersScreen() {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
       <View style={styles.header}>
-        <GoBack />
+        <Header />
         <Text allowFontScaling={false}  style={styles.headerTitle}>Orders</Text>
         <View style={styles.filterContainer}>
           <Text allowFontScaling={false}  style={styles.filterLabel}>{activeFilter}</Text>

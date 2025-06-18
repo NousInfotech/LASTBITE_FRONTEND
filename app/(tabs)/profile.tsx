@@ -9,13 +9,13 @@ import {
   Image,
   ImageSourcePropType,
 } from "react-native";
-import GoBack from "@/components/GoBack";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
 import { AntDesign } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { RFPercentage } from "react-native-responsive-fontsize";
 import { useUserData } from "@/utils/UserDataStore";
+import Header from "@/components/GoBack";
 
 const ProfileScreen: React.FC = () => {
   const router = useRouter();
@@ -54,17 +54,11 @@ const ProfileScreen: React.FC = () => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      <View style={styles.header}>
-        <TouchableOpacity>
-          <GoBack />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.helpButton}
-          onPress={() => router.push("/Screens/Help")}
-        >
-          <Text allowFontScaling={false}  style={styles.helpText}>Help</Text>
-        </TouchableOpacity>
-      </View>
+     
+      <Header 
+  buttonText="Help" 
+  buttonRoute="/Screens/Help"
+/>
       <ScrollView style={styles.content}>
         <View style={styles.profileInfo}>
           <View>

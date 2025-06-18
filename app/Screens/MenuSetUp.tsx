@@ -11,7 +11,7 @@ import {
   Image,
   Alert,
 } from "react-native";
-import GoBack from "@/components/GoBack";
+import Header from "@/components/GoBack";
 import * as Font from "expo-font";
 import { router } from "expo-router";
 import { useCreateRestaurant } from "@/api/queryHooks";
@@ -314,7 +314,7 @@ const RegisterRestaurant = () => {
       <ScrollView style={styles.scrollView}>
         <View style={styles.header}>
           <TouchableOpacity style={styles.backButton}>
-            <GoBack />
+            <Header />
           </TouchableOpacity>
           <Text allowFontScaling={false}  style={styles.headerTitle}>Menu SetUp</Text>
         </View>

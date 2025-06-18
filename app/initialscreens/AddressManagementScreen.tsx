@@ -10,7 +10,7 @@ import {
   Alert,
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import GoBack from "@/components/GoBack";
+import Header from "@/components/GoBack";
 import { DeleteConfirmationModal, MoreOptionsMenu } from "@/components/Options";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import ShareModal from "@/components/ShareModal";
@@ -236,7 +236,7 @@ const AddressManagementScreen: React.FC = () => {
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity>
-          <GoBack />
+          <Header />
         </TouchableOpacity>
         <Text allowFontScaling={false}  style={styles.headerTitle}>
           Enter your area or apartment name

@@ -7,7 +7,7 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
-import GoBack from "@/components/GoBack";
+import Header from "@/components/GoBack";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -163,12 +163,9 @@ const Orders: React.FC = () => {
   return (
     <SafeAreaView>
       <StatusBar barStyle="dark-content" />
-      <View style={styles.header}>
-        <TouchableOpacity>
-          <GoBack />
-        </TouchableOpacity>
-        <Text allowFontScaling={false}  style={styles.headerTitle}>Orders</Text>
-      </View>
+    
+
+         <Header  title="Orders"/>
       <ScrollView style={styles.content}>
         <Text allowFontScaling={false}  style={styles.sectionTitle}>Active Order</Text>
         {renderOrder(activeOrder)}

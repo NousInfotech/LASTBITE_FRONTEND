@@ -1,5 +1,5 @@
 import CurrentLocation from "@/components/CurrenLocation";
-import GoBack from "@/components/GoBack";
+import Header from "@/components/GoBack";
 import SearchInput from "@/components/SearchInput";
 import { useNavigation, useRouter } from "expo-router";
 
@@ -18,6 +18,7 @@ import {
 import { RFPercentage } from "react-native-responsive-fontsize";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 // Interface for location data
 interface LocationItem {
@@ -231,11 +232,11 @@ const LocationInputScreen: React.FC = () => {
   );
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+    <SafeAreaView  style={styles.container}>
       <StatusBar barStyle="dark-content" />
 
       {/* Header with back button */}
-      <View
+      {/* <View
         style={{
           flexDirection: "row",
           alignItems: "center",
@@ -244,12 +245,13 @@ const LocationInputScreen: React.FC = () => {
           borderColor: "#F1F1F1",
         }}
       >
-        <GoBack /> {/* BackButton component here */}
+        <Header /> 
         <Text allowFontScaling={false}  style={{ fontSize: RFPercentage(2), fontWeight: "700" }}>
           Enter your area or apartment name in Tamil Nadu
         </Text>
-      </View>
-
+        
+      </View> */}
+<Header title=" Enter your area or apartment name in Tamil Nadu" />
       {/* Search Input Container */}
       <SearchInput
         searchText={searchText}
@@ -292,18 +294,21 @@ const LocationInputScreen: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  suggestionsContainer: {
+  container: {
     flex: 1,
+    paddingHorizontal: 16,
     backgroundColor: '#FFFFFF',
+    paddingTop: 24,
+    
   },
   loadingContainer: {
-    padding: 20,
     alignItems: 'center',
+    paddingVertical: 16,
   },
   suggestionItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 16,
+    paddingVertical: 12,
     borderBottomWidth: 1,
     borderBottomColor: '#F1F1F1',
   },
@@ -324,14 +329,19 @@ const styles = StyleSheet.create({
     fontSize: RFPercentage(1.8),
     fontWeight: '600',
     color: '#666666',
-    padding: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
     backgroundColor: '#F9F9F9',
   },
   emptyMessage: {
     padding: 20,
     textAlign: 'center',
     color: '#757575',
-  }
+  },
+  suggestionsContainer: {
+    flex: 1,
+  },
 });
+
 
 export default LocationInputScreen;

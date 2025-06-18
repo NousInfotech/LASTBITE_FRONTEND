@@ -13,7 +13,7 @@ import {
   Image,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import GoBack from "@/components/GoBack";
+import Header from "@/components/GoBack";
 import { useRouter, useFocusEffect } from "expo-router";
 import * as Font from "expo-font";
 import Icon from "react-native-vector-icons/MaterialIcons";
@@ -258,16 +258,8 @@ const Menu = () => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      <View style={styles.header}>
-        <TouchableOpacity>
-          <GoBack />
-        </TouchableOpacity>
-        <Text allowFontScaling={false}  style={styles.headerTitle}>Menu</Text>
-        <TouchableOpacity onPress={openOptionsModal}>
-          <Icon name="more-vert" size={24} color="#666666" />
-        </TouchableOpacity>
-      </View>
-
+ 
+ <Header title="Menu" />
       <View style={styles.tabContainer}>
         <TouchableOpacity
           style={[styles.tab, activeTab === "food" && styles.activeTab]}

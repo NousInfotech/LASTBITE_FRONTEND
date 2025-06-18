@@ -10,7 +10,7 @@ import {
   Modal,
   Image,
 } from "react-native";
-import GoBack from "@/components/GoBack";
+import Header from "@/components/GoBack";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
 import { AntDesign } from "@expo/vector-icons";
@@ -47,7 +47,7 @@ const PaymentScreen = () => {
       <StatusBar barStyle="dark-content" />
       <View style={styles.header}>
         <TouchableOpacity>
-          <GoBack />
+          <Header />
         </TouchableOpacity>
         <View style={styles.titleContainer}>
           <Text allowFontScaling={false}  style={styles.headerTitle}>Payment Options</Text>

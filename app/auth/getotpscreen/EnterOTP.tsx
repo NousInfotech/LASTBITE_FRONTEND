@@ -4,7 +4,9 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import CustomButton from "@/components/CustomButton";
 import axios from "axios";
 import Constants from 'expo-constants';
-import GoBack from "@/components/GoBack";
+import Header from "@/components/GoBack";
+
+
 
 const EnterOtp = () => {
   // const apiUrl = Constants.expoConfig.extra.API_URL;
@@ -39,8 +41,10 @@ const EnterOtp = () => {
 
   return (
     <View style={styles.container}>
-    <GoBack/>
-      <Text allowFontScaling={false}  style={styles.title}>Enter OTP</Text>
+      <Header title="Orders" />
+        <Text allowFontScaling={false}  style={styles.title}>Otp Verification</Text>
+    {/* <Header />
+      <Text allowFontScaling={false}  style={styles.title}>Enter OTP</Text> */}
      <TextInput allowFontScaling={false} 
         style={styles.input}
         placeholder="6-digit OTP"
@@ -63,7 +67,11 @@ export default EnterOtp;
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20, backgroundColor: "#fff" },
-  title: { fontSize: 24, fontWeight: "bold", marginVertical: 20 },
+   title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginVertical: 20,
+  },
   input: {
     height: 48,
     borderColor: "#ccc",

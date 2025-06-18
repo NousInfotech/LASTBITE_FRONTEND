@@ -12,7 +12,7 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
-import GoBack from "@/components/GoBack";
+import Header from "@/components/GoBack";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
 import { RFPercentage } from "react-native-responsive-fontsize";
@@ -84,7 +84,7 @@ const PersonalDetails = () => {
       <StatusBar barStyle="dark-content" />
       <View style={styles.header}>
         <TouchableOpacity>
-          <GoBack />
+          <Header />
         </TouchableOpacity>
       </View>
 
@@ -251,7 +251,7 @@ const AddressDetails = () => {
       <StatusBar barStyle="dark-content" />
       <View style={styles.header}>
         <TouchableOpacity>
-          <GoBack />
+          <Header />
         </TouchableOpacity>
       </View>
       <View style={styles.content}>
@@ -343,7 +343,7 @@ const YesDetails = ({ onClose }: Props) => {
       <StatusBar barStyle="dark-content" />
       <View style={styles.header}>
         <TouchableOpacity onPress={onClose}>
-          <GoBack />
+          <Header />
         </TouchableOpacity>
       </View>
       <View style={styles.content}>

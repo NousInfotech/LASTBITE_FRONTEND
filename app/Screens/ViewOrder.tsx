@@ -11,7 +11,7 @@ import {
   TextInput,
 } from "react-native";
 import { Image } from "react-native";
-import GoBack from "@/components/GoBack";
+import Header from "@/components/GoBack";
 import { RFPercentage } from "react-native-responsive-fontsize";
 
 export default function OrderSummaryScreen() {
@@ -85,7 +85,7 @@ export default function OrderSummaryScreen() {
 
       {/* Header */}
       <View style={styles.header}>
-        <GoBack />
+        <Header />
         <View style={styles.headerTitleContainer}>
           <Text allowFontScaling={false}  style={styles.headerTitle}>
             Order ID: <Text allowFontScaling={false}  style={styles.orderNumber}>#{orderNumber}</Text>

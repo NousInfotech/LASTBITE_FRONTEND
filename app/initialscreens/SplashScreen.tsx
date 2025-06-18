@@ -29,7 +29,8 @@ export default function SplashScreen() {
     }).start();
 
     const timer = setTimeout(() => {
-      router.push("/initialscreens/SelectRole");
+      // router.push("/initialscreens/SelectRole");
+      router.push("/(tabs)/home");
     }, 4000);
 
     return () => clearTimeout(timer);

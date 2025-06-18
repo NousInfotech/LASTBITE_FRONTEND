@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { MaterialIcons, Ionicons } from "@expo/vector-icons";
-import GoBack from "@/components/GoBack";
+import Header from "@/components/GoBack";
 import SearchInput from "@/components/SearchInput";
 import LocationMarker from "@/components/LocationMar";
 import { RFPercentage } from "react-native-responsive-fontsize";
@@ -77,7 +77,7 @@ const LocationSelector: React.FC<LocationSelectorProps> = ({
 
       {/* Header */}
       <View style={styles.header}>
-        <GoBack />
+        <Header />
         <Text allowFontScaling={false}  style={styles.headerTitle}>Select delivery location</Text>
       </View>
 

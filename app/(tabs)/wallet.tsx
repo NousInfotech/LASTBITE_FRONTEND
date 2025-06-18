@@ -8,7 +8,7 @@ import {
   StatusBar,
   StyleSheet,
 } from "react-native";
-import GoBack from "@/components/GoBack";
+import Header from "@/components/GoBack";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import * as Font from "expo-font";
 import { Linking } from 'react-native';
@@ -61,7 +61,7 @@ const Wallet = () => {
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity style={{ paddingTop: RFPercentage(1) }}>
-          <GoBack />
+          <Header />
         </TouchableOpacity>
       </View>
 

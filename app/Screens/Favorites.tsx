@@ -10,7 +10,7 @@ import {
   ActivityIndicator,
   Alert
 } from "react-native";
-import GoBack from "@/components/GoBack";
+import Header from "@/components/GoBack";
 import FilterButtons from "@/components/filter";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
@@ -105,7 +105,7 @@ const Favourites = () => {
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()}>
-          <GoBack />
+          <Header />
         </TouchableOpacity>
         <Text allowFontScaling={false}  style={styles.headerTitle}>Favorites</Text>
       </View>

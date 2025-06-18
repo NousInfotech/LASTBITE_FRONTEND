@@ -12,7 +12,7 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
-import GoBack from "@/components/GoBack";
+import Header from "@/components/GoBack";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
 import { RFPercentage } from "react-native-responsive-fontsize";
@@ -60,7 +60,7 @@ const EmployeeDetails = () => {
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity>
-          <GoBack />
+          <Header />
         </TouchableOpacity>
       </View>
       <KeyboardAvoidingView
@@ -164,7 +164,7 @@ const EmploymentType = () => {
         <StatusBar barStyle="dark-content" />
         <View style={styles.header}>
           <TouchableOpacity>
-            <GoBack />
+            <Header />
           </TouchableOpacity>
         </View>
         <View style={styles.content}>

@@ -10,7 +10,7 @@ import {
   Modal,
   Image,
 } from "react-native";
-import GoBack from "@/components/GoBack";
+import Header from "@/components/GoBack";
 import * as Font from "expo-font";
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { RFPercentage } from "react-native-responsive-fontsize";
@@ -187,7 +187,7 @@ const LinkAccount = () => {
       <StatusBar barStyle="dark-content" />
       <View style={styles.header}>
         <TouchableOpacity onPress={handleGoBack}>
-          <GoBack />
+          <Header />
         </TouchableOpacity>
         <Text allowFontScaling={false}  style={styles.headerTitle}>Link {walletName} Account</Text>
       </View>

@@ -11,7 +11,7 @@ import {
   Alert,
   Modal,
 } from "react-native";
-import GoBack from "@/components/GoBack";
+import Header from "@/components/GoBack";
 import CustomCheckbox from "@/components/CustomCheckbox";
 import * as Font from "expo-font";
 import { router } from "expo-router";
@@ -344,7 +344,7 @@ const RegisterRestaurant = () => {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity>
-          <GoBack />
+          <Header />
         </TouchableOpacity>
         <Text allowFontScaling={false}  style={styles.headerTitle}>Restaurant Information</Text>
       </View>
