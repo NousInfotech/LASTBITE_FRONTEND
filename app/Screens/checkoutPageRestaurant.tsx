@@ -11,6 +11,7 @@ import BillDetails from '@/components/BillDetails';
 import ReviewNotice from '@/components/ReviewNotice';
 import AddressSelector from '@/components/AddressSelector';
 import { useLocalSearchParams, useRouter } from 'expo-router';
+import Header from '@/components/GoBack';
 
 // Define the item type
 interface CartItem {
@@ -125,8 +126,8 @@ const CheckoutPageNavigation: React.FC = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Header />
-        <Text allowFontScaling={false}  style={styles.headerTitle}>Your cart</Text>
+        <Header title='Your cart' />
+     
       </View>
 
       {/* Main content */}
@@ -180,7 +181,17 @@ const CheckoutPageNavigation: React.FC = () => {
             <SavingsCorner />
             <DeliveryTypeSelector />
             <DeliveryInstructions />
-            <BillDetails />
+        <BillDetails
+  items={[
+    { label: 'Item Total', amount: totalAmount },
+    { label: 'Delivery Fee | 11.0 kms', amount: 79.00 },
+    { label: 'Order above Rs.169 for discounted delivery', amount: 0, note: 'info' },
+    { label: 'Platform fee', amount: 7.00 },
+    { label: 'GST and Restaurant Charges', amount: 4.76 }
+  ]}
+  total={totalAmount + 79.00 + 7.00 + 4.76}
+/>
+
             <ReviewNotice />
           </View>
         )}
@@ -212,12 +223,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   header: {
-    flexDirection: 'row',
-    alignItems: 'center',
+
     paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderBottomWidth: 1,
+    paddingBottom: 2,    borderBottomWidth: 1,
     borderBottomColor: '#eee',
+    paddingTop: 28,
   },
   headerTitle: {
     fontSize: RFPercentage(2.5),

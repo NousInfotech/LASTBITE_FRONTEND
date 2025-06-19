@@ -17,28 +17,18 @@ import SearchBarVoice from "@/components/SearchBarVoice";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { RFPercentage } from "react-native-responsive-fontsize";
 import ProductDetailsModal from "@/components/ProductDetailsModal";
+import { IRestaurant } from "@/Interfaces/restaurant.interface";
+import { IFoodItem } from "@/Interfaces/foodItem.interface";
+import { RestaurantApiService } from "@/services/restaurant.service";
+import { FoodItemApiService } from "@/services/foodItemApi.service";
 
 // Define the types for the query params
 interface DishesSearchParams {
-  id: string | undefined;
-  name: string | undefined;
-  type: string | undefined;
-  existingCart: string | undefined;
-  fromCheckout: string | undefined;
-}
-
-interface Restaurant {
-  restaurantId: string;
-  name: string;
-  googleLocation?: string;
-  location: string;
-  coverImage: string;
-  ratingCount: number;
-  ratingAverage: number;
-  categories: string[];
-  menu: string[];
-  isActive: boolean;
-  details?: string;
+  id?: string;
+  name?: string;
+  type?: string;
+  existingCart?: string;
+  fromCheckout?: string;
 }
 
 interface CheckoutPopupProps {
@@ -46,108 +36,22 @@ interface CheckoutPopupProps {
   onCheckout: () => void;
 }
 
+// Updated MenuItem interface to match IFoodItem
 interface MenuItem {
-  menuItemId: number;
+  foodItemId: string;
   name: string;
   description: string;
   price: number;
+  discountPrice?: number;
   category: string;
   restaurantId: string;
   image: string;
   isAvailable: boolean;
+  typeOfFood: string[];
+  tags?: string[];
+  rating?: number;
+  ratingCount?: number;
 }
-
-const mockRestaurants: Restaurant[] = [
-  {
-    restaurantId: "r1",
-    name: "The Spice Hub",
-    googleLocation: "https://maps.google.com/?q=The+Spice+Hub",
-    location: "123 Flavor Street, Food City",
-    coverImage: "https://via.placeholder.com/500x300",
-    ratingCount: 250,
-    ratingAverage: 4.5,
-    categories: ["Biryani", "North Indian", "Desserts"],
-    menu: ["m1", "m2", "m3"],
-    isActive: true,
-  },
-  {
-    restaurantId: "r2",
-    name: "Westside Grill",
-    googleLocation: "https://maps.google.com/?q=Westside+Grill",
-    location: "456 Grilling Avenue, Food City",
-    coverImage: "https://via.placeholder.com/500x300",
-    ratingCount: 300,
-    ratingAverage: 4.7,
-    categories: ["Grill", "North Indian", "Burgers"],
-    menu: ["m4"],
-    isActive: true,
-  },
-];
-
-const mockMenu: MenuItem[] = [
-  {
-    menuItemId: 1,
-    name: "Chicken Biryani",
-    description: "Aromatic basmati rice cooked with tender chicken and spices.",
-    price: 12.99,
-    category: "Biryani",
-    restaurantId: "r1",
-    image: "https://via.placeholder.com/150",
-    isAvailable: true,
-  },
-  {
-    menuItemId: 2,
-    name: "pasta",
-    description: "Delicious deep-fried dumplings soaked in sugar syrup.",
-    price: 4.99,
-    category: "Desserts",
-    restaurantId: "r1",
-    image: "https://via.placeholder.com/150",
-    isAvailable: true,
-  },
-  {
-    menuItemId: 3,
-    name: "Paneer Tikka",
-    description:
-      "Soft paneer cubes marinated in spices and grilled to perfection.",
-    price: 9.99,
-    category: "North Indian",
-    restaurantId: "r1",
-    image: "https://via.placeholder.com/150",
-    isAvailable: true,
-  },
-  {
-    menuItemId: 4,
-    name: "pasta",
-    description: "Juicy chicken grilled with herbs and spices.",
-    price: 14.99,
-    category: "Grill",
-    restaurantId: "r2",
-    image: "https://via.placeholder.com/150",
-    isAvailable: true,
-  },
-  {
-    menuItemId: 5,
-    name: "burger",
-    description: "Aromatic basmati rice cooked with tender chicken and spices.",
-    price: 12.99,
-    category: "Biryani",
-    restaurantId: "r1",
-    image: "https://via.placeholder.com/150",
-    isAvailable: true,
-  },
-  {
-    menuItemId: 6,
-    name: "Pasta",
-    description:
-      "Soft paneer cubes marinated in spices and grilled to perfection.",
-    price: 9.99,
-    category: "North Indian",
-    restaurantId: "r1",
-    image: "https://via.placeholder.com/150",
-    isAvailable: true,
-  },
-];
 
 const CheckoutPopup: React.FC<CheckoutPopupProps> = ({
   totalItems,
@@ -156,7 +60,7 @@ const CheckoutPopup: React.FC<CheckoutPopupProps> = ({
   return (
     <View style={styles.popupContainer}>
       <TouchableOpacity style={styles.checkoutButton} onPress={onCheckout}>
-        <Text allowFontScaling={false}  style={styles.checkoutText}>
+        <Text allowFontScaling={false} style={styles.checkoutText}>
           {`Checkout ${totalItems} item${totalItems > 1 ? "s" : ""}`}
         </Text>
       </TouchableOpacity>
@@ -165,14 +69,68 @@ const CheckoutPopup: React.FC<CheckoutPopupProps> = ({
 };
 
 const DishesSearch: React.FC = () => {
-  const { id, name, type, existingCart, fromCheckout } = useLocalSearchParams<DishesSearchParams>();
+  const params = useLocalSearchParams();
+  const { id, name, type, existingCart, fromCheckout } = params as DishesSearchParams;
   const [fontsLoaded, setFontsLoaded] = useState(false);
-  const [cartCounts, setCartCounts] = useState<Record<number, number>>({});
+  const [cartCounts, setCartCounts] = useState<Record<string, number>>({});
   const router = useRouter();
   const [searchText, setSearchText] = useState("");
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [isFromCheckout, setIsFromCheckout] = useState(false);
+  const [restaurants, setRestaurants] = useState<IRestaurant[]>([]);
+  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Load initial data from API
+  useEffect(() => {
+    const loadInitialData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        
+        console.log('Loading restaurants and menu items...');
+        
+        // Load restaurants
+        const restaurantsData = await RestaurantApiService.getAllRestaurants();
+        console.log('Loaded restaurants:', restaurantsData);
+        setRestaurants(restaurantsData);
+        
+        // Load all food items
+        const foodItemsData = await FoodItemApiService.getAllFoodItems();
+        console.log('Loaded food items:', foodItemsData);
+        
+        // Convert IFoodItem to MenuItem format
+        const convertedMenuItems: MenuItem[] = foodItemsData.map((item: IFoodItem) => ({
+          foodItemId: item.foodItemId || '',
+          name: item.name,
+          description: item.description || '',
+          price: item.price,
+          discountPrice: item.discountPrice,
+          category: item.category || 'General',
+          restaurantId: item.restaurantId,
+          image: item.image || 'https://via.placeholder.com/150',
+          isAvailable: item.isAvailable !== false,
+          typeOfFood: item.typeOfFood || [],
+          tags: item.tags || [],
+          rating: item.rating,
+          ratingCount: item.ratingCount,
+        }));
+        
+        setMenuItems(convertedMenuItems);
+        console.log('Converted menu items:', convertedMenuItems);
+        
+      } catch (error) {
+        console.error('Error loading initial data:', error);
+        setError('Failed to load restaurants and menu items. Please try again.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadInitialData();
+  }, []);
 
   // Parse existing cart if available
   useEffect(() => {
@@ -180,19 +138,22 @@ const DishesSearch: React.FC = () => {
       try {
         const parsedCart = JSON.parse(existingCart);
         if (Array.isArray(parsedCart)) {
-          const newCartCounts: Record<number, number> = {};
+          const newCartCounts: Record<string, number> = {};
           
-          parsedCart.forEach(item => {
-            // Check if menuItemId exists, otherwise try to find by name
-            if (item.menuItemId) {
-              newCartCounts[item.menuItemId] = item.quantity;
+          parsedCart.forEach((item: any) => {
+            // Check if foodItemId exists, otherwise try to find by name
+            if (item.foodItemId) {
+              newCartCounts[item.foodItemId] = item.quantity;
+            } else if (item.menuItemId) {
+              // Handle legacy menuItemId
+              newCartCounts[item.menuItemId.toString()] = item.quantity;
             } else if (item.name) {
               // Try to find the menu item by name
-              const menuItem = mockMenu.find(mi => 
+              const menuItem = menuItems.find(mi => 
                 mi.name.toLowerCase() === item.name?.toLowerCase()
               );
               if (menuItem) {
-                newCartCounts[menuItem.menuItemId] = item.quantity;
+                newCartCounts[menuItem.foodItemId] = item.quantity;
               }
             }
           });
@@ -208,7 +169,7 @@ const DishesSearch: React.FC = () => {
     if (fromCheckout === "true") {
       setIsFromCheckout(true);
     }
-  }, [existingCart, fromCheckout]);
+  }, [existingCart, fromCheckout, menuItems]);
 
   // Calculate total items in cart
   const totalItemsInCart = Object.values(cartCounts).reduce(
@@ -235,7 +196,7 @@ const DishesSearch: React.FC = () => {
   const handleAddToCart = (item: MenuItem) => {
     setCartCounts((prevCounts) => ({
       ...prevCounts,
-      [item.menuItemId]: (prevCounts[item.menuItemId] || 0) + 1,
+      [item.foodItemId]: (prevCounts[item.foodItemId] || 0) + 1,
     }));
     setModalVisible(false); // Close modal after adding to cart
   };
@@ -243,7 +204,7 @@ const DishesSearch: React.FC = () => {
   const handleRemoveFromCart = (item: MenuItem) => {
     setCartCounts((prevCounts) => ({
       ...prevCounts,
-      [item.menuItemId]: Math.max((prevCounts[item.menuItemId] || 0) - 1, 0),
+      [item.foodItemId]: Math.max((prevCounts[item.foodItemId] || 0) - 1, 0),
     }));
   };
 
@@ -259,29 +220,30 @@ const DishesSearch: React.FC = () => {
   const handleCheckout = () => {
     const selectedItems = Object.entries(cartCounts)
       .filter(([_, quantity]) => quantity > 0)
-      .map(([menuItemId, quantity]) => {
-        const menuItem = mockMenu.find(
-          (item) => item.menuItemId === parseInt(menuItemId)
+      .map(([foodItemId, quantity]) => {
+        const menuItem = menuItems.find(
+          (item) => item.foodItemId === foodItemId
         );
         return {
-          menuItemId: parseInt(menuItemId),
+          foodItemId: foodItemId,
+          menuItemId: foodItemId, // For backward compatibility
           name: menuItem?.name,
           quantity,
-          price: menuItem?.price,
+          price: menuItem?.discountPrice || menuItem?.price,
           category: menuItem?.category,
         };
       });
 
     const firstItemId = Object.keys(cartCounts).find(
-      (menuItemId: any) => cartCounts[menuItemId] > 0
+      (foodItemId: string) => cartCounts[foodItemId] > 0
     );
     const restaurantId = firstItemId
-      ? mockMenu.find((item) => item.menuItemId === parseInt(firstItemId))
+      ? menuItems.find((item) => item.foodItemId === firstItemId)
           ?.restaurantId
       : undefined;
 
     const restaurant = restaurantId
-      ? mockRestaurants.find((rest) => rest.restaurantId === restaurantId)
+      ? restaurants.find((rest) => rest.restaurantId === restaurantId)
       : undefined;
 
     if (restaurant) {
@@ -289,7 +251,7 @@ const DishesSearch: React.FC = () => {
         pathname: "./BillingScreen",
         params: {
           restaurantId: restaurant.restaurantId,
-          restaurantName: restaurant.name,
+          restaurantName: restaurant.restaurantName,
           cart: JSON.stringify(selectedItems),
         },
       });
@@ -304,27 +266,47 @@ const DishesSearch: React.FC = () => {
     const searchTerm =
       searchQuery.toLowerCase() || (name ? name.toLowerCase() : "");
 
-    const matchingRestaurants = mockRestaurants.filter((restaurant) =>
-      restaurant.name.toLowerCase().includes(searchTerm)
+    if (!searchTerm) {
+      // If no search term, return all items grouped by restaurant
+      menuItems.forEach((menuItem) => {
+        if (!grouped[menuItem.restaurantId]) {
+          grouped[menuItem.restaurantId] = [];
+        }
+        grouped[menuItem.restaurantId].push(menuItem);
+      });
+      return grouped;
+    }
+
+    // Search in restaurant names
+    const matchingRestaurants = restaurants.filter((restaurant) =>
+      restaurant.restaurantName.toLowerCase().includes(searchTerm)
     );
 
     matchingRestaurants.forEach((restaurant) => {
-      const restaurantMenuItems = mockMenu.filter(
-        (item) => item.restaurantId === restaurant.restaurantId
+      const restaurantMenuItems = menuItems.filter(
+        (item) => item.restaurantId === restaurant.restaurantId && item.isAvailable
       );
       if (restaurantMenuItems.length > 0) {
-        grouped[restaurant.restaurantId] = restaurantMenuItems;
+        grouped[restaurant.restaurantId!] = restaurantMenuItems;
       }
     });
 
-    mockMenu.forEach((menuItem) => {
-      if (menuItem.name.toLowerCase().includes(searchTerm)) {
+    // Search in menu item names, descriptions, and tags
+    menuItems.forEach((menuItem) => {
+      if (
+        menuItem.isAvailable && (
+          menuItem.name.toLowerCase().includes(searchTerm) ||
+          menuItem.description?.toLowerCase().includes(searchTerm) ||
+          menuItem.category?.toLowerCase().includes(searchTerm) ||
+          menuItem.tags?.some(tag => tag.toLowerCase().includes(searchTerm))
+        )
+      ) {
         if (!grouped[menuItem.restaurantId]) {
           grouped[menuItem.restaurantId] = [];
         }
         if (
           !grouped[menuItem.restaurantId].some(
-            (item) => item.menuItemId === menuItem.menuItemId
+            (item) => item.foodItemId === menuItem.foodItemId
           )
         ) {
           grouped[menuItem.restaurantId].push(menuItem);
@@ -339,7 +321,7 @@ const DishesSearch: React.FC = () => {
     restaurantId: string,
     menuItems: MenuItem[]
   ) => {
-    const restaurant = mockRestaurants.find(
+    const restaurant = restaurants.find(
       (rest) => rest.restaurantId === restaurantId
     );
     if (!restaurant) return null;
@@ -349,7 +331,7 @@ const DishesSearch: React.FC = () => {
         pathname: "/Screens/RestaurantSelect",
         params: {
           restaurantId,
-          restaurantName: restaurant.name,
+          restaurantName: restaurant.restaurantName,
         },
       });
     };
@@ -357,19 +339,25 @@ const DishesSearch: React.FC = () => {
     return (
       <View style={styles.restaurantSection} key={restaurantId}>
         <View style={styles.restaurantHeader}>
-          <Text allowFontScaling={false}  style={styles.restaurantName}>{restaurant.name}</Text>
+          <Text allowFontScaling={false} style={styles.restaurantName}>
+            {restaurant.restaurantName}
+          </Text>
           <TouchableOpacity onPress={navigateToAddMoreItems}>
             <Ionicons name="arrow-forward-outline" size={18} color="gray" />
           </TouchableOpacity>
         </View>
 
         <View style={styles.restaurantSubContainer}>
-          <Text allowFontScaling={false}  style={styles.restaurantSub}>{restaurant.ratingAverage}</Text>
+          <Text allowFontScaling={false} style={styles.restaurantSub}>
+            {restaurant.rating || '4.0'}
+          </Text>
           <Image
             source={require("./../../assets/images/Star.png")}
             style={styles.starIcon}
           />
-          <Text allowFontScaling={false}  style={styles.headerLocation}>{restaurant?.location}</Text>
+          <Text allowFontScaling={false} style={styles.headerLocation}>
+            {restaurant.address?.street || restaurant.address?.city || 'Location not available'}
+          </Text>
         </View>
 
         <ScrollView
@@ -378,17 +366,32 @@ const DishesSearch: React.FC = () => {
           style={styles.horizontalScroll}
         >
           {menuItems.map((item) => (
-            <View style={styles.menuCard} key={item.menuItemId}>
+            <View style={styles.menuCard} key={item.foodItemId}>
               <View style={styles.leftSection}>
-                <Text allowFontScaling={false}  style={styles.menuName}>{item.name}</Text>
-                <Text allowFontScaling={false}  style={styles.menuCategory}>{item.category}</Text>
-                <Text allowFontScaling={false}  style={styles.menuPrice}>${item.price.toFixed(2)}</Text>
+                <Text allowFontScaling={false} style={styles.menuName}>{item.name}</Text>
+                <Text allowFontScaling={false} style={styles.menuCategory}>{item.category}</Text>
+                <View style={styles.priceContainer}>
+                  {item.discountPrice && item.discountPrice < item.price ? (
+                    <>
+                      <Text allowFontScaling={false} style={styles.discountPrice}>
+                        ${item.discountPrice.toFixed(2)}
+                      </Text>
+                      <Text allowFontScaling={false} style={styles.originalPrice}>
+                        ${item.price.toFixed(2)}
+                      </Text>
+                    </>
+                  ) : (
+                    <Text allowFontScaling={false} style={styles.menuPrice}>
+                      ${item.price.toFixed(2)}
+                    </Text>
+                  )}
+                </View>
 
                 <TouchableOpacity
                   style={styles.viewDetailsButton}
                   onPress={() => handleViewDetails(item)}
                 >
-                  <Text allowFontScaling={false}  style={styles.viewDetailsText}>View Details</Text>
+                  <Text allowFontScaling={false} style={styles.viewDetailsText}>View Details</Text>
                 </TouchableOpacity>
               </View>
 
@@ -400,22 +403,22 @@ const DishesSearch: React.FC = () => {
                   />
                 </View>
                 <View style={styles.addButtonContainer}>
-                  {cartCounts[item.menuItemId] ? (
+                  {cartCounts[item.foodItemId] ? (
                     <View style={styles.counterContainer}>
                       <TouchableOpacity
                         style={styles.minusButton}
                         onPress={() => handleRemoveFromCart(item)}
                       >
-                        <Text allowFontScaling={false}  style={styles.ButtonText}>-</Text>
+                        <Text allowFontScaling={false} style={styles.ButtonText}>-</Text>
                       </TouchableOpacity>
-                      <Text allowFontScaling={false}  style={styles.counterText}>
-                        {cartCounts[item.menuItemId]}
+                      <Text allowFontScaling={false} style={styles.counterText}>
+                        {cartCounts[item.foodItemId]}
                       </Text>
                       <TouchableOpacity
                         style={styles.plusButton}
                         onPress={() => handleAddToCart(item)}
                       >
-                        <Text allowFontScaling={false}  style={styles.ButtonText}>+</Text>
+                        <Text allowFontScaling={false} style={styles.ButtonText}>+</Text>
                       </TouchableOpacity>
                     </View>
                   ) : (
@@ -423,7 +426,7 @@ const DishesSearch: React.FC = () => {
                       style={styles.addButton}
                       onPress={() => handleAddToCart(item)}
                     >
-                      <Text allowFontScaling={false}  style={styles.addButtonText}>Add</Text>
+                      <Text allowFontScaling={false} style={styles.addButtonText}>Add</Text>
                     </TouchableOpacity>
                   )}
                 </View>
@@ -435,8 +438,69 @@ const DishesSearch: React.FC = () => {
     );
   };
 
-  if (!fontsLoaded) {
-    return <Text allowFontScaling={false} >Loading Fonts...</Text>;
+  if (!fontsLoaded || loading) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.loadingContainer}>
+          <Text allowFontScaling={false} style={styles.loadingText}>
+            {!fontsLoaded ? "Loading Fonts..." : "Loading Restaurants and Menu Items..."}
+          </Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
+
+  if (error) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.errorContainer}>
+          <Text allowFontScaling={false} style={styles.errorText}>{error}</Text>
+          <TouchableOpacity 
+            style={styles.retryButton}
+            onPress={() => {
+              setError(null);
+              setLoading(true);
+              // Trigger reload by calling the useEffect again
+              const loadInitialData = async () => {
+                try {
+                  const [restaurantsData, foodItemsData] = await Promise.all([
+                    RestaurantApiService.getAllRestaurants(),
+                    FoodItemApiService.getAllFoodItems()
+                  ]);
+                  
+                  setRestaurants(restaurantsData);
+                  
+                  const convertedMenuItems: MenuItem[] = foodItemsData.map((item: IFoodItem) => ({
+                    foodItemId: item.foodItemId || '',
+                    name: item.name,
+                    description: item.description || '',
+                    price: item.price,
+                    discountPrice: item.discountPrice,
+                    category: item.category || 'General',
+                    restaurantId: item.restaurantId,
+                    image: item.image || 'https://via.placeholder.com/150',
+                    isAvailable: item.isAvailable !== false,
+                    typeOfFood: item.typeOfFood || [],
+                    tags: item.tags || [],
+                    rating: item.rating,
+                    ratingCount: item.ratingCount,
+                  }));
+                  
+                  setMenuItems(convertedMenuItems);
+                } catch (error) {
+                  setError('Failed to load data. Please try again.');
+                } finally {
+                  setLoading(false);
+                }
+              };
+              loadInitialData();
+            }}
+          >
+            <Text allowFontScaling={false} style={styles.retryButtonText}>Retry</Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    );
   }
 
   const groupedMenu = filterMenuItems(searchText || (name as string) || "");
@@ -445,13 +509,8 @@ const DishesSearch: React.FC = () => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      <View style={styles.header}>
-        <TouchableOpacity>
-          <Header />
-        </TouchableOpacity>
-        <Text allowFontScaling={false}  style={styles.headerTitle}>Search for dishes & Restaurant</Text>
-      </View>
 
+   <Header title="Search for dishes & Restaurant"/>
       <SearchBarVoice
         redirectTargets={["Dishes", "Restaurants"]}
         placeholder={name?.toString() || "Search for dishes"}
@@ -461,10 +520,10 @@ const DishesSearch: React.FC = () => {
 
       {!hasResults ? (
         <View style={styles.noResultsContainer}>
-          <Text allowFontScaling={false}  style={styles.noResultsText}>
+          <Text allowFontScaling={false} style={styles.noResultsText}>
             The searched dish is not available at any restaurant
           </Text>
-          <Text allowFontScaling={false}  style={styles.noResultsSubText}>
+          <Text allowFontScaling={false} style={styles.noResultsSubText}>
             Try searching for a different dish
           </Text>
         </View>
@@ -501,6 +560,40 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loadingText: {
+    fontSize: RFPercentage(2),
+    fontFamily: "Poppins-Regular",
+    color: "#666",
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 20,
+  },
+  errorText: {
+    fontSize: RFPercentage(2),
+    fontFamily: "Poppins-Regular",
+    color: "#ff0000",
+    textAlign: "center",
+    marginBottom: 20,
+  },
+  retryButton: {
+    backgroundColor: "#01615F",
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 8,
+  },
+  retryButtonText: {
+    color: "white",
+    fontSize: RFPercentage(2),
+    fontFamily: "Poppins-Regular",
   },
   restaurantSection: {
     marginVertical: 8,
@@ -609,10 +702,26 @@ const styles = StyleSheet.create({
     color: "gray",
     fontFamily: "Poppins-Regular",
   },
+  priceContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
   menuPrice: {
     fontSize: 14,
     fontFamily: "Poppins-Medium",
     color: "#01615F",
+  },
+  discountPrice: {
+    fontSize: 14,
+    fontFamily: "Poppins-Medium",
+    color: "#01615F",
+    marginRight: 8,
+  },
+  originalPrice: {
+    fontSize: 12,
+    fontFamily: "Poppins-Regular",
+    color: "gray",
+    textDecorationLine: "line-through",
   },
   viewDetailsButton: {
     marginTop: 8,

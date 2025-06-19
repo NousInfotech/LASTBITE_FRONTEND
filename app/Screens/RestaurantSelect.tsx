@@ -526,7 +526,7 @@ const getFilteredFoodItems = (items: IFoodItem[], query: string, filters: string
 
     router.push({
       // pathname: "./BillingScreen",
-      pathname: "./checkoutPageRestaurant",
+      pathname: "/Screens/checkoutPageRestaurant",
       params: {
         restaurantId: restaurant?.restaurantId,
         restaurantName: restaurant?.restaurantName,

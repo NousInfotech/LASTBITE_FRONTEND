@@ -1,77 +1,90 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, Image, SafeAreaView, StatusBar, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, Image, SafeAreaView, StatusBar, StyleSheet, ScrollView } from "react-native";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
 import Header from "@/components/GoBack";
 import SearchBarVoice from "@/components/SearchBarVoice";
 import { RFPercentage } from "react-native-responsive-fontsize";
+import { RestaurantApiService } from "@/services/restaurant.service";
+import { DataMapper } from "@/utils/DataMapper";
+import { FoodItemApiService } from "@/services/foodItemApi.service";
+import { IRestaurant } from "@/Interfaces/restaurant.interface";
 
-interface Restaurant {
-  restaurantId: string;
-  name: string;
-  details: string;
-  coverImage: string;
-  ratingCount: number;
-  ratingAverage: number;
-  categories: string[];
-  menu: string[];
-  isActive: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
+const MINIMUM_RATING = 4.2;
 
 const SearchScreen = () => {
   const router = useRouter();
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [searchText, setSearchText] = useState("");
 
-  const dishes = [
-    { id: 1, name: "Pasta", type: "Dish", image: "https://via.placeholder.com/32" },
-    { id: 2, name: "Burger", type: "Dish", image: "https://via.placeholder.com/32" },
-    { id: 3, name: "Idly", type: "Dish", image: "https://via.placeholder.com/32" },
-  ];
+  const [restaurants, setRestaurants] = useState<IRestaurant[]>([]);
+  const [dishes, setDishes] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const restaurants: Restaurant[] = [
-    {
-      restaurantId: "r1",
-      name: "The Spice Hub",
-      details: "35-45 mins to Westside Park",
-      coverImage: "https://via.placeholder.com/500x300",
-      ratingCount: 250,
-      ratingAverage: 4.5,
-      categories: ["Biryani", "North Indian", "Desserts"],
-      menu: ["m1", "m2", "m3"],
-      isActive: true,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    },
-    {
-      restaurantId: "r2",
-      name: "Westside Grill",
-      details: "35-45 mins to Westside Park",
-      coverImage: "https://via.placeholder.com/500x300",
-      ratingCount: 250,
-      ratingAverage: 4.5,
-      categories: ["Biryani", "North Indian", "Desserts"],
-      menu: ["m1", "m2", "m3"],
-      isActive: true,
-      createdAt: "2023-12-15T10:30:00.000Z",
-      updatedAt: "2024-01-10T12:00:00.000Z",
-    },
-    {
-      restaurantId: "r3",
-      name: "Food Hut",
-      details: "35-45 mins to Westside Park",
-      coverImage: "https://via.placeholder.com/500x300",
-      ratingCount: 250,
-      ratingAverage: 4.5,
-      categories: ["Biryani", "North Indian", "Desserts"],
-      menu: ["m1", "m2", "m3"],
-      isActive: true,
-      createdAt: "2023-12-15T10:30:00.000Z",
-      updatedAt: "2024-01-10T12:00:00.000Z",
-    },
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        
+        // Fetch restaurants
+        const apiRestaurants = await RestaurantApiService.getAllRestaurants();
+        const mappedRestaurants = DataMapper.mapIRestaurantsToRestaurants(apiRestaurants);
+        
+        // Filter restaurants with rating >= 4.2 and sort by rating
+        const filteredRestaurants = mappedRestaurants.filter(restaurant => {
+          const rating = restaurant.rating || 0;
+          return rating >= MINIMUM_RATING;
+        });
+        const sortedRestaurants = filteredRestaurants.sort((a, b) => {
+          const ratingA = a.rating || 0;
+          const ratingB = b.rating || 0;
+          return ratingB - ratingA;
+        });
+        setRestaurants(sortedRestaurants);
+        
+        // Get restaurant IDs that meet the rating criteria
+        const qualifiedRestaurantIds = sortedRestaurants.map(r => r.restaurantId);
+        
+        console.log('Qualified restaurants:', sortedRestaurants.length);
+        console.log('Qualified restaurant IDs:', qualifiedRestaurantIds);
+        
+        // Fetch food items for dishes
+        const apiFoodItems = await FoodItemApiService.getAllFoodItems();
+        console.log('Total food items:', apiFoodItems.length);
+        
+        // Filter dishes that are available in qualified restaurants AND have rating >= 4.2
+        const availableDishes = apiFoodItems.filter(item => {
+          const rating = item.rating || 0;
+          // Check if dish is available in any qualified restaurant using restaurantId
+          const isAvailableInQualifiedRestaurant = qualifiedRestaurantIds.includes(item.restaurantId);
+          
+          return rating >= MINIMUM_RATING && isAvailableInQualifiedRestaurant && item.isAvailable !== false;
+        });
+
+        console.log('Available dishes after filtering:', availableDishes.length);
+
+        const mappedDishes = availableDishes.map(item => ({
+          id: item.foodItemId,
+          name: item.name,
+          type: "Dish",
+          image: item.image || "https://via.placeholder.com/32",
+          rating: item.rating || 0,
+          restaurantId: item.restaurantId
+        }));
+
+        // Sort dishes by rating
+        const sortedDishes = mappedDishes.sort((a, b) => b.rating - a.rating);
+        setDishes(sortedDishes);
+        
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     const loadFonts = async () => {
@@ -85,22 +98,36 @@ const SearchScreen = () => {
     loadFonts();
   }, []);
 
-  if (!fontsLoaded) return null;
+  if (!fontsLoaded || loading) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <StatusBar barStyle="dark-content" />
+        <View style={styles.loadingContainer}>
+          <Text style={styles.loadingText}>Loading...</Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
 
-  const isNewRestaurant = (createdAt: string) => {
+  const isNewRestaurant = (createdAt?: Date) => {
+    if (!createdAt) return false;
     const createdAtDate = new Date(createdAt);
     const now = new Date();
     const diffInDays = (now.getTime() - createdAtDate.getTime()) / (1000 * 60 * 60 * 24);
     return diffInDays <= 7;
   };
 
+  // Filter search results while maintaining the 4.2+ rating requirement
   const filteredDishes = dishes.filter(dish => 
-    dish.name.toLowerCase().includes(searchText.toLowerCase())
+    dish.name.toLowerCase().includes(searchText.toLowerCase()) && 
+    dish.rating >= MINIMUM_RATING
   );
 
-  const filteredRestaurants = restaurants.filter(restaurant => 
-    restaurant.name.toLowerCase().includes(searchText.toLowerCase())
-  );
+  const filteredRestaurants = restaurants.filter(restaurant => {
+    const rating = restaurant.rating || 0;
+    return restaurant.restaurantName.toLowerCase().includes(searchText.toLowerCase()) && 
+           rating >= MINIMUM_RATING;
+  });
 
   const displayType = searchText.toLowerCase().includes("dish") 
     ? "dish" 
@@ -108,7 +135,7 @@ const SearchScreen = () => {
     ? "restaurant" 
     : "both";
 
-  const handleRestaurantClick = (restaurant: Restaurant) => {
+  const handleRestaurantClick = (restaurant: IRestaurant) => {
     router.push({
       pathname: "./RestaurantSelect",
       params: { restaurantId: restaurant.restaurantId },
@@ -125,24 +152,39 @@ const SearchScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      <View style={styles.header}>
-        <TouchableOpacity>
-          <Header />
-        </TouchableOpacity>
-        <Text allowFontScaling={false}  style={styles.headerTitle}>Search for Dishes & Restaurants</Text>
-      </View>
-      
+  
+       <Header title="Search for Dishes & Restaurants"/>
       <SearchBarVoice
         redirectTargets={["Dishes", "Restaurants"]}
         placeholder="Dishes, restaurants & more"
         onChangeText={setSearchText}
       />
 
-      {/* Dishes Section - Show only when no search text or no search results */}
-      {(!searchText || searchText.trim() === '') && (
+      <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
+        
+        {/* Debug Info - Remove this after testing */}
+        <View style={styles.debugContainer}>
+          <Text style={styles.debugText}>
+            Debug: Restaurants: {restaurants.length}, Dishes: {dishes.length}
+          </Text>
+        </View>
+
+        {/* Show message when no data is available */}
+        {restaurants.length === 0 && dishes.length === 0 && !loading && (
+          <View style={styles.section}>
+            <Text allowFontScaling={false} style={styles.noResultsText}>
+              No restaurants or dishes found with 4.2+ rating
+            </Text>
+          </View>
+        )}
+
+      {/* Dishes Section - Show only when no search text - REMOVED .slice(0, 2) */}
+      {(!searchText || searchText.trim() === '') && dishes.length > 0 && (
         <View style={styles.section}>
-          <Text allowFontScaling={false}  style={styles.sectionTitle}>Recommendations "Dishes"</Text>
-          {dishes.slice(0, 2).map(dish => (
+          <Text allowFontScaling={false} style={styles.sectionTitle}>
+            Recommendations "Dishes" (4.2+ ⭐) - {dishes.length} available
+          </Text>
+          {dishes.map(dish => (
             <View key={dish.id} style={styles.dishesItem}>
               <View style={styles.dishesLeft}>
                 <TouchableOpacity style={styles.dishButton} onPress={() => handleDishClick(dish)}>
@@ -150,8 +192,10 @@ const SearchScreen = () => {
                 </TouchableOpacity>
                 <View style={styles.dishesDetails}>
                   <TouchableOpacity onPress={() => handleDishClick(dish)}>
-                    <Text allowFontScaling={false}  style={styles.dishesType}>{dish.name}</Text>
-                    <Text allowFontScaling={false}  style={styles.dishesText}>Dish</Text>
+                    <Text allowFontScaling={false} style={styles.dishesType}>{dish.name}</Text>
+                    <Text allowFontScaling={false} style={styles.dishesText}>
+                      Dish • ⭐ {dish.rating.toFixed(1)}
+                    </Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -160,10 +204,13 @@ const SearchScreen = () => {
         </View>
       )}
 
-      {/* Filtered Dishes Section */}
+      {/* Filtered Dishes Section - REMOVED .slice(0, 2) */}
       {(displayType === "dish" || displayType === "both") && searchText.trim() !== '' && filteredDishes.length > 0 && (
         <View style={styles.section}>
-          {filteredDishes.slice(0, 2).map(dish => (
+          <Text allowFontScaling={false} style={styles.sectionTitle}>
+            Dishes (4.2+ ⭐) - {filteredDishes.length} found
+          </Text>
+          {filteredDishes.map(dish => (
             <View key={dish.id} style={styles.dishesItem}>
               <View style={styles.dishesLeft}>
                 <TouchableOpacity style={styles.dishButton} onPress={() => handleDishClick(dish)}>
@@ -171,8 +218,10 @@ const SearchScreen = () => {
                 </TouchableOpacity>
                 <View style={styles.dishesDetails}>
                   <TouchableOpacity onPress={() => handleDishClick(dish)}>
-                    <Text allowFontScaling={false}  style={styles.dishesType}>{dish.name}</Text>
-                    <Text allowFontScaling={false}  style={styles.dishesText}>Dish</Text>
+                    <Text allowFontScaling={false} style={styles.dishesType}>{dish.name}</Text>
+                    <Text allowFontScaling={false} style={styles.dishesText}>
+                      Dish • ⭐ {dish.rating.toFixed(1)}
+                    </Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -181,64 +230,85 @@ const SearchScreen = () => {
         </View>
       )}
 
-      {/* Restaurants Section - Show only when no search text or no search results */}
-      {(!searchText || searchText.trim() === '') && (
+      {/* Restaurants Section - Show only when no search text - REMOVED .slice(0, 2) */}
+      {(!searchText || searchText.trim() === '') && restaurants.length > 0 && (
         <View style={styles.section}>
-          <Text allowFontScaling={false}  style={styles.sectionTitle}>Recommendation "Restaurants"</Text>
-          {restaurants.slice(0, 2).map(restaurant => (
-            <View key={restaurant.restaurantId} style={styles.dishesItem}>
-              <View style={styles.dishesLeft}>
-                <TouchableOpacity 
-                  style={styles.dishButton} 
-                  onPress={() => handleRestaurantClick(restaurant)}
-                >
-                  <Image style={styles.dishImage} source={{ uri: restaurant.coverImage }} />
-                </TouchableOpacity>
-                <View style={styles.dishesDetails}>
-                  <TouchableOpacity onPress={() => handleRestaurantClick(restaurant)}>
-                    <Text allowFontScaling={false}  style={styles.dishesType}>{restaurant.name}</Text>
+          <Text allowFontScaling={false} style={styles.sectionTitle}>
+            Recommendation "Restaurants" (4.2+ ⭐) - {restaurants.length} available
+          </Text>
+          {restaurants.map(restaurant => {
+            const rating = restaurant.rating || 0;
+            return (
+              <View key={restaurant.restaurantId} style={styles.dishesItem}>
+                <View style={styles.dishesLeft}>
+                  <TouchableOpacity 
+                    style={styles.dishButton} 
+                    onPress={() => handleRestaurantClick(restaurant)}
+                  >
+                    <Image style={styles.dishImage} source={{ uri: restaurant.profilePhoto || "https://via.placeholder.com/50" }} />
                   </TouchableOpacity>
-                  <Text allowFontScaling={false}  style={styles.dishesText}>
-                    {isNewRestaurant(restaurant.createdAt) && (
-                      <Text allowFontScaling={false}  style={styles.newBadge}>New • </Text>
-                    )}
-                    {restaurant.details}
-                  </Text>
+                  <View style={styles.dishesDetails}>
+                    <TouchableOpacity onPress={() => handleRestaurantClick(restaurant)}>
+                      <Text allowFontScaling={false} style={styles.dishesType}>{restaurant.restaurantName}</Text>
+                    </TouchableOpacity>
+                    <Text allowFontScaling={false} style={styles.dishesText}>
+                      {isNewRestaurant(restaurant.createdAt) && (
+                        <Text allowFontScaling={false} style={styles.newBadge}>New • </Text>
+                      )}
+                      Restaurant • ⭐ {rating.toFixed(1)}
+                    </Text>
+                  </View>
                 </View>
               </View>
-            </View>
-          ))}
+            );
+          })}
         </View>
       )}
 
-      {/* Filtered Restaurants Section */}
+      {/* Filtered Restaurants Section - REMOVED .slice(0, 2) */}
       {(displayType === "restaurant" || displayType === "both") && searchText.trim() !== '' && filteredRestaurants.length > 0 && (
         <View style={styles.section}>
-          {filteredRestaurants.slice(0, 2).map(restaurant => (
-            <View key={restaurant.restaurantId} style={styles.dishesItem}>
-              <View style={styles.dishesLeft}>
-                <TouchableOpacity 
-                  style={styles.dishButton} 
-                  onPress={() => handleRestaurantClick(restaurant)}
-                >
-                  <Image style={styles.dishImage} source={{ uri: restaurant.coverImage }} />
-                </TouchableOpacity>
-                <View style={styles.dishesDetails}>
-                  <TouchableOpacity onPress={() => handleRestaurantClick(restaurant)}>
-                    <Text allowFontScaling={false}  style={styles.dishesType}>{restaurant.name}</Text>
+          <Text allowFontScaling={false} style={styles.sectionTitle}>
+            Restaurants (4.2+ ⭐) - {filteredRestaurants.length} found
+          </Text>
+          {filteredRestaurants.map(restaurant => {
+            const rating = restaurant.rating || 0;
+            return (
+              <View key={restaurant.restaurantId} style={styles.dishesItem}>
+                <View style={styles.dishesLeft}>
+                  <TouchableOpacity 
+                    style={styles.dishButton} 
+                    onPress={() => handleRestaurantClick(restaurant)}
+                  >
+                    <Image style={styles.dishImage} source={{ uri: restaurant.profilePhoto || "https://via.placeholder.com/50" }} />
                   </TouchableOpacity>
-                  <Text allowFontScaling={false}  style={styles.dishesText}>
-                    {isNewRestaurant(restaurant.createdAt) && (
-                      <Text allowFontScaling={false}  style={styles.newBadge}>New • </Text>
-                    )}
-                    {restaurant.details}
-                  </Text>
+                  <View style={styles.dishesDetails}>
+                    <TouchableOpacity onPress={() => handleRestaurantClick(restaurant)}>
+                      <Text allowFontScaling={false} style={styles.dishesType}>{restaurant.restaurantName}</Text>
+                    </TouchableOpacity>
+                    <Text allowFontScaling={false} style={styles.dishesText}>
+                      {isNewRestaurant(restaurant.createdAt) && (
+                        <Text allowFontScaling={false} style={styles.newBadge}>New • </Text>
+                      )}
+                      Restaurant • ⭐ {rating.toFixed(1)}
+                    </Text>
+                  </View>
                 </View>
               </View>
-            </View>
-          ))}
+            );
+          })}
         </View>
       )}
+
+      {/* No Results Message */}
+      {searchText.trim() !== '' && filteredDishes.length === 0 && filteredRestaurants.length === 0 && (
+        <View style={styles.section}>
+          <Text allowFontScaling={false} style={styles.noResultsText}>
+            No dishes or restaurants found with 4.2+ rating matching "{searchText}"
+          </Text>
+        </View>
+      )}
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -355,9 +425,40 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   inlineImage: {
-    width: 16, // Adjust as per your design
-    height: 16, // Ensure height matches the font size for alignment
-    marginRight: 4, // Add spacing between the image and the text
-    resizeMode:'contain'
+    width: 16,
+    height: 16,
+    marginRight: 4,
+    resizeMode: 'contain'
+  },
+  noResultsText: {
+    textAlign: 'center',
+    fontSize: RFPercentage(1.8),
+    color: "#666",
+    fontFamily: "Poppins-Regular",
+    paddingHorizontal: 16,
+    paddingVertical: 20,
+  },
+  scrollContainer: {
+    flex: 1,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingText: {
+    fontSize: 16,
+    fontFamily: "Poppins-Regular",
+  },
+  debugContainer: {
+    padding: 16,
+    backgroundColor: '#f0f0f0',
+    margin: 10,
+    borderRadius: 8,
+  },
+  debugText: {
+    fontSize: 12,
+    color: '#666',
+    fontFamily: "Poppins-Regular",
   },
 });

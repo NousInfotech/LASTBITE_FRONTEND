@@ -20,12 +20,20 @@ import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { RFPercentage } from "react-native-responsive-fontsize";
 
-// Import API service and data mapper
+// Import API service, data mapper, and interfaces
 import { RestaurantApiService } from '@/services/restaurant.service';
-import { DataMapper, Restaurant } from '@/utils/DataMapper';
+import { DataMapper } from '@/utils/DataMapper';
+import { IRestaurant, FoodType } from '@/Interfaces/restaurant.interface';
+
+// API Response interface
+interface ApiResponse<T> {
+  success: boolean;
+  data: T;
+  message?: string;
+}
 
 const Home = () => {
-  const [restaurantList, setRestaurantList] = useState<Restaurant[]>([]);
+  const [restaurantList, setRestaurantList] = useState<IRestaurant[]>([]);
   const [isLoading, setIsLoading] = useState(true); // Start with loading true
   const [apiError, setApiError] = useState<string | null>(null);
   
@@ -33,8 +41,8 @@ const Home = () => {
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
   const [hiddenRestaurants, setHiddenRestaurants] = useState<string[]>([]);
   const [toastVisible, setToastVisible] = useState(false);
-  const [hiddenPopup, setHiddenPopup] = useState<Restaurant | null>(null);
-  const [filteredRestaurants, setFilteredRestaurants] = useState<Restaurant[]>([]);
+  const [hiddenPopup, setHiddenPopup] = useState<IRestaurant | null>(null);
+  const [filteredRestaurants, setFilteredRestaurants] = useState<IRestaurant[]>([]);
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
 
   // Fetch restaurants from API
@@ -107,35 +115,40 @@ const fetchRestaurants = async () => {
     setSelectedFilters(filters);
 
     let filtered = restaurantList.filter((restaurant) => {
-      console.log(`Filtering restaurant: ${restaurant.name}`, {
-        veg: restaurant.veg,
-        nonVeg: restaurant.nonVeg,
-        vegan: restaurant.vegan,
-        rating: restaurant.ratingAverage
+      console.log(`Filtering restaurant: ${restaurant.restaurantName}`, {
+        typeOfFood: restaurant.typeOfFood,
+        rating: restaurant.rating
       });
       
-      if (filters.includes("Pure Veg") && !restaurant.veg) {
-        console.log(`${restaurant.name} filtered out: not pure veg`);
+      // Check for food type filters with null/undefined safety
+      const typeOfFood = restaurant.typeOfFood || [];
+      const hasVeg = typeOfFood.includes(FoodType.VEG);
+      const hasNonVeg = typeOfFood.includes(FoodType.NON_VEG);
+      const hasVegan = typeOfFood.includes(FoodType.VEGAN);
+      const rating = restaurant.rating || 0;
+      
+      if (filters.includes("Pure Veg") && !hasVeg) {
+        console.log(`${restaurant.restaurantName} filtered out: not pure veg`);
         return false;
       }
-      if (filters.includes("Non Veg") && !restaurant.nonVeg) {
-        console.log(`${restaurant.name} filtered out: not non-veg`);
+      if (filters.includes("Non Veg") && !hasNonVeg) {
+        console.log(`${restaurant.restaurantName} filtered out: not non-veg`);
         return false;
       }
-      if (filters.includes("Vegan") && !restaurant.vegan) {
-        console.log(`${restaurant.name} filtered out: not vegan`);
+      if (filters.includes("Vegan") && !hasVegan) {
+        console.log(`${restaurant.restaurantName} filtered out: not vegan`);
         return false;
       }
-      if (filters.includes("Ratings 4.0+") && restaurant.ratingAverage < 4.0) {
-        console.log(`${restaurant.name} filtered out: rating below 4.0`);
+      if (filters.includes("Ratings 4.0+") && rating < 4.0) {
+        console.log(`${restaurant.restaurantName} filtered out: rating below 4.0`);
         return false;
       }
-      if (filters.includes("Rating 4.5+") && restaurant.ratingAverage < 4.5) {
-        console.log(`${restaurant.name} filtered out: rating below 4.5`);
+      if (filters.includes("Rating 4.5+") && rating < 4.5) {
+        console.log(`${restaurant.restaurantName} filtered out: rating below 4.5`);
         return false;
       }
       
-      console.log(`${restaurant.name} passed all filters`);
+      console.log(`${restaurant.restaurantName} passed all filters`);
       return true;
     });
 
@@ -346,28 +359,50 @@ const fetchRestaurants = async () => {
             </Text>
           </View>
         )}
-        
-        {filteredRestaurants
-          .filter(
-            (restaurant) => !hiddenRestaurants.includes(restaurant.restaurantId)
-          )
-          .map((restaurant) => (
-            <RestaurantCard
-              key={restaurant.restaurantId}
-              restaurant={restaurant}
-              onFavorite={handleFavorite}
-              onHide={handleHide}
-              setToastVisible={setToastVisible}
-              onPress={() => {
-                console.log("Restaurant card pressed:", restaurant.restaurantId);
-                router.push({
-                  pathname: "/Screens/RestaurantSelect",
-                  params: { restaurantId: restaurant.restaurantId },
-                });
-              }}
-              isUnavailable={restaurant.categories[0] === "" && restaurant.menu[0] === "m0"}
-            />
-          ))}
+       // Replace this entire section in home.tsx:
+{filteredRestaurants
+  .filter(
+    (restaurant) => !hiddenRestaurants.includes(restaurant.restaurantId || '')
+  )
+  .map((restaurant) => {
+    // Convert IRestaurant to the format expected by RestaurantCard
+    const restaurantCardData = {
+      restaurantId: restaurant.restaurantId || '',
+      name: restaurant.restaurantName || 'Unknown Restaurant',
+      details: restaurant.cuisines?.join(', ') || 'Restaurant',
+      coverImage: restaurant.profilePhoto || 'https://www.seasonsandsuppers.ca/wp-content/uploads/2019/10/slow-cooker-pulled-pork-1200.jpg',
+      rating: restaurant.rating || 0,
+      ratingCount: 100,
+      deliveryTime: '30-45 mins',
+      categories: restaurant.availableCategories || restaurant.cuisines || ['Restaurant'],
+      menu: ['m1'],
+      veg: restaurant.typeOfFood?.includes(FoodType.VEG) || false,
+      nonVeg: restaurant.typeOfFood?.includes(FoodType.NON_VEG) || false,
+      vegan: restaurant.typeOfFood?.includes(FoodType.VEGAN) || false,
+      ratingAverage: restaurant.rating || 0,
+      isActive: restaurant.isActive !== false,
+      createdAt: restaurant.createdAt?.toISOString() || new Date().toISOString(),
+      updatedAt: restaurant.updatedAt?.toISOString() || new Date().toISOString(),
+    };
+
+    return (
+      <RestaurantCard
+        key={restaurant.restaurantId}
+        restaurant={restaurantCardData}
+        onFavorite={handleFavorite}
+        onHide={handleHide}
+        setToastVisible={setToastVisible}
+        onPress={() => {
+          console.log("Restaurant card pressed:", restaurant.restaurantId);
+          router.push({
+            pathname: "/Screens/RestaurantSelect",
+            params: { restaurantId: restaurant.restaurantId || '' },
+          });
+        }}
+        isUnavailable={(restaurant.availableCategories?.length || 0) === 0}
+      />
+    );
+  })}
       </ScrollView>
       <SuccessToast
         visible={toastVisible}
@@ -386,8 +421,8 @@ const fetchRestaurants = async () => {
           {hiddenPopup && (
             <HiddenRestaurant
               restaurant={{
-                id: hiddenPopup.restaurantId,
-                name: hiddenPopup.name,
+                id: hiddenPopup.restaurantId || '',
+                name: hiddenPopup.restaurantName || 'Unknown Restaurant',
               }}
               onClose={() => setHiddenPopup(null)}
               onUndo={handleUndo}

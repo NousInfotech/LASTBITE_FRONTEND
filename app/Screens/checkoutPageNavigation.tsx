@@ -13,6 +13,7 @@ import AddressSelector from '@/components/AddressSelector';
 import AddMoreItems from '../../app/Screens/AddMoreItems';
 import { Link, useLocalSearchParams, useRouter } from 'expo-router';
 import { GROCERY_DATA } from '../../src/constants/groceryData';
+import Header from '@/components/GoBack';
 
 // Define the item type for checkout page
 interface CheckoutItem {

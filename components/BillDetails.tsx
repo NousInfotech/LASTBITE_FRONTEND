@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 
@@ -14,23 +14,9 @@ interface BillDetailsProps {
 }
 
 const BillDetails: React.FC<BillDetailsProps> = ({ items, total }) => {
-  const billItems: BillItem[] = [
-    { label: 'Item Total', amount: 70},
-    { label: 'Delivery Fee | 11.0 kms', amount: 79.00 },
-    { 
-      label: 'Order above Rs.169 for discount ed delivery',
-      amount: 0,
-      note: 'info'
-    },
-    { label: 'Platform fee', amount: 7.00 },
-    { label: 'GST and Restaurant Charges', amount: 4.76 },
-  ];
-
-  const totalAmount = billItems.reduce((sum, item) => sum + item.amount, 0);
-
   return (
-<View style={styles.container}>
-      <Text allowFontScaling={false}  style={styles.title}>Bill Details</Text>
+    <View style={styles.container}>
+      <Text allowFontScaling={false} style={styles.title}>Bill Details</Text>
       <View style={styles.billContainer}>
         {items.map((item, index) => (
           <View
@@ -40,7 +26,7 @@ const BillDetails: React.FC<BillDetailsProps> = ({ items, total }) => {
               item.note && styles.noteRow
             ]}
           >
-            <Text allowFontScaling={false} 
+            <Text allowFontScaling={false}
               style={[
                 styles.label,
                 item.note && styles.noteText
@@ -49,7 +35,7 @@ const BillDetails: React.FC<BillDetailsProps> = ({ items, total }) => {
               {item.label}
             </Text>
             {item.amount > 0 && (
-              <Text allowFontScaling={false}  style={styles.amount}>
+              <Text allowFontScaling={false} style={styles.amount}>
                 ₹{item.amount.toFixed(2)}
               </Text>
             )}
@@ -57,13 +43,14 @@ const BillDetails: React.FC<BillDetailsProps> = ({ items, total }) => {
         ))}
 
         <View style={styles.totalRow}>
-          <Text allowFontScaling={false}  style={styles.totalLabel}>To Pay</Text>
-          <Text allowFontScaling={false}  style={styles.totalAmount}>₹{total.toFixed(2)}</Text>
+          <Text allowFontScaling={false} style={styles.totalLabel}>To Pay</Text>
+          <Text allowFontScaling={false} style={styles.totalAmount}>₹{total.toFixed(2)}</Text>
         </View>
       </View>
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {

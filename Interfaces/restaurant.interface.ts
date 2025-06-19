@@ -1,4 +1,4 @@
-// restaurant.interface.ts
+import { IFoodItem } from "@/Interfaces/foodItem.interface";
 
 export interface IAddressGeo {
   location: {
@@ -16,7 +16,6 @@ export interface IAddressGeo {
 }
 
 export interface IDocuments {
-  // Add document properties as needed
   [key: string]: any;
 }
 
@@ -45,6 +44,19 @@ export interface IRestaurant {
   updatedAt?: Date;
 }
 
+
+
+
+
+export interface INutritionInfo {
+  calories?: number;
+  protein?: number;
+  carbs?: number;
+  fat?: number;
+  fiber?: number;
+  sugar?: number;
+}
+
 export enum FoodType {
   VEG = "veg",
   NON_VEG = "non_veg",
@@ -66,4 +78,49 @@ export enum Days {
   FRIDAY = "FRIDAY",
   SATURDAY = "SATURDAY",
   SUNDAY = "SUNDAY"
+}
+
+export enum SpiceLevel {
+  MILD = "mild",
+  MEDIUM = "medium",
+  HOT = "hot",
+  EXTRA_HOT = "extra_hot"
+}
+
+// API Response interfaces
+export interface IApiResponse<T> {
+  success: boolean;
+  data: T;
+  message?: string;
+  error?: string;
+}
+
+export interface IRestaurantListResponse {
+  restaurants: IRestaurant[];
+  total: number;
+  page?: number;
+  limit?: number;
+}
+
+export interface IFoodItemListResponse {
+  foodItems: IFoodItem[];
+  total: number;
+  page?: number;
+  limit?: number;
+}
+
+// Search and filter interfaces
+export interface ISearchParams {
+  query?: string;
+  category?: string;
+  cuisines?: string[];
+  typeOfFood?: FoodType[];
+  minRating?: number;
+  maxPrice?: number;
+  minPrice?: number;
+  isAvailable?: boolean;
+  sortBy?: 'rating' | 'price' | 'name' | 'createdAt';
+  sortOrder?: 'asc' | 'desc';
+  page?: number;
+  limit?: number;
 }
